@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="494.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" />
+      <TextField layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="62.0" />
+      <Button layoutX="76.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" text="Button" />
+      <Text layoutX="111.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" />
+      <TextField layoutX="111.0" layoutY="31.0" prefHeight="25.0" prefWidth="555.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="11.0" />
+      <Text layoutX="15.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apelido" AnchorPane.leftAnchor="14.98046875" AnchorPane.rightAnchor="621.01953125" />
+      <TextField layoutX="15.0" layoutY="83.0" prefHeight="25.0" prefWidth="178.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="484.0" />
+      <Text layoutX="202.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF" AnchorPane.rightAnchor="454.990234375" />
+      <TextField layoutX="201.0" layoutY="83.0" prefHeight="25.0" prefWidth="123.0" AnchorPane.rightAnchor="353.0" />
+      <Button layoutX="324.0" layoutY="83.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" text="Button" AnchorPane.rightAnchor="329.0" />
+      <Text layoutX="356.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RG" AnchorPane.rightAnchor="305.58984375" />
+      <TextField layoutX="356.0" layoutY="83.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.rightAnchor="172.0" />
+      <Text layoutX="516.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Nascimento" AnchorPane.rightAnchor="53.26953125" />
+      <DatePicker layoutX="516.0" layoutY="83.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.rightAnchor="12.0" />
+      <Pane layoutX="15.0" layoutY="130.0" prefHeight="58.0" prefWidth="233.0" styleClass="group" stylesheets="@../../../../../../../target/classes/br/com/delfos/view/Template.css" AnchorPane.leftAnchor="15.0">
+         <children>
+            <Group>
+               <children>
+                  <CheckBox layoutX="127.0" layoutY="19.0" mnemonicParsing="false" text="Especialista" />
+                  <CheckBox layoutX="11.0" layoutY="19.0" mnemonicParsing="false" text="Pesquisador" />
+               </children>
+            </Group>
+         </children>
+      </Pane>
+      <Text layoutX="14.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Classificação" />
+   </children>
+</AnchorPane>

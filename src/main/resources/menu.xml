@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<menuBar>
+	<menu id="menuCadastro">
+		<name>Cadastros</name>
+		<itens>
+			<menuItem id="menuCadastroPessoa">
+				<name>Cadastro de Pessoa</name>
+				<view>PessoaView.fxml</view>
+
+			</menuItem>
+			<menuItem id="menuCadastroPesquisa">
+				<name>Cadastro de Pesquisa</name>
+				<view>PesquisaView.fxml</view>
+			</menuItem>
+
+			<menu id="menuCadastroLocalizacao">
+				<name>Localização</name>
+				<itens>
+					<menuItem id="menuCadastroCidade">
+						<name>Cadastro de Cidades</name>
+						<view>CidadeView.fxml</view>
+					</menuItem>
+
+					<menuItem id="menuCadastroEstados">
+						<name>Cadastro de Estados</name>
+						<view>EstadoView.fxml</view>
+					</menuItem>
+
+				</itens>
+			</menu>
+
+
+		</itens>
+	</menu>
+	<menu id="menuRelatório">
+		<name>Relatórios</name>
+	</menu>
+
+</menuBar>

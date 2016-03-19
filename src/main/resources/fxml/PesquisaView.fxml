@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" />
+      <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="60.0" />
+      <Text layoutX="106.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="106.0" />
+      <TextField layoutX="106.0" layoutY="31.0" prefHeight="25.0" prefWidth="456.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="135.0" />
+      <Button layoutX="74.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0" text="..." />
+      <Text layoutX="570.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" AnchorPane.rightAnchor="102.30859375" />
+      <DatePicker layoutX="570.0" layoutY="31.0" prefHeight="25.0" prefWidth="113.0" AnchorPane.rightAnchor="14.0" />
+      <Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
+      <TextArea layoutX="14.0" layoutY="81.0" prefHeight="54.0" prefWidth="673.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" />
+      <Text layoutX="14.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Responsáveis" />
+      <TableView layoutX="14.0" layoutY="162.0" prefHeight="120.0" prefWidth="673.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0">
+        <columns>
+          <TableColumn prefWidth="174.0" text="C1" />
+          <TableColumn minWidth="0.0" prefWidth="101.0" text="C2" />
+        </columns>
+      </TableView>
+      <TableView layoutX="14.0" layoutY="306.0" prefHeight="120.0" prefWidth="673.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0">
+        <columns>
+          <TableColumn prefWidth="122.0" text="C1" />
+          <TableColumn prefWidth="160.0" text="C2" />
+        </columns>
+      </TableView>
+      <Text layoutX="16.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Especialistas" AnchorPane.leftAnchor="16.0" />
+      <Text layoutX="15.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questionários" />
+      <ListView layoutX="14.0" layoutY="452.0" prefHeight="87.0" prefWidth="673.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" />
+   </children>
+</AnchorPane>
