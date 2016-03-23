@@ -56,7 +56,6 @@ public class LoginController implements Initializable {
 		}
 	}
 
-	@Transactional
 	private boolean logou() {
 		System.out.println(dao == null ? "sim" : "não");
 		String login = txtLogin.getText();
