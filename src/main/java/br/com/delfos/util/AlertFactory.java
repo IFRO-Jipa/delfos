@@ -20,7 +20,6 @@ import javafx.scene.layout.Priority;
  * @author lhleo
  *
  */
-@SuppressWarnings("restriction")
 public class AlertFactory {
 
 	private static Alert alert;
