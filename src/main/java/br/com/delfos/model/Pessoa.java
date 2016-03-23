@@ -51,7 +51,7 @@ public class Pessoa {
 	private String cpf;
 	private String rg;
 
-	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
+	@OneToOne()
 	private Endereco endereco;
 
 	public Pessoa() {
