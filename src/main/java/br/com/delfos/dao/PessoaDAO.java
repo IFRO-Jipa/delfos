@@ -15,6 +15,7 @@ public class PessoaDAO {
 	@Autowired
 	private PessoaRepository repository;
 
+
 	public long count() {
 		return repository.count();
 	}

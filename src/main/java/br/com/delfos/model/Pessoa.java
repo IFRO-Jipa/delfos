@@ -51,7 +51,8 @@ public class Pessoa {
 	private String cpf;
 	private String rg;
 
-	@OneToOne()
+	// TODO: arrumar problema com o cascade
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST })
 	private Endereco endereco;
 
 	public Pessoa() {

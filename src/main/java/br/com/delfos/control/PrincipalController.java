@@ -16,6 +16,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 @Controller
@@ -29,6 +30,12 @@ public class PrincipalController implements Initializable {
 
 	@FXML
 	private TabPane tabPane;
+
+	@FXML
+	private AnchorPane rootPane;
+
+	@FXML
+	private BorderPane subRootPane;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -72,11 +79,23 @@ public class PrincipalController implements Initializable {
 
 		Tab tab = new Tab(title);
 		tab.setContent(load);
-		// tab.getTabPane().setMaxWidth(TabPane.USE_PREF_SIZE);
-		// tab.getTabPane().setMaxHeight(TabPane.USE_PREF_SIZE);
 
 		tabPane.getTabs().add(tab);
 
+		tabPane.getSelectionModel().select(tab);
+
+		configuraMinSizeDaTela(tab);
+
+	}
+
+	private void configuraMinSizeDaTela(Tab tab) {
+		if (tab.getTabPane().getWidth() > rootPane.getMinWidth()) {
+			rootPane.setMinWidth(tab.getTabPane().getWidth());
+		}
+
+		if (tab.getTabPane().getMinHeight() > rootPane.getMinWidth()) {
+			rootPane.setMinHeight(tab.getTabPane().getHeight());
+		}
 	}
 
 }
