@@ -122,8 +122,12 @@ public class PessoaController implements Initializable {
 	@FXML
 	private TextField txtCep;
 
+	private Pessoa pessoaTemporaria;
+
 	@FXML
-	void handleButtonPesquisaCodigo(ActionEvent event) {
+	private void handleButtonPesquisaCodigo(ActionEvent event) {
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
+		// consulta.
 		TextInputDialog dialog = new TextInputDialog("ex: 1");
 		dialog.setTitle("Text Input Dialog");
 		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
@@ -165,6 +169,7 @@ public class PessoaController implements Initializable {
 		txtBairro.setText(pessoa.getEndereco().getBairro());
 		txtDescricaoEndereco.setText(pessoa.getEndereco().getDescricao());
 		txtCep.setText(pessoa.getEndereco().getCep());
+		this.pessoaTemporaria = pessoa;
 	}
 
 	private void posicionaTipoDePessoa(Pessoa pessoa) {
@@ -193,15 +198,14 @@ public class PessoaController implements Initializable {
 	}
 
 	private void excluiRegistro() {
-		if (AlertFactory.confirmation("Deseja realmente excluir o registro?")) {
-			if (!txtCodigo.getText().isEmpty()) {
+		if (!txtCodigo.getText().isEmpty()) {
+			if (AlertFactory.confirmation("Deseja realmente excluir o registro?")) {
 				dao.delete(Long.parseLong(txtCodigo.getText()));
 				ManipuladorDeTelas.limpaCampos(anchorPane);
 				AlertFactory.information("Excluído com sucesso");
-			} else {
-				AlertFactory.warning("Selecione um registro para prosseguir.");
 			}
-		}
+		} else
+			return;
 	}
 
 	@FXML
@@ -225,6 +229,7 @@ public class PessoaController implements Initializable {
 		pessoa.setDataNascimento(dtDataNascimento.getValue());
 		pessoa.setEndereco(montaEndereco());
 		pessoa.setTipo(pegaTipoPessoa());
+		pessoa.setId(Long.parseLong(txtCodigo.getText()));
 		return pessoa;
 	}
 
@@ -246,6 +251,7 @@ public class PessoaController implements Initializable {
 		endereco.setTipoLogradouro(comboBoxTipoLogradouro.getValue());
 		endereco.setDescricao(txtDescricaoEndereco.getText());
 		endereco.setCep(txtCep.getText());
+		endereco.setId(pessoaTemporaria.getEndereco().getId());
 		return endereco;
 	}
 

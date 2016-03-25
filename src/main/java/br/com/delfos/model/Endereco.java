@@ -18,6 +18,9 @@ public class Endereco {
 	private String cep;
 	private String bairro;
 
+	@OneToOne(mappedBy = "endereco")
+	private Pessoa pessoa;
+
 	@OneToOne
 	private TipoLogradouro tipoLogradouro;
 
@@ -36,10 +39,6 @@ public class Endereco {
 		this.cidade = cidade;
 	}
 
-	public Endereco() {
-		super();
-	}
-
 	public Endereco(Long id, String logradouro, String descricao, String numero, String cep, String bairro,
 	        TipoLogradouro tipoLogradouro, Cidade cidade) {
 		super();
@@ -51,6 +50,10 @@ public class Endereco {
 		this.bairro = bairro;
 		this.tipoLogradouro = tipoLogradouro;
 		this.cidade = cidade;
+	}
+
+	public Endereco() {
+		super();
 	}
 
 	public Long getId() {
@@ -111,6 +114,10 @@ public class Endereco {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

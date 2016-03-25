@@ -52,7 +52,7 @@ public class Pessoa {
 	private String rg;
 
 	// TODO: arrumar problema com o cascade
-	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
 	private Endereco endereco;
 
 	public Pessoa() {
