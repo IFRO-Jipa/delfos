@@ -45,23 +45,44 @@ public class LoginController implements Initializable {
 	private ImageView imgView;
 
 	@FXML
-	private void handleButtonLogar(ActionEvent event) throws IOException {
+	private void handleButtonLogar(ActionEvent event) {
+		try {
+			autenticaUsuario();
+		} catch (Exception e) {
+			AlertFactory.error(e);
+		}
+	}
 
-		if (logou()) {
-			new PrincipalApp().start(new Stage());
+	private void verificaSeExisteUsuarioNoBanco() {
+		Optional<Usuario> usuario = Optional.ofNullable(dao.findByLogin("root"));
+
+		if (!usuario.isPresent()) {
+			Usuario user = new Usuario();
+			user.setLogin("root");
+			user.setSenha("root123");
+			dao.save(user);
+			System.out.println("Usuário root foi criado com a senha root123.");
+		}
+	}
+
+	private void autenticaUsuario() throws IOException {
+		Optional<Usuario> usuario = logou();
+
+		if (usuario.isPresent()) {
+			new PrincipalApp(usuario.get()).start(new Stage());
 			LoginApp.getStage().close();
 		} else {
 			AlertFactory.warning("Usuário e/ou senha incorretos.");
 		}
 	}
 
-	private boolean logou() {
+	private Optional<Usuario> logou() {
 		System.out.println(dao == null ? "sim" : "não");
 		String login = txtLogin.getText();
 		String senha = txtSenha.getText();
 		Optional<Usuario> usuario = Optional.ofNullable(dao.findByLoginAndSenha(login, senha));
 		System.out.println(usuario.isPresent() ? usuario.get() : "nada foi encontrado.");
-		return usuario.isPresent();
+		return usuario;
 	}
 
 	@FXML
@@ -73,6 +94,7 @@ public class LoginController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Image img = new Image(LoginController.class.getResourceAsStream("/imgs/logo-full.png"));
 		imgView.setImage(img);
+		verificaSeExisteUsuarioNoBanco();
 	}
 
 }

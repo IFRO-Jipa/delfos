@@ -1,11 +1,16 @@
 package br.com.delfos.model;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
+@Entity
 public class PerfilAcesso {
 
 	@Id
@@ -14,20 +19,18 @@ public class PerfilAcesso {
 	private String nome;
 	private String descricao;
 
-	private Map<Funcionalidade, Boolean> permissoes;
+	@ManyToMany
+	private Set<Funcionalidade> permissoes;
 
-	public Map<Funcionalidade, Boolean> getPermissoes() {
-		return permissoes;
-	}
+	@OneToMany(mappedBy = "perfilAcesso")
+	private List<Usuario> usuarios;
 
 	public PerfilAcesso(String nome, String descricao) {
-		super();
 		this.nome = nome;
 		this.descricao = descricao;
 	}
 
 	public PerfilAcesso(String nome) {
-		super();
 		this.nome = nome;
 	}
 
@@ -41,6 +44,20 @@ public class PerfilAcesso {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public Set<Funcionalidade> getPermissoes() {
+		return permissoes;
+	}
+
+	public void adicionaPermissao(Funcionalidade funcionalidade) {
+		if (funcionalidade != null) {
+			this.permissoes.add(funcionalidade);
+		}
+	}
+
+	public void adicionaPermissoes(List<Funcionalidade> funcionalidades) {
+		this.permissoes.addAll(funcionalidades);
 	}
 
 }

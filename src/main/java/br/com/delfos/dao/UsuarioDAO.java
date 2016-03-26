@@ -50,4 +50,8 @@ public class UsuarioDAO {
 		return repository.save(arg0);
 	}
 
+	public Usuario findByLogin(String login) {
+		return repository.findByLogin(login);
+	}
+
 }

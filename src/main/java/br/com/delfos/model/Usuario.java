@@ -4,8 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Min;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Usuario {
@@ -14,17 +15,17 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NotNull
-	@Min(value = 5)
+	@Size(min = 4, message = "O login deve conter, no mínimo, quatro caracteres.")
 	private String login;
 	@NotNull
-	@Min(value = 6)
+	@Size(min = 6, message = "A senha deve conter, no mínimo, seis caracteres.")
 	private String senha;
 	private String descricao;
 
-	// private PerfilAcesso perfilAcesso;
+	@ManyToOne
+	private PerfilAcesso perfilAcesso;
 
 	public Usuario() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Usuario(String login, String senha, PerfilAcesso perfilAcesso) {

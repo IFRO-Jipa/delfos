@@ -52,12 +52,14 @@ public class ManipuladorDeMenus {
 			}
 		});
 
+		menu.setVisible(false);
 		return menu;
 	}
 
 	private MenuItem createMenuItem(Element element) {
 		MenuItem item = new MenuItem(element.getChildText("name"));
 		item.setId(String.format("%s:%s", element.getAttributeValue("id"), element.getChildText("view")));
+		item.setVisible(false);
 		return item;
 	}
 }

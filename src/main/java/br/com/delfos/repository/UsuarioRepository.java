@@ -6,7 +6,9 @@ import br.com.delfos.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-	//	List<Usuario> findByPerfilAcesso(PerfilAcesso perfilAcesso);
-	
+	// List<Usuario> findByPerfilAcesso(PerfilAcesso perfilAcesso);
+
 	Usuario findByLoginAndSenha(String login, String senha);
+
+	Usuario findByLogin(String login);
 }

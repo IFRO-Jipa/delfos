@@ -15,6 +15,11 @@ public class PrincipalApp extends Application {
 
 	private static Usuario usuario;
 
+	public PrincipalApp(Usuario usuario) {
+		super();
+		PrincipalApp.usuario = usuario;
+	}
+
 	@Override
 	public void start(Stage stage) throws IOException {
 
@@ -25,6 +30,8 @@ public class PrincipalApp extends Application {
 		stage.setMaximized(true);
 		stage.setOnCloseRequest(e -> System.exit(0));
 		stage.show();
+
+		System.out.println("Usuario " + usuario.getLogin() + " está autenticado.");
 
 		PrincipalApp.stage = stage;
 	}

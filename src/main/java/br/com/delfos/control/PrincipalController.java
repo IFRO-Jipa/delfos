@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.app.PrincipalApp;
+import br.com.delfos.model.Funcionalidade;
+import br.com.delfos.model.Usuario;
 import br.com.delfos.util.ManipuladorDeMenus;
 import br.com.delfos.util.SpringFXMLLoader;
 import javafx.fxml.FXML;
@@ -48,9 +51,19 @@ public class PrincipalController implements Initializable {
 		}
 	}
 
+	private void configuraAcessoParaMenus() {
+		Usuario usuarioLogado = PrincipalApp.getUsuario();
+
+		usuarioLogado.getPerfilAcesso().getPermissoes().forEach(funcionalidade -> {
+			
+		});
+
+	}
+
 	private void configuraECriaOsMenus() throws Exception {
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus().create().getMenus();
 		menuBar.getMenus().addAll(menusParaOMenuBar);
+		configuraAcessoParaMenus();
 	}
 
 	private void configuraAcoesParaMenu() {
