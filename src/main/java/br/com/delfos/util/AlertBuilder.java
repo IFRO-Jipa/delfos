@@ -20,7 +20,7 @@ import javafx.scene.layout.Priority;
  * @author lhleo
  *
  */
-public class AlertFactory {
+public class AlertBuilder {
 
 	private static Alert alert;
 
@@ -37,44 +37,38 @@ public class AlertFactory {
 		alert.showAndWait();
 	}
 
-	public static void error(Exception ex) {
+	public static void error(Exception ex, boolean expandable) {
+		alert.setTitle("Erro encontrado");
 		alert.setAlertType(AlertType.ERROR);
-		alert.setTitle("Erro encontrado");
-		alert.setHeaderText("Falha crítica");
-		alert.setContentText(ex.getMessage());
+		alert.setHeaderText(ex.getMessage());
+		alert.setContentText("Falha localizada");
 
-		// Create expandable Exception.
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ex.printStackTrace(pw);
-		String exceptionText = sw.toString();
+		if (expandable) {
+			// Create expandable Exception.
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			String exceptionText = sw.toString();
 
-		Label label = new Label("Detalhes técnicos: ");
+			Label label = new Label("Detalhes técnicos: ");
 
-		TextArea textArea = new TextArea(exceptionText);
-		textArea.setEditable(false);
-		textArea.setWrapText(true);
+			TextArea textArea = new TextArea(exceptionText);
+			textArea.setEditable(false);
+			textArea.setWrapText(true);
 
-		textArea.setMaxWidth(Double.MAX_VALUE);
-		textArea.setMaxHeight(Double.MAX_VALUE);
-		GridPane.setVgrow(textArea, Priority.ALWAYS);
-		GridPane.setHgrow(textArea, Priority.ALWAYS);
+			textArea.setMaxWidth(Double.MAX_VALUE);
+			textArea.setMaxHeight(Double.MAX_VALUE);
+			GridPane.setVgrow(textArea, Priority.ALWAYS);
+			GridPane.setHgrow(textArea, Priority.ALWAYS);
 
-		GridPane expContent = new GridPane();
-		expContent.setMaxWidth(Double.MAX_VALUE);
-		expContent.add(label, 0, 0);
-		expContent.add(textArea, 0, 1);
+			GridPane expContent = new GridPane();
+			expContent.setMaxWidth(Double.MAX_VALUE);
+			expContent.add(label, 0, 0);
+			expContent.add(textArea, 0, 1);
 
-		// Set expandable Exception into the dialog pane.
-		alert.getDialogPane().setExpandableContent(expContent);
-
-		alert.showAndWait();
-	}
-
-	public static void error(String message) {
-		alert.setTitle("Erro encontrado");
-		alert.setHeaderText("Falha crítica");
-		alert.setContentText(message);
+			// Set expandable Exception into the dialog pane.
+			alert.getDialogPane().setExpandableContent(expContent);
+		}
 
 		alert.showAndWait();
 	}

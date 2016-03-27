@@ -22,15 +22,13 @@
 						<view>CidadeView.fxml</view>
 					</menuItem>
 
-					<menuItem id="menuCadastroEstados">
+					<menuItem id="menuCadastroEstado">
 						<name>Cadastro de Estados</name>
 						<view>EstadoView.fxml</view>
 					</menuItem>
 
 				</itens>
 			</menu>
-
-
 		</itens>
 	</menu>
 	<menu id="menuRelatório">

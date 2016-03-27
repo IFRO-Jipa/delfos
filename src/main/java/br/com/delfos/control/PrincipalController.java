@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.model.Funcionalidade;
-import br.com.delfos.model.Usuario;
+import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.ManipuladorDeMenus;
 import br.com.delfos.util.SpringFXMLLoader;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
@@ -21,6 +24,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 @Controller
 public class PrincipalController implements Initializable {
@@ -45,42 +49,50 @@ public class PrincipalController implements Initializable {
 		try {
 			fechaJanelas();
 			configuraECriaOsMenus();
-			configuraAcoesParaMenu();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void configuraAcessoParaMenus() {
-		Usuario usuarioLogado = PrincipalApp.getUsuario();
+	private void configuraECriaOsMenus() throws Exception {
+		Set<Funcionalidade> permissoes = AutenticadorDeUsuario.getPermissoesDeAcesso();
 
-		usuarioLogado.getPerfilAcesso().getPermissoes().forEach(funcionalidade -> {
-			
-		});
+		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 
+		menuBar.getMenus().addAll(menusParaOMenuBar);
+		configuraAcoesParaMenu();
 	}
 
-	private void configuraECriaOsMenus() throws Exception {
-		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus().create().getMenus();
-		menuBar.getMenus().addAll(menusParaOMenuBar);
-		configuraAcessoParaMenus();
+	private void acaoParaLogout(ActionEvent event) {
+		try {
+			System.out.println("Ação de logout");
+			if (AlertBuilder.confirmation("Deseja realmente deslogar?")) {
+				new LoginApp().start(new Stage());
+				PrincipalApp.getStage().close();
+			}
+		} catch (IOException ex) {
+
+		}
 	}
 
 	private void configuraAcoesParaMenu() {
 		menuBar.getMenus().forEach(menu -> {
+			if (menu.getId().equals("menuLogout"))
+				menu.setOnAction(event -> acaoParaLogout(event));
 			menu.getItems().forEach(value -> {
 				if (value.getId().contains(":")) {
 					String[] props = value.getId().split(":");
 					value.setOnAction(e -> {
 						try {
 							abreJanela(props[1], value.getText());
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						} catch (IOException e1) {
+							AlertBuilder.error(e1, true);
 						}
 					});
 				}
 			});
 		});
+
 	}
 
 	private void fechaJanelas() {

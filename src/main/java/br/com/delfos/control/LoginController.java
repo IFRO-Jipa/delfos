@@ -2,7 +2,6 @@ package br.com.delfos.control;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,8 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.PrincipalApp;
-import br.com.delfos.dao.UsuarioDAO;
-import br.com.delfos.model.Usuario;
-import br.com.delfos.util.AlertFactory;
+import br.com.delfos.except.UserNotAuthorizedException;
+import br.com.delfos.util.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,9 +23,6 @@ import javafx.stage.Stage;
 
 @Controller
 public class LoginController implements Initializable {
-
-	@Autowired
-	private UsuarioDAO dao;
 
 	@FXML
 	private Button btnEntrar;
@@ -44,45 +39,27 @@ public class LoginController implements Initializable {
 	@FXML
 	private ImageView imgView;
 
+	@Autowired
+	private AutenticadorDeUsuario autenticador;
+
 	@FXML
 	private void handleButtonLogar(ActionEvent event) {
 		try {
 			autenticaUsuario();
-		} catch (Exception e) {
-			AlertFactory.error(e);
+		} catch (UserNotAuthorizedException | IOException e) {
+			AlertBuilder.error(e, false);
 		}
 	}
 
-	private void verificaSeExisteUsuarioNoBanco() {
-		Optional<Usuario> usuario = Optional.ofNullable(dao.findByLogin("root"));
+	private void autenticaUsuario() throws UserNotAuthorizedException, IOException {
+		boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
 
-		if (!usuario.isPresent()) {
-			Usuario user = new Usuario();
-			user.setLogin("root");
-			user.setSenha("root123");
-			dao.save(user);
-			System.out.println("Usuário root foi criado com a senha root123.");
-		}
-	}
-
-	private void autenticaUsuario() throws IOException {
-		Optional<Usuario> usuario = logou();
-
-		if (usuario.isPresent()) {
-			new PrincipalApp(usuario.get()).start(new Stage());
+		if (autentica) {
+			new PrincipalApp().start(new Stage());
 			LoginApp.getStage().close();
 		} else {
-			AlertFactory.warning("Usuário e/ou senha incorretos.");
+			throw new UserNotAuthorizedException();
 		}
-	}
-
-	private Optional<Usuario> logou() {
-		System.out.println(dao == null ? "sim" : "não");
-		String login = txtLogin.getText();
-		String senha = txtSenha.getText();
-		Optional<Usuario> usuario = Optional.ofNullable(dao.findByLoginAndSenha(login, senha));
-		System.out.println(usuario.isPresent() ? usuario.get() : "nada foi encontrado.");
-		return usuario;
 	}
 
 	@FXML
@@ -94,7 +71,7 @@ public class LoginController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Image img = new Image(LoginController.class.getResourceAsStream("/imgs/logo-full.png"));
 		imgView.setImage(img);
-		verificaSeExisteUsuarioNoBanco();
+		AutenticadorDeUsuario.logout();
 	}
 
 }

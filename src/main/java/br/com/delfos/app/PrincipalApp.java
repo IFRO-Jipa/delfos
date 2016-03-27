@@ -2,7 +2,6 @@ package br.com.delfos.app;
 
 import java.io.IOException;
 
-import br.com.delfos.model.Usuario;
 import br.com.delfos.util.SpringFXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,13 +11,6 @@ import javafx.stage.Stage;
 public class PrincipalApp extends Application {
 
 	private static Stage stage;
-
-	private static Usuario usuario;
-
-	public PrincipalApp(Usuario usuario) {
-		super();
-		PrincipalApp.usuario = usuario;
-	}
 
 	@Override
 	public void start(Stage stage) throws IOException {
@@ -31,13 +23,7 @@ public class PrincipalApp extends Application {
 		stage.setOnCloseRequest(e -> System.exit(0));
 		stage.show();
 
-		System.out.println("Usuario " + usuario.getLogin() + " está autenticado.");
-
 		PrincipalApp.stage = stage;
-	}
-
-	public static Usuario getUsuario() {
-		return usuario;
 	}
 
 	public static void main(String[] args) {

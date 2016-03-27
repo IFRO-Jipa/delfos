@@ -10,9 +10,14 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Funcionalidade {
 
+	@Override
+	public String toString() {
+		return "Funcionalidade [id=" + id + ", nome=" + nome + ", chave=" + chave + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idFuncionalidade;
+	private Long id;
 	@NotNull
 	private String nome;
 	@NotNull
@@ -21,6 +26,11 @@ public class Funcionalidade {
 
 	@OneToOne
 	private Funcionalidade preRequisito;
+
+	public Funcionalidade() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public Funcionalidade(String nome, String chave, String descricao, Funcionalidade funcionalidade) {
 		this.nome = nome;
@@ -38,7 +48,7 @@ public class Funcionalidade {
 	public Funcionalidade(Long idFuncionalidade, String nome, String chave, String descricao,
 	        Funcionalidade preRequisito) {
 		super();
-		this.idFuncionalidade = idFuncionalidade;
+		this.id = idFuncionalidade;
 		this.nome = nome;
 		this.chave = chave;
 		this.descricao = descricao;
@@ -46,7 +56,7 @@ public class Funcionalidade {
 	}
 
 	public Long getId() {
-		return idFuncionalidade;
+		return id;
 	}
 
 	public String getNome() {
@@ -63,6 +73,10 @@ public class Funcionalidade {
 
 	public void addPreRequisito(Funcionalidade funcionalidade) {
 		this.preRequisito = funcionalidade;
+	}
+
+	public String getChave() {
+		return chave;
 	}
 
 }

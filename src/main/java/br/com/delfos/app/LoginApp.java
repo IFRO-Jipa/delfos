@@ -17,7 +17,6 @@ public class LoginApp extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-
 		AnchorPane pane = (AnchorPane) SpringFXMLLoader.load("/fxml/LoginOverview.fxml");
 
 		pane.getStylesheets().add(LoginApp.class.getResource("/css/Login.css").toString());

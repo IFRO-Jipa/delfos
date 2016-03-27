@@ -20,7 +20,7 @@ import br.com.delfos.model.Endereco;
 import br.com.delfos.model.Pessoa;
 import br.com.delfos.model.TipoLogradouro;
 import br.com.delfos.model.TipoPessoa;
-import br.com.delfos.util.AlertFactory;
+import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.ContextFactory;
 import br.com.delfos.util.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
@@ -142,11 +142,11 @@ public class PessoaController implements Initializable {
 				posicionaRegistro(optional.get());
 			} else {
 				ManipuladorDeTelas.limpaCampos(anchorPane);
-				AlertFactory.warning("Nenhum registro foi encontrado.");
+				AlertBuilder.warning("Nenhum registro foi encontrado.");
 			}
 		} else {
 			ManipuladorDeTelas.limpaCampos(anchorPane);
-			AlertFactory.warning("Nenhum registro foi encontrado.");
+			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
 
 	}
@@ -199,10 +199,10 @@ public class PessoaController implements Initializable {
 
 	private void excluiRegistro() {
 		if (!txtCodigo.getText().isEmpty()) {
-			if (AlertFactory.confirmation("Deseja realmente excluir o registro?")) {
+			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				dao.delete(Long.parseLong(txtCodigo.getText()));
 				ManipuladorDeTelas.limpaCampos(anchorPane);
-				AlertFactory.information("Excluído com sucesso");
+				AlertBuilder.information("Excluído com sucesso");
 			}
 		} else
 			return;
@@ -214,7 +214,7 @@ public class PessoaController implements Initializable {
 		Pessoa saved = dao.save(montaPessoa());
 		if (saved.getId() != null) {
 			txtCodigo.setText(saved.getId().toString());
-			AlertFactory.information("Salvo com sucesso");
+			AlertBuilder.information("Salvo com sucesso");
 		}
 	}
 

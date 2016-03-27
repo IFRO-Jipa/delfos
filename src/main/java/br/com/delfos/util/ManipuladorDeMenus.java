@@ -3,23 +3,28 @@ package br.com.delfos.util;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Set;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+import br.com.delfos.model.Funcionalidade;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 public class ManipuladorDeMenus {
 	private File file;
+	private Set<Funcionalidade> permissoes;
 
-	public ManipuladorDeMenus(File file) {
+	public ManipuladorDeMenus(File file, Set<Funcionalidade> permissoes) {
 		this.file = file;
+		this.permissoes = permissoes;
 	}
 
-	public ManipuladorDeMenus() throws URISyntaxException {
+	public ManipuladorDeMenus(Set<Funcionalidade> permissoes) throws URISyntaxException {
+		this.permissoes = permissoes;
 		this.file = new File(ManipuladorDeMenus.class.getResource("/menu.xml").toURI());
 	}
 
@@ -28,12 +33,21 @@ public class ManipuladorDeMenus {
 
 		MenuBar bar = new MenuBar();
 
+		bar.getMenus().add(criaMenuLogout());
+
 		rootElement.getChildren().forEach(element -> {
 			bar.getMenus().add(createMenu(element));
 		});
 
 		return bar;
 	}
+
+	private Menu criaMenuLogout() {
+		Menu menu = new Menu("Logout");
+		menu.setId("menuLogout");
+		return menu;
+	}
+
 
 	private Menu createMenu(Element rootParentElement) {
 		Menu menu = new Menu();
@@ -52,14 +66,29 @@ public class ManipuladorDeMenus {
 			}
 		});
 
-		menu.setVisible(false);
+		menu.setVisible(configuraVisibilidade(menu.getId()));
 		return menu;
+	}
+
+	private boolean configuraVisibilidade(String idDoMenu) {
+		boolean result = false;
+
+		if (idDoMenu.contains(":"))
+			idDoMenu = idDoMenu.split(":")[0];
+
+		for (Funcionalidade f : permissoes) {
+			if (result)
+				break;
+			result = f.getChave().equals(idDoMenu);
+		}
+
+		return result;
 	}
 
 	private MenuItem createMenuItem(Element element) {
 		MenuItem item = new MenuItem(element.getChildText("name"));
 		item.setId(String.format("%s:%s", element.getAttributeValue("id"), element.getChildText("view")));
-		item.setVisible(false);
+		item.setVisible(configuraVisibilidade(item.getId()));
 		return item;
 	}
 }

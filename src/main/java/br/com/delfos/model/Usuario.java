@@ -1,6 +1,7 @@
 package br.com.delfos.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,8 +23,16 @@ public class Usuario {
 	private String senha;
 	private String descricao;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private PerfilAcesso perfilAcesso;
+
+	public Usuario(Usuario usuario) {
+		this.id = usuario.id;
+		this.login = usuario.login;
+		this.senha = usuario.senha;
+		this.descricao = usuario.descricao;
+		this.perfilAcesso = usuario.perfilAcesso;
+	}
 
 	public Usuario() {
 	}
@@ -32,7 +41,7 @@ public class Usuario {
 		super();
 		this.login = login;
 		this.senha = senha;
-		// this.perfilAcesso = perfilAcesso;
+		this.perfilAcesso = perfilAcesso;
 	}
 
 	public Usuario(String login, String senha, String descricao, PerfilAcesso perfilAcesso) {
@@ -40,7 +49,7 @@ public class Usuario {
 		this.login = login;
 		this.senha = senha;
 		this.descricao = descricao;
-		// this.perfilAcesso = perfilAcesso;
+		this.perfilAcesso = perfilAcesso;
 	}
 
 	public String getLogin() {
@@ -72,13 +81,13 @@ public class Usuario {
 	}
 
 	public PerfilAcesso getPerfilAcesso() {
-		// return perfilAcesso;
-		return null;
+		return perfilAcesso;
 	}
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", descricao=" + descricao
-		        + "]";
+		        + ", perfilAcesso=" + perfilAcesso + "]";
 	}
+
 }

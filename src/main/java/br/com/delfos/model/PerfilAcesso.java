@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,11 +20,14 @@ public class PerfilAcesso {
 	private String nome;
 	private String descricao;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Funcionalidade> permissoes;
 
 	@OneToMany(mappedBy = "perfilAcesso")
 	private List<Usuario> usuarios;
+
+	public PerfilAcesso() {
+	}
 
 	public PerfilAcesso(String nome, String descricao) {
 		this.nome = nome;
@@ -58,6 +62,19 @@ public class PerfilAcesso {
 
 	public void adicionaPermissoes(List<Funcionalidade> funcionalidades) {
 		this.permissoes.addAll(funcionalidades);
+	}
+
+	@Override
+	public String toString() {
+		return "PerfilAcesso [id=" + id + ", nome=" + nome + ", permissoes=" + permissoes + "]";
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }
