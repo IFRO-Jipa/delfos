@@ -29,6 +29,24 @@
 
 				</itens>
 			</menu>
+			
+			<menu id="menuCadastroAcesso">
+				<name>Acesso</name>
+				<itens>
+					<menuItem id="menuCadastroUsuario">
+						<name>Cadastro de Usuários</name>
+						<view>UsuarioView.fxml</view>
+					</menuItem>
+					<menuItem id="menuCadastroPerfilAcesso">
+						<name>Cadastro de Perfis de Acesso</name>
+						<view>PerfilAcessoView.fxml</view>
+					</menuItem>
+					<menuItem id="menuCadastroFuncionalidade">
+						<name>Cadastro de Funcionalidade</name>
+						<view>FuncionalidadeView.fxml</view>
+					</menuItem>
+				</itens>
+			</menu>
 		</itens>
 	</menu>
 	<menu id="menuRelatório">

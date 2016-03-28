@@ -14,11 +14,13 @@ import br.com.delfos.model.Funcionalidade;
 import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.ManipuladorDeMenus;
 import br.com.delfos.util.SpringFXMLLoader;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -60,9 +62,10 @@ public class PrincipalController implements Initializable {
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 
 		menuBar.getMenus().addAll(menusParaOMenuBar);
-		configuraAcoesParaMenu();
+		configuraAcoesParaMenuBar(menuBar.getMenus());
 	}
 
+	@SuppressWarnings("unused")
 	private void acaoParaLogout(ActionEvent event) {
 		try {
 			System.out.println("Ação de logout");
@@ -71,28 +74,37 @@ public class PrincipalController implements Initializable {
 				PrincipalApp.getStage().close();
 			}
 		} catch (IOException ex) {
-
+			AlertBuilder.error(ex, true);
 		}
 	}
 
-	private void configuraAcoesParaMenu() {
-		menuBar.getMenus().forEach(menu -> {
-			if (menu.getId().equals("menuLogout"))
-				menu.setOnAction(event -> acaoParaLogout(event));
-			menu.getItems().forEach(value -> {
-				if (value.getId().contains(":")) {
-					String[] props = value.getId().split(":");
-					value.setOnAction(e -> {
-						try {
-							abreJanela(props[1], value.getText());
-						} catch (IOException e1) {
-							AlertBuilder.error(e1, true);
-						}
-					});
+	private void configuraAcoesParaMenuBar(ObservableList<Menu> menus) {
+		menus.forEach(menu -> {
+			configuraAcoesParaMenu(menu);
+		});
+	}
+
+	private void configuraAcoesParaMenu(Menu menu) {
+		menu.getItems().forEach(value -> {
+			if (value instanceof Menu)
+				this.configuraAcoesParaMenu((Menu) value);
+			else
+				setOnActionMenu(value);
+		});
+	}
+
+	private void setOnActionMenu(MenuItem value) {
+		if (value.getId().contains(":")) {
+			String[] props = value.getId().split(":");
+			System.out.println(props[0] + "" + props[1]);
+			value.setOnAction(e -> {
+				try {
+					abreJanela(props[1], value.getText());
+				} catch (IOException e1) {
+					AlertBuilder.error(e1, true);
 				}
 			});
-		});
-
+		}
 	}
 
 	private void fechaJanelas() {
