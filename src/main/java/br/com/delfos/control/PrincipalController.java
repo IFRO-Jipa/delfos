@@ -95,7 +95,6 @@ public class PrincipalController implements Initializable {
 	private void setOnActionMenu(MenuItem value) {
 		if (value.getId().contains(":")) {
 			String[] props = value.getId().split(":");
-			System.out.println(props[0] + "" + props[1]);
 			value.setOnAction(e -> {
 				try {
 					abreJanela(props[1], value.getText());

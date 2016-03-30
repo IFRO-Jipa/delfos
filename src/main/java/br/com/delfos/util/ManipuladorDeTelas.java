@@ -40,16 +40,13 @@ public class ManipuladorDeTelas {
 			} else if (element instanceof Pane) {
 				limpaCampos((Pane) element);
 			} else if (element instanceof ComboBox<?>) {
-				
 				limpaCampos((ComboBox<?>) element);
 			}
 		}
 	}
 
 	private static void limpaCampos(ComboBox<?> element) {
-		System.out.println("é um combo com o nome de " + element.getId());
 		element.getSelectionModel().select(null);
-//		element.getSelectionModel().clearSelection();
 	}
 
 	private static void limpaCampos(Group group) {
@@ -68,4 +65,5 @@ public class ManipuladorDeTelas {
 			}
 		});
 	}
+
 }

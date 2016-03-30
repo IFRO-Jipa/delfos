@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="497.0" prefWidth="664.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane fx:id="rootPane" prefHeight="497.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.FuncionalidadeController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="txtCodigo" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="48.0" AnchorPane.leftAnchor="14.0" />
@@ -19,8 +18,8 @@
       <TextField fx:id="txtChave" layoutX="413.0" layoutY="31.0" prefHeight="25.0" prefWidth="145.0" AnchorPane.rightAnchor="9.0" />
       <Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
       <TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="81.0" prefHeight="91.0" prefWidth="544.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" />
-      <Button layoutX="62.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="19.0" text="..." />
-      <TableView layoutX="14.0" layoutY="202.0" prefHeight="166.0" prefWidth="544.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="202.0">
+      <Button fx:id="btnPesquisar" layoutX="62.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="19.0" text="..." />
+      <TableView fx:id="tbRegistros" layoutX="14.0" layoutY="202.0" prefHeight="166.0" prefWidth="544.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="202.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
