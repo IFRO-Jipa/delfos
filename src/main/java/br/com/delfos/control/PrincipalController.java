@@ -62,13 +62,12 @@ public class PrincipalController implements Initializable {
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 
 		menuBar.getMenus().addAll(menusParaOMenuBar);
-		configuraAcoesParaMenuBar(menuBar.getMenus());
+		configuraMenuBar(menuBar.getMenus());
 	}
 
 	@SuppressWarnings("unused")
 	private void acaoParaLogout(ActionEvent event) {
 		try {
-			System.out.println("Ação de logout");
 			if (AlertBuilder.confirmation("Deseja realmente deslogar?")) {
 				new LoginApp().start(new Stage());
 				PrincipalApp.getStage().close();
@@ -78,7 +77,7 @@ public class PrincipalController implements Initializable {
 		}
 	}
 
-	private void configuraAcoesParaMenuBar(ObservableList<Menu> menus) {
+	private void configuraMenuBar(ObservableList<Menu> menus) {
 		menus.forEach(menu -> {
 			configuraAcoesParaMenu(menu);
 		});
