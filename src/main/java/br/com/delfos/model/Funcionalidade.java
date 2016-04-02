@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import br.com.delfos.view.Column;
+
 @Entity
 public class Funcionalidade {
 
@@ -17,10 +19,13 @@ public class Funcionalidade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", alias = "ID")
 	private Long id;
 	@NotNull
+	@Column(name = "nome", alias = "Nome")
 	private String nome;
 	@NotNull
+	@Column(name = "chave", alias = "Chave de identificação")
 	private String chave;
 	private String descricao;
 
