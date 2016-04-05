@@ -102,6 +102,18 @@ public class FuncionalidadeController implements Initializable {
 		tbRegistros.getItems().clear();
 		this.populaTabela(dao.findAll());
 
+		tbRegistros.getSelectionModel().selectedItemProperty()
+		        .addListener((observable, oldValue, newValue) -> abreRegistro(newValue));
+
+	}
+
+	private void abreRegistro(Funcionalidade item) {
+		if (item != null) {
+			txtCodigo.setText(String.valueOf(item.getId()));
+			txtNome.setText(item.getNome());
+			txtChave.setText(item.getChave());
+			txtDescricao.setText(item.getDescricao());
+		}
 	}
 
 	private void populaTabela(List<Funcionalidade> funcionalidades) {
