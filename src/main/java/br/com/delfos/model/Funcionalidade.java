@@ -1,5 +1,6 @@
 package br.com.delfos.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,12 +30,11 @@ public class Funcionalidade {
 	private String chave;
 	private String descricao;
 
-	@OneToOne
+	@OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private Funcionalidade preRequisito;
 
 	public Funcionalidade() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Funcionalidade(String nome, String chave, String descricao, Funcionalidade funcionalidade) {

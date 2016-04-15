@@ -73,7 +73,7 @@ public class PrincipalController implements Initializable {
 				PrincipalApp.getStage().close();
 			}
 		} catch (IOException ex) {
-			AlertBuilder.error(ex, true);
+			AlertBuilder.error(null, ex, true);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class PrincipalController implements Initializable {
 				try {
 					abreJanela(props[1], value.getText());
 				} catch (IOException e1) {
-					AlertBuilder.error(e1, true);
+					AlertBuilder.error(null, e1, true);
 				}
 			});
 		}

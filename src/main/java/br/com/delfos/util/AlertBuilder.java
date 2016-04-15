@@ -37,10 +37,10 @@ public class AlertBuilder {
 		alert.showAndWait();
 	}
 
-	public static void error(Exception ex, boolean expandable) {
+	public static void error(String msg, Exception ex, boolean expandable) {
 		alert.setTitle("Erro encontrado");
 		alert.setAlertType(AlertType.ERROR);
-		alert.setHeaderText(ex.getMessage());
+		alert.setHeaderText(msg == null ? ex.getMessage() : msg);
 		alert.setContentText("Falha localizada");
 
 		if (expandable) {
@@ -66,7 +66,6 @@ public class AlertBuilder {
 			expContent.add(label, 0, 0);
 			expContent.add(textArea, 0, 1);
 
-			// Set expandable Exception into the dialog pane.
 			alert.getDialogPane().setExpandableContent(expContent);
 		}
 

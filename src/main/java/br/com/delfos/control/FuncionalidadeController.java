@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.FuncionalidadeDAO;
@@ -19,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -62,6 +64,9 @@ public class FuncionalidadeController implements Initializable {
 	private FuncionalidadeDAO dao;
 
 	@FXML
+	private ComboBox<Funcionalidade> cbPreRequisito;
+
+	@FXML
 	private void handleBtnPesquisar(ActionEvent event) {
 
 	}
@@ -73,10 +78,17 @@ public class FuncionalidadeController implements Initializable {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		if (!txtCodigo.getText().isEmpty()) {
-
-		} else {
-			AlertBuilder.information("Selecione um registro para poder excluir");
+		try {
+			if (!txtCodigo.getText().isEmpty()) {
+				dao.delete(Long.parseLong(txtCodigo.getText()));
+				tbRegistros.getItems()
+				        .removeIf(valor -> valor.getId() == Long.parseLong(txtCodigo.getText()));
+				AlertBuilder.information("Excluído com sucesso");
+			} else {
+				AlertBuilder.information("Selecione um registro para poder excluir");
+			}
+		} catch (DataIntegrityViolationException e) {
+			AlertBuilder.error("Não é possível excluir esse registro\nEle está sendo vinculado.", e, false);
 		}
 	}
 
@@ -84,12 +96,12 @@ public class FuncionalidadeController implements Initializable {
 	private void handleButtonSalvar(ActionEvent event) {
 		if (ManipuladorDeComponentes.validaCampos(this)) {
 			Funcionalidade f = new Funcionalidade(txtNome.getText(), txtChave.getText(),
-			        txtDescricao.getText(), null);
+			        txtDescricao.getText(), cbPreRequisito.getValue());
 			Funcionalidade save = dao.save(f);
 
 			if (save != null) {
 				AlertBuilder.information("Salvo com sucesso");
-				// tbRegistros.getItems().add(save);
+				tbRegistros.getItems().add(save);
 			} else {
 				AlertBuilder.information("Registro não foi salvo... cuidado");
 			}
@@ -104,6 +116,8 @@ public class FuncionalidadeController implements Initializable {
 
 		tbRegistros.getSelectionModel().selectedItemProperty()
 		        .addListener((observable, oldValue, newValue) -> abreRegistro(newValue));
+
+		cbPreRequisito.setItems(tbRegistros.getItems());
 
 	}
 

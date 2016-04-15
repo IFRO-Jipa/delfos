@@ -13,9 +13,9 @@
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="txtCodigo" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="48.0" AnchorPane.leftAnchor="14.0" />
       <Text layoutX="93.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="93.0" />
-      <TextField fx:id="txtNome" layoutX="93.0" layoutY="31.0" prefHeight="25.0" prefWidth="311.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="163.0" />
-      <Text layoutX="413.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chave" AnchorPane.rightAnchor="121.650390625" />
-      <TextField fx:id="txtChave" layoutX="413.0" layoutY="31.0" prefHeight="25.0" prefWidth="145.0" AnchorPane.rightAnchor="9.0" />
+      <TextField fx:id="txtNome" layoutX="93.0" layoutY="31.0" prefHeight="25.0" prefWidth="278.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="293.0" />
+      <Text layoutX="378.626953125" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chave" AnchorPane.rightAnchor="253.0234375" />
+      <TextField fx:id="txtChave" layoutX="377.0" layoutY="31.0" prefHeight="25.0" prefWidth="132.0" AnchorPane.rightAnchor="155.0" />
       <Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
       <TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="81.0" prefHeight="91.0" prefWidth="544.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" />
       <Button fx:id="btnPesquisar" layoutX="62.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="19.0" text="..." />
@@ -46,5 +46,7 @@
             </Button>
          </children>
       </Group>
+      <Text layoutX="516.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pré-requisito" AnchorPane.rightAnchor="79.7265625" />
+      <ComboBox fx:id="cbPreRequisito" layoutX="515.0" layoutY="31.0" prefHeight="25.0" prefWidth="139.0" AnchorPane.rightAnchor="10.0" />
    </children>
 </AnchorPane>

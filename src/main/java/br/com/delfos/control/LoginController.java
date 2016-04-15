@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
 		try {
 			autenticaUsuario();
 		} catch (UserNotAuthorizedException | IOException e) {
-			AlertBuilder.error(e, false);
+			AlertBuilder.error(null, e, false);
 		}
 	}
 
@@ -72,6 +72,13 @@ public class LoginController implements Initializable {
 		Image img = new Image(LoginController.class.getResourceAsStream("/imgs/logo-full.png"));
 		imgView.setImage(img);
 		AutenticadorDeUsuario.logout();
+		configuraComponentes();
+	}
+
+	private void configuraComponentes() {
+		txtLogin.setOnAction(event -> txtSenha.requestFocus());
+		txtSenha.setOnAction(event -> handleButtonLogar(event));
+
 	}
 
 }
