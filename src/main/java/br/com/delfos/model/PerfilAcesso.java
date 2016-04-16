@@ -29,9 +29,10 @@ public class PerfilAcesso {
 	public PerfilAcesso() {
 	}
 
-	public PerfilAcesso(String nome, String descricao) {
+	public PerfilAcesso(String nome, String descricao, List<Funcionalidade> funcionalidades) {
 		this.nome = nome;
 		this.descricao = descricao;
+		this.adicionaPermissoes(funcionalidades);
 	}
 
 	public PerfilAcesso(String nome) {
