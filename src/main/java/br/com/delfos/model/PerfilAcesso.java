@@ -16,7 +16,7 @@ public class PerfilAcesso {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String nome;
 	private String descricao;
 
@@ -39,7 +39,11 @@ public class PerfilAcesso {
 		this.nome = nome;
 	}
 
-	public Integer getId() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
 		return id;
 	}
 

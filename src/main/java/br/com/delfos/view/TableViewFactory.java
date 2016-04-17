@@ -18,6 +18,8 @@ public class TableViewFactory<Type> {
 		columns.forEach(column -> tabela.getColumns().add(column));
 		tabela.setItems(FXCollections.observableArrayList(itens));
 
+		tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 		return tabela;
 	}
 
@@ -26,8 +28,7 @@ public class TableViewFactory<Type> {
 		for (Field f : fields) {
 			if (f.isAnnotationPresent(br.com.delfos.view.Column.class)) {
 
-				br.com.delfos.view.Column annotation = f
-				        .getAnnotation(br.com.delfos.view.Column.class);
+				br.com.delfos.view.Column annotation = f.getAnnotation(br.com.delfos.view.Column.class);
 				TableColumn<Type, ?> tableColumn = criaColuna(f.getType(), annotation.alias(),
 				        annotation.name());
 

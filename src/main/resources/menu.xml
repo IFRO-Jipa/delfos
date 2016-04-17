@@ -13,7 +13,7 @@
 				<name>Cadastro de Pesquisa</name>
 				<view>PesquisaView.fxml</view>
 			</menuItem>
-			
+
 			<menuItem id="menuCadastroPesquisa">
 				<name>Cadastro de Questionários</name>
 				<view>QuestionarioView.fxml</view>
@@ -34,7 +34,7 @@
 
 				</itens>
 			</menu>
-			
+
 			<menu id="menuCadastroAcesso">
 				<name>Acesso</name>
 				<itens>
