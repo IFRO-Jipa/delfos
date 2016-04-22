@@ -3,16 +3,12 @@ package br.com.delfos.model;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
-public class Estado {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Estado extends AbstractModel<Estado> {
+
 	private String nome;
+	private String uf;
 
 	@Override
 	public String toString() {
@@ -42,8 +38,6 @@ public class Estado {
 		this.uf = uf;
 	}
 
-	private String uf;
-
 	public String getNome() {
 		return nome;
 	}
@@ -58,10 +52,6 @@ public class Estado {
 
 	public void setUf(String uf) {
 		this.uf = uf;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 }

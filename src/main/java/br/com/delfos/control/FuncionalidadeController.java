@@ -2,6 +2,7 @@ package br.com.delfos.control;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.StringConverter;
 
 @Controller
 public class FuncionalidadeController implements Initializable {
@@ -88,24 +90,36 @@ public class FuncionalidadeController implements Initializable {
 				AlertBuilder.information("Selecione um registro para poder excluir");
 			}
 		} catch (DataIntegrityViolationException e) {
-			AlertBuilder.error("Não é possível excluir esse registro\nEle está sendo vinculado.", e, false);
+			AlertBuilder.error("Não é possível excluir esse registro\nEle é utilizado em outras informações.",
+			        e, false);
 		}
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (ManipuladorDeComponentes.validaCampos(this)) {
-			Funcionalidade f = new Funcionalidade(txtNome.getText(), txtChave.getText(),
-			        txtDescricao.getText(), cbPreRequisito.getValue());
-			Funcionalidade save = dao.save(f);
+		if (ManipuladorDeComponentes.validaCampos(this))
+			salva();
+	}
 
-			if (save != null) {
-				AlertBuilder.information("Salvo com sucesso");
-				tbRegistros.getItems().add(save);
-			} else {
-				AlertBuilder.information("Registro não foi salvo... cuidado");
-			}
+	private void salva() {
+		Funcionalidade funcionalidade = montaRegistro();
+
+		Optional<Funcionalidade> returned = Optional.ofNullable(dao.save(funcionalidade));
+		if (returned.isPresent()) {
+			abreRegistro(returned.get());
+			AlertBuilder.information("Salvo com sucesso");
+		} else {
+			AlertBuilder.warning("Não foi salvo... tente novamente");
 		}
+	}
+
+	private Funcionalidade montaRegistro() {
+		Long id = Long.parseLong(txtCodigo.getText());
+		String nome = txtNome.getText();
+		String chave = txtChave.getText();
+		String descricao = txtDescricao.getText();
+		Funcionalidade preRequisito = (cbPreRequisito.getValue() == null ? null : cbPreRequisito.getValue());
+		return new Funcionalidade(id, nome, chave, descricao, preRequisito);
 	}
 
 	@Override
@@ -118,16 +132,42 @@ public class FuncionalidadeController implements Initializable {
 		        .addListener((observable, oldValue, newValue) -> abreRegistro(newValue));
 
 		cbPreRequisito.setItems(tbRegistros.getItems());
+		cbPreRequisito.setConverter(new StringConverter<Funcionalidade>() {
 
+			@Override
+			public String toString(Funcionalidade object) {
+				return object.getNome();
+			}
+
+			@Override
+			public Funcionalidade fromString(String string) {
+				return null;
+			}
+
+		});
 	}
 
-	private void abreRegistro(Funcionalidade item) {
-		if (item != null) {
-			txtCodigo.setText(String.valueOf(item.getId()));
-			txtNome.setText(item.getNome());
-			txtChave.setText(item.getChave());
-			txtDescricao.setText(item.getDescricao());
+	private void abreRegistro(Funcionalidade funcionalidade) {
+		if (funcionalidade != null) {
+			atualizaCampos(funcionalidade);
+			atualizaTabela(funcionalidade);
 		}
+	}
+
+	private void atualizaCampos(Funcionalidade funcionalidade) {
+		txtCodigo.setText(String.valueOf(funcionalidade.getId()));
+		txtNome.setText(funcionalidade.getNome());
+		txtChave.setText(funcionalidade.getChave());
+		txtDescricao.setText(funcionalidade.getDescricao());
+
+		cbPreRequisito.setValue(funcionalidade.getPreRequisito());
+	}
+
+	private void atualizaTabela(Funcionalidade funcionalidade) {
+//		tbRegistros.getItems().removeIf(registro -> registro.getId() == registro.getId());
+//		tbRegistros.getItems().add(funcionalidade);
+//		tbRegistros.getSelectionModel().select(funcionalidade);
+//		tbRegistros.sort();
 	}
 
 	private void populaTabela(List<Funcionalidade> funcionalidades) {

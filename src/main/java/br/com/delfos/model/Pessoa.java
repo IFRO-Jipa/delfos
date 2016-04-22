@@ -10,9 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -29,11 +26,8 @@ import br.com.delfos.converter.LocalTimePersistenceConverter;
  *
  */
 @Entity
-public class Pessoa {
+public class Pessoa extends AbstractModel<Pessoa> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	private String nome;
 	private String apelido;
 
@@ -68,17 +62,12 @@ public class Pessoa {
 
 	public Pessoa(Long id, String nome, LocalDate dataNascimento, String descricao, String email,
 	        Endereco endereco) {
-		super();
-		this.id = id;
+		super(id);
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.descricao = descricao;
 		this.email = email;
 		this.endereco = endereco;
-	}
-
-	public Long getId() {
-		return this.id;
 	}
 
 	public String getNome() {
@@ -99,10 +88,6 @@ public class Pessoa {
 
 	public Endereco getEndereco() {
 		return endereco;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setNome(String nome) {

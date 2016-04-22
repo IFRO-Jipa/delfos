@@ -1,27 +1,14 @@
 package br.com.delfos.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.view.Column;
 
 @Entity
-public class Funcionalidade {
+public class Funcionalidade extends AbstractModel<Funcionalidade> {
 
-	@Override
-	public String toString() {
-		return "Funcionalidade [id=" + id + ", nome=" + nome + ", chave=" + chave + "]";
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", alias = "ID")
-	private Long id;
 	@NotNull
 	@Column(name = "nome", alias = "Nome")
 	private String nome;
@@ -30,7 +17,7 @@ public class Funcionalidade {
 	private String chave;
 	private String descricao;
 
-	@OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@OneToOne
 	private Funcionalidade preRequisito;
 
 	public Funcionalidade() {
@@ -52,16 +39,11 @@ public class Funcionalidade {
 
 	public Funcionalidade(Long idFuncionalidade, String nome, String chave, String descricao,
 	        Funcionalidade preRequisito) {
-		super();
-		this.id = idFuncionalidade;
+		super(idFuncionalidade);
 		this.nome = nome;
 		this.chave = chave;
 		this.descricao = descricao;
 		this.preRequisito = preRequisito;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public String getNome() {
@@ -84,4 +66,69 @@ public class Funcionalidade {
 		return chave;
 	}
 
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setChave(String chave) {
+		this.chave = chave;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((chave == null) ? 0 : chave.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((preRequisito == null) ? 0 : preRequisito.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Funcionalidade other = (Funcionalidade) obj;
+		if (chave == null) {
+			if (other.chave != null)
+				return false;
+		} else if (!chave.equals(other.chave))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (preRequisito == null) {
+			if (other.preRequisito != null)
+				return false;
+		} else if (!preRequisito.equals(other.preRequisito))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Funcionalidade [id=" + id + ", nome=" + nome + ", chave=" + chave + "]";
+	}
 }

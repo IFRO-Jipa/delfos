@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.PrincipalApp;
-import br.com.delfos.except.UserNotAuthorizedException;
+import br.com.delfos.except.UserNotAuthenticatedException;
 import br.com.delfos.util.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,19 +46,19 @@ public class LoginController implements Initializable {
 	private void handleButtonLogar(ActionEvent event) {
 		try {
 			autenticaUsuario();
-		} catch (UserNotAuthorizedException | IOException e) {
+		} catch (UserNotAuthenticatedException | IOException e) {
 			AlertBuilder.error(null, e, false);
 		}
 	}
 
-	private void autenticaUsuario() throws UserNotAuthorizedException, IOException {
+	private void autenticaUsuario() throws UserNotAuthenticatedException, IOException {
 		boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
 
 		if (autentica) {
 			new PrincipalApp().start(new Stage());
 			LoginApp.getStage().close();
 		} else {
-			throw new UserNotAuthorizedException();
+			throw new UserNotAuthenticatedException();
 		}
 	}
 

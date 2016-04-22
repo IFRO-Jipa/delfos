@@ -10,9 +10,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class TableViewFactory<Type> {
+
 	public TableView<Type> criaTableView(List<Type> itens) {
-		Field[] fields = itens.get(0).getClass().getDeclaredFields();
-		List<TableColumn<Type, ?>> columns = getColumns(fields);
+		Class<? extends Object> type = itens.get(0).getClass();
+		List<TableColumn<Type, ?>> columns = getColumns(type);
 
 		TableView<Type> tabela = new TableView<>();
 		columns.forEach(column -> tabela.getColumns().add(column));
@@ -21,6 +22,31 @@ public class TableViewFactory<Type> {
 		tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		return tabela;
+	}
+
+	private List<TableColumn<Type, ?>> configuraOrdem(List<TableColumn<Type, ?>> columns) {
+		List<TableColumn<Type, ?>> result = new ArrayList<>();
+		columns.forEach(column -> {
+			if (column.getText().equals("ID")) {
+				result.add(column);
+			}
+		});
+
+		columns.remove(result.get(0));
+		columns.forEach(column -> result.add(column));
+
+		return result;
+	}
+
+	private List<TableColumn<Type, ?>> getColumns(Class<? extends Object> clazz) {
+		List<TableColumn<Type, ?>> columns = new ArrayList<>();
+
+		do {
+			columns.addAll(getColumns(clazz.getDeclaredFields()));
+			clazz = clazz.getSuperclass();
+		} while (clazz != Object.class);
+
+		return configuraOrdem(columns);
 	}
 
 	private List<TableColumn<Type, ?>> getColumns(Field[] fields) {

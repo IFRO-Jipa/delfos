@@ -1,17 +1,11 @@
 package br.com.delfos.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Endereco {
+public class Endereco extends AbstractModel<Endereco> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	private String logradouro;
 	private String descricao;
 	private String numero;
@@ -29,7 +23,6 @@ public class Endereco {
 
 	public Endereco(String logradouro, String descricao, String numero, String cep, String bairro,
 	        TipoLogradouro tipoLogradouro, Cidade cidade) {
-		super();
 		this.logradouro = logradouro;
 		this.descricao = descricao;
 		this.numero = numero;
@@ -41,7 +34,6 @@ public class Endereco {
 
 	public Endereco(Long id, String logradouro, String descricao, String numero, String cep, String bairro,
 	        TipoLogradouro tipoLogradouro, Cidade cidade) {
-		super();
 		this.id = id;
 		this.logradouro = logradouro;
 		this.descricao = descricao;
@@ -54,10 +46,6 @@ public class Endereco {
 
 	public Endereco() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public String getLogradouro() {
@@ -114,10 +102,6 @@ public class Endereco {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 }

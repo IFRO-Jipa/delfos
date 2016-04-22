@@ -2,19 +2,13 @@ package br.com.delfos.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Usuario {
+public class Usuario extends AbstractModel<Usuario> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@NotNull
 	@Size(min = 4, message = "O login deve conter, no mínimo, quatro caracteres.")
 	private String login;
@@ -74,10 +68,6 @@ public class Usuario {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public Integer getId() {
-		return id;
 	}
 
 	public PerfilAcesso getPerfilAcesso() {

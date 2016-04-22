@@ -5,18 +5,12 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
-public class PerfilAcesso {
+public class PerfilAcesso extends AbstractModel<PerfilAcesso> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	private String nome;
 	private String descricao;
 
@@ -37,14 +31,6 @@ public class PerfilAcesso {
 
 	public PerfilAcesso(String nome) {
 		this.nome = nome;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public String getNome() {

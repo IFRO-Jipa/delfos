@@ -14,7 +14,6 @@ public class LocalTimePersistenceConverter implements AttributeConverter<LocalDa
 		if (entityValue != null) {
 			return java.sql.Date.valueOf(entityValue);
 		}
-
 		return null;
 	}
 
