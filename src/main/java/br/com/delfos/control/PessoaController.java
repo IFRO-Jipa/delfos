@@ -122,8 +122,6 @@ public class PessoaController implements Initializable {
 	@FXML
 	private TextField txtCep;
 
-	private Pessoa pessoaTemporaria;
-
 	@FXML
 	private void handleButtonPesquisaCodigo(ActionEvent event) {
 		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
@@ -169,7 +167,6 @@ public class PessoaController implements Initializable {
 		txtBairro.setText(pessoa.getEndereco().getBairro());
 		txtDescricaoEndereco.setText(pessoa.getEndereco().getDescricao());
 		txtCep.setText(pessoa.getEndereco().getCep());
-		this.pessoaTemporaria = pessoa;
 	}
 
 	private void posicionaTipoDePessoa(Pessoa pessoa) {
@@ -227,9 +224,9 @@ public class PessoaController implements Initializable {
 		pessoa.setCpf(txtCpf.getText());
 		pessoa.setRg(txtRg.getText());
 		pessoa.setDataNascimento(dtDataNascimento.getValue());
-		pessoa.setEndereco(montaEndereco());
+		pessoa.setEndereco(montaEndereco(pessoa));
 		pessoa.setTipo(pegaTipoPessoa());
-		pessoa.setId(Long.parseLong(txtCodigo.getText()));
+		pessoa.setId((txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText())));
 		return pessoa;
 	}
 
@@ -242,7 +239,7 @@ public class PessoaController implements Initializable {
 		return tipos;
 	}
 
-	private Endereco montaEndereco() {
+	private Endereco montaEndereco(Pessoa pessoa) {
 		Endereco endereco = new Endereco();
 		endereco.setBairro(txtBairro.getText());
 		endereco.setLogradouro(txtLogradouro.getText());
@@ -251,7 +248,7 @@ public class PessoaController implements Initializable {
 		endereco.setTipoLogradouro(comboBoxTipoLogradouro.getValue());
 		endereco.setDescricao(txtDescricaoEndereco.getText());
 		endereco.setCep(txtCep.getText());
-		endereco.setId(pessoaTemporaria.getEndereco().getId());
+		endereco.setId(pessoa.getId());
 		return endereco;
 	}
 
