@@ -42,6 +42,6 @@
 				<Font name="System Bold" size="14.0" />
 			</font>
 		</Hyperlink>
-      <ListView layoutX="15.0" layoutY="171.0" prefHeight="139.0" prefWidth="565.0" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="171.0" />
+      <ListView fx:id="listViewPermissoes" layoutX="15.0" layoutY="171.0" prefHeight="139.0" prefWidth="565.0" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="171.0" />
 	</children>
 </AnchorPane>

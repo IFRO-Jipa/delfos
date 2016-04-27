@@ -114,7 +114,7 @@ public class FuncionalidadeController implements Initializable {
 	}
 
 	private Funcionalidade montaRegistro() {
-		Long id = Long.parseLong(txtCodigo.getText());
+		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
 		String nome = txtNome.getText();
 		String chave = txtChave.getText();
 		String descricao = txtDescricao.getText();
@@ -164,10 +164,11 @@ public class FuncionalidadeController implements Initializable {
 	}
 
 	private void atualizaTabela(Funcionalidade funcionalidade) {
-//		tbRegistros.getItems().removeIf(registro -> registro.getId() == registro.getId());
-//		tbRegistros.getItems().add(funcionalidade);
-//		tbRegistros.getSelectionModel().select(funcionalidade);
-//		tbRegistros.sort();
+		// tbRegistros.getItems().removeIf(registro -> registro.getId() ==
+		// registro.getId());
+		// tbRegistros.getItems().add(funcionalidade);
+		// tbRegistros.getSelectionModel().select(funcionalidade);
+		// tbRegistros.sort();
 	}
 
 	private void populaTabela(List<Funcionalidade> funcionalidades) {

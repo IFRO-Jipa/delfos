@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
 
-import org.controlsfx.control.ListSelectionView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -19,16 +18,20 @@ import br.com.delfos.model.PerfilAcesso;
 import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.ManipuladorDeComponentes;
 import br.com.delfos.util.ManipuladorDeTelas;
+import br.com.delfos.view.ListSelection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
 @Controller
 public class PerfilAcessoController implements Initializable {
@@ -97,8 +100,8 @@ public class PerfilAcessoController implements Initializable {
 		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
 			PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
 			perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
-			perfil.setId((txtCodigo.getText() != null ? Long.parseLong(txtCodigo.getText()) : null));
-			perfil.adicionaPermissoes(pegaPermissoes());
+			perfil.setId((txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText())));
+			perfil.addPermissoes(pegaPermissoes());
 
 			Optional<PerfilAcesso> response = Optional.ofNullable(perfilDao.save(perfil));
 
@@ -108,35 +111,108 @@ public class PerfilAcessoController implements Initializable {
 			} else {
 				AlertBuilder.warning("Oops! Não saiu como esperado.\nPor favor, tente novamente.");
 			}
+		} else {
+			AlertBuilder.warning("Campos não foram validados.");
 		}
 	}
 
 	private List<Funcionalidade> pegaPermissoes() {
-		List<Funcionalidade> permissoes = new ArrayList<>();
-
-		listViewPermissoes.getItems().forEach(funcionalidade -> permissoes.add(funcionalidade));
-
-		return permissoes;
+		return listViewPermissoes.getItems().isEmpty() ? null : listViewPermissoes.getItems();
 	}
 
 	@FXML
-	void handleLinkAdicionaFuncionalidade(ActionEvent event) {
-		// TODO: configurar corretamente
+	private void handleLinkAdicionaFuncionalidade(ActionEvent event) {
+		try {
+			ListSelection<Funcionalidade> seletor = new ListSelection<>("Selecione as funcionalidades",
+			        filtraFuncionalidadesInexistentes());
 
-		ListSelectionView<Funcionalidade> selector = new ListSelectionView<>();
-		selector.getSourceItems().addAll(funcionalidades);
+			seletor.setCellFactory(p -> configuraTextoNaCelula());
 
-		if (!listViewPermissoes.getItems().isEmpty()) {
-			selector.getTargetItems().addAll(listViewPermissoes.getItems());
+			Optional<List<Funcionalidade>> target = seletor.showAndWait();
+			target.ifPresent(result -> {
+				listViewPermissoes.getItems().addAll(result);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		listViewPermissoes.getItems().addAll(selector.getTargetItems());
+	}
 
+	private Callback<ListView<Funcionalidade>, ListCell<Funcionalidade>> cellFactory() {
+
+		return p -> {
+			ListCell<Funcionalidade> cell = configuraTextoNaCelula();
+
+			ContextMenu menu = getContextMenuToListView(cell);
+
+			cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+				// TODO: criar implementação correta.
+				if (isNowEmpty) {
+					cell.setContextMenu(null);
+				} else {
+					cell.setContextMenu(menu);
+				}
+			});
+
+			return cell;
+		};
+	}
+
+	private ContextMenu getContextMenuToListView(ListCell<Funcionalidade> cell) {
+		MenuItem menuRemoveOnly = new MenuItem();
+		menuRemoveOnly.setText("Remover");
+		menuRemoveOnly.setOnAction(action -> {
+			listViewPermissoes.getItems().remove(cell.getItem());
+		});
+
+		MenuItem menuRemoveAll = new MenuItem();
+		menuRemoveAll.setText("Remover todos");
+		menuRemoveAll.setOnAction(action -> {
+			if (AlertBuilder.confirmation("Remover todas as funcionalidades selecionadas?")) {
+
+			}
+		});
+
+		ContextMenu menu = new ContextMenu(menuRemoveOnly, menuRemoveAll);
+		return menu;
+	}
+
+	private ListCell<Funcionalidade> configuraTextoNaCelula() {
+		ListCell<Funcionalidade> cell = new ListCell<Funcionalidade>() {
+
+			@Override
+			protected void updateItem(final Funcionalidade t, final boolean bln) {
+				super.updateItem(t, bln);
+				if (t != null) {
+					setText(t.getNome());
+				}
+			}
+
+		};
+		return cell;
+	}
+
+	private List<Funcionalidade> filtraFuncionalidadesInexistentes() {
+		List<Funcionalidade> result = new ArrayList<>();
+
+		if (listViewPermissoes.getItems().isEmpty()) {
+			result.addAll(funcionalidades);
+		} else {
+			funcionalidades.forEach(funcionalidade -> {
+				if (!listViewPermissoes.getItems().contains(funcionalidade)) {
+					result.add(funcionalidade);
+				}
+
+			});
+		}
+
+		return result;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		funcionalidades = daoFuncionalidade.findAll();
+		listViewPermissoes.setCellFactory(cellFactory());
 	}
 
 }

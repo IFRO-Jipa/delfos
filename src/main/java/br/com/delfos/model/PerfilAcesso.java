@@ -1,5 +1,7 @@
 package br.com.delfos.model;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +28,7 @@ public class PerfilAcesso extends AbstractModel<PerfilAcesso> {
 	public PerfilAcesso(String nome, String descricao, List<Funcionalidade> funcionalidades) {
 		this.nome = nome;
 		this.descricao = descricao;
-		this.adicionaPermissoes(funcionalidades);
+		this.addPermissoes(funcionalidades);
 	}
 
 	public PerfilAcesso(String nome) {
@@ -42,16 +44,28 @@ public class PerfilAcesso extends AbstractModel<PerfilAcesso> {
 	}
 
 	public Set<Funcionalidade> getPermissoes() {
-		return permissoes;
+		return Collections.unmodifiableSet(permissoes);
 	}
 
-	public void adicionaPermissao(Funcionalidade funcionalidade) {
-		if (funcionalidade != null) {
-			this.permissoes.add(funcionalidade);
+	public boolean remove(Funcionalidade permissao) {
+		return this.permissoes.remove(permissao);
+	}
+
+	public boolean removeAll(List<Funcionalidade> permissoes) {
+		return this.permissoes.removeAll(permissoes);
+	}
+
+	public void addPermissao(Funcionalidade funcionalidade) {
+		if (this.permissoes == null) {
+			permissoes = new HashSet<>();
 		}
+		this.permissoes.add(funcionalidade);
 	}
 
-	public void adicionaPermissoes(List<Funcionalidade> funcionalidades) {
+	public void addPermissoes(List<Funcionalidade> funcionalidades) {
+		if (this.permissoes == null) {
+			permissoes = new HashSet<>();
+		}
 		this.permissoes.addAll(funcionalidades);
 	}
 

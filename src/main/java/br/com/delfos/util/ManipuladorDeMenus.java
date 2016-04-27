@@ -48,7 +48,6 @@ public class ManipuladorDeMenus {
 		return menu;
 	}
 
-
 	private Menu createMenu(Element rootParentElement) {
 		Menu menu = new Menu();
 		menu.setText(rootParentElement.getChildText("name"));
