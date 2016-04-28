@@ -1,6 +1,5 @@
 package br.com.delfos.model;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +43,7 @@ public class PerfilAcesso extends AbstractModel<PerfilAcesso> {
 	}
 
 	public Set<Funcionalidade> getPermissoes() {
-		return Collections.unmodifiableSet(permissoes);
+		return permissoes;
 	}
 
 	public boolean remove(Funcionalidade permissao) {

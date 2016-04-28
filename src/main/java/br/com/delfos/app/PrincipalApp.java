@@ -2,6 +2,7 @@ package br.com.delfos.app;
 
 import java.io.IOException;
 
+import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.SpringFXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -20,7 +21,6 @@ public class PrincipalApp extends Application {
 		stage.setScene(new Scene(pane));
 		stage.setTitle("Software Delfos - Menu Principal");
 		stage.setMaximized(true);
-		stage.setOnCloseRequest(e -> System.exit(0));
 		stage.show();
 
 		PrincipalApp.stage = stage;
@@ -32,6 +32,12 @@ public class PrincipalApp extends Application {
 
 	public static Stage getStage() {
 		return stage;
+	}
+
+	public static void destroy() {
+		if (AlertBuilder.confirmation("Deseja realmente sair?")) {
+			System.exit(0);
+		}
 	}
 
 }

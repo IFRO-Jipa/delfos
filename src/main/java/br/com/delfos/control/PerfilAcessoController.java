@@ -30,6 +30,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
@@ -79,11 +80,44 @@ public class PerfilAcessoController implements Initializable {
 	@FXML
 	void handleBtnPesquisar(ActionEvent event) {
 		// TODO: Próxima implementação para resolver.......
+
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
+		// consulta.
+		TextInputDialog dialog = new TextInputDialog("ex: 1");
+		dialog.setTitle("Text Input Dialog");
+		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
+		dialog.setContentText("informe o código do perfil");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+
+		if (result.isPresent()) {
+			Optional<PerfilAcesso> optional = Optional
+			        .ofNullable(perfilDao.findOne(Long.parseLong(result.get())));
+			if (optional.isPresent()) {
+				posicionaRegistro(optional.get());
+			} else {
+				ManipuladorDeTelas.limpaCampos(rootPane);
+				AlertBuilder.warning("Nenhum registro foi encontrado.");
+			}
+		} else {
+			ManipuladorDeTelas.limpaCampos(rootPane);
+			AlertBuilder.warning("Nenhum registro foi encontrado.");
+		}
+	}
+
+	private void posicionaRegistro(PerfilAcesso perfil) {
+		txtCodigo.setText(perfil.getId() != null ? String.valueOf(perfil.getId()) : null);
+		txtNome.setText(perfil.getNome());
+		txtDescricao.setText(perfil.getDescricao());
+		listViewPermissoes.getItems().clear();
+		listViewPermissoes.getItems().addAll(perfil.getPermissoes());
 	}
 
 	@FXML
 	void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
+		txtNome.requestFocus();
 	}
 
 	@FXML
