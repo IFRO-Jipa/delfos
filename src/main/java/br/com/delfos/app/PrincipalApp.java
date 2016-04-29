@@ -21,6 +21,7 @@ public class PrincipalApp extends Application {
 		stage.setScene(new Scene(pane));
 		stage.setTitle("Software Delfos - Menu Principal");
 		stage.setMaximized(true);
+		stage.setOnCloseRequest(event -> System.exit(0));
 		stage.show();
 
 		PrincipalApp.stage = stage;

@@ -3,6 +3,7 @@ package br.com.delfos.model;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,6 +20,9 @@ public class Usuario extends AbstractModel<Usuario> {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PerfilAcesso perfilAcesso;
+
+	@OneToOne(mappedBy = "usuario", optional = true)
+	private Pessoa pessoa;
 
 	public Usuario(Usuario usuario) {
 		this.id = usuario.id;

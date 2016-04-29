@@ -49,6 +49,10 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
 	private Endereco endereco;
 
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
+	        CascadeType.REFRESH }, orphanRemoval = true, optional = true)
+	private Usuario usuario;
+
 	public Pessoa() {
 		super();
 	}
@@ -140,6 +144,14 @@ public class Pessoa extends AbstractModel<Pessoa> {
 
 	public void setTipo(List<TipoPessoa> tipo) {
 		this.tipos = tipo;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

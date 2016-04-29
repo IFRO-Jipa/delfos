@@ -21,8 +21,11 @@ public interface Upgrader<T> {
 				Object oldVal = oldField.get(oldValue);
 				Object newVal = newField.get(newValue);
 
-				if (!oldVal.equals(newVal) || (newField.isAnnotationPresent(Id.class) && newVal == null)) {
-					newVal = oldVal;
+				if (oldVal != null && newVal != null) {
+					if (!oldVal.equals(newVal)
+					        || (newField.isAnnotationPresent(Id.class) && newVal == null)) {
+						newVal = oldVal;
+					}
 				}
 			}
 

@@ -124,6 +124,8 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void configuraMinSizeDaTela(Tab tab) {
+		// TODO: realizar calculo a partir do Stage presente no PrincipalApp
+
 		if (tab.getTabPane().getWidth() > rootPane.getMinWidth()) {
 			rootPane.setMinWidth(tab.getTabPane().getWidth());
 		}
