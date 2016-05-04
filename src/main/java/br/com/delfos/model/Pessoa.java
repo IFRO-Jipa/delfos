@@ -13,7 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-import br.com.delfos.converter.LocalTimePersistenceConverter;
+import br.com.delfos.converter.LocalDatePersistenceConverter;
 
 /**
  * Classe responsável por modelar as pessoas que serão salvas e manipuladas em funções do
@@ -31,7 +31,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	private String nome;
 	private String apelido;
 
-	@Convert(converter = LocalTimePersistenceConverter.class)
+	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate dataNascimento;
 	private String descricao;
 	private String email;
