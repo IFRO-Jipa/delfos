@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -31,6 +32,7 @@ public class ManipuladorDeTelas {
 				((DatePicker) element).setValue(null);
 			} else if (element instanceof ComboBox<?>) {
 				// TODO: LIMPAR COMBOBOX
+				((ComboBox<?>) element).getItems().clear();
 			} else if (element instanceof Group) {
 				limpaCampos((Group) element);
 			} else if (element instanceof AnchorPane) {
@@ -41,6 +43,8 @@ public class ManipuladorDeTelas {
 				limpaCampos((Pane) element);
 			} else if (element instanceof ComboBox<?>) {
 				limpaCampos((ComboBox<?>) element);
+			} else if (element instanceof ListView<?>) {
+				((ListView<?>) element).getItems().clear();
 			}
 		}
 	}

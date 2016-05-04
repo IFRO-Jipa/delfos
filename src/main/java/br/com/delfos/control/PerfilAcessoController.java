@@ -123,9 +123,11 @@ public class PerfilAcessoController implements Initializable {
 	@FXML
 	void handleButtonExcluir(ActionEvent event) {
 		if (!txtCodigo.getText().isEmpty()) {
-			perfilDao.delete(Long.parseLong(txtCodigo.getText()));
-			AlertBuilder.information("Excluído com sucesso");
-			handleButtonNovo(event);
+			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
+				perfilDao.delete(Long.parseLong(txtCodigo.getText()));
+				AlertBuilder.information("Excluído com sucesso");
+				handleButtonNovo(event);
+			}
 		}
 	}
 
@@ -203,7 +205,7 @@ public class PerfilAcessoController implements Initializable {
 		menuRemoveAll.setText("Remover todos");
 		menuRemoveAll.setOnAction(action -> {
 			if (AlertBuilder.confirmation("Remover todas as funcionalidades selecionadas?")) {
-
+				listViewPermissoes.getItems().clear();
 			}
 		});
 
@@ -219,6 +221,8 @@ public class PerfilAcessoController implements Initializable {
 				super.updateItem(t, bln);
 				if (t != null) {
 					setText(t.getNome());
+				} else {
+					setText(null);
 				}
 			}
 

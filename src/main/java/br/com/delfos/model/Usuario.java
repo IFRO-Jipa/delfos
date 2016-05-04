@@ -78,6 +78,15 @@ public class Usuario extends AbstractModel<Usuario> {
 		return perfilAcesso;
 	}
 
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+		pessoa.setUsuario(this);
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", descricao=" + descricao

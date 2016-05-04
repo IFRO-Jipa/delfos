@@ -18,7 +18,7 @@ public class UsuarioDAO {
 		return repository.count();
 	}
 
-	public void delete(Integer arg0) {
+	public void delete(Long arg0) {
 		repository.delete(arg0);
 	}
 
@@ -26,7 +26,7 @@ public class UsuarioDAO {
 		repository.delete(arg0);
 	}
 
-	public boolean exists(Integer arg0) {
+	public boolean exists(Long arg0) {
 		return repository.exists(arg0);
 	}
 
@@ -38,7 +38,11 @@ public class UsuarioDAO {
 		return repository.findByLoginAndSenha(login, senha);
 	}
 
-	public Usuario getOne(Integer arg0) {
+	public Usuario findOne(Long arg0) {
+		return repository.findOne(arg0);
+	}
+
+	public Usuario getOne(Long arg0) {
 		return repository.getOne(arg0);
 	}
 
