@@ -2,6 +2,8 @@ package br.com.delfos.control;
 
 import java.awt.event.ActionEvent;
 
+import br.com.delfos.model.Questionario;
+import br.com.delfos.util.ManipuladorDeComponentes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -79,12 +81,12 @@ public class PesquisaController {
 
     @FXML
     void handleButtonExcluir(ActionEvent event) {
-
+    	
     }
 
     @FXML
     void handleButtonSalvar(ActionEvent event) {
 
     }
-
+    
 }
