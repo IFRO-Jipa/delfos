@@ -177,6 +177,7 @@ public class FuncionalidadeController implements Initializable {
 
 		tbRegistros.getColumns().addAll(temp.getColumns());
 		tbRegistros.setItems(temp.getItems());
+		
 	}
 
 }

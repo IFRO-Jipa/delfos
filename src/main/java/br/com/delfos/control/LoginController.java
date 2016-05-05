@@ -1,5 +1,6 @@
 package br.com.delfos.control;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,14 +52,17 @@ public class LoginController implements Initializable {
 		}
 	}
 
+
 	private void autenticaUsuario() throws UserNotAuthenticatedException, IOException {
 		boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
 
 		if (autentica) {
 			new PrincipalApp().start(new Stage());
 			LoginApp.getStage().close();
+			
 		} else {
 			throw new UserNotAuthenticatedException();
+			
 		}
 	}
 

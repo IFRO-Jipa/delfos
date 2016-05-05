@@ -1,8 +1,11 @@
 package br.com.delfos.util;
 
+import java.awt.Toolkit;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
+
+import javax.swing.text.DefaultEditorKit.BeepAction;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -28,21 +31,28 @@ public class AlertBuilder {
 		alert = new Alert(AlertType.INFORMATION);
 	}
 
+	public static void beep(){
+		Toolkit.getDefaultToolkit().beep();
+	}
+	
 	public static void warning(String mensagem) {
 		alert.setAlertType(AlertType.WARNING);
 		alert.setTitle("Aviso do sistema");
 		alert.setHeaderText("Aviso importante");
 		alert.setContentText(mensagem);
-
+		beep();
+		
 		alert.showAndWait();
 	}
+	
+	
 
 	public static void error(String msg, Exception ex, boolean expandable) {
 		alert.setTitle("Erro encontrado");
 		alert.setAlertType(AlertType.ERROR);
 		alert.setHeaderText(msg == null ? ex.getMessage() : msg);
 		alert.setContentText("Falha localizada");
-
+		
 		if (expandable) {
 			// Create expandable Exception.
 			StringWriter sw = new StringWriter();
@@ -68,7 +78,7 @@ public class AlertBuilder {
 
 			alert.getDialogPane().setExpandableContent(expContent);
 		}
-
+		beep();
 		alert.showAndWait();
 	}
 
