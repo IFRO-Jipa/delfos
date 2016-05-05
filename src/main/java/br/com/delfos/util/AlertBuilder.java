@@ -31,9 +31,6 @@ public class AlertBuilder {
 		alert = new Alert(AlertType.INFORMATION);
 	}
 
-	public static void beep(){
-		Toolkit.getDefaultToolkit().beep();
-	}
 	
 	public static void warning(String mensagem) {
 		alert.setAlertType(AlertType.WARNING);
@@ -45,6 +42,9 @@ public class AlertBuilder {
 		alert.showAndWait();
 	}
 	
+	public static void beep(){
+		Toolkit.getDefaultToolkit().beep();
+	}
 	
 
 	public static void error(String msg, Exception ex, boolean expandable) {

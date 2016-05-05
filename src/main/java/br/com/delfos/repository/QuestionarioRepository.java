@@ -1,5 +1,11 @@
 package br.com.delfos.repository;
 
-public class QuestionarioRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import br.com.delfos.model.Questionario;
+
+public interface QuestionarioRepository  extends JpaRepository<Questionario, Long>{
+
+
 
 }
