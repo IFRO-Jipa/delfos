@@ -3,13 +3,13 @@ package br.com.delfos.model;
 import java.time.LocalTime;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import br.com.delfos.converter.LocalDateTimePersistenceConverter;
 import br.com.delfos.view.Column;
@@ -41,7 +41,7 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	private boolean autenticavel;
 
-	@OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Set<Pergunta> perguntas;
 
 	public String getNome() {
