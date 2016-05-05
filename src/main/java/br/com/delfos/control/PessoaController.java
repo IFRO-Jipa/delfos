@@ -238,7 +238,7 @@ public class PessoaController implements Initializable {
 			tipos.add(TipoPessoa.ESPECIALISTA);
 		return tipos;
 	}
-
+	
 	private Endereco montaEndereco(Pessoa pessoa) {
 		Endereco endereco = new Endereco();
 		endereco.setBairro(txtBairro.getText());
