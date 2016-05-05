@@ -1,8 +1,12 @@
 package br.com.delfos.control;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.dao.QuestionarioDAO;
+import br.com.delfos.model.Identificator;
+import br.com.delfos.model.Questionario;
+import br.com.delfos.util.ManipuladorDeComponentes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,49 +19,65 @@ import javafx.scene.layout.AnchorPane;
 @Controller
 public class QuestionarioController {
 
-    @FXML
-    private Button btnSalvar;
-    
-    @FXML
-    private TableView<?> tbPerguntas;
+	@Autowired
+	private QuestionarioDAO daoQuestionario;
 
-    @FXML
-    private AnchorPane anchorPaneEndereco;
+	@FXML
+	private Button btnSalvar;
 
-    @FXML
-    private Tab tbEndereco;
+	@FXML
+	private TableView<?> tbPerguntas;
 
-    @FXML
-    private TextField txtNome;
+	@FXML
+	private AnchorPane anchorPaneEndereco;
 
-    @FXML
-    private TextField txtCod;
+	@FXML
+	private Tab tbEndereco;
 
-    @FXML
-    private TextArea txtDesc;
+	@FXML
+	private TextField txtNome;
 
-    @FXML
-    private Button btnExcluir;
+	@FXML
+	private TextField txtCod;
 
-    @FXML
-    private Button btnNovo;
+	@FXML
+	private TextArea txtDesc;
 
-    @FXML
-    void handleButtonNovo(ActionEvent event) {
-    	txtCod.setText("");
-    	txtDesc.setText("");
-    	txtNome.setText("");
-    	tbPerguntas.getItems().clear();
-    }
+	@FXML
+	private Button btnExcluir;
 
-    @FXML
-    void handleButtonExcluir(ActionEvent event) {
+	@FXML
+	private Button btnNovo;
 
-    }
+	@FXML
+	private AnchorPane rootPane;
 
-    @FXML
-    void handleButtonSalvar(ActionEvent event) {
+	@FXML
+	private void handleButtonNovo(ActionEvent event) {
+		txtCod.setText("");
+		txtDesc.setText("");
+		txtNome.setText("");
+		tbPerguntas.getItems().clear();
+	}
 
-    }
+	@FXML
+	private void handleButtonExcluir(ActionEvent event) {
+
+	}
+
+	@FXML
+	private void handleButtonSalvar(ActionEvent event) {
+		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+			daoQuestionario.save(montaRegistro());
+		}
+	}
+
+	private Questionario montaRegistro() {
+		Questionario q = new Questionario();
+		q.setId(txtCod.getText().isEmpty() ? null : Long.parseLong(txtCod.getText()));
+		q.setNome(txtNome.getText());
+		q.setDescricao(txtDesc.getText());
+		return q;
+	}
 
 }
