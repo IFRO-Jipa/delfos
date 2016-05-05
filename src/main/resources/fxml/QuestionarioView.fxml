@@ -8,16 +8,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="404.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="br.com.delfos.control.QuestionarioController">
+<AnchorPane prefHeight="404.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.QuestionarioController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
-      <TextField layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="39.0" AnchorPane.leftAnchor="14.0" />
+      <TextField fx:id="txtCod" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="39.0" AnchorPane.leftAnchor="14.0" />
       <Button layoutX="53.0" layoutY="31.0" mnemonicParsing="false" text="..." AnchorPane.leftAnchor="53.0" />
       <Text layoutX="85.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="85.0" />
-      <TextField layoutX="85.0" layoutY="31.0" prefHeight="25.0" prefWidth="402.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="13.0" />
+      <TextField fx:id="txtNome" layoutX="85.0" layoutY="31.0" prefHeight="25.0" prefWidth="402.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="13.0" />
       <Text layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-      <TextArea layoutX="14.0" layoutY="82.0" prefHeight="60.0" prefWidth="474.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" />
+      <TextArea fx:id="txtDesc" layoutX="14.0" layoutY="82.0" prefHeight="60.0" prefWidth="474.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" />
       <TabPane layoutX="14.0" layoutY="149.0" prefHeight="193.0" prefWidth="474.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="149.0">
          <tabs>
             <Tab fx:id="tbEndereco" text="Perguntas">

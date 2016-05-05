@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 
 import br.com.delfos.converter.LocalDateTimePersistenceConverter;
+import br.com.delfos.view.Column;
 
 enum StatusDeQuestionario {
 	ATIVO, INATIVO;
@@ -17,6 +18,7 @@ enum StatusDeQuestionario {
 @Entity
 public class Questionario extends AbstractModel<Questionario> {
 
+	@Column(name = "nome", alias = "Nome")
 	private String nome;
 
 	@Convert(converter = LocalDateTimePersistenceConverter.class)
@@ -28,6 +30,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	private LocalTime vencimento;
 
 	@Lob
+	@Column(name="descricao", alias="Descrição")
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)
@@ -100,6 +103,5 @@ public class Questionario extends AbstractModel<Questionario> {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	
+
 }
