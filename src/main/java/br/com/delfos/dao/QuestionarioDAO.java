@@ -5,4 +5,5 @@ import br.com.delfos.repository.QuestionarioRepository;
 
 public class QuestionarioDAO extends AbstractDAO<Questionario, Long, QuestionarioRepository> {
 
+	
 }

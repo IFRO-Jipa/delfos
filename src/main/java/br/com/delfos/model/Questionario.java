@@ -1,12 +1,15 @@
 package br.com.delfos.model;
 
 import java.time.LocalTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 
 import br.com.delfos.converter.LocalDateTimePersistenceConverter;
 import br.com.delfos.view.Column;
@@ -30,7 +33,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	private LocalTime vencimento;
 
 	@Lob
-	@Column(name="descricao", alias="Descrição")
+	@Column(name = "descricao", alias = "Descrição")
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)
@@ -38,7 +41,8 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	private boolean autenticavel;
 
-	// private Map<Integer, Pergunta> perguntas;
+	@OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	private Set<Pergunta> perguntas;
 
 	public String getNome() {
 		return nome;
