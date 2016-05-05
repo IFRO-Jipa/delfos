@@ -1,14 +1,8 @@
 package br.com.delfos.model;
 
-public class Alternativa {
+import javax.persistence.MappedSuperclass;
 
-	private int id;
+@MappedSuperclass
+public abstract class Alternativa extends AbstractModel<Alternativa> {
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 }

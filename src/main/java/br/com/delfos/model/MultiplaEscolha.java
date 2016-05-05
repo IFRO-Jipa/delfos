@@ -3,6 +3,9 @@ package br.com.delfos.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+
+@Entity
 public class MultiplaEscolha extends Alternativa {
 
 	private Map<String, Double> escolhas;
