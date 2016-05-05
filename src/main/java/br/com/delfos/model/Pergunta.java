@@ -8,6 +8,8 @@ public class Pergunta extends AbstractModel<Pergunta>{
 	private String nome;
 	private String descricao;
 	
+	private TipoPergunta tipo;
+	
 	
 	
 }
