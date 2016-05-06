@@ -28,7 +28,7 @@ public class QuestionarioController {
 	private DatePicker dtVencimento;
 
 	@FXML
-	private Label lblSatus;
+	private Label lblStatus;
 
 	@FXML
 	private Button btnSalvar;
@@ -94,10 +94,11 @@ public class QuestionarioController {
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
-		q.setAutenticavel(this.cbAutenticavel.isSelected());
-		q.setVencimento(this.dtVencimento.getValue());
-		//q.setActive();
-		
+		if (this.lblStatus.getStyle().equals("-fx-background-color: #ff5c33")) {
+			this.lblStatus.setStyle("-fx-background-color: #3f7");
+		} else {
+			this.lblStatus.setStyle("-fx-background-color: #ff5c33");
+		}
 		return q;
 	}
 
