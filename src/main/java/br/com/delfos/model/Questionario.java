@@ -87,11 +87,11 @@ public class Questionario extends AbstractModel<Questionario> {
 		this.dataFinalizacao = dataFinalizacao;
 	}
 
-	public LocalTime getVencimento() {
+	public LocalDate getVencimento() {
 		return vencimento;
 	}
 
-	public void setVencimento(LocalTime vencimento) {
+	public void setVencimento(LocalDate vencimento) {
 		this.vencimento = vencimento;
 	}
 
