@@ -3,6 +3,7 @@ package br.com.delfos.control;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.converter.LocalDatePersistenceConverter;
 import br.com.delfos.dao.QuestionarioDAO;
 import br.com.delfos.model.Questionario;
 import br.com.delfos.util.ManipuladorDeComponentes;
@@ -87,6 +88,7 @@ public class QuestionarioController {
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
+		q.setAutenticavel(this.cbAutenticavel.isSelected());
 		return q;
 	}
 
