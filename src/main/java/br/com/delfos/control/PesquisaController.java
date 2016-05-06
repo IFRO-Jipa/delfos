@@ -1,5 +1,7 @@
 package br.com.delfos.control;
 
+import br.com.delfos.model.Funcionalidade;
+import br.com.delfos.util.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,71 +10,71 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import br.com.delfos.model.Pesquisa;
+
 
 public class PesquisaController {
 
-	@FXML
-	private Button removeEspecialistas;
+	 @FXML
+	    private Button removeEspecialistas;
 
-	@FXML
-	private TextField txtNome;
+	    @FXML
+	    private AnchorPane rootPane;
 
-	@FXML
-	private Button addPesquisador;
+	    @FXML
+	    private TextField txtNome;
 
-	@FXML
-	private TextField txtCodigo;
+	    @FXML
+	    private Button addPesquisador;
 
-	@FXML
-	private TextArea txtDescricao;
+	    @FXML
+	    private TextField txtCodigo;
 
-	@FXML
-	private TableView<?> tbEspecialistas;
+	    @FXML
+	    private TextArea txtDescricao;
 
-	@FXML
-	private ListView<?> listQuestionario;
+	    @FXML
+	    private TableView<?> tbEspecialistas;
 
-	@FXML
-	private Button btnSalvar;
+	    @FXML
+	    private ListView<?> listQuestionario;
 
-	@FXML
-	private Button removePesquisador;
+	    @FXML
+	    private DatePicker datePesquisa;
 
-	@FXML
-	private Button removeQuestionario;
+	    @FXML
+	    private Button btnSalvar;
 
-	@FXML
-	private DatePicker datePesquisa;
+	    @FXML
+	    private Button removePesquisador;
 
-	@FXML
-	private TextField txtLimite;
+	    @FXML
+	    private Button removeQuestionario;
 
-	@FXML
-	private Button btnExcluir;
+	    @FXML
+	    private TextField txtLimite;
 
-	@FXML
-	private Button addEspecialistas;
+	    @FXML
+	    private Button btnExcluir;
 
-	@FXML
-	private Button addQuestionario;
+	    @FXML
+	    private Button addEspecialistas;
 
-	@FXML
-	private Button btnNovo;
+	    @FXML
+	    private Button addQuestionario;
 
-	@FXML
-	private TableView<?> tbPesquisadores;
+	    @FXML
+	    private Button btnNovo;
+
+	    @FXML
+	    private TableView<?> tbPesquisadores;
+
+
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		txtNome.setText("");
-		txtCodigo.setText("");
-		txtLimite.setText("");
-		txtDescricao.setText("");
-		tbPesquisadores.getItems().clear();
-		tbEspecialistas.getItems().clear();
-		listQuestionario.getItems().clear();
-
-		// Falta adicionar a data da pesquisa nesta lista
+		ManipuladorDeTelas.limpaCampos(rootPane);
 	}
 
 	@FXML
@@ -84,5 +86,17 @@ public class PesquisaController {
 	private void handleButtonSalvar(ActionEvent event) {
 
 	}
+	
+	private Pesquisa montaRegistro() {
+		Pesquisa p = new Pesquisa();
+		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
+		String nome = txtNome.getText();
+		String descricao = txtDescricao.getText();
+		
+		return p;
+		
+	}
+	
+	
 
 }
