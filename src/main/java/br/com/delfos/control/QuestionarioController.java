@@ -95,6 +95,7 @@ public class QuestionarioController {
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
 		q.setVencimento(this.dtVencimento.getValue());
+		q.setAutenticavel(this.cbAutenticavel.isSelected());
 		if (this.lblStatus.getStyle().equals("-fx-background-color: #ff5c33")) {
 			this.lblStatus.setStyle("-fx-background-color: #3f7");
 		} else {
