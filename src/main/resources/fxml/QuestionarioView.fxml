@@ -12,7 +12,7 @@
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="txtCod" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="39.0" AnchorPane.leftAnchor="14.0" />
-      <Button layoutX="53.0" layoutY="31.0" mnemonicParsing="false" text="..." AnchorPane.leftAnchor="53.0" />
+      <Button fx:id="btnPesquisa" layoutX="53.0" layoutY="31.0" mnemonicParsing="false" onAction="#pesquisa" text="..." AnchorPane.leftAnchor="53.0" />
       <Text layoutX="85.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="85.0" />
       <TextField fx:id="txtNome" layoutX="85.0" layoutY="31.0" prefHeight="25.0" prefWidth="402.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="13.0" />
       <Text layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
@@ -63,5 +63,7 @@
             <Tooltip text="O usuário que for responder precisa se identificar ?" />
          </tooltip>
       </CheckBox>
+      <Label layoutX="529.0" layoutY="155.0" text="Status:" />
+      <Label fx:id="lblSatus" layoutX="569.0" layoutY="155.0" text="Ativo" />
    </children>
 </AnchorPane>
