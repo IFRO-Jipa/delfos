@@ -1,5 +1,6 @@
 package br.com.delfos.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	private LocalTime dataFinalizacao;
 
 	@Convert(converter = LocalDateTimePersistenceConverter.class)
-	private LocalTime vencimento;
+	private LocalDate vencimento;
 
 	@Lob
 	@Column(name = "descricao", alias = "Descrição")

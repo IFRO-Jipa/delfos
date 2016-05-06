@@ -17,7 +17,7 @@ public class TestQuestionario extends Application {
 		AnchorPane pane = (AnchorPane) SpringFXMLLoader.load("/fxml/QuestionarioView.fxml");
 
 		stage.setScene(new Scene(pane));
-		stage.setTitle("Software Delfos - Menu Principal");
+		stage.setTitle("Teste Questionario");
 		stage.setMaximized(true);
 		stage.setOnCloseRequest(event -> System.exit(0));
 		stage.show();
