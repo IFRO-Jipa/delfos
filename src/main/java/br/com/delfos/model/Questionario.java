@@ -42,14 +42,13 @@ public class Questionario extends AbstractModel<Questionario> {
 	private boolean autenticavel;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Set<Pergunta> perguntas;
+	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
 		return nome;
 	}
 
 	public Questionario() {
-		super();
 		this.setActive(true);
 	}
 

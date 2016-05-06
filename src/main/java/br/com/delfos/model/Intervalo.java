@@ -1,8 +1,8 @@
 package br.com.delfos.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class Intervalo extends Alternativa {
 
 	private int valorInicial;

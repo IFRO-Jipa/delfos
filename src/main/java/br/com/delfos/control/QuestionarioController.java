@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.QuestionarioDAO;
-import br.com.delfos.model.Identificator;
 import br.com.delfos.model.Questionario;
 import br.com.delfos.util.ManipuladorDeComponentes;
 import javafx.event.ActionEvent;
