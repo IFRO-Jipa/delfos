@@ -63,5 +63,7 @@
             <Tooltip text="O usuário que for responder precisa se identificar ?" />
          </tooltip>
       </CheckBox>
+      <Label layoutX="529.0" layoutY="155.0" text="Status:" />
+      <Label fx:id="lblSatus" layoutX="569.0" layoutY="155.0" text="Ativo" />
    </children>
 </AnchorPane>

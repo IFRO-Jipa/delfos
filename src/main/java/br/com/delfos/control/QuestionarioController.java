@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -25,6 +26,9 @@ public class QuestionarioController {
 
 	@FXML
 	private DatePicker dtVencimento;
+
+	@FXML
+	private Label lblSatus;
 
 	@FXML
 	private Button btnSalvar;
