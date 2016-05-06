@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.QuestionarioDAO;
 import br.com.delfos.model.Questionario;
 import br.com.delfos.util.ManipuladorDeComponentes;
+import br.com.delfos.util.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -71,10 +72,11 @@ public class QuestionarioController {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		this.txtCod.setText("");
-		this.txtDesc.setText("");
-		this.txtNome.setText("");
-		this.tbPerguntas.getItems().clear();
+		// this.txtCod.setText("");
+		// this.txtDesc.setText("");
+		// this.txtNome.setText("");
+		// this.tbPerguntas.getItems().clear();
+		ManipuladorDeTelas.limpaCampos(this.rootPane);
 	}
 
 	@FXML
@@ -94,13 +96,14 @@ public class QuestionarioController {
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
-		q.setVencimento(this.dtVencimento.getValue());
-		q.setAutenticavel(this.cbAutenticavel.isSelected());
-		if (this.lblStatus.getStyle().equals("-fx-background-color: #ff5c33")) {
-			this.lblStatus.setStyle("-fx-background-color: #3f7");
-		} else {
-			this.lblStatus.setStyle("-fx-background-color: #ff5c33");
-		}
+		this.lblStatus.setText((q.isActive() ? "Ativo" : "Inativo"));
+		this.lblStatus.setStyle("-fx-text-fill: " + (q.isActive() ? "#33ff77" : "#ff5c33"));
+		// ELE FAZ ISSO AQUI ABAIXO
+		// if (q.isActive()) {
+		// this.lblStatus.setStyle("-fx-text-fill: #33ff77");
+		// } else {
+		// this.lblStatus.setStyle("-fx-text-fill: #ff5c33");
+		// }
 		return q;
 	}
 

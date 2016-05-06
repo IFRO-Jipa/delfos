@@ -19,11 +19,11 @@ public class TeControl {
 	@FXML
 	void hue(ActionEvent event) {
 		this.btn.setOnAction(action -> {
-			if (this.lbl.getStyle().equals("-fx-color: #ff5c33")) {
-				this.lbl.setStyle("-fx-color : #228d22");
+			if (this.lbl.getStyle().equals("-fx-text-fill: #ff5c33")) {
+				this.lbl.setStyle("-fx-text-fill: #228d22");
 				this.lbl.setText("Ativo");
 			} else {
-				this.lbl.setStyle("-fx-color: #ff5c33");
+				this.lbl.setStyle("-fx-text-fill: #ff5c33");
 				this.lbl.setText("Desativo");
 			}
 		});
