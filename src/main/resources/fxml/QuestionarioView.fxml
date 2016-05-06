@@ -17,7 +17,7 @@
       <TextField fx:id="txtNome" layoutX="85.0" layoutY="31.0" prefHeight="25.0" prefWidth="402.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="13.0" />
       <Text layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
       <TextArea fx:id="txtDesc" layoutX="14.0" layoutY="82.0" prefHeight="60.0" prefWidth="474.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" />
-      <TabPane layoutX="14.0" layoutY="149.0" prefHeight="193.0" prefWidth="474.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="149.0">
+      <TabPane layoutX="14.0" layoutY="187.0" prefHeight="231.0" prefWidth="614.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="187.0">
          <tabs>
             <Tab fx:id="tbEndereco" text="Perguntas">
                <content>
@@ -54,5 +54,14 @@
             </Button>
          </children>
       </Group>
+      <DatePicker fx:id="dtVencimento" layoutX="411.0" layoutY="151.0" prefHeight="25.0" prefWidth="109.0" />
+      <Label layoutX="302.0" layoutY="155.0" text="Data de Vencimento" />
+      <DatePicker fx:id="dtInicio" editable="false" layoutX="175.0" layoutY="151.0" prefHeight="25.0" prefWidth="116.0" />
+      <Label layoutX="118.0" layoutY="155.0" text="Data Inicio" />
+      <CheckBox fx:id="cbAutenticavel" layoutX="15.0" layoutY="155.0" mnemonicParsing="false" text="Autenticável">
+         <tooltip>
+            <Tooltip text="O usuário que for responder precisa se identificar ?" />
+         </tooltip>
+      </CheckBox>
    </children>
 </AnchorPane>

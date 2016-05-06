@@ -9,6 +9,8 @@ import br.com.delfos.util.ManipuladorDeComponentes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -22,7 +24,16 @@ public class QuestionarioController {
 	private QuestionarioDAO daoQuestionario;
 
 	@FXML
+	private DatePicker dtVencimento;
+
+	@FXML
 	private Button btnSalvar;
+
+	@FXML
+	private DatePicker dtInicio;
+
+	@FXML
+	private CheckBox cbAutenticavel;
 
 	@FXML
 	private TableView<?> tbPerguntas;
@@ -53,10 +64,10 @@ public class QuestionarioController {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		txtCod.setText("");
-		txtDesc.setText("");
-		txtNome.setText("");
-		tbPerguntas.getItems().clear();
+		this.txtCod.setText("");
+		this.txtDesc.setText("");
+		this.txtNome.setText("");
+		this.tbPerguntas.getItems().clear();
 	}
 
 	@FXML
@@ -66,16 +77,16 @@ public class QuestionarioController {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
-			daoQuestionario.save(montaRegistro());
+		if (ManipuladorDeComponentes.validaCampos(this.rootPane)) {
+			this.daoQuestionario.save(this.montaRegistro());
 		}
 	}
 
 	private Questionario montaRegistro() {
 		Questionario q = new Questionario();
-		q.setId(txtCod.getText().isEmpty() ? null : Long.parseLong(txtCod.getText()));
-		q.setNome(txtNome.getText());
-		q.setDescricao(txtDesc.getText());
+		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
+		q.setNome(this.txtNome.getText());
+		q.setDescricao(this.txtDesc.getText());
 		return q;
 	}
 
