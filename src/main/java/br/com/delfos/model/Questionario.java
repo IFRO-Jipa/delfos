@@ -1,5 +1,6 @@
 package br.com.delfos.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import br.com.delfos.converter.LocalDateTimePersistenceConverter;
 import br.com.delfos.view.Column;
@@ -28,8 +31,8 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Convert(converter = LocalDateTimePersistenceConverter.class)
 	private LocalTime dataFinalizacao;
 
-	@Convert(converter = LocalDateTimePersistenceConverter.class)
-	private LocalTime vencimento;
+	@Temporal(TemporalType.DATE)
+	private LocalDate vencimento;
 
 	@Lob
 	@Column(name = "descricao", alias = "Descrição")
@@ -86,11 +89,12 @@ public class Questionario extends AbstractModel<Questionario> {
 		this.dataFinalizacao = dataFinalizacao;
 	}
 
-	public LocalTime getVencimento() {
+
+	public LocalDate getVencimento() {
 		return vencimento;
 	}
 
-	public void setVencimento(LocalTime vencimento) {
+	public void setVencimento(LocalDate vencimento) {
 		this.vencimento = vencimento;
 	}
 
