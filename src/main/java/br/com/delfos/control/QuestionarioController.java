@@ -40,6 +40,9 @@ public class QuestionarioController {
 	private CheckBox cbAutenticavel;
 
 	@FXML
+	private Button btnPesquisa;
+
+	@FXML
 	private TableView<?> tbPerguntas;
 
 	@FXML
