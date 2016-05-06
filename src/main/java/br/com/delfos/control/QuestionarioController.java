@@ -95,6 +95,7 @@ public class QuestionarioController {
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
 		q.setAutenticavel(this.cbAutenticavel.isSelected());
+		q.setVencimento(this.dtVencimento.getValue());
 		//q.setActive();
 		
 		return q;
