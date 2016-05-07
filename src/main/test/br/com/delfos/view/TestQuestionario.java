@@ -1,6 +1,5 @@
 package br.com.delfos.view;
 
-import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.util.SpringFXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
