@@ -8,7 +8,7 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<T> {
 
 	private String nome;
 
-	@OneToOne(targetEntity=Alternativa.class)
+	@OneToOne
 	private T alternativa;
 
 	public T getAlternativa() {
