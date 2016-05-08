@@ -1,19 +1,11 @@
 package br.com.delfos.model;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 @Entity
-public class Pergunta<T extends Alternativa> extends AbstractModel<T> {
+public class Pergunta extends AbstractModel<Pergunta> {
 
 	private String nome;
-
-	@OneToOne
-	private T alternativa;
-
-	public T getAlternativa() {
-		return alternativa;
-	}
 
 	public String getNome() {
 		return nome;

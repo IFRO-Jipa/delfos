@@ -42,7 +42,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	private boolean autenticavel;
 
 	@OneToMany
-	private List<Pergunta<?>> perguntas;
+	private List<Pergunta> perguntas;
 
 	public String getNome() {
 		return nome;
