@@ -1,11 +1,17 @@
 package br.com.delfos.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+enum Status {
+	ATIVO, INATIVO;
+}
 
 @Entity
 public class Usuario extends AbstractModel<Usuario> {
@@ -16,6 +22,7 @@ public class Usuario extends AbstractModel<Usuario> {
 	@NotNull
 	@Size(min = 6, message = "A senha deve conter, no mínimo, seis caracteres.")
 	private String senha;
+
 	private String descricao;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -24,12 +31,28 @@ public class Usuario extends AbstractModel<Usuario> {
 	@OneToOne(mappedBy = "usuario", optional = true)
 	private Pessoa pessoa;
 
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
 	public Usuario(Usuario usuario) {
 		this.id = usuario.id;
 		this.login = usuario.login;
 		this.senha = usuario.senha;
 		this.descricao = usuario.descricao;
 		this.perfilAcesso = usuario.perfilAcesso;
+		this.status = usuario.status;
+	}
+
+	public void setStatus(boolean status) {
+		if (status) {
+			this.status = Status.ATIVO;
+		} else {
+			this.status = Status.INATIVO;
+		}
+	}
+
+	public boolean isAtivo() {
+		return this.status == Status.ATIVO;
 	}
 
 	public Usuario() {
@@ -85,6 +108,10 @@ public class Usuario extends AbstractModel<Usuario> {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 		pessoa.setUsuario(this);
+	}
+
+	public void setPerfilAcesso(PerfilAcesso perfilAcesso) {
+		this.perfilAcesso = perfilAcesso;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package br.com.delfos.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class UsuarioTest {
 
 	@Test
 	public void verificaSeExisteUsuario() {
-		Usuario findByLogin = daoUsuario.findByLogin("root");
+		Optional<Usuario> findByLogin = daoUsuario.findByLogin("root");
 
 		Assert.assertNotNull(findByLogin);
 	}

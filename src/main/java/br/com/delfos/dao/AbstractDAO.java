@@ -2,6 +2,7 @@ package br.com.delfos.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ import br.com.delfos.model.Upgrader;
 
 @NoRepositoryBean
 @SuppressWarnings("rawtypes")
-abstract class AbstractDAO<Type extends Identificator, ID extends Serializable, Repository extends JpaRepository> {
+public abstract class AbstractDAO<Type extends Identificator, ID extends Serializable, Repository extends JpaRepository> {
 
 	@Autowired
 	protected Repository repository;
@@ -60,14 +61,20 @@ abstract class AbstractDAO<Type extends Identificator, ID extends Serializable, 
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S extends Type> S save(S newValue) {
+	public <S extends Type> Optional<S> save(S newValue) {
+		Optional<S> result = Optional.empty();
+
 		if (newValue.getId() == null) {
-			return (S) repository.save(newValue);
+			// cria novo registro
+			result = Optional.ofNullable((S) repository.save(newValue));
 		} else {
+			// atualiza registro, modificando os valores necessários para atualização.
 			S value = (S) this.findOne(newValue.getId());
 			((Upgrader<S>) value).update(value, newValue);
-			return (S) repository.save(newValue);
+			result = Optional.ofNullable((S) repository.save(newValue));
 		}
+
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")

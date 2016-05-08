@@ -1,5 +1,7 @@
 package br.com.delfos.control;
 
+import org.springframework.stereotype.Controller;
+
 import br.com.delfos.model.Pesquisa;
 import br.com.delfos.util.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
@@ -12,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+@Controller
 public class PesquisaController {
 
 	@FXML

@@ -104,13 +104,15 @@ public class FuncionalidadeController implements Initializable {
 	private void salva() {
 		Funcionalidade funcionalidade = montaRegistro();
 
-		Optional<Funcionalidade> returned = Optional.ofNullable(dao.save(funcionalidade));
+		Optional<Funcionalidade> returned = dao.save(funcionalidade);
+
 		if (returned.isPresent()) {
 			abreRegistro(returned.get());
 			AlertBuilder.information("Salvo com sucesso");
 		} else {
 			AlertBuilder.warning("Não foi salvo... tente novamente");
 		}
+
 	}
 
 	private Funcionalidade montaRegistro() {
@@ -177,7 +179,7 @@ public class FuncionalidadeController implements Initializable {
 
 		tbRegistros.getColumns().addAll(temp.getColumns());
 		tbRegistros.setItems(temp.getItems());
-		
+
 	}
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import br.com.delfos.view.Column;
 
 @MappedSuperclass
-abstract class AbstractModel<T> implements Identificator, Upgrader<T> {
+public abstract class AbstractModel<T> implements Identificator, Upgrader<T> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

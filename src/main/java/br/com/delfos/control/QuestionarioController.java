@@ -72,10 +72,6 @@ public class QuestionarioController {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		// this.txtCod.setText("");
-		// this.txtDesc.setText("");
-		// this.txtNome.setText("");
-		// this.tbPerguntas.getItems().clear();
 		ManipuladorDeTelas.limpaCampos(this.rootPane);
 	}
 
@@ -98,13 +94,12 @@ public class QuestionarioController {
 		q.setDescricao(this.txtDesc.getText());
 		this.lblStatus.setText((q.isActive() ? "Ativo" : "Inativo"));
 		this.lblStatus.setStyle("-fx-text-fill: " + (q.isActive() ? "#33ff77" : "#ff5c33"));
-		// ELE FAZ ISSO AQUI ABAIXO
-		// if (q.isActive()) {
-		// this.lblStatus.setStyle("-fx-text-fill: #33ff77");
-		// } else {
-		// this.lblStatus.setStyle("-fx-text-fill: #ff5c33");
-		// }
 		return q;
+	}
+
+	@FXML
+	private void pesquisa() {
+
 	}
 
 }

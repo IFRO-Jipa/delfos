@@ -124,9 +124,14 @@ public class PessoaController implements Initializable {
 
 	@FXML
 	private void handleButtonPesquisaCodigo(ActionEvent event) {
+		pesquisaPorCodigo();
+
+	}
+
+	private void pesquisaPorCodigo() {
 		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
 		// consulta.
-		TextInputDialog dialog = new TextInputDialog("ex: 1");
+		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
 		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
 		dialog.setContentText("informe o código da pessoa");
@@ -146,7 +151,6 @@ public class PessoaController implements Initializable {
 			ManipuladorDeTelas.limpaCampos(anchorPane);
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
-
 	}
 
 	private void posicionaRegistro(Pessoa pessoa) {
@@ -208,11 +212,14 @@ public class PessoaController implements Initializable {
 	@FXML
 	@Transactional
 	void handleButtonSalvar(ActionEvent event) {
-		Pessoa saved = dao.save(montaPessoa());
-		if (saved.getId() != null) {
-			txtCodigo.setText(saved.getId().toString());
+
+		Optional<Pessoa> save = dao.save(montaPessoa());
+
+		save.ifPresent(pessoa -> {
+			txtCodigo.setText(String.valueOf(pessoa.getId()));
 			AlertBuilder.information("Salvo com sucesso");
-		}
+		});
+
 	}
 
 	private Pessoa montaPessoa() {
@@ -238,7 +245,7 @@ public class PessoaController implements Initializable {
 			tipos.add(TipoPessoa.ESPECIALISTA);
 		return tipos;
 	}
-	
+
 	private Endereco montaEndereco(Pessoa pessoa) {
 		Endereco endereco = new Endereco();
 		endereco.setBairro(txtBairro.getText());

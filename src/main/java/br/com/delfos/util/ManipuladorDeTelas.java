@@ -32,7 +32,7 @@ public class ManipuladorDeTelas {
 				((DatePicker) element).setValue(null);
 			} else if (element instanceof ComboBox<?>) {
 				// TODO: LIMPAR COMBOBOX
-				((ComboBox<?>) element).getItems().clear();
+				((ComboBox<?>) element).setValue(null);
 			} else if (element instanceof Group) {
 				limpaCampos((Group) element);
 			} else if (element instanceof AnchorPane) {
