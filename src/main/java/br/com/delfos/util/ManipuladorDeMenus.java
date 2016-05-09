@@ -33,19 +33,11 @@ public class ManipuladorDeMenus {
 
 		MenuBar bar = new MenuBar();
 
-		bar.getMenus().add(criaMenuLogout());
-
 		rootElement.getChildren().forEach(element -> {
 			bar.getMenus().add(createMenu(element));
 		});
 
 		return bar;
-	}
-
-	private Menu criaMenuLogout() {
-		Menu menu = new Menu("Logout");
-		menu.setId("menuLogout");
-		return menu;
 	}
 
 	private Menu createMenu(Element rootParentElement) {

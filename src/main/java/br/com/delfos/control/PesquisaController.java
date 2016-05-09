@@ -86,6 +86,7 @@ public class PesquisaController {
 
 	}
 
+	@SuppressWarnings("unused")
 	private Pesquisa montaRegistro() {
 		Pesquisa p = new Pesquisa();
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());

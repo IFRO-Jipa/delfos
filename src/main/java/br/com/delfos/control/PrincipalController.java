@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.model.Funcionalidade;
 import br.com.delfos.util.AlertBuilder;
@@ -26,7 +25,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 @Controller
 public class PrincipalController implements Initializable {
@@ -61,19 +59,23 @@ public class PrincipalController implements Initializable {
 
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 
+		menusParaOMenuBar.add(menuLogout());
+
 		menuBar.getMenus().addAll(menusParaOMenuBar);
 		configuraMenuBar(menuBar.getMenus());
 	}
 
-	@SuppressWarnings("unused")
+	private Menu menuLogout() {
+		Menu menu = new Menu("Logout");
+		menu.setOnAction(action -> acaoParaLogout(action));
+		return menu;
+	}
+
 	private void acaoParaLogout(ActionEvent event) {
-		try {
-			if (AlertBuilder.confirmation("Deseja realmente deslogar?")) {
-				new LoginApp().start(new Stage());
-				PrincipalApp.getStage().close();
-			}
-		} catch (IOException ex) {
-			AlertBuilder.error(null, ex, true);
+		if (AlertBuilder.confirmation("Deseja realmente deslogar?")) {
+			PrincipalApp.getStage().hide();
+			AlertBuilder.information("teste");
+			PrincipalApp.getStage().show();
 		}
 	}
 
@@ -102,6 +104,10 @@ public class PrincipalController implements Initializable {
 					AlertBuilder.error(null, e1, true);
 				}
 			});
+		}
+		if (value.getText().equals("Logout")) {
+			System.out.println("vai configurar a ação para o menu de logout");
+			value.setOnAction(action -> acaoParaLogout(action));
 		}
 	}
 
