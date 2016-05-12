@@ -1,6 +1,7 @@
 package br.com.delfos.control;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -8,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,9 +22,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Hyperlink;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 
 @Controller
 public class PesquisaController {
+	
+	@FXML
+	private AnchorPane rootPane;
 
 	@FXML
 	private DatePicker datePesquisa;
@@ -45,9 +55,6 @@ public class PesquisaController {
 	private TextArea txtDescricao;
 
 	@FXML
-	private TableView<?> tbEspecialistas;
-
-	@FXML
 	private ListView<?> listQuestionario;
 
 	@FXML
@@ -61,10 +68,20 @@ public class PesquisaController {
 
 	@Autowired
 	private PesquisaDAO dao;
+	
+	 @FXML
+	 private Hyperlink linkAdicionaQuestionario;
+	 
+	 @FXML
+	 private Hyperlink linkAdicionaEspecialista;
+	 
+	 @FXML
+	 private ListView<?> listViewEspecialista;
+
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		// ManipuladorDeTelas.limpaCampos(rootPane);
+		ManipuladorDeTelas.limpaCampos(rootPane);
 	}
 
 	@FXML
@@ -120,6 +137,17 @@ public class PesquisaController {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
 		this.datePesquisa.disabledProperty();
+	}
+	
+	@FXML
+	private void handleLinkAdicionaQuestionario(ActionEvent event) {
+		
+
+	}
+
+	private Object filtraQuestionarioInexistentes() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
