@@ -1,4 +1,4 @@
-package br.com.delfos.model;
+package br.com.delfos.model.generic;
 
 import java.lang.reflect.Field;
 

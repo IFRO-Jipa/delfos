@@ -1,8 +1,10 @@
-package br.com.delfos.model;
+package br.com.delfos.model.registro;
 
 import java.util.List;
 
 import javax.persistence.Entity;
+
+import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class Estado extends AbstractModel<Estado> {

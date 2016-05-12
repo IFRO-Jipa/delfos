@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import br.com.delfos.converter.LocalDateTimePersistenceConverter;
+import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.view.Column;
 
 enum StatusDeQuestionario {

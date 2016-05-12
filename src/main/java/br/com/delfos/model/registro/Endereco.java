@@ -1,7 +1,9 @@
-package br.com.delfos.model;
+package br.com.delfos.model.registro;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+
+import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class Endereco extends AbstractModel<Endereco> {

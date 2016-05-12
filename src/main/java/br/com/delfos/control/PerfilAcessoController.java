@@ -13,8 +13,8 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.FuncionalidadeDAO;
 import br.com.delfos.dao.PerfilAcessoDAO;
-import br.com.delfos.model.Funcionalidade;
-import br.com.delfos.model.PerfilAcesso;
+import br.com.delfos.model.auditoria.Funcionalidade;
+import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.ManipuladorDeComponentes;
 import br.com.delfos.util.ManipuladorDeTelas;

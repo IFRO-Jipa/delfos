@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import br.com.delfos.model.PerfilAcesso;
-import br.com.delfos.model.Usuario;
+import br.com.delfos.model.auditoria.PerfilAcesso;
+import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.repository.PerfilAcessoRepository;
 
 @Repository

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.delfos.model.Funcionalidade;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.repository.FuncionalidadeRepository;
 
 @Repository

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import br.com.delfos.model.Pessoa;
-import br.com.delfos.model.Usuario;
+import br.com.delfos.model.auditoria.Usuario;
+import br.com.delfos.model.registro.Pessoa;
 import br.com.delfos.util.AlertBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)

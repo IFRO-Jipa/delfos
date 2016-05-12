@@ -9,7 +9,7 @@ import java.util.Set;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.PrincipalApp;
-import br.com.delfos.model.Funcionalidade;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.util.AlertBuilder;
 import br.com.delfos.util.ManipuladorDeMenus;
 import br.com.delfos.util.SpringFXMLLoader;

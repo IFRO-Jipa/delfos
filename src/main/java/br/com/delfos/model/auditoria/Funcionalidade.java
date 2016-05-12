@@ -1,9 +1,10 @@
-package br.com.delfos.model;
+package br.com.delfos.model.auditoria;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.view.Column;
 
 @Entity

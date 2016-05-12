@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.delfos.dao.UsuarioDAO;
-import br.com.delfos.model.Funcionalidade;
-import br.com.delfos.model.Usuario;
+import br.com.delfos.model.auditoria.Funcionalidade;
+import br.com.delfos.model.auditoria.Usuario;
 
 @Service
 class AutenticadorDeUsuario {

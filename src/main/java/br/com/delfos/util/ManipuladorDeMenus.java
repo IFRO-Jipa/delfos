@@ -9,7 +9,7 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import br.com.delfos.model.Funcionalidade;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.delfos.model.Estado;
+import br.com.delfos.model.registro.Estado;
 
 public interface EstadoRepository extends JpaRepository<Estado, Long> {
 	List<Estado> findByNome(String nome);

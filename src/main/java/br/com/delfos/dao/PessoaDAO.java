@@ -2,7 +2,7 @@ package br.com.delfos.dao;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.delfos.model.Pessoa;
+import br.com.delfos.model.registro.Pessoa;
 import br.com.delfos.repository.PessoaRepository;
 
 @Repository

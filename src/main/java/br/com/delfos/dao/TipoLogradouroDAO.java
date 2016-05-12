@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.com.delfos.model.TipoLogradouro;
+import br.com.delfos.model.registro.TipoLogradouro;
 import br.com.delfos.repository.TipoLogradouroRepository;
 
 @Repository

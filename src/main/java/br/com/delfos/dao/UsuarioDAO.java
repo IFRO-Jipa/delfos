@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.delfos.model.Usuario;
+import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.repository.UsuarioRepository;
 
 @Repository

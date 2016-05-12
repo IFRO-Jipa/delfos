@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import br.com.delfos.model.Endereco;
+import br.com.delfos.model.registro.Endereco;
 import br.com.delfos.repository.EnderecoRepository;
 
 @Repository

@@ -3,7 +3,7 @@ package br.com.delfos.control;
 import java.util.Optional;
 
 import br.com.delfos.dao.AbstractDAO;
-import br.com.delfos.model.AbstractModel;
+import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.util.ManipuladorDeComponentes;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;

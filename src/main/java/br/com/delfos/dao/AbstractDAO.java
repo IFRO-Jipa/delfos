@@ -11,8 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import br.com.delfos.model.Identificator;
-import br.com.delfos.model.Upgrader;
+import br.com.delfos.model.generic.Identificator;
+import br.com.delfos.model.generic.Upgrader;
 
 @NoRepositoryBean
 @SuppressWarnings("rawtypes")

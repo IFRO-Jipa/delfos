@@ -1,4 +1,4 @@
-package br.com.delfos.model;
+package br.com.delfos.model.generic;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

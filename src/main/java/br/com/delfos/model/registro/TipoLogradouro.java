@@ -1,8 +1,10 @@
-package br.com.delfos.model;
+package br.com.delfos.model.registro;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+
+import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class TipoLogradouro extends AbstractModel<TipoLogradouro> {

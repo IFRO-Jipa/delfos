@@ -1,4 +1,4 @@
-package br.com.delfos.model;
+package br.com.delfos.model.registro;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.converter.LocalDatePersistenceConverter;
+import br.com.delfos.model.auditoria.Usuario;
+import br.com.delfos.model.generic.AbstractModel;
 
 /**
  * Classe responsável por modelar as pessoas que serão salvas e manipuladas em funções do
@@ -96,6 +98,14 @@ public class Pessoa extends AbstractModel<Pessoa> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public boolean isPesquisador() {
+		return this.tipos.contains(TipoPessoa.PESQUISADOR);
+	}
+
+	public boolean isEspecialista() {
+		return this.tipos.contains(TipoPessoa.ESPECIALISTA);
 	}
 
 	public void setDataNascimento(LocalDate dataNascimento) {

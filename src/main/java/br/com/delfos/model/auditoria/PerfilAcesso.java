@@ -1,4 +1,4 @@
-package br.com.delfos.model;
+package br.com.delfos.model.auditoria;
 
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class PerfilAcesso extends AbstractModel<PerfilAcesso> {

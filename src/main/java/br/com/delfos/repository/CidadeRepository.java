@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import br.com.delfos.model.Cidade;
-import br.com.delfos.model.Estado;
+import br.com.delfos.model.registro.Cidade;
+import br.com.delfos.model.registro.Estado;
 
 public interface CidadeRepository extends JpaRepository<Cidade, Long> {
 

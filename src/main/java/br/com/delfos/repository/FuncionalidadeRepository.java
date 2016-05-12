@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.delfos.model.Funcionalidade;
+import br.com.delfos.model.auditoria.Funcionalidade;
 
 public interface FuncionalidadeRepository extends JpaRepository<Funcionalidade, Long> {
 

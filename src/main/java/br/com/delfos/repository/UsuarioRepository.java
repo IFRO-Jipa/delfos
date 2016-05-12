@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.delfos.model.Usuario;
+import br.com.delfos.model.auditoria.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
