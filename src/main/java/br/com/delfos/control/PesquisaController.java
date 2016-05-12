@@ -141,17 +141,4 @@ public class PesquisaController {
 		this.datePesquisa.disabledProperty();
 	}
 	
-	@FXML
-	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-		
-
-	}
-
-	
-	@FXML
-	private void handleLinkAdicionaEspecialista(ActionEvent event) {
-		
-
-	}
-	
 }

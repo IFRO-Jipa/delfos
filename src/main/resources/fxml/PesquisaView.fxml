@@ -26,11 +26,6 @@
 				<TableColumn minWidth="0.0" prefWidth="101.0" text="Perfil" />
 			</columns>
 		</TableView>
-		<TableView fx:id="tbEspecialistas" layoutX="14.0" layoutY="306.0" prefHeight="120.0" prefWidth="673.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0">
-			<columns>
-				<TableColumn prefWidth="122.0" text="Nome" />
-			</columns>
-		</TableView>
 		<Text layoutX="16.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Especialistas" AnchorPane.leftAnchor="16.0" />
 		<Text layoutX="15.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questionários" />
 		<ListView fx:id="listQuestionario" layoutX="14.0" layoutY="452.0" prefHeight="87.0" prefWidth="673.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="452.0" />
@@ -55,5 +50,16 @@
 		</Group>
 		<TextField fx:id="txtLimite" layoutX="585.0" layoutY="31.0" prefHeight="25.0" prefWidth="103.0" AnchorPane.rightAnchor="9.0" />
 		<Text layoutX="585.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Limite" AnchorPane.rightAnchor="79.861328125" />
+      <Hyperlink fx:id="linkAdicionaQuestionario" layoutX="90.0" layoutY="429.0" onAction="#handleLinkAdicionaFuncionalidade" prefHeight="16.0" prefWidth="17.0" text="+">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink fx:id="linkAdicionaEspecialista" layoutX="80.0" layoutY="283.0" onAction="#handleLinkAdicionaFuncionalidade" prefHeight="16.0" prefWidth="17.0" text="+">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <ListView fx:id="listViewEspecialista" layoutX="16.0" layoutY="306.0" prefHeight="120.0" prefWidth="673.0" />
 	</children>
 </AnchorPane>
