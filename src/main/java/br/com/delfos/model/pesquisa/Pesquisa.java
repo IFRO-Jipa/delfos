@@ -16,12 +16,6 @@ import br.com.delfos.model.generic.AbstractModel;
 @Entity
 public class Pesquisa extends AbstractModel<Pesquisa> {
 
-	@Override
-	public String toString() {
-		return "Pesquisa [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", questionarios="
-		        + questionarios + "]";
-	}
-
 	private String nome;
 	private String descricao;
 
@@ -95,6 +89,16 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	public void clearPesquisadores() {
 		this.pesquisadores.clear();
+	}
+
+	public void clearEspecialistas() {
+		this.especialistas.clear();
+	}
+
+	@Override
+	public String toString() {
+		return "Pesquisa [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", questionarios=" + questionarios
+		        + "]";
 	}
 
 }
