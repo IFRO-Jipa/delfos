@@ -1,35 +1,25 @@
 package br.com.delfos.control;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.dao.pesquisa.PesquisaDAO;
-import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.pesquisa.Pesquisa;
-import br.com.delfos.model.pesquisa.Questionario;
-import br.com.delfos.dao.pesquisa.QuestionarioDAO;
-import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Hyperlink;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 
 
-
+@Controller
 public class PesquisaController {
 
     @FXML
