@@ -63,6 +63,9 @@ public class PesquisaController {
 
     @FXML
     private TableView<?> tbPesquisadores;
+    
+    @FXML
+	private AnchorPane rootPane;
 
  
 
@@ -76,14 +79,7 @@ public class PesquisaController {
 
     }
 
-    
-    @FXML
-	private AnchorPane rootPane;
-
-
-
-    
-
+ 
     @FXML
     void handleButtonSalvar(ActionEvent event) {
 
