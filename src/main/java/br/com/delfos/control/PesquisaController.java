@@ -26,60 +26,78 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Hyperlink;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 
-@Controller
+
+
 public class PesquisaController {
-	
-	@FXML
+
+    @FXML
+    private Hyperlink linkAdicionaQuestionario;
+
+    @FXML
+    private TextField txtNome;
+
+    @FXML
+    private TextField txtCodigo;
+
+    @FXML
+    private TextArea txtDescricao;
+
+    @FXML
+    private ListView<?> listQuestionario;
+
+    @FXML
+    private DatePicker datePesquisa;
+
+    @FXML
+    private Button btnSalvar;
+
+    @FXML
+    private ListView<?> listViewEspecialista;
+
+    @FXML
+    private TextField txtLimite;
+
+    @FXML
+    private Button pesquisaCodigoDaPesquisa;
+
+    @FXML
+    private Button btnExcluir;
+
+    @FXML
+    private Button btnNovo;
+
+    @FXML
+    private Hyperlink linkAdicionaEspecialista;
+
+    @FXML
+    private TableView<?> tbPesquisadores;
+
+ 
+
+    @FXML
+    void handleLinkAdicionaQuestionario(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleLinkAdicionaEspecialista(ActionEvent event) {
+
+    }
+
+    
+    @FXML
 	private AnchorPane rootPane;
 
-	@FXML
-	private DatePicker datePesquisa;
 
-	@FXML
-	private Button btnSalvar;
 
-	@FXML
-	private TextField txtLimite;
+    
 
-	@FXML
-	private TextField txtNome;
+    @FXML
+    void handleButtonSalvar(ActionEvent event) {
 
-	@FXML
-	private Button pesquisaCodigoDaPesquisa;
-
-	@FXML
-	private TextField txtCodigo;
-
-	@FXML
-	private TextArea txtDescricao;
-
-	@FXML
-	private ListView<?> listQuestionario;
-
-	@FXML
-	private Button btnExcluir;
-
-	@FXML
-	private Button btnNovo;
-
-	@FXML
-	private TableView<?> tbPesquisadores;
-
-	@Autowired
-	private PesquisaDAO dao;
-	
-	 @FXML
-	 private Hyperlink linkAdicionaQuestionario;
-	 
-	 @FXML
-	 private Hyperlink linkAdicionaEspecialista;
-	 
-	 @FXML
-	 private ListView<?> listViewEspecialista;
-
+    }
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
@@ -88,35 +106,6 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-
-	}
-
-	@FXML
-	private void handleButtonSalvar(ActionEvent event) {
-		if (ManipuladorDeComponentes.validaCampos(this))
-			salva();
-	}
-
-	private void salva() {
-		Pesquisa pesquisa = montaRegistro();
-
-		Optional<Pesquisa> returned = dao.save(pesquisa);
-		if (returned.isPresent()) {
-			abreRegistro(returned.get());
-			AlertBuilder.information("Salvo com sucesso");
-		} else {
-			AlertBuilder.warning("Não foi salvo... tente novamente");
-		}
-
-	}
-
-	private void abreRegistro(Pesquisa pesquisa) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@FXML
-	private void handleButtonpesquisaCodigoDaPesquisa(ActionEvent event) {
 
 	}
 

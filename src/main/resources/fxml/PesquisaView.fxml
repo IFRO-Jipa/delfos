@@ -50,12 +50,12 @@
 		</Group>
 		<TextField fx:id="txtLimite" layoutX="585.0" layoutY="31.0" prefHeight="25.0" prefWidth="103.0" AnchorPane.rightAnchor="9.0" />
 		<Text layoutX="585.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Limite" AnchorPane.rightAnchor="79.861328125" />
-      <Hyperlink fx:id="linkAdicionaQuestionario" layoutX="90.0" layoutY="429.0" onAction="#handleLinkAdicionaFuncionalidade" prefHeight="16.0" prefWidth="17.0" text="+">
+      <Hyperlink fx:id="linkAdicionaQuestionario" layoutX="90.0" layoutY="429.0" onAction="#handleLinkAdicionaQuestionario" prefHeight="16.0" prefWidth="17.0" text="+">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Hyperlink>
-      <Hyperlink fx:id="linkAdicionaEspecialista" layoutX="80.0" layoutY="283.0" onAction="#handleLinkAdicionaFuncionalidade" prefHeight="16.0" prefWidth="17.0" text="+">
+      <Hyperlink fx:id="linkAdicionaEspecialista" layoutX="80.0" layoutY="283.0" onAction="#handleLinkAdicionaEspecialista" prefHeight="16.0" prefWidth="17.0" text="+">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
