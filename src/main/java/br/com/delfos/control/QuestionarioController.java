@@ -1,5 +1,9 @@
 package br.com.delfos.control;
 
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,6 +13,7 @@ import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -20,7 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 @Controller
-public class QuestionarioController {
+public class QuestionarioController implements Initializable {
 
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
@@ -77,7 +82,7 @@ public class QuestionarioController {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-
+		this.dtInicio.setValue(LocalDate.now());
 	}
 
 	@FXML
@@ -99,7 +104,15 @@ public class QuestionarioController {
 
 	@FXML
 	private void pesquisa() {
+		this.dtInicio.setEditable(false);
+		this.dtInicio.disarm();
+	}
 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		this.dtInicio.setEditable(false);
+		this.dtInicio.disarm();
+		this.dtInicio.disabledProperty();
 	}
 
 }
