@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
@@ -145,9 +147,11 @@ public class PesquisaController {
 
 	}
 
-	private Object filtraQuestionarioInexistentes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	@FXML
+	private void handleLinkAdicionaEspecialista(ActionEvent event) {
+		
 
+	}
+	
 }
