@@ -11,7 +11,6 @@ import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,78 +19,52 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 
 @Controller
 public class PesquisaController {
 
-	public class PesquisaController {
+	@FXML
+	private DatePicker datePesquisa;
 
-	    @FXML
-	    private Hyperlink linkAdicionaQuestionario;
+	@FXML
+	private Button btnSalvar;
 
-	    @FXML
-	    private TextField txtNome;
+	@FXML
+	private TextField txtLimite;
 
-	    @FXML
-	    private TextField txtCodigo;
+	@FXML
+	private TextField txtNome;
 
-	    @FXML
-	    private TextArea txtDescricao;
+	@FXML
+	private Button pesquisaCodigoDaPesquisa;
 
-	    @FXML
-	    private TableView<?> tbEspecialistas;
+	@FXML
+	private TextField txtCodigo;
 
-	    @FXML
-	    private ListView<?> listQuestionario;
+	@FXML
+	private TextArea txtDescricao;
 
-	    @FXML
-	    private DatePicker datePesquisa;
+	@FXML
+	private TableView<?> tbEspecialistas;
 
-	    @FXML
-	    private Button btnSalvar;
+	@FXML
+	private ListView<?> listQuestionario;
 
-	    @FXML
-	    private TextField txtLimite;
+	@FXML
+	private Button btnExcluir;
 
-	    @FXML
-	    private Button pesquisaCodigoDaPesquisa;
+	@FXML
+	private Button btnNovo;
 
-	    @FXML
-	    private Button btnExcluir;
-
-	    @FXML
-	    private Button btnNovo;
-
-	    @FXML
-	    private TableView<?> tbPesquisadores;
-
-	    @FXML
-	    void handleButtonNovo(ActionEvent event) {
-
-	    }
-
-	    @FXML
-	    void handleButtonExcluir(ActionEvent event) {
-
-	    }
-
-	    @FXML
-	    void handleButtonSalvar(ActionEvent event) {
-
-	    }
-
-	    @FXML
-	    void handleLinkAdicionaFuncionalidade(ActionEvent event) {
-
-	    }
+	@FXML
+	private TableView<?> tbPesquisadores;
 
 	@Autowired
 	private PesquisaDAO dao;
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		// ManipuladorDeTelas.limpaCampos(rootPane);
 	}
 
 	@FXML
@@ -147,14 +120,6 @@ public class PesquisaController {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
 		this.datePesquisa.disabledProperty();
-	}
-
-	private void pesquisaPorCodigo() {
-
-	}
-
-	private void posicionaRegistros() {
-
 	}
 
 }
