@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.dao.FuncionalidadeDAO;
+import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.model.auditoria.Funcionalidade;
-import br.com.delfos.util.AlertBuilder;
-import br.com.delfos.util.ManipuladorDeComponentes;
-import br.com.delfos.util.ManipuladorDeTelas;
-import br.com.delfos.view.TableViewFactory;
+import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.table.TableViewFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

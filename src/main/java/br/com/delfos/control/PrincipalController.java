@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.model.auditoria.Funcionalidade;
-import br.com.delfos.util.AlertBuilder;
-import br.com.delfos.util.ManipuladorDeMenus;
-import br.com.delfos.util.SpringFXMLLoader;
+import br.com.delfos.util.LeitorDeFXML;
+import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.manipulador.ManipuladorDeMenus;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -116,7 +116,7 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void abreJanela(String view, String title) throws IOException {
-		AnchorPane load = (AnchorPane) SpringFXMLLoader.load(String.format("/fxml/%s", view));
+		AnchorPane load = (AnchorPane) LeitorDeFXML.load(String.format("/fxml/%s", view));
 
 		Tab tab = new Tab(title);
 		tab.setContent(load);

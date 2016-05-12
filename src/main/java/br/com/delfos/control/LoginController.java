@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.except.UserNotAuthenticatedException;
-import br.com.delfos.util.AlertBuilder;
+import br.com.delfos.view.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

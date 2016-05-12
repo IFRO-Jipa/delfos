@@ -2,9 +2,9 @@ package br.com.delfos.control;
 
 import java.util.Optional;
 
-import br.com.delfos.dao.AbstractDAO;
+import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.util.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 

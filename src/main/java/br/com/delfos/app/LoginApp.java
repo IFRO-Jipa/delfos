@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
-import br.com.delfos.util.SpringFXMLLoader;
+import br.com.delfos.util.LeitorDeFXML;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -17,7 +17,7 @@ public class LoginApp extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		AnchorPane pane = (AnchorPane) SpringFXMLLoader.load("/fxml/LoginOverview.fxml");
+		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("/fxml/LoginOverview.fxml");
 
 		pane.getStylesheets().add(LoginApp.class.getResource("/css/Login.css").toString());
 		stage.setScene(new Scene(pane));

@@ -2,8 +2,8 @@ package br.com.delfos.control;
 
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.model.Pesquisa;
-import br.com.delfos.util.ManipuladorDeTelas;
+import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -3,10 +3,10 @@ package br.com.delfos.control;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.dao.QuestionarioDAO;
-import br.com.delfos.model.Questionario;
-import br.com.delfos.util.ManipuladorDeComponentes;
-import br.com.delfos.util.ManipuladorDeTelas;
+import br.com.delfos.dao.pesquisa.QuestionarioDAO;
+import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

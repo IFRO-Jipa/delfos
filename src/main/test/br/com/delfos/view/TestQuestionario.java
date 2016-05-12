@@ -1,6 +1,6 @@
 package br.com.delfos.view;
 
-import br.com.delfos.util.SpringFXMLLoader;
+import br.com.delfos.util.LeitorDeFXML;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -13,7 +13,7 @@ public class TestQuestionario extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		AnchorPane pane = (AnchorPane) SpringFXMLLoader.load("/fxml/QuestionarioView.fxml");
+		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("/fxml/QuestionarioView.fxml");
 
 		stage.setScene(new Scene(pane));
 		stage.setTitle("Teste Questionario");

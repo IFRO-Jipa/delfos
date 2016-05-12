@@ -5,7 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import br.com.delfos.view.Column;
+import br.com.delfos.view.table.Column;
 
 @MappedSuperclass
 public abstract class AbstractModel<T> implements Identificator, Upgrader<T> {

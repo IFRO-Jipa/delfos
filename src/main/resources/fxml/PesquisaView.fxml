@@ -8,58 +8,102 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.PesquisaController">
-   <children>
-      <Text fx:id="codPesquisa" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" />
-      <TextField fx:id="txtCodigo" alignment="CENTER" editable="false" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="60.0" />
-      <Text layoutX="106.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="106.0" />
-      <TextField fx:id="txtNome" layoutX="106.0" layoutY="31.0" prefHeight="25.0" prefWidth="360.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="231.0" />
-      <Button layoutX="74.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0" text="..." />
-      <Text layoutX="469.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" AnchorPane.rightAnchor="203.30859375" />
-      <DatePicker fx:id="datePesquisa" layoutX="469.0" layoutY="31.0" prefHeight="25.0" prefWidth="113.0" AnchorPane.rightAnchor="115.0" />
-      <Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-      <TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="81.0" prefHeight="54.0" prefWidth="673.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" />
-      <Text layoutX="14.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisadores" />
-      <TableView fx:id="tbPesquisadores" layoutX="14.0" layoutY="163.0" prefHeight="120.0" prefWidth="642.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="41.0">
-        <columns>
-          <TableColumn prefWidth="174.0" text="Nome" />
-          <TableColumn minWidth="0.0" prefWidth="101.0" text="Perfil" />
-        </columns>
-      </TableView>
-      <TableView fx:id="tbEspecialistas" layoutX="14.0" layoutY="306.0" prefHeight="120.0" prefWidth="642.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="41.0">
-        <columns>
-          <TableColumn prefWidth="122.0" text="Nome" />
-        </columns>
-      </TableView>
-      <Text layoutX="16.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Especialistas" AnchorPane.leftAnchor="16.0" />
-      <Text layoutX="15.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questionários" />
-      <ListView fx:id="listQuestionario" layoutX="14.0" layoutY="452.0" prefHeight="87.0" prefWidth="642.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="41.0" />
-      <Group layoutX="12.0" layoutY="84.0">
-         <children>
-            <Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">
-               <padding>
-                  <Insets left="2.0" right="2.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0" prefWidth="93.0" text="Excluir">
-               <padding>
-                  <Insets left="2.0" right="2.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnSalvar" layoutX="390.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
-               <padding>
-                  <Insets left="2.0" right="2.0" />
-               </padding>
-            </Button>
-         </children>
-      </Group>
-      <TextField fx:id="txtLimite" layoutX="585.0" layoutY="31.0" prefHeight="25.0" prefWidth="103.0" />
-      <Text layoutX="585.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Limite" />
-      <Button fx:id="addPesquisador" layoutX="662.0" layoutY="195.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0" style="-fx-border-radius: 25;" text="+" />
-      <Button fx:id="removePesquisador" layoutX="662.0" layoutY="226.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0" style="-fx-border-radius: 25;" text="-" />
-      <Button fx:id="removeEspecialistas" layoutX="662.0" layoutY="369.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0" style="-fx-border-radius: 25;" text="-" />
-      <Button fx:id="addEspecialistas" layoutX="662.0" layoutY="338.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0" style="-fx-border-radius: 25;" text="+" />
-      <Button fx:id="addQuestionario" layoutX="662.0" layoutY="468.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0" style="-fx-border-radius: 25;" text="+" />
-      <Button fx:id="removeQuestionario" layoutX="662.0" layoutY="499.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0" style="-fx-border-radius: 25;" text="-" />
-   </children>
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="594.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.PesquisaController">
+	<children>
+		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Código" />
+		<TextField fx:id="txtCodigo" alignment="CENTER" editable="false"
+			layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="60.0" />
+		<Text layoutX="106.0" layoutY="27.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="106.0" />
+		<TextField fx:id="txtNome" layoutX="106.0" layoutY="31.0"
+			prefHeight="25.0" prefWidth="360.0" AnchorPane.leftAnchor="106.0"
+			AnchorPane.rightAnchor="231.0" />
+		<Button layoutX="74.0" layoutY="31.0" mnemonicParsing="false"
+			prefHeight="25.0" prefWidth="26.0" text="..." />
+		<Text layoutX="469.0" layoutY="27.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Data" AnchorPane.rightAnchor="203.30859375" />
+		<DatePicker fx:id="datePesquisa" layoutX="469.0" layoutY="31.0"
+			prefHeight="25.0" prefWidth="113.0" AnchorPane.rightAnchor="115.0" />
+		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
+		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="81.0"
+			prefHeight="54.0" prefWidth="673.0" wrapText="true"
+			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" />
+		<Text layoutX="14.0" layoutY="158.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Pesquisadores" />
+		<TableView fx:id="tbPesquisadores" layoutX="14.0" layoutY="163.0"
+			prefHeight="120.0" prefWidth="642.0" AnchorPane.leftAnchor="14.0"
+			AnchorPane.rightAnchor="41.0">
+			<columns>
+				<TableColumn prefWidth="174.0" text="Nome" />
+				<TableColumn minWidth="0.0" prefWidth="101.0" text="Perfil" />
+			</columns>
+		</TableView>
+		<TableView fx:id="tbEspecialistas" layoutX="14.0" layoutY="306.0"
+			prefHeight="120.0" prefWidth="642.0" AnchorPane.leftAnchor="14.0"
+			AnchorPane.rightAnchor="41.0">
+			<columns>
+				<TableColumn prefWidth="122.0" text="Nome" />
+			</columns>
+		</TableView>
+		<Text layoutX="16.0" layoutY="302.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Especialistas" AnchorPane.leftAnchor="16.0" />
+		<Text layoutX="15.0" layoutY="448.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Questionários" />
+		<ListView fx:id="listQuestionario" layoutX="14.0" layoutY="452.0"
+			prefHeight="87.0" prefWidth="642.0" AnchorPane.bottomAnchor="55.0"
+			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="41.0"
+			AnchorPane.topAnchor="452.0" />
+		<Group layoutX="12.0" layoutY="84.0" AnchorPane.bottomAnchor="12.0"
+			AnchorPane.rightAnchor="10.0">
+			<children>
+				<Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0"
+					mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0"
+					prefWidth="97.0" text="Novo">
+					<padding>
+						<Insets left="2.0" right="2.0" />
+					</padding>
+				</Button>
+				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0"
+					mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0"
+					prefWidth="93.0" text="Excluir">
+					<padding>
+						<Insets left="2.0" right="2.0" />
+					</padding>
+				</Button>
+				<Button fx:id="btnSalvar" layoutX="390.0" layoutY="462.0"
+					mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0"
+					prefWidth="93.0" text="Salvar">
+					<padding>
+						<Insets left="2.0" right="2.0" />
+					</padding>
+				</Button>
+			</children>
+		</Group>
+		<TextField fx:id="txtLimite" layoutX="585.0" layoutY="31.0"
+			prefHeight="25.0" prefWidth="103.0" AnchorPane.rightAnchor="9.0" />
+		<Text layoutX="585.0" layoutY="27.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Limite" AnchorPane.rightAnchor="79.861328125" />
+		<Button fx:id="addPesquisador" layoutX="662.0" layoutY="195.0"
+			mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0"
+			style="-fx-border-radius: 25;" text="+" AnchorPane.rightAnchor="10.0" />
+		<Button fx:id="removePesquisador" layoutX="662.0" layoutY="226.0"
+			mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0"
+			style="-fx-border-radius: 25;" text="-" AnchorPane.rightAnchor="10.0" />
+		<Button fx:id="removeEspecialistas" layoutX="662.0" layoutY="369.0"
+			mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0"
+			style="-fx-border-radius: 25;" text="-" AnchorPane.rightAnchor="10.0" />
+		<Button fx:id="addEspecialistas" layoutX="662.0" layoutY="338.0"
+			mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0"
+			style="-fx-border-radius: 25;" text="+" AnchorPane.rightAnchor="10.0" />
+		<Button fx:id="addQuestionario" layoutX="662.0" layoutY="468.0"
+			mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0"
+			style="-fx-border-radius: 25;" text="+" AnchorPane.rightAnchor="10.0" />
+		<Button fx:id="removeQuestionario" layoutX="662.0" layoutY="499.0"
+			mnemonicParsing="false" prefHeight="16.0" prefWidth="25.0"
+			style="-fx-border-radius: 25;" text="-" AnchorPane.rightAnchor="10.0" />
+	</children>
 </AnchorPane>

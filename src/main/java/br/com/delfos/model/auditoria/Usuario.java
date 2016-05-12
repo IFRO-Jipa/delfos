@@ -9,8 +9,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.model.registro.Pessoa;
 
 enum Status {
 	ATIVO, INATIVO;

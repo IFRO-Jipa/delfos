@@ -5,7 +5,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.view.Column;
+import br.com.delfos.view.table.Column;
 
 @Entity
 public class Funcionalidade extends AbstractModel<Funcionalidade> {

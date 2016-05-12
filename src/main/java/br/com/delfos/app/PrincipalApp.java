@@ -2,8 +2,8 @@ package br.com.delfos.app;
 
 import java.io.IOException;
 
-import br.com.delfos.util.AlertBuilder;
-import br.com.delfos.util.SpringFXMLLoader;
+import br.com.delfos.util.LeitorDeFXML;
+import br.com.delfos.view.AlertBuilder;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +16,7 @@ public class PrincipalApp extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 
-		AnchorPane pane = (AnchorPane) SpringFXMLLoader.load("/fxml/PrincipalView.fxml");
+		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("/fxml/PrincipalView.fxml");
 
 		stage.setScene(new Scene(pane));
 		stage.setTitle("Software Delfos - Menu Principal");
