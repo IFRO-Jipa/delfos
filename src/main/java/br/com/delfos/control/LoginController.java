@@ -51,7 +51,6 @@ public class LoginController implements Initializable {
 		}
 	}
 
-
 	private void autenticaUsuario() throws UserNotAuthenticatedException, IOException {
 		boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
 
@@ -60,7 +59,7 @@ public class LoginController implements Initializable {
 			LoginApp.getStage().close();
 		} else {
 			throw new UserNotAuthenticatedException();
-			
+
 		}
 	}
 
@@ -80,6 +79,8 @@ public class LoginController implements Initializable {
 	private void configuraComponentes() {
 		txtLogin.setOnAction(event -> txtSenha.requestFocus());
 		txtSenha.setOnAction(event -> handleButtonLogar(event));
+		txtLogin.setText("root");
+		txtSenha.setText("root");
 
 	}
 

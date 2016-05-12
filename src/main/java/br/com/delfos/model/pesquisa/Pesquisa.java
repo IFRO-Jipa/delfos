@@ -21,6 +21,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@ManyToMany
 	private Set<Pessoa> pesquisadores;
+
 	@ManyToMany
 	private Set<Pessoa> especialistas;
 

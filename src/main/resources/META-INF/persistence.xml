@@ -9,12 +9,13 @@
 		<properties>
 			<!-- DADOS CONEXAO -->
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="root" />
-			<!-- <property name="hibernate.connection.url" value="jdbc:mysql://200.129.130.190:3306/delfos" 
+			<!-- <property name="hibernate.connection.username" value="root" /> -->
+			<!-- <property name="hibernate.connection.password" value="root" /> -->
+			<!-- <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" 
 				/> -->
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" 
-				/>	
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="delfos#123" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://10.49.1.59:3306/delfos" />
 			<property name="hibernate.default_schema" value="delfos" />
 			<!-- CONFIGURACAO -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
