@@ -2,6 +2,7 @@ package br.com.delfos.control;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
+/**
+ * @author 00685193209
+ *
+ */
 @Controller
 public class QuestionarioController implements Initializable {
 
@@ -75,6 +83,21 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private AnchorPane rootPane;
 
+	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
+		@Override
+		public void updateItem(LocalDate item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if (item.isBefore(QuestionarioController.this.dtInicio.getValue().plusDays(1))) {
+				this.setDisable(true);
+				this.setStyle("-fx-background-color: #ffc0cb;");
+			}
+
+			long p = ChronoUnit.DAYS.between(QuestionarioController.this.dtInicio.getValue(), item);
+			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
+		};
+	};
+
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(this.rootPane);
@@ -112,7 +135,10 @@ public class QuestionarioController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.dtInicio.setEditable(false);
 		this.dtInicio.disarm();
-		this.dtInicio.disabledProperty();
+		this.dtInicio.setValue(LocalDate.now());
+
+		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
+
 	}
 
 }
