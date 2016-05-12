@@ -12,12 +12,12 @@ public class QuestionarioPerguntas {
 		this.tipoPergunta = tipoPergunta;
 	}
 
-	public SimpleStringProperty getNome() {
-		return nome;
+	public String getNome() {
+		return nome.get();
 	}
 
-	public SimpleStringProperty getTipoPergunta() {
-		return tipoPergunta;
+	public Object getTipoPergunta() {
+		return tipoPergunta.get();
 	}
 	
 	

@@ -138,6 +138,7 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(LocalDate.now());
 
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
+		
 
 	}
 
