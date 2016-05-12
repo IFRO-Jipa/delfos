@@ -2,12 +2,15 @@ package br.com.delfos.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
@@ -42,8 +45,8 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	private boolean autenticavel;
 
-	@OneToMany
-	private List<Pergunta> perguntas;
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
 		return nome;
@@ -106,6 +109,32 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Set<Pergunta<?>> getPerguntas() {
+		return Collections.unmodifiableSet(perguntas);
+	}
+
+	public void addPergunta(Pergunta<? extends Alternativa> pergunta) {
+		if (pergunta != null) {
+			this.perguntas.add(pergunta);
+		} else
+			throw new IllegalArgumentException("Pergunta inválida. [" + pergunta + "]");
+	}
+
+	public void addPerguntas(List<Pergunta<? extends Alternativa>> perguntas) {
+		if (perguntas != null && !perguntas.isEmpty()) {
+			this.perguntas.addAll(perguntas);
+		} else
+			throw new IllegalArgumentException("Lista inválida ou vazia.");
+	}
+
+	public boolean removePergunta(Pergunta<? extends Alternativa> pergunta) {
+		return this.perguntas.remove(pergunta);
+	}
+
+	public boolean removePerguntas(List<Pergunta<? extends Alternativa>> perguntas) {
+		return this.perguntas.removeAll(perguntas);
 	}
 
 }

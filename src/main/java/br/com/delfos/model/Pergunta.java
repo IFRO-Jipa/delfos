@@ -39,6 +39,9 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 		return alternativa;
 	}
 
+	public Pergunta() {
+	}
+
 	public Pergunta(String nome, T alternativa) {
 		this(nome, nome, alternativa);
 	}
