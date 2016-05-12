@@ -1,4 +1,4 @@
-package br.com.delfos.except;
+package br.com.delfos.except.basic;
 
 public class PessoaInvalidaException extends IllegalArgumentException {
 

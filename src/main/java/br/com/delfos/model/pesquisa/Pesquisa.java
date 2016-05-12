@@ -8,7 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import br.com.delfos.except.PessoaInvalidaException;
+import br.com.delfos.except.basic.PessoaInvalidaException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.generic.AbstractModel;

@@ -1,4 +1,4 @@
-package br.com.delfos.except;
+package br.com.delfos.except.auditoria;
 
 public class UserNotAuthenticatedException extends IllegalAccessException {
 

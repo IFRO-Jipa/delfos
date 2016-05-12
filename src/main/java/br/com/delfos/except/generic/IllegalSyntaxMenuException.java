@@ -1,4 +1,4 @@
-package br.com.delfos.except;
+package br.com.delfos.except.generic;
 
 public class IllegalSyntaxMenuException extends IllegalArgumentException {
 
