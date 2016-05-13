@@ -88,18 +88,19 @@ public class QuestionarioController implements Initializable {
 
 	@FXML
 	private AnchorPane rootPane;
-	
+
+	@FXML
+	private Label lblDuracao;
+
 	@FXML
 	private TableColumn<QuestionarioPerguntas, String> nome;
-	
+
 	@FXML
 	private TableColumn<QuestionarioPerguntas, Object> tipoPergunta;
-	
-	@FXML
-	private ObservableList<QuestionarioPerguntas> dadosTabela = FXCollections.observableArrayList(
-			new QuestionarioPerguntas("Qual é o seu nome?", new Object())
-			);
 
+	@FXML
+	private ObservableList<QuestionarioPerguntas> dadosTabela = FXCollections
+			.observableArrayList(new QuestionarioPerguntas("Qual é o seu nome?", new Object()));
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -111,8 +112,8 @@ public class QuestionarioController implements Initializable {
 				this.setStyle("-fx-background-color: #ffc0cb;");
 			}
 
-			long p = ChronoUnit.DAYS.between(QuestionarioController.this.dtInicio.getValue(), item);
-			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
+			long p = QuestionarioController.this.getTotalDeDias(item);
+			this.setTooltip(new Tooltip(String.format("Seu questionário durará %d dia(s).", p)));
 		};
 	};
 
@@ -149,6 +150,21 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.disarm();
 	}
 
+	@FXML
+	void printa(ActionEvent event) {
+		this.setDias(this.getTotalDeDias(this.dtVencimento.getValue()));
+	}
+
+	private void setDias(Long a) {
+		if (a == 0) {
+			this.lblDuracao.setVisible(false);
+		} else {
+			this.lblDuracao.setText(String.format("Duração: %d dia(s)", a));
+			this.lblDuracao.setVisible(true);
+
+		}
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.dtInicio.setEditable(false);
@@ -156,11 +172,15 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(LocalDate.now());
 
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
-		
-		nome.setCellValueFactory(new PropertyValueFactory<QuestionarioPerguntas, String>("nome"));
-		tipoPergunta.setCellFactory(ComboBoxTableCell.forTableColumn("A", "B", "C"));
-		tbPerguntas.setItems(dadosTabela);
-		
+
+		this.nome.setCellValueFactory(new PropertyValueFactory<QuestionarioPerguntas, String>("nome"));
+		this.tipoPergunta.setCellFactory(ComboBoxTableCell.forTableColumn("A", "B", "C"));
+		this.tbPerguntas.setItems(this.dadosTabela);
+
+	}
+
+	private long getTotalDeDias(LocalDate item) {
+		return ChronoUnit.DAYS.between(QuestionarioController.this.dtInicio.getValue(), item);
 	}
 
 }

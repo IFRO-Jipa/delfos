@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.QuestionarioController">
+<AnchorPane fx:id="rootPane" prefHeight="480.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.QuestionarioController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="txtCod" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="39.0" AnchorPane.leftAnchor="14.0" />
@@ -54,7 +54,7 @@
             </Button>
          </children>
       </Group>
-      <DatePicker fx:id="dtVencimento" layoutX="411.0" layoutY="151.0" prefHeight="25.0" prefWidth="109.0" showWeekNumbers="true" />
+      <DatePicker fx:id="dtVencimento" layoutX="411.0" layoutY="151.0" onAction="#printa" prefHeight="25.0" prefWidth="109.0" showWeekNumbers="true" />
       <Label layoutX="302.0" layoutY="155.0" text="Data de Vencimento" />
       <DatePicker fx:id="dtInicio" disable="true" editable="false" layoutX="175.0" layoutY="151.0" prefHeight="25.0" prefWidth="116.0" showWeekNumbers="true" />
       <Label layoutX="118.0" layoutY="155.0" text="Data Inicio" />
@@ -65,5 +65,6 @@
       </CheckBox>
       <Label layoutX="529.0" layoutY="155.0" text="Status:" />
       <Label fx:id="lblSatus" layoutX="569.0" layoutY="155.0" text="Ativo" />
+      <Label fx:id="lblDuracao" layoutX="610.0" layoutY="155.0" text="Duração:" visible="false" />
    </children>
 </AnchorPane>
