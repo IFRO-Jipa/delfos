@@ -1,7 +1,6 @@
 package br.com.delfos.model.pesquisa;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
-import br.com.delfos.converter.datetime.LocalDateTimePersistenceConverter;
+import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
 import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.view.table.Column;
 
@@ -28,12 +27,12 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Column(name = "nome", alias = "Nome")
 	private String nome;
 
-	@Convert(converter = LocalDateTimePersistenceConverter.class)
-	private LocalTime dataInicio;
-	@Convert(converter = LocalDateTimePersistenceConverter.class)
-	private LocalTime dataFinalizacao;
+	@Convert(converter = LocalDatePersistenceConverter.class)
+	private LocalDate dataInicio;
+	@Convert(converter = LocalDatePersistenceConverter.class)
+	private LocalDate dataFinalizacao;
 
-	@Convert(converter = LocalDateTimePersistenceConverter.class)
+	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate vencimento;
 
 	@Lob
@@ -49,7 +48,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public Questionario() {
@@ -57,42 +56,43 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public void setActive(boolean value) {
-		if (value)
-			status = StatusDeQuestionario.ATIVO;
-		else
-			status = StatusDeQuestionario.INATIVO;
+		if (value) {
+			this.status = StatusDeQuestionario.ATIVO;
+		} else {
+			this.status = StatusDeQuestionario.INATIVO;
+		}
 	}
 
 	public boolean isActive() {
-		return status == StatusDeQuestionario.ATIVO;
+		return this.status == StatusDeQuestionario.ATIVO;
 	}
 
 	public boolean isAutenticavel() {
-		return autenticavel;
+		return this.autenticavel;
 	}
 
 	public void setAutenticavel(boolean value) {
 		this.autenticavel = value;
 	}
 
-	public LocalTime getDataInicio() {
-		return dataInicio;
+	public LocalDate getDataInicio() {
+		return this.dataInicio;
 	}
 
-	public void setDataInicio(LocalTime dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setDataInicio(LocalDate localDate) {
+		this.dataInicio = localDate;
 	}
 
-	public LocalTime getDataFinalizacao() {
-		return dataFinalizacao;
+	public LocalDate getDataFinalizacao() {
+		return this.dataFinalizacao;
 	}
 
-	public void setDataFinalizacao(LocalTime dataFinalizacao) {
-		this.dataFinalizacao = dataFinalizacao;
+	public void setDataFinalizacao(LocalDate localDate) {
+		this.dataFinalizacao = localDate;
 	}
 
 	public LocalDate getVencimento() {
-		return vencimento;
+		return this.vencimento;
 	}
 
 	public void setVencimento(LocalDate vencimento) {
@@ -100,7 +100,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return this.descricao;
 	}
 
 	public void setDescricao(String descricao) {
@@ -112,21 +112,23 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public Set<Pergunta<?>> getPerguntas() {
-		return Collections.unmodifiableSet(perguntas);
+		return Collections.unmodifiableSet(this.perguntas);
 	}
 
 	public void addPergunta(Pergunta<? extends Alternativa> pergunta) {
 		if (pergunta != null) {
 			this.perguntas.add(pergunta);
-		} else
+		} else {
 			throw new IllegalArgumentException("Pergunta inválida. [" + pergunta + "]");
+		}
 	}
 
 	public void addPerguntas(List<Pergunta<? extends Alternativa>> perguntas) {
 		if (perguntas != null && !perguntas.isEmpty()) {
 			this.perguntas.addAll(perguntas);
-		} else
+		} else {
 			throw new IllegalArgumentException("Lista inválida ou vazia.");
+		}
 	}
 
 	public boolean removePergunta(Pergunta<? extends Alternativa> pergunta) {

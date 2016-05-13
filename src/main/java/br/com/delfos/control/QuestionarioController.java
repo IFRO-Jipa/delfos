@@ -120,6 +120,8 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(this.rootPane);
+		this.lblDuracao.setVisible(false);
+		this.dtInicio.setValue(LocalDate.now());
 	}
 
 	@FXML
@@ -139,8 +141,11 @@ public class QuestionarioController implements Initializable {
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
-		this.lblStatus.setText((q.isActive() ? "Ativo" : "Inativo"));
-		this.lblStatus.setStyle("-fx-text-fill: " + (q.isActive() ? "#33ff77" : "#ff5c33"));
+		q.setDataInicio(this.dtInicio.getValue());
+		q.setDataFinalizacao(this.dtVencimento.getValue());
+		// this.lblStatus.setText((q.isActive() ? "Ativo" : "Inativo"));
+		// this.lblStatus.setStyle("-fx-text-fill: " + (q.isActive() ? "#33ff77"
+		// : "#ff5c33"));
 		return q;
 	}
 
