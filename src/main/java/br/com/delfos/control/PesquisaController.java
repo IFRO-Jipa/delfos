@@ -3,19 +3,33 @@ package br.com.delfos.control;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.auditoria.Funcionalidade;
+import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.ListSelection;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -39,7 +53,7 @@ public class PesquisaController {
     private TextArea txtDescricao;
 
     @FXML
-    private ListView<?> listQuestionario;
+    private ListView<?> listViewQuestionario;
 
     @FXML
     private DatePicker datePesquisa;
@@ -73,11 +87,11 @@ public class PesquisaController {
     
     @FXML
 	private AnchorPane rootPane;
+    
+    @Autowired
+	private PesquisaDAO daoPesquisa;
 
-    @FXML
-    void handleLinkAdicionaQuestionario(ActionEvent event) {
-    	
-    }
+   
 
     @FXML
     void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -92,9 +106,7 @@ public class PesquisaController {
  
     @FXML
     void handleButtonSalvar(ActionEvent event) {
-    	
-    	
-
+    
     }
 
     
@@ -106,7 +118,6 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		
 		this.datePesquisa.setValue(LocalDate.now());
 
 	}
@@ -134,6 +145,24 @@ public class PesquisaController {
 			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
 		};
 	};
+	
+	
+	//private List<Questionario> pegaPermissoes() {
+	//	return listViewQuestionario.getItems().isEmpty() ? null : listViewQuestionario.getItems();
+	//}
+	
+	 @FXML
+	    void handleLinkAdicionaQuestionario(ActionEvent event) {
+		 
+		 
+	    	
+	    }
+	
+	
+	
+	
+	
+	
 
 	@FXML
 	private void pesquisa() {
