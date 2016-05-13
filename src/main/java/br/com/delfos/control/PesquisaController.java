@@ -1,11 +1,13 @@
 package br.com.delfos.control;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
-
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,7 +64,10 @@ public class PesquisaController {
     private Hyperlink linkAdicionaEspecialista;
 
     @FXML
-    private TableView<?> tbPesquisadores;
+    private ListView<?> listViewPesquisadores;
+
+    @FXML
+    private Hyperlink linkAdicionaPesquisador;
     
     @FXML
 	private AnchorPane rootPane;
@@ -71,11 +76,18 @@ public class PesquisaController {
 
     @FXML
     void handleLinkAdicionaQuestionario(ActionEvent event) {
+    	
+    	
 
     }
 
     @FXML
     void handleLinkAdicionaEspecialista(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void handleLinkAdicionaPesquisador(ActionEvent event) {
 
     }
 
@@ -84,6 +96,8 @@ public class PesquisaController {
     void handleButtonSalvar(ActionEvent event) {
 
     }
+
+    
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
