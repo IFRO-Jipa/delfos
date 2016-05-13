@@ -3,6 +3,7 @@ package br.com.delfos.control;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import br.com.delfos.view.table.QuestionarioPerguntas;
@@ -132,17 +134,25 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
 		if (ManipuladorDeComponentes.validaCampos(this.rootPane)) {
-			this.daoQuestionario.save(this.montaRegistro());
+			Optional<Questionario> save = this.daoQuestionario.save(this.montaRegistro());
+
+			save.ifPresent(questionario -> {
+				this.txtCod.setText(String.valueOf(questionario.getId()));
+				AlertBuilder.information("Salvo com sucesso");
+			});
 		}
+
 	}
 
 	private Questionario montaRegistro() {
 		Questionario q = new Questionario();
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
+
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
 		q.setDataInicio(this.dtInicio.getValue());
 		q.setDataFinalizacao(this.dtVencimento.getValue());
+		q.setActive(QuestionarioController.this.cbAutenticavel.isSelected());
 		// this.lblStatus.setText((q.isActive() ? "Ativo" : "Inativo"));
 		// this.lblStatus.setStyle("-fx-text-fill: " + (q.isActive() ? "#33ff77"
 		// : "#ff5c33"));
