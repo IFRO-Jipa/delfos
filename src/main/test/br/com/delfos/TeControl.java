@@ -1,14 +1,15 @@
 package br.com.delfos;
 
-import org.springframework.stereotype.Controller;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.DatePicker;
 
-@Controller
 public class TeControl {
+
+	@FXML
+	private DatePicker date;
 
 	@FXML
 	private Label lbl;
@@ -18,15 +19,28 @@ public class TeControl {
 
 	@FXML
 	void hue(ActionEvent event) {
-		this.btn.setOnAction(action -> {
-			if (this.lbl.getStyle().equals("-fx-text-fill: #ff5c33")) {
-				this.lbl.setStyle("-fx-text-fill: #228d22");
-				this.lbl.setText("Ativo");
-			} else {
-				this.lbl.setStyle("-fx-text-fill: #ff5c33");
-				this.lbl.setText("Desativo");
-			}
-		});
+		System.out.println("hue");
+	}
+
+	@FXML
+	void action(ActionEvent event) {
+		System.out.println("action");
+	}
+
+	@FXML
+	void dragdetected(ActionEvent event) {
+		System.out.println("dragdetected");
+	}
+
+	@FXML
+	void dragdropped(ActionEvent event) {
+		System.out.println("dragdropped");
+
+	}
+
+	@FXML
+	void dragexit(ActionEvent event) {
+		System.out.println("dragexit");
 	}
 
 }
