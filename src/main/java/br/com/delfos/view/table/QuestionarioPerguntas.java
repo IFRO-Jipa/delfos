@@ -9,9 +9,9 @@ public class QuestionarioPerguntas {
 	private final SimpleStringProperty nome;
 	private final SimpleObjectProperty<TipoPergunta> tipoPergunta;
 	
-	public QuestionarioPerguntas(SimpleStringProperty nome, SimpleObjectProperty<TipoPergunta> tipoPergunta ) {
-		this.nome = nome;
-		this.tipoPergunta = tipoPergunta;
+	public QuestionarioPerguntas(String nome, Object tipoPergunta ) {
+		this.nome = new SimpleStringProperty(nome);
+		this.tipoPergunta = new SimpleObjectProperty(tipoPergunta);
 	}
 
 	public String getNome() {
