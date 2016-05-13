@@ -12,6 +12,9 @@ import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.table.QuestionarioPerguntas;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,10 +24,13 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
@@ -57,7 +63,7 @@ public class QuestionarioController implements Initializable {
 	private Button btnPesquisa;
 
 	@FXML
-	private TableView<?> tbPerguntas;
+	private TableView<QuestionarioPerguntas> tbPerguntas;
 
 	@FXML
 	private AnchorPane anchorPaneEndereco;
@@ -82,6 +88,18 @@ public class QuestionarioController implements Initializable {
 
 	@FXML
 	private AnchorPane rootPane;
+	
+	@FXML
+	private TableColumn<QuestionarioPerguntas, String> nome;
+	
+	@FXML
+	private TableColumn<QuestionarioPerguntas, Object> tipoPergunta;
+	
+	@FXML
+	private ObservableList<QuestionarioPerguntas> dadosTabela = FXCollections.observableArrayList(
+			new QuestionarioPerguntas("Qual é o seu nome?", new Object())
+			);
+
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -139,7 +157,10 @@ public class QuestionarioController implements Initializable {
 
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		
-
+		nome.setCellValueFactory(new PropertyValueFactory<QuestionarioPerguntas, String>("nome"));
+		tipoPergunta.setCellFactory(ComboBoxTableCell.forTableColumn("A", "B", "C"));
+		tbPerguntas.setItems(dadosTabela);
+		
 	}
 
 }
