@@ -1,6 +1,8 @@
 package br.com.delfos.control;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -8,17 +10,22 @@ import java.util.ResourceBundle;
 import org.springframework.stereotype.Controller;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.view.ListSelection;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
 
 @Controller
@@ -72,13 +79,9 @@ public class PesquisaController {
     @FXML
 	private AnchorPane rootPane;
 
- 
-
     @FXML
     void handleLinkAdicionaQuestionario(ActionEvent event) {
     	
-    	
-
     }
 
     @FXML
@@ -94,6 +97,8 @@ public class PesquisaController {
  
     @FXML
     void handleButtonSalvar(ActionEvent event) {
+    	
+    	
 
     }
 
@@ -106,6 +111,8 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
+		
+		this.datePesquisa.setValue(LocalDate.now());
 
 	}
 
@@ -117,6 +124,21 @@ public class PesquisaController {
 		String descricao = txtDescricao.getText();
 		return p;
 	}
+	
+	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
+		@Override
+		public void updateItem(LocalDate item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if (item.isBefore(PesquisaController.this.datePesquisa.getValue().plusDays(1))) {
+				this.setDisable(true);
+				this.setStyle("-fx-background-color: #ffc0cb;");
+			}
+
+			long p = ChronoUnit.DAYS.between(PesquisaController.this.datePesquisa.getValue(), item);
+			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
+		};
+	};
 
 	@FXML
 	private void pesquisa() {
@@ -127,7 +149,7 @@ public class PesquisaController {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
-		this.datePesquisa.disabledProperty();
+		this.datePesquisa.setValue(LocalDate.now());
 	}
 	
 }
