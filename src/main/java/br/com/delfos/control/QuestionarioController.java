@@ -151,8 +151,8 @@ public class QuestionarioController implements Initializable {
 		q.setNome(this.txtNome.getText());
 		q.setDescricao(this.txtDesc.getText());
 		q.setDataInicio(this.dtInicio.getValue());
-		q.setDataFinalizacao(this.dtVencimento.getValue());
-		q.setActive(QuestionarioController.this.cbAutenticavel.isSelected());
+		q.setVencimento(this.dtVencimento.getValue());
+		q.setAutenticavel(this.cbAutenticavel.isSelected());
 		// this.lblStatus.setText((q.isActive() ? "Ativo" : "Inativo"));
 		// this.lblStatus.setStyle("-fx-text-fill: " + (q.isActive() ? "#33ff77"
 		// : "#ff5c33"));

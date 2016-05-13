@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Type;
+
 import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
 import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.view.table.Column;
@@ -42,6 +44,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Enumerated(EnumType.STRING)
 	private StatusDeQuestionario status;
 
+	@Type(type = "yes_no")
 	private boolean autenticavel;
 
 	@OneToMany(fetch = FetchType.EAGER)
@@ -73,6 +76,7 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	public void setAutenticavel(boolean value) {
 		this.autenticavel = value;
+
 	}
 
 	public LocalDate getDataInicio() {
