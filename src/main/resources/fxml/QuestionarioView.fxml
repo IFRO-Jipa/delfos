@@ -25,8 +25,8 @@
                      <children>
                         <TableView fx:id="tbPerguntas" layoutX="21.0" layoutY="14.0" prefHeight="164.0" prefWidth="474.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn prefWidth="376.0" text="Nome" />
-                            <TableColumn prefWidth="96.0" text="Tipo" />
+                            <TableColumn fx:id="nome" prefWidth="376.0" text="Nome" />
+                            <TableColumn fx:id="tipoPergunta" prefWidth="96.0" text="Tipo" />
                           </columns>
                         </TableView>
                      </children>
