@@ -1,15 +1,16 @@
-package br.com.delfos.view.table;
+package br.com.delfos.view.table.property;
 
 import br.com.delfos.model.pesquisa.TipoPergunta;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class QuestionarioPerguntas {
+public class PerguntaProperty {
 
 	private final SimpleStringProperty nome;
 	private final SimpleObjectProperty<TipoPergunta> tipoPergunta;
 
-	public QuestionarioPerguntas(String nome, TipoPergunta tipoPergunta) {
+	public PerguntaProperty(String nome, TipoPergunta tipoPergunta) {
 		this.nome = new SimpleStringProperty(nome);
 		this.tipoPergunta = new SimpleObjectProperty<TipoPergunta>(tipoPergunta);
 	}
@@ -20,6 +21,14 @@ public class QuestionarioPerguntas {
 
 	public TipoPergunta getTipoPergunta() {
 		return tipoPergunta.get();
+	}
+
+	public void setTipoPergunta(TipoPergunta tipo) {
+		this.tipoPergunta.set(tipo);
+	}
+
+	public ObjectProperty<TipoPergunta> getTipoPerguntaProperty() {
+		return tipoPergunta;
 	}
 
 }

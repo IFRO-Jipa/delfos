@@ -3,19 +3,25 @@ package br.com.delfos.control;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javax.swing.text.TableView.TableCell;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.dao.basic.TipoLogradouroDAO;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.TipoPergunta;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
-import br.com.delfos.view.table.QuestionarioPerguntas;
+import br.com.delfos.view.table.factory.ComboBoxCellFactory;
+import br.com.delfos.view.table.property.PerguntaProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +42,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 /**
  * @author 00685193209
@@ -66,7 +73,7 @@ public class QuestionarioController implements Initializable {
 	private Button btnPesquisa;
 
 	@FXML
-	private TableView<QuestionarioPerguntas> tbPerguntas;
+	private TableView<PerguntaProperty> tbPerguntas;
 
 	@FXML
 	private AnchorPane anchorPaneEndereco;
@@ -96,14 +103,17 @@ public class QuestionarioController implements Initializable {
 	private Label lblDuracao;
 
 	@FXML
-	private TableColumn<QuestionarioPerguntas, String> nome;
+	private TableColumn<PerguntaProperty, String> nome;
 
 	@FXML
-	private TableColumn<QuestionarioPerguntas, Object> tipoPergunta;
+	private TableColumn<PerguntaProperty, TipoPergunta> tipoPergunta;
 
-	@FXML
-	private ObservableList<QuestionarioPerguntas> dadosTabela = FXCollections
-	        .observableArrayList(new QuestionarioPerguntas("Qual é o seu nome?", TipoPergunta.INTERVALO));
+	private final ObservableList<TipoPergunta> data = FXCollections.observableArrayList(TipoPergunta.getAll());
+
+	private final ObservableList<PerguntaProperty> dadosTabela = FXCollections.observableArrayList(
+	        new PerguntaProperty("Qual é o seu nome?", TipoPergunta.INTERVALO),
+	        new PerguntaProperty("Qual é o seu grau de conhecimento em Java?", TipoPergunta.MULTIPLA_ESCOLHA),
+	        new PerguntaProperty("Deixe seu comentário sobre a pesquisa?", TipoPergunta.PARAGRAFO));
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -167,7 +177,7 @@ public class QuestionarioController implements Initializable {
 	}
 
 	@FXML
-	        void printa(ActionEvent event) {
+	private void printa(ActionEvent event) {
 		this.setDias(this.getTotalDeDias(this.dtVencimento.getValue()));
 	}
 
@@ -189,10 +199,37 @@ public class QuestionarioController implements Initializable {
 
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 
-		this.nome.setCellValueFactory(new PropertyValueFactory<QuestionarioPerguntas, String>("nome"));
-		this.tipoPergunta.setCellFactory(ComboBoxTableCell.forTableColumn("A", "B", "C"));
+		this.nome.setCellValueFactory(new PropertyValueFactory<PerguntaProperty, String>("nome"));
+		this.tbPerguntas.setEditable(true);
+
+		initColumnTipoPergunta();
+
 		this.tbPerguntas.setItems(this.dadosTabela);
 
+	}
+
+	private void initColumnTipoPergunta() {
+
+		this.tipoPergunta.setCellValueFactory(cellData -> cellData.getValue().getTipoPerguntaProperty());
+		this.tipoPergunta.setCellFactory(getComboBoxFactory());
+	}
+
+	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, javafx.scene.control.TableCell<PerguntaProperty, TipoPergunta>>
+	        getComboBoxFactory() {
+
+		return (TableColumn<PerguntaProperty, TipoPergunta> param) -> new ComboBoxCellFactory<PerguntaProperty, TipoPergunta>(
+		        data, new StringConverter<TipoPergunta>() {
+
+			        @Override
+			        public TipoPergunta fromString(String string) {
+				        return null;
+			        }
+
+			        @Override
+			        public String toString(TipoPergunta object) {
+				        return object.name();
+			        }
+		        });
 	}
 
 	private long getTotalDeDias(LocalDate item) {

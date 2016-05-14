@@ -137,15 +137,16 @@ public class FuncionalidadeController implements Initializable {
 		cbPreRequisito.setConverter(new StringConverter<Funcionalidade>() {
 
 			@Override
-			public String toString(Funcionalidade object) {
-				return object.getNome();
-			}
-
-			@Override
 			public Funcionalidade fromString(String string) {
+				// TODO Auto-generated method stub
 				return null;
 			}
 
+			@Override
+			public String toString(Funcionalidade object) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		});
 	}
 
