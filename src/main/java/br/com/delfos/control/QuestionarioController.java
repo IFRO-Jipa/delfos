@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.model.pesquisa.TipoPergunta;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
@@ -102,7 +103,7 @@ public class QuestionarioController implements Initializable {
 
 	@FXML
 	private ObservableList<QuestionarioPerguntas> dadosTabela = FXCollections
-			.observableArrayList(new QuestionarioPerguntas("Qual é o seu nome?", new Object()));
+	        .observableArrayList(new QuestionarioPerguntas("Qual é o seu nome?", TipoPergunta.INTERVALO));
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -166,7 +167,7 @@ public class QuestionarioController implements Initializable {
 	}
 
 	@FXML
-	void printa(ActionEvent event) {
+	        void printa(ActionEvent event) {
 		this.setDias(this.getTotalDeDias(this.dtVencimento.getValue()));
 	}
 
