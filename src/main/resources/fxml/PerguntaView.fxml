@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:controller="br.com.delfos.controller.PerguntaController"
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+	<children>
+		<TableView fx:id="tbPerguntas" prefHeight="260.0" prefWidth="449.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<columns>
+				<TableColumn fx:id="columnNome" prefWidth="159.0" text="Nome" />
+				<TableColumn fx:id="columnTipo" prefWidth="204.0" text="Tipo" />
+				<TableColumn fx:id="columnAcao" minWidth="0.0"
+					prefWidth="49.0" resizable="false" text="Ação" />
+			</columns>
+		</TableView>
+	</children>
+</AnchorPane>
