@@ -68,15 +68,6 @@ public class PerguntaController implements Initializable {
 
 	}
 
-	protected void handleButtonAction() {
-		Optional<PerguntaProperty> optional = Optional.ofNullable(tbPerguntas.getSelectionModel().getSelectedItem());
-		optional.ifPresent(property -> {
-			if (property.getTipoPergunta() != null) {
-				System.out.println("Um tipo de pergunta foi selecionado.");
-			}
-		});
-	}
-
 	private Callback<TableColumn<PerguntaProperty, PerguntaProperty>, TableCell<PerguntaProperty, PerguntaProperty>>
 
 	        getButtonFactory() {
@@ -84,23 +75,39 @@ public class PerguntaController implements Initializable {
 			final Button button = new Button("...");
 
 			{
-				button.setMinWidth(columnAcao.getMinWidth());
+				button.setMinWidth(columnAcao.getWidth() - 6);
 			}
 
 			@Override
 			protected void updateItem(PerguntaProperty item, boolean empty) {
 				// TODO Auto-generated method stub
 				super.updateItem(item, empty);
-
-				button.setOnAction(event -> handleButtonAction());
+				if (item != null) {
+					setGraphic(button);
+				} else {
+					setGraphic(null);
+				}
+				button.setOnAction(event -> handleButtonAction(item));
 			}
 
 		};
 	}
 
+	protected void handleButtonAction(PerguntaProperty item) {
+		Optional<PerguntaProperty> optional = Optional.ofNullable(item);
+		optional.ifPresent(property -> {
+			if (property.getTipoPergunta() != null) {
+				System.out.println("Um tipo de pergunta foi selecionado.");
+			}
+
+			System.out.println(item);
+		});
+	}
+
 	private void initColumnNome() {
 		this.columnNome.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
 		this.columnNome.setCellFactory(getTextFieldFactory());
+		this.columnNome.setPrefWidth(1000);
 	}
 
 	private void initColumnTipoPergunta() {

@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import br.com.delfos.except.basic.PessoaInvalidaException;
+import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.generic.AbstractModel;
@@ -18,6 +19,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	private String nome;
 	private String descricao;
+	private int limite;
 
 	@ManyToMany
 	private Set<Pessoa> pesquisadores;
@@ -61,16 +63,24 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public void addEspecialista(Pessoa pessoa) {
-		if (pessoa.isEspecialista()) {
+		if (pessoa.isEspecialista() || verificaSeVaiAtingirLimite(1)) {
 			this.especialistas.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
 			        String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
 	}
 
-	public void addEspecialistas(Set<Pessoa> especialistas) {
+	private boolean verificaSeVaiAtingirLimite(int qtdAdicional) {
+		return this.especialistas.size() + qtdAdicional <= this.limite;
+	}
+
+	public void addEspecialistas(Set<Pessoa> especialistas) throws LimiteDeEspecialistasAtingidoException {
 		if (verificaTipo(especialistas, TipoPessoa.ESPECIALISTA)) {
-			this.especialistas.addAll(especialistas);
+			if ((limite == 0) || verificaSeVaiAtingirLimite(especialistas.size()))
+				this.especialistas.addAll(especialistas);
+			else
+				throw new LimiteDeEspecialistasAtingidoException(
+				        "A pesquisa estourou o limite de especialistas definido.");
 		}
 	}
 
@@ -94,6 +104,17 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	public void clearEspecialistas() {
 		this.especialistas.clear();
+	}
+
+	public int getLimite() {
+		return limite;
+	}
+
+	public void setLimite(int limite) {
+		if (limite >= 0) {
+			this.limite = limite;
+		} else
+			throw new IllegalArgumentException("Número negativo não é aceito.");
 	}
 
 	@Override

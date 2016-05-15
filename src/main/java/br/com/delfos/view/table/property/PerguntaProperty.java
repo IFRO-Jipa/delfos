@@ -35,4 +35,9 @@ public class PerguntaProperty {
 		return nome;
 	}
 
+	@Override
+	public String toString() {
+		return "PerguntaProperty [nome=" + nome.get() + ", tipoPergunta=" + tipoPergunta.get() + "]";
+	}
+
 }
