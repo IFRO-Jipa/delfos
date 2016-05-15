@@ -16,7 +16,7 @@ public class PrincipalApp extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 
-		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("/fxml/PrincipalView.fxml");
+		AnchorPane pane = (AnchorPane) LeitorDeFXML.carrega("/fxml/PrincipalView.fxml");
 
 		stage.setScene(new Scene(pane));
 		stage.setTitle("Software Delfos - Menu Principal");

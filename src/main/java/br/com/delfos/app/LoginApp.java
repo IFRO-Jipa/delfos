@@ -17,7 +17,7 @@ public class LoginApp extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("/fxml/LoginOverview.fxml");
+		AnchorPane pane = (AnchorPane) LeitorDeFXML.carrega("/fxml/LoginOverview.fxml");
 
 		pane.getStylesheets().add(LoginApp.class.getResource("/css/Login.css").toString());
 		stage.setScene(new Scene(pane));

@@ -14,8 +14,9 @@ public class LeitorDeFXML {
 	 * @return
 	 * @throws IOException
 	 */
-	public synchronized static Object load(String url) throws IOException {
+	public synchronized static Object carrega(String url) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
+		System.out.println(url);
 		loader.setLocation(LeitorDeFXML.class.getResource(url));
 		loader.setControllerFactory(new Callback<Class<?>, Object>() {
 

@@ -1,6 +1,7 @@
 package br.com.delfos.control;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -54,19 +56,45 @@ public class PerguntaController implements Initializable {
 		initColumnTipoPergunta();
 		initColumnAcao();
 
+		this.tbPerguntas.setEditable(true);
+		this.tbPerguntas.setItems(dadosTabela);
+
 	}
 
 	private void initColumnAcao() {
 		columnAcao.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		columnAcao.setResizable(false);
 		columnAcao.setCellFactory(getButtonFactory());
+
+	}
+
+	protected void handleButtonAction() {
+		Optional<PerguntaProperty> optional = Optional.ofNullable(tbPerguntas.getSelectionModel().getSelectedItem());
+		optional.ifPresent(property -> {
+			if (property.getTipoPergunta() != null) {
+				System.out.println("Um tipo de pergunta foi selecionado.");
+			}
+		});
 	}
 
 	private Callback<TableColumn<PerguntaProperty, PerguntaProperty>, TableCell<PerguntaProperty, PerguntaProperty>>
+
 	        getButtonFactory() {
-		// TODO Auto-generated method stub
 		return param -> new TableCell<PerguntaProperty, PerguntaProperty>() {
-			
+			final Button button = new Button("...");
+
+			{
+				button.setMinWidth(columnAcao.getMinWidth());
+			}
+
+			@Override
+			protected void updateItem(PerguntaProperty item, boolean empty) {
+				// TODO Auto-generated method stub
+				super.updateItem(item, empty);
+
+				button.setOnAction(event -> handleButtonAction());
+			}
+
 		};
 	}
 
@@ -83,8 +111,6 @@ public class PerguntaController implements Initializable {
 	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>>
 	        getComboBoxFactory() {
 
-		
-		
 		return param -> new ComboBoxCellFactory<PerguntaProperty, TipoPergunta>(tiposDePergunta,
 		        getComboBoxConverter());
 	}
