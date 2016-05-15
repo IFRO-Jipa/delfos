@@ -31,4 +31,8 @@ public class PerguntaProperty {
 		return tipoPergunta;
 	}
 
+	public SimpleStringProperty getNomeProperty() {
+		return nome;
+	}
+
 }

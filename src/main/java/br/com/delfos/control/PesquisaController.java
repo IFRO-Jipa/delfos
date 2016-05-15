@@ -24,80 +24,74 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
-
 @Controller
 public class PesquisaController {
 
-    @FXML
-    private Hyperlink linkAdicionaQuestionario;
+	@FXML
+	private Hyperlink linkAdicionaQuestionario;
 
-    @FXML
-    private TextField txtNome;
+	@FXML
+	private TextField txtNome;
 
-    @FXML
-    private TextField txtCodigo;
+	@FXML
+	private TextField txtCodigo;
 
-    @FXML
-    private TextArea txtDescricao;
+	@FXML
+	private TextArea txtDescricao;
 
-    @FXML
-    private ListView<?> listViewQuestionario;
+	@FXML
+	private ListView<?> listViewQuestionario;
 
-    @FXML
-    private DatePicker datePesquisa;
+	@FXML
+	private DatePicker datePesquisa;
 
-    @FXML
-    private Button btnSalvar;
+	@FXML
+	private Button btnSalvar;
 
-    @FXML
-    private ListView<?> listViewEspecialista;
+	@FXML
+	private ListView<?> listViewEspecialista;
 
-    @FXML
-    private TextField txtLimite;
+	@FXML
+	private TextField txtLimite;
 
-    @FXML
-    private Button pesquisaCodigoDaPesquisa;
+	@FXML
+	private Button pesquisaCodigoDaPesquisa;
 
-    @FXML
-    private Button btnExcluir;
+	@FXML
+	private Button btnExcluir;
 
-    @FXML
-    private Button btnNovo;
+	@FXML
+	private Button btnNovo;
 
-    @FXML
-    private Hyperlink linkAdicionaEspecialista;
+	@FXML
+	private Hyperlink linkAdicionaEspecialista;
 
-    @FXML
-    private ListView<?> listViewPesquisadores;
+	@FXML
+	private ListView<?> listViewPesquisadores;
 
-    @FXML
-    private Hyperlink linkAdicionaPesquisador;
-    
-    @FXML
+	@FXML
+	private Hyperlink linkAdicionaPesquisador;
+
+	@FXML
 	private AnchorPane rootPane;
-    
-    @Autowired
+
+	@Autowired
 	private PesquisaDAO daoPesquisa;
 
-   
+	@FXML
+	private void handleLinkAdicionaEspecialista(ActionEvent event) {
 
-    @FXML
-    void handleLinkAdicionaEspecialista(ActionEvent event) {
+	}
 
-    }
-    
-    @FXML
-    void handleLinkAdicionaPesquisador(ActionEvent event) {
+	@FXML
+	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
-    }
+	}
 
- 
-    @FXML
-    void handleButtonSalvar(ActionEvent event) {
-    
-    }
+	@FXML
+	private void handleButtonSalvar(ActionEvent event) {
 
-    
+	}
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
@@ -118,7 +112,7 @@ public class PesquisaController {
 		String descricao = txtDescricao.getText();
 		return p;
 	}
-	
+
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
 		public void updateItem(LocalDate item, boolean empty) {
@@ -133,24 +127,11 @@ public class PesquisaController {
 			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
 		};
 	};
-	
-	
-	//private List<Questionario> pegaPermissoes() {
-	//	return listViewQuestionario.getItems().isEmpty() ? null : listViewQuestionario.getItems();
-	//}
-	
-	 @FXML
-	    void handleLinkAdicionaQuestionario(ActionEvent event) {
-		 
-		 
-	    	
-	    }
-	
-	
-	
-	
-	
-	
+
+	@FXML
+	private void handleLinkAdicionaQuestionario(ActionEvent event) {
+
+	}
 
 	@FXML
 	private void pesquisa() {
@@ -163,5 +144,5 @@ public class PesquisaController {
 		this.datePesquisa.disarm();
 		this.datePesquisa.setValue(LocalDate.now());
 	}
-	
+
 }

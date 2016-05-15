@@ -3,17 +3,12 @@ package br.com.delfos.control;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import javax.swing.text.TableView.TableCell;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.dao.basic.TipoLogradouroDAO;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.TipoPergunta;
@@ -38,7 +33,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
@@ -64,6 +58,9 @@ public class QuestionarioController implements Initializable {
 	private Button btnSalvar;
 
 	@FXML
+	private TableView<PerguntaProperty> tbPerguntas;
+
+	@FXML
 	private DatePicker dtInicio;
 
 	@FXML
@@ -71,9 +68,6 @@ public class QuestionarioController implements Initializable {
 
 	@FXML
 	private Button btnPesquisa;
-
-	@FXML
-	private TableView<PerguntaProperty> tbPerguntas;
 
 	@FXML
 	private AnchorPane anchorPaneEndereco;
@@ -199,13 +193,19 @@ public class QuestionarioController implements Initializable {
 
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 
+		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
+		
+		configTable();
+
+	}
+
+	private void configTable() {
 		this.nome.setCellValueFactory(new PropertyValueFactory<PerguntaProperty, String>("nome"));
 		this.tbPerguntas.setEditable(true);
 
 		initColumnTipoPergunta();
 
 		this.tbPerguntas.setItems(this.dadosTabela);
-
 	}
 
 	private void initColumnTipoPergunta() {
