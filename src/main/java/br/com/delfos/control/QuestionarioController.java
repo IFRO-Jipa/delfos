@@ -7,22 +7,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.persistence.PostLoad;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
-import br.com.delfos.model.pesquisa.TipoPergunta;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
-import br.com.delfos.view.table.factory.ComboBoxCellFactory;
-import br.com.delfos.view.table.property.PerguntaProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,15 +26,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 /**
  * @author 00685193209
@@ -149,8 +139,36 @@ public class QuestionarioController implements Initializable {
 
 	@FXML
 	private void pesquisa() {
-		this.dtInicio.setEditable(false);
-		this.dtInicio.disarm();
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Consulta por código");
+		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
+		dialog.setContentText("informe o código da quest");
+
+		Optional<String> result = dialog.showAndWait();
+
+		if (result.isPresent()) {
+			Optional<Questionario> optional = Optional
+					.ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
+			if (optional.isPresent()) {
+				this.posicionaRegistro(optional.get());
+			} else {
+				ManipuladorDeTelas.limpaCampos(this.rootPane);
+				AlertBuilder.warning("Nenhum registro foi encontrado.");
+			}
+		} else {
+			ManipuladorDeTelas.limpaCampos(this.rootPane);
+			AlertBuilder.warning("Nenhum registro foi encontrado.");
+		}
+	}
+
+	private void posicionaRegistro(Questionario quest) {
+		this.txtCod.setText(String.valueOf(quest.getId()));
+		this.txtNome.setText(quest.getNome());
+		this.txtDesc.setText(quest.getDescricao());
+		this.dtInicio.setValue(quest.getDataInicio());
+		this.dtVencimento.setValue(quest.getVencimento());
+		// this.cbAutenticavel.setSelected(quest.isAutenticavel());
+		System.out.println(quest.isAutenticavel());
 	}
 
 	@FXML
@@ -177,7 +195,7 @@ public class QuestionarioController implements Initializable {
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
-		configTabPergunta();
+		this.configTabPergunta();
 
 	}
 
@@ -187,8 +205,8 @@ public class QuestionarioController implements Initializable {
 
 			Tab tab = new Tab("Perguntas");
 			tab.setContent(load);
-			tbPerguntas.getTabs().add(tab);
-			tbPerguntas.getSelectionModel().select(tab);
+			this.tbPerguntas.getTabs().add(tab);
+			this.tbPerguntas.getSelectionModel().select(tab);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

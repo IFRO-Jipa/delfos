@@ -44,7 +44,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Enumerated(EnumType.STRING)
 	private StatusDeQuestionario status;
 
-	@Type(type = "yes_no")
+	@Type(type = "y_n")
 	private boolean autenticavel;
 
 	@OneToMany(fetch = FetchType.EAGER)
