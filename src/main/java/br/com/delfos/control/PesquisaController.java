@@ -1,7 +1,6 @@
 package br.com.delfos.control;
 
 import java.net.URL;
-import java.nio.channels.Selector;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -9,15 +8,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import org.hibernate.engine.transaction.jta.platform.internal.SynchronizationRegistryBasedSynchronizationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
-import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
@@ -43,10 +41,10 @@ import javafx.util.Callback;
 public class PesquisaController {
 
 	@FXML
-	private ListView<?> listViewQuestionario;
+	private ListView<Questionario> listViewQuestionario;
 
 	@FXML
-	private ListView<?> listViewPesquisador;
+	private ListView<Pessoa> listViewPesquisador;
 
 	@FXML
 	private Hyperlink linkAdicionaQuestionario;
@@ -279,7 +277,7 @@ public class PesquisaController {
 		menuRemoveOnly.setText("Remover");
 		menuRemoveOnly.setOnAction(action -> {
 			listViewEspecialista.getItems().remove(cell.getItem());
-			listViewPesquisador.getItems().remove(cell.getItem()); 
+			listViewPesquisador.getItems().remove(cell.getItem());
 			listViewQuestionario.getItems().remove(cell.getItem());
 		});
 
