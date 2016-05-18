@@ -3,6 +3,9 @@ package br.com.delfos.control;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -12,10 +15,12 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
@@ -24,6 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -89,11 +95,65 @@ public class PesquisaController {
 	private PesquisaDAO dao;
 	
 
+	private List<Pesquisa> pegaEspecialista() {
+		return listViewEspecialista.getItems().isEmpty() ? null : listViewEspecialista.getItems();
+	}
+	
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
+		
+		try {
+			ListSelection<Pesquisa> seletor = new ListSelection<>("Selecione as Pesquisas",
+			        filtraEspecialistaInexistentes());
+
+			seletor.setCellFactory(p -> configuraTextoNaCelula());
+
+			Optional<List<Funcionalidade>> target = seletor.showAndWait();
+			target.ifPresent(result -> {
+				listViewEspecialista.getItems().addAll(result);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
+	
+	
+	private ListCell<Pesquisa> configuraTextoNaCelula() {
+		ListCell<Pesquisa> cell = new ListCell<Pesquisa>() {
 
+			@Override
+			protected void updateItem(final Pesquisa p, final boolean bln) {
+				super.updateItem(p, bln);
+				if (p != null) {
+					setText(p.getNome());
+				} else {
+					setText(null);
+				}
+			}
+
+		};
+		return cell;
+	}
+
+	private List<Pesquisa> filtraEspecialistaInexistentes() {
+		List<Pesquisa> result = new ArrayList<>();
+
+		if (listViewEspecialista.getItems().isEmpty()) {
+			result.addAll(pesquisa);
+		} else {
+			Pesquisa.forEach(pesquisa -> {
+				if (!listViewEspecialista.getItems().contains(Pesquisa)) {
+					result.add(pesquisa);
+				}
+
+			});
+		}
+
+		return result;
+	}
+	
+	
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
@@ -124,7 +184,8 @@ public class PesquisaController {
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
 		String nome = txtNome.getText();
 		String descricao = txtDescricao.getText();
-		//Continuar
+
+		//Continuar inicialização de variáveis
 		
 		return p;
 	}
