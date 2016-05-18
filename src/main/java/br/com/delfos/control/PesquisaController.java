@@ -94,6 +94,8 @@ public class PesquisaController {
 	@Autowired
 	private PesquisaDAO dao;
 	
+	private List<Pesquisa> especialistas;
+	
 
 	private List<Pesquisa> pegaEspecialista() {
 		return listViewEspecialista.getItems().isEmpty() ? null : listViewEspecialista.getItems();
@@ -103,12 +105,12 @@ public class PesquisaController {
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
 		
 		try {
-			ListSelection<Pesquisa> seletor = new ListSelection<>("Selecione as Pesquisas",
+			ListSelection<Pesquisa> seletor = new ListSelection<>("Selecione os Especialistas",
 			        filtraEspecialistaInexistentes());
 
 			seletor.setCellFactory(p -> configuraTextoNaCelula());
 
-			Optional<List<Funcionalidade>> target = seletor.showAndWait();
+			Optional<List<Pesquisa>> target = seletor.showAndWait();
 			target.ifPresent(result -> {
 				listViewEspecialista.getItems().addAll(result);
 			});
@@ -140,7 +142,7 @@ public class PesquisaController {
 		List<Pesquisa> result = new ArrayList<>();
 
 		if (listViewEspecialista.getItems().isEmpty()) {
-			result.addAll(pesquisa);
+			result.addAll(especialistas);
 		} else {
 			Pesquisa.forEach(pesquisa -> {
 				if (!listViewEspecialista.getItems().contains(Pesquisa)) {
@@ -253,6 +255,7 @@ public class PesquisaController {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
 		this.datePesquisa.setValue(LocalDate.now());
+		especialistas = dao.findAll();
 	}
 
 }
