@@ -167,8 +167,8 @@ public class QuestionarioController implements Initializable {
 		this.txtDesc.setText(quest.getDescricao());
 		this.dtInicio.setValue(quest.getDataInicio());
 		this.dtVencimento.setValue(quest.getVencimento());
-		// this.cbAutenticavel.setSelected(quest.isAutenticavel());
-		System.out.println(quest.isAutenticavel());
+		this.cbAutenticavel.setSelected(quest.isAutenticavel());
+
 	}
 
 	@FXML
