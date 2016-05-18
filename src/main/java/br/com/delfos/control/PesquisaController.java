@@ -1,10 +1,10 @@
 package br.com.delfos.control;
 
 import java.net.URL;
+import java.nio.channels.Selector;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,9 +16,8 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.model.auditoria.Funcionalidade;
-import br.com.delfos.model.auditoria.Usuario;
+import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
-import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
@@ -26,17 +25,20 @@ import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
+@SuppressWarnings("restriction")
 @Controller
 public class PesquisaController {
 
@@ -53,7 +55,7 @@ public class PesquisaController {
 	private TextField txtNome;
 
 	@FXML
-	private ListView<?> listViewPesquisadores;
+	private ListView<Pessoa> listViewPesquisadores;
 
 	@FXML
 	private TextField txtCodigo;
@@ -68,7 +70,7 @@ public class PesquisaController {
 	private Button btnSalvar;
 
 	@FXML
-	private ListView<?> listViewEspecialista;
+	private ListView<Pessoa> listViewEspecialista;
 
 	@FXML
 	private TextField txtLimite;
@@ -92,25 +94,27 @@ public class PesquisaController {
 	private AnchorPane rootPane;
 
 	@Autowired
-	private PesquisaDAO dao;
-	
-	private List<Pesquisa> especialistas;
-	
+	private PesquisaDAO daoPesquisa;
 
-	private List<Pesquisa> pegaEspecialista() {
+	@Autowired
+	private PessoaDAO daoPessoa;
+
+	private List<Pessoa> especialistas;
+
+	private List<Pessoa> pegaEspecialista() {
 		return listViewEspecialista.getItems().isEmpty() ? null : listViewEspecialista.getItems();
 	}
-	
+
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
-		
+
 		try {
-			ListSelection<Pesquisa> seletor = new ListSelection<>("Selecione os Especialistas",
-			        filtraEspecialistaInexistentes());
+			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
+					filtraEspecialistaInexistentes());
 
-			seletor.setCellFactory(p -> configuraTextoNaCelula());
+			seletor.setCellFactory(cellFactory());
 
-			Optional<List<Pesquisa>> target = seletor.showAndWait();
+			Optional<List<Pessoa>> target = seletor.showAndWait();
 			target.ifPresent(result -> {
 				listViewEspecialista.getItems().addAll(result);
 			});
@@ -119,13 +123,16 @@ public class PesquisaController {
 		}
 
 	}
-	
-	
-	private ListCell<Pesquisa> configuraTextoNaCelula() {
-		ListCell<Pesquisa> cell = new ListCell<Pesquisa>() {
 
+	private Object teste() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ListCell<Pessoa> configuraTextoNaCelula() {
+		ListCell<Pessoa> cell = new ListCell<Pessoa>() {
 			@Override
-			protected void updateItem(final Pesquisa p, final boolean bln) {
+			protected void updateItem(final Pessoa p, final boolean bln) {
 				super.updateItem(p, bln);
 				if (p != null) {
 					setText(p.getNome());
@@ -138,15 +145,16 @@ public class PesquisaController {
 		return cell;
 	}
 
-	private List<Pesquisa> filtraEspecialistaInexistentes() {
-		List<Pesquisa> result = new ArrayList<>();
+	private List<Pessoa> filtraEspecialistaInexistentes() {
+		List<Pessoa> result = new ArrayList<>();
 
 		if (listViewEspecialista.getItems().isEmpty()) {
+			System.out.println("Especialistas estão vazios? " + especialistas.isEmpty());
 			result.addAll(especialistas);
 		} else {
-			Pesquisa.forEach(pesquisa -> {
-				if (!listViewEspecialista.getItems().contains(Pesquisa)) {
-					result.add(pesquisa);
+			especialistas.forEach(pessoa -> {
+				if (!listViewEspecialista.getItems().contains(pessoa)) {
+					result.add(pessoa);
 				}
 
 			});
@@ -154,8 +162,7 @@ public class PesquisaController {
 
 		return result;
 	}
-	
-	
+
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
@@ -163,21 +170,20 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		
+
 		this.salvar(montaRegistro());
 	}
 
 	private void salvar(Pesquisa value) {
 		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
-			Optional<Pesquisa> save = dao.save(value);
+			Optional<Pesquisa> save = daoPesquisa.save(value);
 			save.ifPresent(pesquisa -> {
 				txtCodigo.setText(String.valueOf(pesquisa.getId()));
 				AlertBuilder.information("Salvo com sucesso");
 			});
 
 			if (!save.isPresent())
-				AlertBuilder.information(
-				        "Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 		}
 	}
 
@@ -187,11 +193,10 @@ public class PesquisaController {
 		String nome = txtNome.getText();
 		String descricao = txtDescricao.getText();
 
-		//Continuar inicialização de variáveis
-		
+		// Continuar inicialização de variáveis
+
 		return p;
 	}
-	
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
@@ -201,11 +206,10 @@ public class PesquisaController {
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		// TODO novo
-		
-		ManipuladorDeTelas.limpaCampos(rootPane);
-		//Montar registro
-	}
 
+		ManipuladorDeTelas.limpaCampos(rootPane);
+		// Montar registro
+	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
@@ -217,7 +221,7 @@ public class PesquisaController {
 	private void excluiRegistro() {
 		if (!txtCodigo.getText().isEmpty()) {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
-				dao.delete(Long.parseLong(txtCodigo.getText()));
+				daoPesquisa.delete(Long.parseLong(txtCodigo.getText()));
 				ManipuladorDeTelas.limpaCampos(rootPane);
 				AlertBuilder.information("Excluído com sucesso");
 			}
@@ -225,10 +229,9 @@ public class PesquisaController {
 			return;
 	}
 
-	
-	//private Pesquisa montaRegistro() {
-		//
-	//}
+	// private Pesquisa montaRegistro() {
+	//
+	// }
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -251,11 +254,56 @@ public class PesquisaController {
 		this.datePesquisa.disarm();
 	}
 
+	private Callback<ListView<Pessoa>, ListCell<Pessoa>> cellFactory() {
+
+		return p -> {
+			ListCell<Pessoa> cell = configuraTextoNaCelula();
+
+			ContextMenu menu = getContextMenuToListView(cell);
+
+			cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+				// TODO: criar implementação correta.
+				if (isNowEmpty) {
+					cell.setContextMenu(null);
+				} else {
+					cell.setContextMenu(menu);
+				}
+			});
+
+			return cell;
+		};
+	}
+
+	private <T> ContextMenu getContextMenuToListView(ListCell<T> cell) {
+		MenuItem menuRemoveOnly = new MenuItem();
+		menuRemoveOnly.setText("Remover");
+		menuRemoveOnly.setOnAction(action -> {
+			listViewEspecialista.getItems().remove(cell.getItem());
+			listViewPesquisador.getItems().remove(cell.getItem());
+			listViewQuestionario.getItems().remove(cell.getItem());
+		});
+
+		MenuItem menuRemoveAll = new MenuItem();
+		menuRemoveAll.setText("Remover todos");
+		menuRemoveAll.setOnAction(action -> {
+			if (AlertBuilder.confirmation("Remover todas as funcionalidades selecionadas?")) {
+				listViewPesquisador.getItems().clear();
+				listViewEspecialista.getItems().clear();
+				listViewQuestionario.getItems().clear();
+			}
+		});
+
+		ContextMenu menu = new ContextMenu(menuRemoveOnly, menuRemoveAll);
+		return menu;
+	}
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
 		this.datePesquisa.setValue(LocalDate.now());
-		especialistas = dao.findAll();
+		this.especialistas = new ArrayList<>(daoPessoa.findAll());
+		System.out.println(especialistas);
+		listViewEspecialista.setCellFactory(cellFactory());
 	}
 
 }
