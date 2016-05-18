@@ -8,8 +8,11 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,7 +79,10 @@ public class PesquisaController {
 	private AnchorPane rootPane;
 
 	@Autowired
-	private PesquisaDAO daoPesquisa;
+	private PesquisaDAO dao;
+	
+	@FXML
+	private AnchorPane anchorPane;
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -90,6 +96,12 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
+		ManipuladorDeTelas.limpaCampos(this.rootPane);
+		this.datePesquisa.setValue(LocalDate.now());
+	}
+	
+	@FXML
+	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 
 	}
 
@@ -100,8 +112,19 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		this.datePesquisa.setValue(LocalDate.now());
+		excluiRegistro();
 
+	}
+	
+	private void excluiRegistro() {
+		if (!txtCodigo.getText().isEmpty()) {
+			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
+				dao.delete(Long.parseLong(txtCodigo.getText()));
+				ManipuladorDeTelas.limpaCampos(anchorPane);
+				AlertBuilder.information("Excluído com sucesso");
+			}
+		} else
+			return;
 	}
 
 	@SuppressWarnings("unused")
@@ -128,10 +151,7 @@ public class PesquisaController {
 		};
 	};
 
-	@FXML
-	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-
-	}
+	
 
 	@FXML
 	private void pesquisa() {

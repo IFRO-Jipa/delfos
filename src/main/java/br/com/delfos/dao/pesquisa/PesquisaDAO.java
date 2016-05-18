@@ -4,10 +4,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.repository.pesquisa.PesquisaRepository;
 
 @Repository
-public class PesquisaDAO {
+public class PesquisaDAO  extends AbstractDAO<Pesquisa, Long, PesquisaRepository> {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -18,5 +21,6 @@ public class PesquisaDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }
