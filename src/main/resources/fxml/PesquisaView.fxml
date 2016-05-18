@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.PesquisaController">
+<AnchorPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.PesquisaController">
 	<children>
 		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" />
 		<TextField fx:id="txtCodigo" alignment="CENTER" editable="false" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="60.0" />
@@ -22,7 +22,7 @@
 		<Text layoutX="14.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisadores" />
 		<Text layoutX="16.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Especialistas" AnchorPane.leftAnchor="16.0" />
 		<Text layoutX="15.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questionários" />
-		<ListView fx:id="listViewQuestionario" layoutX="16.0" layoutY="452.0" prefHeight="111.0" prefWidth="673.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" />
+		<ListView fx:id="listViewQuestionario" layoutX="16.0" layoutY="452.0" prefHeight="111.0" prefWidth="673.0" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="452.0" />
 		<Group layoutX="12.0" layoutY="108.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="10.0">
 			<children>
 				<Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">

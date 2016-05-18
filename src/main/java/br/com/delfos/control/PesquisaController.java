@@ -3,16 +3,20 @@ package br.com.delfos.control;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.hibernate.engine.transaction.jta.platform.internal.SynchronizationRegistryBasedSynchronizationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
-import br.com.delfos.dao.generic.AbstractDAO;
+import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,19 +35,25 @@ import javafx.util.Callback;
 public class PesquisaController {
 
 	@FXML
+	private ListView<?> listViewQuestionario;
+
+	@FXML
+	private ListView<?> listViewPesquisador;
+
+	@FXML
 	private Hyperlink linkAdicionaQuestionario;
 
 	@FXML
 	private TextField txtNome;
 
 	@FXML
+	private ListView<?> listViewPesquisadores;
+
+	@FXML
 	private TextField txtCodigo;
 
 	@FXML
 	private TextArea txtDescricao;
-
-	@FXML
-	private ListView<?> listViewQuestionario;
 
 	@FXML
 	private DatePicker datePesquisa;
@@ -58,6 +68,9 @@ public class PesquisaController {
 	private TextField txtLimite;
 
 	@FXML
+	private Hyperlink linkAdicionaPesquisador;
+
+	@FXML
 	private Button pesquisaCodigoDaPesquisa;
 
 	@FXML
@@ -70,19 +83,11 @@ public class PesquisaController {
 	private Hyperlink linkAdicionaEspecialista;
 
 	@FXML
-	private ListView<?> listViewPesquisadores;
-
-	@FXML
-	private Hyperlink linkAdicionaPesquisador;
-
-	@FXML
 	private AnchorPane rootPane;
 
 	@Autowired
 	private PesquisaDAO dao;
 	
-	@FXML
-	private AnchorPane anchorPane;
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -96,10 +101,35 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(this.rootPane);
-		this.datePesquisa.setValue(LocalDate.now());
+		
+		this.salvar(montaRegistro());
+	}
+
+	private void salvar(Pesquisa value) {
+		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+			Optional<Pesquisa> save = dao.save(value);
+			save.ifPresent(pesquisa -> {
+				txtCodigo.setText(String.valueOf(pesquisa.getId()));
+				AlertBuilder.information("Salvo com sucesso");
+			});
+
+			if (!save.isPresent())
+				AlertBuilder.information(
+				        "Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+		}
+	}
+
+	private Pesquisa montaRegistro() {
+		Pesquisa p = new Pesquisa();
+		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
+		String nome = txtNome.getText();
+		String descricao = txtDescricao.getText();
+		//Continuar
+		
+		return p;
 	}
 	
+
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 
@@ -107,34 +137,35 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
+		// TODO novo
+		
 		ManipuladorDeTelas.limpaCampos(rootPane);
+		//Montar registro
 	}
+
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
+		// TODO excluir
 		excluiRegistro();
 
 	}
-	
+
 	private void excluiRegistro() {
 		if (!txtCodigo.getText().isEmpty()) {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				dao.delete(Long.parseLong(txtCodigo.getText()));
-				ManipuladorDeTelas.limpaCampos(anchorPane);
+				ManipuladorDeTelas.limpaCampos(rootPane);
 				AlertBuilder.information("Excluído com sucesso");
 			}
 		} else
 			return;
 	}
 
-	@SuppressWarnings("unused")
-	private Pesquisa montaRegistro() {
-		Pesquisa p = new Pesquisa();
-		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
-		String nome = txtNome.getText();
-		String descricao = txtDescricao.getText();
-		return p;
-	}
+	
+	//private Pesquisa montaRegistro() {
+		//
+	//}
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -150,8 +181,6 @@ public class PesquisaController {
 			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
 		};
 	};
-
-	
 
 	@FXML
 	private void pesquisa() {
