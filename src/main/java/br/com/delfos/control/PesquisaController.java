@@ -279,7 +279,7 @@ public class PesquisaController {
 		menuRemoveOnly.setText("Remover");
 		menuRemoveOnly.setOnAction(action -> {
 			listViewEspecialista.getItems().remove(cell.getItem());
-			listViewPesquisador.getItems().remove(cell.getItem());
+			listViewPesquisador.getItems().remove(cell.getItem()); 
 			listViewQuestionario.getItems().remove(cell.getItem());
 		});
 
