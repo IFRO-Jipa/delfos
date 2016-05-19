@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
-import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
@@ -36,7 +35,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 @Controller
 public class PesquisaController {
@@ -162,7 +160,7 @@ public class PesquisaController {
 	private void handleButtonSalvar(ActionEvent event) {
 		this.salvar(montaRegistro());
 	}
-	
+
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 
@@ -192,7 +190,6 @@ public class PesquisaController {
 
 		return p;
 	}
-
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
@@ -227,7 +224,6 @@ public class PesquisaController {
 		txtNome.setText(pesquisa.getNome());
 		txtDescricao.setText(pesquisa.getDescricao());
 	}
-	
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {

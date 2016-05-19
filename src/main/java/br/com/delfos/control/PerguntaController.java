@@ -71,22 +71,19 @@ public class PerguntaController implements Initializable {
 
 	getButtonFactory() {
 		return param -> new TableCell<PerguntaProperty, PerguntaProperty>() {
-			final Button button = new Button("...");
-
-			{
-				button.setMinWidth(columnAcao.getWidth() - 6);
-			}
 
 			@Override
 			protected void updateItem(PerguntaProperty item, boolean empty) {
 				// TODO Auto-generated method stub
 				super.updateItem(item, empty);
+				Button button = new Button("...");
+				button.setMinWidth(columnAcao.getWidth() - 6);
 				if (item != null) {
-					setGraphic(button);
+					this.setGraphic(button);
 				} else {
-					setGraphic(null);
+					this.setGraphic(null);
 				}
-				button.setDisable(item.getTipoPergunta().isPersonalizavel());
+				button.setDisable(item != null ? !item.getTipoPergunta().isPersonalizavel() : false);
 				button.setOnAction(event -> handleButtonAction(item));
 			}
 
