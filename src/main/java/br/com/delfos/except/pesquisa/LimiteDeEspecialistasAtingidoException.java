@@ -2,6 +2,8 @@ package br.com.delfos.except.pesquisa;
 
 public class LimiteDeEspecialistasAtingidoException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public LimiteDeEspecialistasAtingidoException() {
 		super();
 		// TODO Auto-generated constructor stub

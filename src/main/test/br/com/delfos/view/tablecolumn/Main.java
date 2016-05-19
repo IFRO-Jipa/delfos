@@ -50,6 +50,7 @@ public class Main extends Application {
 
 	final HBox hb = new HBox();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void start(Stage stage) {
 		Scene scene = new Scene(new Group());

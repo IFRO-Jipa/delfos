@@ -103,7 +103,7 @@ public class PesquisaController {
 
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-			        filtraEspecialistaInexistentes());
+					filtraEspecialistaInexistentes());
 
 			seletor.setCellFactory(cellFactory());
 
@@ -175,6 +175,7 @@ public class PesquisaController {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private Pesquisa montaRegistro() {
 		Pesquisa p = new Pesquisa();
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
@@ -216,10 +217,9 @@ public class PesquisaController {
 			return;
 	}
 
-	// private Pesquisa montaRegistro() {
-	//
-	// }
-
+	@SuppressWarnings("unused")
+	// TODO: Averiguar a devida utilização para esse método em pesquisa. É
+	// necessário?
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
 		public void updateItem(LocalDate item, boolean empty) {
