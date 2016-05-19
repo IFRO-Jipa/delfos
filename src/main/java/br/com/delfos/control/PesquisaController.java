@@ -193,7 +193,6 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		// TODO novo
 
 		ManipuladorDeTelas.limpaCampos(rootPane);
 		// Montar registro
