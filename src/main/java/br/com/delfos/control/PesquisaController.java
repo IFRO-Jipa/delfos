@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
-import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
@@ -37,7 +38,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 @Controller
 public class PesquisaController {
@@ -52,6 +52,7 @@ public class PesquisaController {
 	private Hyperlink linkAdicionaQuestionario;
 
 	@FXML
+	@NotNull
 	private TextField txtNome;
 
 	@FXML
@@ -173,19 +174,9 @@ public class PesquisaController {
 	// Implementação do botão Salvar
 
 	private void salvar(Pesquisa value) {
-		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
-			Optional<Pesquisa> save = daoPesquisa.save(value);
-			save.ifPresent(pesquisa -> {
-				txtCodigo.setText(String.valueOf(pesquisa.getId()));
-				AlertBuilder.information("Salvo com sucesso");
-			});
-
-			if (!save.isPresent())
-				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
-		}
+		salva(montaRegistro());
 	}
 
-	@SuppressWarnings("unused")
 	private Pesquisa montaRegistro() {
 		Pesquisa p = new Pesquisa();
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
@@ -194,6 +185,10 @@ public class PesquisaController {
 
 		// Continuar inicialização de variáveis
 
+		p.setId(id);
+		p.setDescricao(descricao);
+		p.setNome(nome);
+
 		return p;
 	}
 
@@ -201,22 +196,23 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-
 		ManipuladorDeTelas.limpaCampos(rootPane);
-		if (ManipuladorDeComponentes.validaCampos(this))
-			salva();
 	}
 
-	private void salva() {
-		Pesquisa pesquisa = montaRegistro();
+	private void salva(Pesquisa value) {
+		try {
+			if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+				Optional<Pesquisa> save = daoPesquisa.save(value);
+				save.ifPresent(pesquisa -> {
+					txtCodigo.setText(String.valueOf(pesquisa.getId()));
+					AlertBuilder.information("Salvo com sucesso");
+				});
 
-		Optional<Pesquisa> returned = daoPesquisa.save(pesquisa);
-
-		if (returned.isPresent()) {
-			abreRegistro(returned.get());
-			AlertBuilder.information("Salvo com sucesso");
-		} else {
-			AlertBuilder.warning("Não foi salvo... tente novamente");
+				if (!save.isPresent())
+					AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+			}
+		} catch (IllegalArgumentException ex) {
+			AlertBuilder.warning("Preencha os campos corretamente.");
 		}
 
 	}
@@ -345,7 +341,7 @@ public class PesquisaController {
 		if (result.isPresent()) {
 			Optional<Pesquisa> optional = Optional.ofNullable(this.daoPesquisa.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
-				this.posicionaRegistro(optional.get());
+				this.abreRegistro(optional.get());
 			} else {
 				ManipuladorDeTelas.limpaCampos(this.rootPane);
 				AlertBuilder.warning("Nenhum registro foi encontrado.");
@@ -354,13 +350,6 @@ public class PesquisaController {
 			ManipuladorDeTelas.limpaCampos(this.rootPane);
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
-	}
-
-	private void posicionaRegistro(Pesquisa pesquisa) {
-		this.txtCodigo.setText(String.valueOf(pesquisa.getId()));
-		this.txtNome.setText(pesquisa.getNome());
-		this.txtDescricao.setText(pesquisa.getDescricao());
-
 	}
 
 }
