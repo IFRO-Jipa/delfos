@@ -36,7 +36,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
-@SuppressWarnings("restriction")
 @Controller
 public class PesquisaController {
 
@@ -99,16 +98,12 @@ public class PesquisaController {
 
 	private List<Pessoa> especialistas;
 
-	private List<Pessoa> pegaEspecialista() {
-		return listViewEspecialista.getItems().isEmpty() ? null : listViewEspecialista.getItems();
-	}
-
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
 
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-					filtraEspecialistaInexistentes());
+			        filtraEspecialistaInexistentes());
 
 			seletor.setCellFactory(cellFactory());
 
@@ -120,11 +115,6 @@ public class PesquisaController {
 			e.printStackTrace();
 		}
 
-	}
-
-	private Object teste() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private ListCell<Pessoa> configuraTextoNaCelula() {
