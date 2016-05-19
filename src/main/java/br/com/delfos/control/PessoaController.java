@@ -129,8 +129,7 @@ public class PessoaController implements Initializable {
 	}
 
 	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa
-		// tela de
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
@@ -161,7 +160,6 @@ public class PessoaController implements Initializable {
 		txtCpf.setText(pessoa.getCpf());
 		txtRg.setText(pessoa.getRg());
 		txtEmail.setText(pessoa.getEmail());
-
 		dtDataNascimento.setValue(pessoa.getDataNascimento());
 		txtDescricao.setText(pessoa.getDescricao());
 		posicionaTipoDePessoa(pessoa);

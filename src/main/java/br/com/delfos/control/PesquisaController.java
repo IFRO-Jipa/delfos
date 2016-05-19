@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
@@ -32,9 +33,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 @Controller
 public class PesquisaController {
@@ -157,14 +160,17 @@ public class PesquisaController {
 	}
 
 	@FXML
-	private void handleButtonSalvar(ActionEvent event) {
-		this.salvar(montaRegistro());
-	}
-
-	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 
 	}
+
+	@FXML
+	private void handleButtonSalvar(ActionEvent event) {
+
+		this.salvar(montaRegistro());
+	}
+
+	// Implementação do botão Salvar
 
 	private void salvar(Pesquisa value) {
 		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
@@ -190,6 +196,8 @@ public class PesquisaController {
 
 		return p;
 	}
+
+	// Implementação do botão Novo
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
@@ -225,6 +233,8 @@ public class PesquisaController {
 		txtDescricao.setText(pesquisa.getDescricao());
 	}
 
+	// Implementação do botão Excluir
+
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
 		// TODO excluir
@@ -243,6 +253,8 @@ public class PesquisaController {
 			return;
 	}
 
+	// Implementação dos links
+
 	@SuppressWarnings("unused")
 	// TODO: Averiguar a devida utilização para esse método em pesquisa. É
 	// necessário?
@@ -260,12 +272,6 @@ public class PesquisaController {
 			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
 		};
 	};
-
-	@FXML
-	private void pesquisa() {
-		this.datePesquisa.setEditable(false);
-		this.datePesquisa.disarm();
-	}
 
 	private Callback<ListView<Pessoa>, ListCell<Pessoa>> cellFactory() {
 
@@ -310,6 +316,12 @@ public class PesquisaController {
 		return menu;
 	}
 
+	@FXML
+	private void pesquisa() {
+		this.datePesquisa.setEditable(false);
+		this.datePesquisa.disarm();
+	}
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
@@ -317,6 +329,38 @@ public class PesquisaController {
 		this.especialistas = new ArrayList<>(daoPessoa.findAll());
 		System.out.println(especialistas);
 		listViewEspecialista.setCellFactory(cellFactory());
+	}
+
+	// Pesquisa por código
+
+	@FXML
+	private void pesquisar() {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Consulta por código");
+		dialog.setHeaderText("Consulta de Registros");
+		dialog.setContentText("Informe código da Pesquisa");
+
+		Optional<String> result = dialog.showAndWait();
+
+		if (result.isPresent()) {
+			Optional<Pesquisa> optional = Optional.ofNullable(this.daoPesquisa.findOne(Long.parseLong(result.get())));
+			if (optional.isPresent()) {
+				this.posicionaRegistro(optional.get());
+			} else {
+				ManipuladorDeTelas.limpaCampos(this.rootPane);
+				AlertBuilder.warning("Nenhum registro foi encontrado.");
+			}
+		} else {
+			ManipuladorDeTelas.limpaCampos(this.rootPane);
+			AlertBuilder.warning("Nenhum registro foi encontrado.");
+		}
+	}
+
+	private void posicionaRegistro(Pesquisa pesquisa) {
+		this.txtCodigo.setText(String.valueOf(pesquisa.getId()));
+		this.txtNome.setText(pesquisa.getNome());
+		this.txtDescricao.setText(pesquisa.getDescricao());
+
 	}
 
 }
