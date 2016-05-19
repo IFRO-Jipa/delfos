@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
@@ -35,6 +36,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 @Controller
 public class PesquisaController {
@@ -160,6 +162,11 @@ public class PesquisaController {
 	private void handleButtonSalvar(ActionEvent event) {
 		this.salvar(montaRegistro());
 	}
+	
+	@FXML
+	private void handleLinkAdicionaQuestionario(ActionEvent event) {
+
+	}
 
 	private void salvar(Pesquisa value) {
 		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
@@ -186,17 +193,41 @@ public class PesquisaController {
 		return p;
 	}
 
-	@FXML
-	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-
-	}
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 
 		ManipuladorDeTelas.limpaCampos(rootPane);
-		// Montar registro
+		if (ManipuladorDeComponentes.validaCampos(this))
+			salva();
 	}
+
+	private void salva() {
+		Pesquisa pesquisa = montaRegistro();
+
+		Optional<Pesquisa> returned = daoPesquisa.save(pesquisa);
+
+		if (returned.isPresent()) {
+			abreRegistro(returned.get());
+			AlertBuilder.information("Salvo com sucesso");
+		} else {
+			AlertBuilder.warning("Não foi salvo... tente novamente");
+		}
+
+	}
+
+	private void abreRegistro(Pesquisa pesquisa) {
+		if (pesquisa != null) {
+			atualizaCampos(pesquisa);
+		}
+	}
+
+	private void atualizaCampos(Pesquisa pesquisa) {
+		txtCodigo.setText(String.valueOf(pesquisa.getId()));
+		txtNome.setText(pesquisa.getNome());
+		txtDescricao.setText(pesquisa.getDescricao());
+	}
+	
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
