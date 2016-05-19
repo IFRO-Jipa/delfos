@@ -38,12 +38,12 @@ public class PerguntaController implements Initializable {
 	private TableColumn<PerguntaProperty, PerguntaProperty> columnAcao;
 
 	private final ObservableList<TipoPergunta> tiposDePergunta = FXCollections
-	        .observableArrayList(TipoPergunta.getAll());
+			.observableArrayList(TipoPergunta.getAll());
 
 	private final ObservableList<PerguntaProperty> dadosTabela = FXCollections.observableArrayList(
-	        new PerguntaProperty("Qual é o seu nome?", TipoPergunta.INTERVALO),
-	        new PerguntaProperty("Qual é o seu grau de conhecimento em Java?", TipoPergunta.MULTIPLA_ESCOLHA),
-	        new PerguntaProperty("Deixe seu comentário sobre a pesquisa?", TipoPergunta.PARAGRAFO));
+			new PerguntaProperty("Qual é o seu nome?", TipoPergunta.INTERVALO),
+			new PerguntaProperty("Qual é o seu grau de conhecimento em Java?", TipoPergunta.MULTIPLA_ESCOLHA),
+			new PerguntaProperty("Deixe seu comentário sobre a pesquisa?", TipoPergunta.PARAGRAFO));
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,12 +65,11 @@ public class PerguntaController implements Initializable {
 		columnAcao.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		columnAcao.setResizable(false);
 		columnAcao.setCellFactory(getButtonFactory());
-
 	}
 
 	private Callback<TableColumn<PerguntaProperty, PerguntaProperty>, TableCell<PerguntaProperty, PerguntaProperty>>
 
-	        getButtonFactory() {
+	getButtonFactory() {
 		return param -> new TableCell<PerguntaProperty, PerguntaProperty>() {
 			final Button button = new Button("...");
 
@@ -87,6 +86,7 @@ public class PerguntaController implements Initializable {
 				} else {
 					setGraphic(null);
 				}
+				button.setDisable(item.getTipoPergunta().isPersonalizavel());
 				button.setOnAction(event -> handleButtonAction(item));
 			}
 
@@ -115,11 +115,10 @@ public class PerguntaController implements Initializable {
 		this.columnTipo.setCellFactory(getComboBoxFactory());
 	}
 
-	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>>
-	        getComboBoxFactory() {
+	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>> getComboBoxFactory() {
 
 		return param -> new ComboBoxCellFactory<PerguntaProperty, TipoPergunta>(tiposDePergunta,
-		        getComboBoxConverter());
+				getComboBoxConverter());
 	}
 
 	private StringConverter<TipoPergunta> getComboBoxConverter() {

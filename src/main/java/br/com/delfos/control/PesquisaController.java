@@ -158,7 +158,6 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-
 		this.salvar(montaRegistro());
 	}
 
