@@ -2,7 +2,6 @@ package br.com.delfos.control;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListCell;
@@ -35,7 +33,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
@@ -101,9 +98,6 @@ public class PesquisaController {
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
-	
-	
-	//Link para adicionar especialistas
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -157,26 +151,16 @@ public class PesquisaController {
 
 		return result;
 	}
-	
-	
-	//Link para adicionar pesquisadores
-
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
 	}
-	
-	
-	//Link para adicionar Questionarios
-
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 
 	}
-	
-	// Implementação do botão Salvar
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
@@ -184,19 +168,19 @@ public class PesquisaController {
 		this.salvar(montaRegistro());
 	}
 
-	
+	// Implementação do botão Salvar
 
 	private void salvar(Pesquisa value) {
 		salva(montaRegistro());
 	}
-
 
 	private Pesquisa montaRegistro() {
 		Pesquisa p = new Pesquisa();
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
 		String nome = txtNome.getText();
 		String descricao = txtDescricao.getText();
-		int limite = txtLimite.getText().isEmpty() ? null : Integer.parseInt(txtLimite.getText());
+		LocalDate data = datePesquisa.getValue();
+		int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
 
 		// Continuar inicialização de variáveis
 
@@ -204,6 +188,7 @@ public class PesquisaController {
 		p.setDescricao(descricao);
 		p.setNome(nome);
 		p.setLimite(limite);
+		p.setDate(data);
 
 		return p;
 	}
@@ -243,7 +228,6 @@ public class PesquisaController {
 		txtCodigo.setText(String.valueOf(pesquisa.getId()));
 		txtNome.setText(pesquisa.getNome());
 		txtDescricao.setText(pesquisa.getDescricao());
-		txtLimite.setText(String.valueOf(pesquisa.getLimite()));
 	}
 
 	// Implementação do botão Excluir
@@ -267,24 +251,6 @@ public class PesquisaController {
 	}
 
 	// Implementação dos links
-
-	@SuppressWarnings("unused")
-	// TODO: Averiguar a devida utilização para esse método em pesquisa. É
-	// necessário?
-	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
-		@Override
-		public void updateItem(LocalDate item, boolean empty) {
-			super.updateItem(item, empty);
-
-			if (item.isBefore(PesquisaController.this.datePesquisa.getValue().plusDays(1))) {
-				this.setDisable(true);
-				this.setStyle("-fx-background-color: #ffc0cb;");
-			}
-
-			long p = ChronoUnit.DAYS.between(PesquisaController.this.datePesquisa.getValue(), item);
-			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %d dia(s).", p)));
-		};
-	};
 
 	private Callback<ListView<Pessoa>, ListCell<Pessoa>> cellFactory() {
 
