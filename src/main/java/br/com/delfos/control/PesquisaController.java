@@ -24,6 +24,7 @@ import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
@@ -35,7 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 @Controller
-public class PesquisaController {
+public class PesquisaController implements Initializable {
 
 	@FXML
 	private ListView<Questionario> listViewQuestionario;
@@ -153,8 +154,6 @@ public class PesquisaController {
 
 		return result;
 	}
-
-	// Link Pesquisador
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
@@ -331,8 +330,12 @@ public class PesquisaController {
 	private void setStatus(boolean status) {
 		if (status) {
 			statusAtivo.setText("Em andamento");
-			statusAtivo.setStyle("-fx-text-fill");
+			statusAtivo.setStyle("-fx-text-fill: #007FFF");
+		} else {
+			statusAtivo.setText("Finalizada");
+			statusAtivo.setStyle("-fx-text-fill: #32CD32");
 		}
+		statusAtivo.applyCss();
 	}
 
 	private void configCache() {
