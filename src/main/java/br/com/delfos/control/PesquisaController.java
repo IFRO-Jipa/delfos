@@ -42,7 +42,7 @@ public class PesquisaController implements Initializable {
 	private ListView<Questionario> listViewQuestionario;
 
 	@FXML
-	private Text statusAtivo;
+	private Text textAtivo;
 
 	@FXML
 	private ListView<Pessoa> listViewPesquisador;
@@ -114,7 +114,7 @@ public class PesquisaController implements Initializable {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
 					filtraEspecialistaInexistentes());
 
-			seletor.setCellFactory(new TableCellFactory<Pessoa>(null).getCellFactory(pessoa -> pessoa.getNome()));
+			seletor.setCellFactory(new TableCellFactory<Pessoa>().getCellFactory(pessoa -> pessoa.getNome()));
 
 			Optional<List<Pessoa>> target = seletor.showAndWait();
 			target.ifPresent(result -> {
@@ -125,17 +125,6 @@ public class PesquisaController implements Initializable {
 		}
 
 	}
-
-	/*
-	 * private ListCell<Pessoa> configuraTextoNaCelula() { ListCell<Pessoa> cell
-	 * = new ListCell<Pessoa>() {
-	 * 
-	 * @Override protected void updateItem(final Pessoa p, final boolean bln) {
-	 * super.updateItem(p, bln); if (p != null) { setText(p.getNome()); } else {
-	 * setText(null); } }
-	 * 
-	 * }; return cell; }
-	 */
 
 	private List<Pessoa> filtraEspecialistaInexistentes() {
 		List<Pessoa> result = new ArrayList<>();
@@ -157,21 +146,19 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
+		try {
+			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
+					filtraPesquisadorInexistente());
 
-		/*
-		 * try { ListSelection<Pessoa> seletor = new ListSelection<>(
-		 * "Selecione os Pesquisadores", filtraPesquisadorInexistente());
-		 * 
-		 * seletor.setCellFactory(new
-		 * TableCellFactory<Pessoa>(null).getCellFactory(pessoa ->
-		 * pessoa.getNome()));
-		 * 
-		 * Optional<List<Pessoa>> target = seletor.showAndWait();
-		 * target.ifPresent(result -> {
-		 * listViewPesquisador.getItems().addAll(result); }); } catch (Exception
-		 * e) { e.printStackTrace(); }
-		 */
+			seletor.setCellFactory(new TableCellFactory<Pessoa>().getCellFactory(pessoa -> pessoa.getNome()));
 
+			Optional<List<Pessoa>> target = seletor.showAndWait();
+			target.ifPresent(result -> {
+				listViewPesquisador.getItems().addAll(result);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private List<Pessoa> filtraPesquisadorInexistente() {
@@ -215,12 +202,11 @@ public class PesquisaController implements Initializable {
 		List<Questionario> result = new ArrayList<>();
 
 		if (listViewQuestionario.getItems().isEmpty()) {
-			System.out.println("Questionarios estão vazios? " + questionarios.isEmpty());
 			result.addAll(questionarios);
 		} else {
-			pesquisadores.forEach(questionario -> {
+			questionarios.forEach(questionario -> {
 				if (!listViewQuestionario.getItems().contains(questionario)) {
-					// result.add(questionario);
+					result.add(questionario);
 				}
 
 			});
@@ -329,17 +315,17 @@ public class PesquisaController implements Initializable {
 
 	private void setStatus(boolean status) {
 		if (status) {
-			statusAtivo.setText("Em andamento");
-			statusAtivo.setStyle("-fx-text-fill: #007FFF");
+			textAtivo.setText("Em andamento");
+			textAtivo.setStyle("-fx-text-fill: #007FFF");
 		} else {
-			statusAtivo.setText("Finalizada");
-			statusAtivo.setStyle("-fx-text-fill: #32CD32");
+			textAtivo.setText("Finalizada");
+			textAtivo.setStyle("-fx-text-fill: #32CD32");
 		}
-		statusAtivo.applyCss();
 	}
 
 	private void configCache() {
 		this.especialistas = new ArrayList<>(daoPessoa.findAll());
+		this.pesquisadores = new ArrayList<>(daoPessoa.findAll());
 	}
 
 	private void configFields() {
