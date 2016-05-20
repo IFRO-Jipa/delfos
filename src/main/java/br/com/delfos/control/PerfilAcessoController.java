@@ -15,6 +15,7 @@ import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
+import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
@@ -81,7 +82,8 @@ public class PerfilAcessoController implements Initializable {
 	void handleBtnPesquisar(ActionEvent event) {
 		// TODO: Próxima implementação para resolver.......
 
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa
+		// tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog("ex: 1");
 		dialog.setTitle("Text Input Dialog");
@@ -92,8 +94,7 @@ public class PerfilAcessoController implements Initializable {
 		Optional<String> result = dialog.showAndWait();
 
 		if (result.isPresent()) {
-			Optional<PerfilAcesso> optional = Optional
-			        .ofNullable(perfilDao.findOne(Long.parseLong(result.get())));
+			Optional<PerfilAcesso> optional = Optional.ofNullable(perfilDao.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
 				posicionaRegistro(optional.get());
 			} else {
@@ -160,7 +161,7 @@ public class PerfilAcessoController implements Initializable {
 	private void handleLinkAdicionaFuncionalidade(ActionEvent event) {
 		try {
 			ListSelection<Funcionalidade> seletor = new ListSelection<>("Selecione as funcionalidades",
-			        filtraFuncionalidadesInexistentes());
+					filtraFuncionalidadesInexistentes());
 
 			seletor.setCellFactory(p -> configuraTextoNaCelula());
 
@@ -250,7 +251,9 @@ public class PerfilAcessoController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		funcionalidades = daoFuncionalidade.findAll();
-		listViewPermissoes.setCellFactory(cellFactory());
+		// listViewPermissoes.setCellFactory(cellFactory());
+		listViewPermissoes.setCellFactory(
+				new TableCellFactory<Funcionalidade>(listViewPermissoes).getCellFactory(p -> p.getNome()));
 	}
 
 }

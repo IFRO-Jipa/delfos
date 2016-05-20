@@ -1,5 +1,6 @@
 package br.com.delfos.util;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import br.com.delfos.view.AlertBuilder;
@@ -59,9 +60,10 @@ public class TableCellFactory<T> {
 	private ListCell<T> configuraTextoNaCelula(Function<T, String> predicate) {
 		ListCell<T> cell = new ListCell<T>() {
 			@Override
-			protected void updateItem(final T p, final boolean bln) {
+			protected void updateItem(T p, boolean bln) {
 				super.updateItem(p, bln);
-				setText(predicate.apply(p));
+				Optional<String> result = Optional.ofNullable(p != null ? predicate.apply(p) : null);
+				setText(result.isPresent() ? result.get() : null);
 			}
 		};
 		return cell;
