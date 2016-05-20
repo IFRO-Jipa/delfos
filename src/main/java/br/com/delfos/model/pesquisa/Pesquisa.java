@@ -1,13 +1,18 @@
 package br.com.delfos.model.pesquisa;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
+
+import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
 import br.com.delfos.model.basic.Pessoa;
@@ -29,6 +34,9 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Questionario> questionarios;
+	
+	@Convert(converter= LocalDatePersistenceConverter.class)
+	private LocalDate date;
 
 	public String getNome() {
 		return nome;
@@ -121,6 +129,14 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	public String toString() {
 		return "Pesquisa [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", questionarios=" + questionarios
 		        + "]";
+	}
+	
+	public LocalDate getData() {
+		return date;
+	}
+	
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 }

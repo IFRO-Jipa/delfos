@@ -182,12 +182,16 @@ public class PesquisaController {
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
 		String nome = txtNome.getText();
 		String descricao = txtDescricao.getText();
+		LocalDate data = datePesquisa.getValue();
+		int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
 
 		// Continuar inicialização de variáveis
 
 		p.setId(id);
 		p.setDescricao(descricao);
 		p.setNome(nome);
+		p.setLimite(limite);
+		p.setDate(data);
 
 		return p;
 	}
