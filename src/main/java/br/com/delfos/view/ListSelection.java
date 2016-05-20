@@ -44,8 +44,6 @@ public class ListSelection<T> extends Dialog<List<T>> {
 		});
 
 	}
-	
-	
 
 	public final void setCellFactory(Callback<ListView<T>, ListCell<T>> value) {
 		view.setCellFactory(value);
