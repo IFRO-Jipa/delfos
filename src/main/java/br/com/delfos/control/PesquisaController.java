@@ -201,19 +201,19 @@ public class PesquisaController {
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-		//try {
-		//	ListSelection<Questionario> seletor = new ListSelection<>("Selecione os Questionários",
-		//			filtraQuestionarioInexistente());
+		try {
+			ListSelection<Questionario> seletor = new ListSelection<>("Selecione os Questionários",
+					filtraQuestionarioInexistente());
 
-		//	seletor.setCellFactory(new TableCellFactory<Pessoa>(null).getCellFactory(questionario -> questionario.getNome()));
+			seletor.setCellFactory(new TableCellFactory<Questionario>(null).getCellFactory(questionario -> questionario.getNome()));
 
-		//	Optional<List<Questionario>> target = seletor.showAndWait();
-		//	target.ifPresent(result -> {
-				//		listViewQuestionario.getItems().addAll(result);
-		//	});
-			//	} catch (Exception e) {
-		//	e.printStackTrace();
-		//}
+			Optional<List<Questionario>> target = seletor.showAndWait();
+			target.ifPresent(result -> {
+						listViewQuestionario.getItems().addAll(result);
+			});
+				} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 	
