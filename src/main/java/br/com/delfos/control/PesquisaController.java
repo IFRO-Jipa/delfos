@@ -35,12 +35,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import javafx.scene.control.RadioButton;
 
 @Controller
 public class PesquisaController {
 
 	@FXML
 	private ListView<Questionario> listViewQuestionario;
+	
+	@FXML
+	private RadioButton statusAtivo;
 
 	@FXML
 	private ListView<Pessoa> listViewPesquisador;
@@ -98,6 +102,8 @@ public class PesquisaController {
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
+	
+	//Link Especialista
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -151,14 +157,21 @@ public class PesquisaController {
 
 		return result;
 	}
+	
+	//Link Pesquisador
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
 	}
+	
+	//Link Questionario
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
+		
+		
+
 
 	}
 
