@@ -1,5 +1,7 @@
 package br.com.delfos.util;
 
+import java.util.function.Function;
+
 import br.com.delfos.view.AlertBuilder;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
@@ -7,14 +9,18 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.util.Callback;
 
-public class TableCellFactory<T, S> {
+public class TableCellFactory<T> {
 
 	private ListView<T> listView;
 
-	private Callback<ListView<S>, ListCell<S>> cellFactory() {
+	public TableCellFactory(ListView<T> listView) {
+		this.listView = listView;
+	}
+
+	public Callback<ListView<T>, ListCell<T>> getCellFactory(Function<T, String> predicate) {
 
 		return p -> {
-			ListCell<S> cell = configuraTextoNaCelula();
+			ListCell<T> cell = configuraTextoNaCelula(predicate);
 
 			ContextMenu menu = getContextMenuToListView(cell);
 
@@ -31,7 +37,7 @@ public class TableCellFactory<T, S> {
 		};
 	}
 
-	private ContextMenu getContextMenuToListView(ListCell<S> cell) {
+	private ContextMenu getContextMenuToListView(ListCell<T> cell) {
 		MenuItem menuRemoveOnly = new MenuItem();
 		menuRemoveOnly.setText("Remover");
 		menuRemoveOnly.setOnAction(action -> {
@@ -50,18 +56,13 @@ public class TableCellFactory<T, S> {
 		return menu;
 	}
 
-	private ListCell<S> configuraTextoNaCelula() {
-		ListCell<S> cell = new ListCell<S>() {
+	private ListCell<T> configuraTextoNaCelula(Function<T, String> predicate) {
+		ListCell<T> cell = new ListCell<T>() {
 			@Override
-			protected void updateItem(final S p, final boolean bln) {
+			protected void updateItem(final T p, final boolean bln) {
 				super.updateItem(p, bln);
-				if (p != null) {
-					setText(p.toString());
-				} else {
-					setText(null);
-				}
+				setText(predicate.apply(p));
 			}
-
 		};
 		return cell;
 	}
