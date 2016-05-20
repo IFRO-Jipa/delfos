@@ -64,6 +64,6 @@
       <ListView fx:id="listViewPesquisador" layoutX="16.0" layoutY="223.0" prefHeight="105.0" prefWidth="673.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="8.0" />
       <Text layoutX="574.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" AnchorPane.rightAnchor="90.50390625" />
       <Pane layoutX="620.0" layoutY="31.0" prefHeight="25.0" prefWidth="65.0" AnchorPane.rightAnchor="12.0" />
-      <RadioButton fx:id="statusAtivo" layoutX="565.0" layoutY="35.0" mnemonicParsing="false" text="Ativo" />
+      <RadioButton fx:id="statusAtivo" layoutX="565.0" layoutY="35.0" mnemonicParsing="false" text="Ativo" AnchorPane.rightAnchor="83.0" />
 	</children>
 </AnchorPane>

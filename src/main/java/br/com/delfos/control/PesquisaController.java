@@ -103,6 +103,10 @@ public class PesquisaController {
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
+	
+	private List<Pessoa> pesquisadores;
+	
+	private List<Questionario> questionarios;
 
 	// Link Especialista
 
@@ -158,15 +162,79 @@ public class PesquisaController {
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
+		
+		try {
+			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
+					filtraPesquisadorInexistente());
 
+			seletor.setCellFactory(new TableCellFactory<Pessoa>(null).getCellFactory(pessoa -> pessoa.getNome()));
+
+			Optional<List<Pessoa>> target = seletor.showAndWait();
+			target.ifPresent(result -> {
+				listViewPesquisador.getItems().addAll(result);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private List<Pessoa> filtraPesquisadorInexistente() {
+		List<Pessoa> result = new ArrayList<>();
+
+		if (listViewPesquisador.getItems().isEmpty()) {
+			System.out.println("Pesquisadores estão vazios? " + pesquisadores.isEmpty());
+			result.addAll(pesquisadores);
+		} else {
+			pesquisadores.forEach(pessoa -> {
+				if (!listViewPesquisador.getItems().contains(pessoa)) {
+					result.add(pessoa);
+				}
+
+			});
+		}
+
+		return result;
 	}
 
 	// Link Questionario
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
+		//try {
+		//	ListSelection<Questionario> seletor = new ListSelection<>("Selecione os Questionários",
+		//			filtraQuestionarioInexistente());
+
+		//	seletor.setCellFactory(new TableCellFactory<Pessoa>(null).getCellFactory(questionario -> questionario.getNome()));
+
+		//	Optional<List<Questionario>> target = seletor.showAndWait();
+		//	target.ifPresent(result -> {
+				//		listViewQuestionario.getItems().addAll(result);
+		//	});
+			//	} catch (Exception e) {
+		//	e.printStackTrace();
+		//}
 
 	}
+	
+	private List<Questionario> filtraQuestionarioInexistente() {
+		List<Questionario> result = new ArrayList<>();
+
+		if (listViewQuestionario.getItems().isEmpty()) {
+			System.out.println("Questionarios estão vazios? " + questionarios.isEmpty());
+			result.addAll(questionarios);
+		} else {
+			pesquisadores.forEach(questionario -> {
+				if (!listViewQuestionario.getItems().contains(questionario)) {
+					//	result.add(questionario);
+				}
+
+			});
+		}
+
+		return result;
+	}
+
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
