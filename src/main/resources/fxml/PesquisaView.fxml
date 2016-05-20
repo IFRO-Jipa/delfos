@@ -15,8 +15,8 @@
 		<Text layoutX="18.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="18.0" />
 		<TextField fx:id="txtNome" layoutX="18.0" layoutY="73.0" prefHeight="25.0" prefWidth="667.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="12.0" />
 		<Button fx:id="pesquisaCodigoDaPesquisa" layoutX="96.0" layoutY="31.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="26.0" text="..." />
-		<Text layoutX="129.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" AnchorPane.rightAnchor="543.30859375" />
-		<DatePicker fx:id="datePesquisa" layoutX="129.0" layoutY="31.0" prefHeight="25.0" prefWidth="133.0" AnchorPane.rightAnchor="435.0" />
+		<Text layoutX="284.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" AnchorPane.rightAnchor="388.30859375" />
+		<DatePicker fx:id="datePesquisa" layoutX="284.0" layoutY="31.0" prefHeight="25.0" prefWidth="133.0" AnchorPane.rightAnchor="280.0" />
 		<Text layoutX="18.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="18.0" />
 		<TextArea fx:id="txtDescricao" layoutX="16.0" layoutY="121.0" prefHeight="77.0" prefWidth="673.0" wrapText="true" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="8.0" />
 		<Text layoutX="14.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesquisadores" />
@@ -42,8 +42,8 @@
 				</Button>
 			</children>
 		</Group>
-		<TextField fx:id="txtLimite" layoutX="271.0" layoutY="31.0" prefHeight="25.0" prefWidth="120.0" AnchorPane.rightAnchor="306.0" />
-		<Text layoutX="271.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Limite" AnchorPane.rightAnchor="393.861328125" />
+		<TextField fx:id="txtLimite" layoutX="433.0" layoutY="31.0" prefHeight="25.0" prefWidth="120.0" AnchorPane.rightAnchor="144.0" />
+		<Text layoutX="433.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Limite" AnchorPane.rightAnchor="231.861328125" />
       <Hyperlink fx:id="linkAdicionaQuestionario" layoutX="88.0" layoutY="463.0" onAction="#handleLinkAdicionaQuestionario" prefHeight="16.0" prefWidth="17.0" text="+">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -62,11 +62,8 @@
       </Hyperlink>
       <AnchorPane layoutX="14.0" layoutY="206.0" />
       <ListView fx:id="listViewPesquisador" layoutX="16.0" layoutY="223.0" prefHeight="105.0" prefWidth="673.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="8.0" />
-      <Text layoutX="396.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" AnchorPane.rightAnchor="268.50390625" />
-      <Pane layoutX="412.0" layoutY="31.0" prefHeight="25.0" prefWidth="65.0" AnchorPane.rightAnchor="220.0">
-         <children>
-            <RadioButton fx:id="statusAtivo" layoutX="-7.0" layoutY="4.0" mnemonicParsing="false" text="Ativo" />
-         </children>
-      </Pane>
+      <Text layoutX="574.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" AnchorPane.rightAnchor="90.50390625" />
+      <Pane layoutX="620.0" layoutY="31.0" prefHeight="25.0" prefWidth="65.0" AnchorPane.rightAnchor="12.0" />
+      <RadioButton fx:id="statusAtivo" layoutX="565.0" layoutY="35.0" mnemonicParsing="false" text="Ativo" />
 	</children>
 </AnchorPane>

@@ -102,6 +102,8 @@ public class PesquisaController {
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
+	
+	//Link Especialista
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -155,14 +157,21 @@ public class PesquisaController {
 
 		return result;
 	}
+	
+	//Link Pesquisador
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
 	}
+	
+	//Link Questionario
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
+		
+		
+
 
 	}
 
