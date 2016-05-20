@@ -38,12 +38,16 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import javafx.scene.control.RadioButton;
 
 @Controller
 public class PesquisaController {
 
 	@FXML
 	private ListView<Questionario> listViewQuestionario;
+	
+	@FXML
+	private RadioButton statusAtivo;
 
 	@FXML
 	private ListView<Pessoa> listViewPesquisador;
