@@ -101,6 +101,9 @@ public class PesquisaController {
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
+	
+	
+	//Link para adicionar especialistas
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -154,16 +157,26 @@ public class PesquisaController {
 
 		return result;
 	}
+	
+	
+	//Link para adicionar pesquisadores
+
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
 	}
+	
+	
+	//Link para adicionar Questionarios
+
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 
 	}
+	
+	// Implementação do botão Salvar
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
@@ -171,19 +184,19 @@ public class PesquisaController {
 		this.salvar(montaRegistro());
 	}
 
-	// Implementação do botão Salvar
+	
 
 	private void salvar(Pesquisa value) {
 		salva(montaRegistro());
 	}
+
 
 	private Pesquisa montaRegistro() {
 		Pesquisa p = new Pesquisa();
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
 		String nome = txtNome.getText();
 		String descricao = txtDescricao.getText();
-		LocalDate data = datePesquisa.getValue();
-		int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
+		int limite = txtLimite.getText().isEmpty() ? null : Integer.parseInt(txtLimite.getText());
 
 		// Continuar inicialização de variáveis
 
@@ -191,7 +204,6 @@ public class PesquisaController {
 		p.setDescricao(descricao);
 		p.setNome(nome);
 		p.setLimite(limite);
-		p.setDate(data);
 
 		return p;
 	}
@@ -231,6 +243,7 @@ public class PesquisaController {
 		txtCodigo.setText(String.valueOf(pesquisa.getId()));
 		txtNome.setText(pesquisa.getNome());
 		txtDescricao.setText(pesquisa.getDescricao());
+		txtLimite.setText(String.valueOf(pesquisa.getLimite()));
 	}
 
 	// Implementação do botão Excluir

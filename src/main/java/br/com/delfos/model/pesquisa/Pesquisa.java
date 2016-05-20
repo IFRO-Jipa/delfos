@@ -1,23 +1,25 @@
 package br.com.delfos.model.pesquisa;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
-
-import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.generic.AbstractModel;
+
+enum StatusPesquisa {
+	EM_ANDAMENTO, FINALIZADA;
+}
 
 @Entity
 public class Pesquisa extends AbstractModel<Pesquisa> {
@@ -25,6 +27,13 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	private String nome;
 	private String descricao;
 	private int limite;
+
+	public Pesquisa() {
+		this.status = StatusPesquisa.EM_ANDAMENTO;
+	}
+
+	@Enumerated(EnumType.STRING)
+	private StatusPesquisa status;
 
 	@ManyToMany
 	private Set<Pessoa> pesquisadores;
@@ -34,9 +43,6 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Questionario> questionarios;
-	
-	@Convert(converter= LocalDatePersistenceConverter.class)
-	private LocalDate date;
 
 	public String getNome() {
 		return nome;
@@ -67,7 +73,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			this.pesquisadores.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
+					String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
 	}
 
 	public void addEspecialista(Pessoa pessoa) {
@@ -75,7 +81,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			this.especialistas.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
+					String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
 	}
 
 	private boolean verificaSeVaiAtingirLimite(int qtdAdicional) {
@@ -88,7 +94,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 				this.especialistas.addAll(especialistas);
 			else
 				throw new LimiteDeEspecialistasAtingidoException(
-				        "A pesquisa estourou o limite de especialistas definido.");
+						"A pesquisa estourou o limite de especialistas definido.");
 		}
 	}
 
@@ -125,18 +131,18 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			throw new IllegalArgumentException("Número negativo não é aceito.");
 	}
 
+	public boolean isActive() {
+		return this.status == StatusPesquisa.EM_ANDAMENTO;
+	}
+
+	public void finaliza() {
+		this.status = StatusPesquisa.FINALIZADA;
+	}
+
 	@Override
 	public String toString() {
 		return "Pesquisa [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", questionarios=" + questionarios
-		        + "]";
-	}
-	
-	public LocalDate getData() {
-		return date;
-	}
-	
-	public void setDate(LocalDate date) {
-		this.date = date;
+				+ "]";
 	}
 
 }
