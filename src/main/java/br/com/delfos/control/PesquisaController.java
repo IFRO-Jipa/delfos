@@ -17,6 +17,7 @@ import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
@@ -42,7 +43,7 @@ public class PesquisaController {
 
 	@FXML
 	private ListView<Questionario> listViewQuestionario;
-	
+
 	@FXML
 	private RadioButton statusAtivo;
 
@@ -102,8 +103,8 @@ public class PesquisaController {
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
-	
-	//Link Especialista
+
+	// Link Especialista
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -112,7 +113,7 @@ public class PesquisaController {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
 					filtraEspecialistaInexistentes());
 
-			seletor.setCellFactory(cellFactory());
+			seletor.setCellFactory(new TableCellFactory<Pessoa>(null).getCellFactory(pessoa -> pessoa.getNome()));
 
 			Optional<List<Pessoa>> target = seletor.showAndWait();
 			target.ifPresent(result -> {
@@ -124,21 +125,16 @@ public class PesquisaController {
 
 	}
 
-	private ListCell<Pessoa> configuraTextoNaCelula() {
-		ListCell<Pessoa> cell = new ListCell<Pessoa>() {
-			@Override
-			protected void updateItem(final Pessoa p, final boolean bln) {
-				super.updateItem(p, bln);
-				if (p != null) {
-					setText(p.getNome());
-				} else {
-					setText(null);
-				}
-			}
-
-		};
-		return cell;
-	}
+	/*
+	 * private ListCell<Pessoa> configuraTextoNaCelula() { ListCell<Pessoa> cell
+	 * = new ListCell<Pessoa>() {
+	 * 
+	 * @Override protected void updateItem(final Pessoa p, final boolean bln) {
+	 * super.updateItem(p, bln); if (p != null) { setText(p.getNome()); } else {
+	 * setText(null); } }
+	 * 
+	 * }; return cell; }
+	 */
 
 	private List<Pessoa> filtraEspecialistaInexistentes() {
 		List<Pessoa> result = new ArrayList<>();
@@ -157,21 +153,18 @@ public class PesquisaController {
 
 		return result;
 	}
-	
-	//Link Pesquisador
+
+	// Link Pesquisador
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
 	}
-	
-	//Link Questionario
+
+	// Link Questionario
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-		
-		
-
 
 	}
 
@@ -247,7 +240,6 @@ public class PesquisaController {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		// TODO excluir
 		excluiRegistro();
 
 	}
@@ -265,48 +257,36 @@ public class PesquisaController {
 
 	// Implementação dos links
 
-	private Callback<ListView<Pessoa>, ListCell<Pessoa>> cellFactory() {
-
-		return p -> {
-			ListCell<Pessoa> cell = configuraTextoNaCelula();
-
-			ContextMenu menu = getContextMenuToListView(cell);
-
-			cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-				// TODO: criar implementação correta.
-				if (isNowEmpty) {
-					cell.setContextMenu(null);
-				} else {
-					cell.setContextMenu(menu);
-				}
-			});
-
-			return cell;
-		};
-	}
-
-	private <T> ContextMenu getContextMenuToListView(ListCell<T> cell) {
-		MenuItem menuRemoveOnly = new MenuItem();
-		menuRemoveOnly.setText("Remover");
-		menuRemoveOnly.setOnAction(action -> {
-			listViewEspecialista.getItems().remove(cell.getItem());
-			listViewPesquisador.getItems().remove(cell.getItem());
-			listViewQuestionario.getItems().remove(cell.getItem());
-		});
-
-		MenuItem menuRemoveAll = new MenuItem();
-		menuRemoveAll.setText("Remover todos");
-		menuRemoveAll.setOnAction(action -> {
-			if (AlertBuilder.confirmation("Remover todas as funcionalidades selecionadas?")) {
-				listViewPesquisador.getItems().clear();
-				listViewEspecialista.getItems().clear();
-				listViewQuestionario.getItems().clear();
-			}
-		});
-
-		ContextMenu menu = new ContextMenu(menuRemoveOnly, menuRemoveAll);
-		return menu;
-	}
+	/*
+	 * private Callback<ListView<Pessoa>, ListCell<Pessoa>> cellFactory() {
+	 * 
+	 * return p -> { ListCell<Pessoa> cell = configuraTextoNaCelula();
+	 * 
+	 * ContextMenu menu = getContextMenuToListView(cell);
+	 * 
+	 * cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> { //
+	 * cell.setContextMenu(null); } else { cell.setContextMenu(menu); } });
+	 * 
+	 * return cell; }; }
+	 * 
+	 * private <T> ContextMenu getContextMenuToListView(ListCell<T> cell) {
+	 * MenuItem menuRemoveOnly = new MenuItem();
+	 * menuRemoveOnly.setText("Remover"); menuRemoveOnly.setOnAction(action -> {
+	 * listViewEspecialista.getItems().remove(cell.getItem());
+	 * listViewPesquisador.getItems().remove(cell.getItem());
+	 * listViewQuestionario.getItems().remove(cell.getItem()); });
+	 * 
+	 * MenuItem menuRemoveAll = new MenuItem(); menuRemoveAll.setText(
+	 * "Remover todos"); menuRemoveAll.setOnAction(action -> { if
+	 * (AlertBuilder.confirmation(
+	 * "Remover todas as funcionalidades selecionadas?")) {
+	 * listViewPesquisador.getItems().clear();
+	 * listViewEspecialista.getItems().clear();
+	 * listViewQuestionario.getItems().clear(); } });
+	 * 
+	 * ContextMenu menu = new ContextMenu(menuRemoveOnly, menuRemoveAll); return
+	 * menu; }
+	 */
 
 	@FXML
 	private void pesquisa() {
@@ -320,7 +300,14 @@ public class PesquisaController {
 		this.datePesquisa.setValue(LocalDate.now());
 		this.especialistas = new ArrayList<>(daoPessoa.findAll());
 		System.out.println(especialistas);
-		listViewEspecialista.setCellFactory(cellFactory());
+		listViewEspecialista.setCellFactory(
+				new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
+
+		listViewPesquisador.setCellFactory(
+				new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
+
+		listViewQuestionario.setCellFactory(new TableCellFactory<Questionario>(listViewQuestionario)
+				.getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
 	}
 
 	// Pesquisa por código
