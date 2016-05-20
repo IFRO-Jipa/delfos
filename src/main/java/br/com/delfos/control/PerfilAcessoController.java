@@ -24,16 +24,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
 
 @Controller
 public class PerfilAcessoController implements Initializable {
@@ -173,45 +170,6 @@ public class PerfilAcessoController implements Initializable {
 			e.printStackTrace();
 		}
 
-	}
-
-	private Callback<ListView<Funcionalidade>, ListCell<Funcionalidade>> cellFactory() {
-
-		return p -> {
-			ListCell<Funcionalidade> cell = configuraTextoNaCelula();
-
-			ContextMenu menu = getContextMenuToListView(cell);
-
-			cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-				// TODO: criar implementação correta.
-				if (isNowEmpty) {
-					cell.setContextMenu(null);
-				} else {
-					cell.setContextMenu(menu);
-				}
-			});
-
-			return cell;
-		};
-	}
-
-	private ContextMenu getContextMenuToListView(ListCell<Funcionalidade> cell) {
-		MenuItem menuRemoveOnly = new MenuItem();
-		menuRemoveOnly.setText("Remover");
-		menuRemoveOnly.setOnAction(action -> {
-			listViewPermissoes.getItems().remove(cell.getItem());
-		});
-
-		MenuItem menuRemoveAll = new MenuItem();
-		menuRemoveAll.setText("Remover todos");
-		menuRemoveAll.setOnAction(action -> {
-			if (AlertBuilder.confirmation("Remover todas as funcionalidades selecionadas?")) {
-				listViewPermissoes.getItems().clear();
-			}
-		});
-
-		ContextMenu menu = new ContextMenu(menuRemoveOnly, menuRemoveAll);
-		return menu;
 	}
 
 	private ListCell<Funcionalidade> configuraTextoNaCelula() {

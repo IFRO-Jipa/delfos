@@ -18,21 +18,21 @@ public class TableCellFactory<T> {
 		this.listView = listView;
 	}
 
+	public TableCellFactory() {
+	}
+
 	public Callback<ListView<T>, ListCell<T>> getCellFactory(Function<T, String> predicate) {
 
 		return p -> {
 			ListCell<T> cell = configuraTextoNaCelula(predicate);
 
-			ContextMenu menu = getContextMenuToListView(cell);
+			if (listView != null) {
+				ContextMenu menu = getContextMenuToListView(cell);
 
-			cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-				// TODO: criar implementação correta.
-				if (isNowEmpty) {
-					cell.setContextMenu(null);
-				} else {
-					cell.setContextMenu(menu);
-				}
-			});
+				cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+					cell.setContextMenu(isNowEmpty ? null : menu);
+				});
+			}
 
 			return cell;
 		};
