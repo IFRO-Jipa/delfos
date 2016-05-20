@@ -25,19 +25,14 @@ import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
-import javafx.scene.control.RadioButton;
+import javafx.scene.text.Text;
 
 @Controller
 public class PesquisaController {
@@ -46,7 +41,7 @@ public class PesquisaController {
 	private ListView<Questionario> listViewQuestionario;
 
 	@FXML
-	private Label statusAtivo;
+	private Text statusAtivo;
 
 	@FXML
 	private ListView<Pessoa> listViewPesquisador;
@@ -164,19 +159,19 @@ public class PesquisaController {
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 
-		/*try {
-			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
-					filtraPesquisadorInexistente());
-
-			seletor.setCellFactory(new TableCellFactory<Pessoa>(null).getCellFactory(pessoa -> pessoa.getNome()));
-
-			Optional<List<Pessoa>> target = seletor.showAndWait();
-			target.ifPresent(result -> {
-				listViewPesquisador.getItems().addAll(result);
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * try { ListSelection<Pessoa> seletor = new ListSelection<>(
+		 * "Selecione os Pesquisadores", filtraPesquisadorInexistente());
+		 * 
+		 * seletor.setCellFactory(new
+		 * TableCellFactory<Pessoa>(null).getCellFactory(pessoa ->
+		 * pessoa.getNome()));
+		 * 
+		 * Optional<List<Pessoa>> target = seletor.showAndWait();
+		 * target.ifPresent(result -> {
+		 * listViewPesquisador.getItems().addAll(result); }); } catch (Exception
+		 * e) { e.printStackTrace(); }
+		 */
 
 	}
 
@@ -323,11 +318,34 @@ public class PesquisaController {
 	}
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		configFields();
+		configListViews();
+		configCache();
+		configViews();
+	}
+
+	private void configViews() {
+		setStatus(true);
+	}
+
+	private void setStatus(boolean status) {
+		if (status) {
+			statusAtivo.setText("Em andamento");
+			statusAtivo.setStyle("-fx-text-fill");
+		}
+	}
+
+	private void configCache() {
+		this.especialistas = new ArrayList<>(daoPessoa.findAll());
+	}
+
+	private void configFields() {
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
 		this.datePesquisa.setValue(LocalDate.now());
-		this.especialistas = new ArrayList<>(daoPessoa.findAll());
-		System.out.println(especialistas);
+	}
+
+	private void configListViews() {
 		listViewEspecialista.setCellFactory(
 				new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
 
