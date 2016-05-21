@@ -111,7 +111,7 @@ public class PesquisaController implements Initializable {
 
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-			        filtraEspecialistaInexistentes());
+			        filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -125,29 +125,34 @@ public class PesquisaController implements Initializable {
 
 	}
 
-	private List<Pessoa> filtraEspecialistaInexistentes() {
-		List<Pessoa> result = new ArrayList<>();
+	private List<Pessoa> filtraPessoasParaSelecao(TipoPessoa tipo) {
+		List<Pessoa> filtro = new ArrayList<>();
 
-		if (listViewEspecialista.getItems().isEmpty()) {
-			System.out.println("Especialistas estão vazios? " + especialistas.isEmpty());
-			result.addAll(especialistas);
+		// cria referência na memória para objetos já criados
+		List<Pessoa> cache = tipo.equals(TipoPessoa.ESPECIALISTA) ? especialistas : pesquisadores;
+		ListView<Pessoa> list = tipo.equals(TipoPessoa.ESPECIALISTA) ? listViewEspecialista : listViewPesquisador;
+
+		boolean listaVazia = cache.isEmpty();
+
+		if (listaVazia) {
+			filtro.addAll(cache);
 		} else {
-			especialistas.forEach(pessoa -> {
-				if (!listViewEspecialista.getItems().contains(pessoa)) {
-					result.add(pessoa);
+			cache.forEach(pessoa -> {
+				if (!list.getItems().contains(pessoa)) {
+					filtro.add(pessoa);
 				}
-
 			});
 		}
 
-		return result;
+		return filtro;
+
 	}
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
-			        filtraPesquisadorInexistente());
+			        filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -158,23 +163,6 @@ public class PesquisaController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private List<Pessoa> filtraPesquisadorInexistente() {
-		List<Pessoa> result = new ArrayList<>();
-
-		if (listViewPesquisador.getItems().isEmpty()) {
-			result.addAll(pesquisadores);
-		} else {
-			pesquisadores.forEach(pessoa -> {
-				if (!listViewPesquisador.getItems().contains(pessoa)) {
-					result.add(pessoa);
-				}
-
-			});
-		}
-
-		return result;
 	}
 
 	@FXML
@@ -208,7 +196,7 @@ public class PesquisaController implements Initializable {
 		}
 	}
 
-	private Pesquisa montaRegistro() throws LimiteDeEspecialistasAtingidoException {
+	Pesquisa montaRegistro() throws LimiteDeEspecialistasAtingidoException {
 		Pesquisa p = new Pesquisa();
 		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
 		String nome = txtNome.getText();
@@ -229,32 +217,22 @@ public class PesquisaController implements Initializable {
 		// p.addQuestionarios(questionarios);
 		p.addEspecialistas(especialistas);
 		p.addPesquisadores(pesquisadores);
-		
-		p.getEspecialistas().forEach(especialista -> {
-			System.out.printf("\nEspecialista %d, seu nome é %s e está presente na lista.", especialista.getId(), especialista.getNome());
-		});
-		p.getPesquisadores().forEach(pesquisador -> {
-			System.out.printf("\nPesquisador %d, seu nome é %s e está presente na lista.", pesquisador.getId(), pesquisador.getNome());
-		});
-
+		if (getStatus()) {
+			p.setAtivo();
+		} else {
+			p.finaliza();
+		}
 		return p;
+	}
+
+	private boolean getStatus() {
+		// TODO Auto-generated method stub
+		return textAtivo.getText().equals("Em andamento");
 	}
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
-	}
-
-	private void abreRegistro(Pesquisa pesquisa) {
-		if (pesquisa != null) {
-			atualizaCampos(pesquisa);
-		}
-	}
-
-	private void atualizaCampos(Pesquisa pesquisa) {
-		txtCodigo.setText(String.valueOf(pesquisa.getId()));
-		txtNome.setText(pesquisa.getNome());
-		txtDescricao.setText(pesquisa.getDescricao());
 	}
 
 	@FXML
@@ -272,12 +250,6 @@ public class PesquisaController implements Initializable {
 			}
 		} else
 			return;
-	}
-
-	@FXML
-	private void pesquisa() {
-		this.datePesquisa.setEditable(false);
-		this.datePesquisa.disarm();
 	}
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -324,7 +296,6 @@ public class PesquisaController implements Initializable {
 	}
 
 	// Pesquisa por código
-
 	@FXML
 	private void pesquisar() {
 		TextInputDialog dialog = new TextInputDialog();
@@ -337,7 +308,7 @@ public class PesquisaController implements Initializable {
 		if (result.isPresent()) {
 			Optional<Pesquisa> optional = Optional.ofNullable(this.daoPesquisa.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
-				this.abreRegistro(optional.get());
+				this.abreRegistro(optional);
 			} else {
 				ManipuladorDeTelas.limpaCampos(this.rootPane);
 				AlertBuilder.warning("Nenhum registro foi encontrado.");
@@ -346,6 +317,22 @@ public class PesquisaController implements Initializable {
 			ManipuladorDeTelas.limpaCampos(this.rootPane);
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
+	}
+
+	void abreRegistro(Optional<Pesquisa> optional) {
+		optional.ifPresent(pesquisa -> {
+			txtCodigo.setText(String.valueOf(pesquisa.getId()));
+			txtNome.setText(pesquisa.getNome());
+			txtDescricao.setText(pesquisa.getDescricao());
+			txtLimite.setText(String.valueOf(pesquisa.getLimite()));
+			setStatus(pesquisa.isAtivo());
+
+			listViewEspecialista.getItems().clear();
+			listViewEspecialista.getItems().addAll(pesquisa.getEspecialistas());
+
+			listViewPesquisador.getItems().clear();
+			listViewPesquisador.getItems().addAll(pesquisa.getPesquisadores());
+		});
 	}
 
 }

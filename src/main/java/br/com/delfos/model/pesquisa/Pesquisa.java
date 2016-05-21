@@ -6,16 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
@@ -23,6 +22,10 @@ import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.generic.AbstractModel;
+
+enum StatusPesquisa {
+	EM_ANDAMENTO, FINALIZADA;
+}
 
 @Entity
 public class Pesquisa extends AbstractModel<Pesquisa> {
@@ -32,13 +35,16 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	private String descricao;
 	private int limite = 0;
 
-	@ManyToMany
+	@Enumerated(EnumType.STRING)
+	private StatusPesquisa status;
+
+	@ManyToMany(fetch=FetchType.EAGER)
 	@NotNull
-	@ElementCollection
+	@CollectionTable(name = "pesquisa_pesquisadores")
 	private Set<Pessoa> pesquisadores;
 
-	@ManyToMany
-	@ElementCollection
+	@ManyToMany(fetch=FetchType.EAGER)
+	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
 	@OneToMany(fetch = FetchType.EAGER)
@@ -50,6 +56,23 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	public Pesquisa() {
 		this.especialistas = new HashSet<>();
 		this.pesquisadores = new HashSet<>();
+		this.setAtivo();
+	}
+
+	public void setAtivo() {
+		this.status = StatusPesquisa.EM_ANDAMENTO;
+	}
+
+	public void finaliza() {
+		this.status = StatusPesquisa.FINALIZADA;
+	}
+
+	public boolean isAtivo() {
+		return this.status == StatusPesquisa.EM_ANDAMENTO;
+	}
+
+	public boolean isFinalizada() {
+		return !isAtivo();
 	}
 
 	public String getNome() {
