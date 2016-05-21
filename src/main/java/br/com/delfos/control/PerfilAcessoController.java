@@ -25,7 +25,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -76,7 +75,7 @@ public class PerfilAcessoController implements Initializable {
 	private List<Funcionalidade> funcionalidades;
 
 	@FXML
-	void handleBtnPesquisar(ActionEvent event) {
+	        void handleBtnPesquisar(ActionEvent event) {
 		// TODO: Próxima implementação para resolver.......
 
 		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa
@@ -113,13 +112,13 @@ public class PerfilAcessoController implements Initializable {
 	}
 
 	@FXML
-	void handleButtonNovo(ActionEvent event) {
+	        void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
 		txtNome.requestFocus();
 	}
 
 	@FXML
-	void handleButtonExcluir(ActionEvent event) {
+	        void handleButtonExcluir(ActionEvent event) {
 		if (!txtCodigo.getText().isEmpty()) {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				perfilDao.delete(Long.parseLong(txtCodigo.getText()));
@@ -130,7 +129,7 @@ public class PerfilAcessoController implements Initializable {
 	}
 
 	@FXML
-	void handleButtonSalvar(ActionEvent event) {
+	        void handleButtonSalvar(ActionEvent event) {
 		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
 			PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
 			perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
@@ -158,9 +157,9 @@ public class PerfilAcessoController implements Initializable {
 	private void handleLinkAdicionaFuncionalidade(ActionEvent event) {
 		try {
 			ListSelection<Funcionalidade> seletor = new ListSelection<>("Selecione as funcionalidades",
-					filtraFuncionalidadesInexistentes());
+			        filtraFuncionalidadesInexistentes());
 
-			seletor.setCellFactory(p -> configuraTextoNaCelula());
+			seletor.textFormat(p -> p.getNome());
 
 			Optional<List<Funcionalidade>> target = seletor.showAndWait();
 			target.ifPresent(result -> {
@@ -170,23 +169,6 @@ public class PerfilAcessoController implements Initializable {
 			e.printStackTrace();
 		}
 
-	}
-
-	private ListCell<Funcionalidade> configuraTextoNaCelula() {
-		ListCell<Funcionalidade> cell = new ListCell<Funcionalidade>() {
-
-			@Override
-			protected void updateItem(final Funcionalidade t, final boolean bln) {
-				super.updateItem(t, bln);
-				if (t != null) {
-					setText(t.getNome());
-				} else {
-					setText(null);
-				}
-			}
-
-		};
-		return cell;
 	}
 
 	private List<Funcionalidade> filtraFuncionalidadesInexistentes() {
@@ -209,9 +191,8 @@ public class PerfilAcessoController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		funcionalidades = daoFuncionalidade.findAll();
-		// listViewPermissoes.setCellFactory(cellFactory());
 		listViewPermissoes.setCellFactory(
-				new TableCellFactory<Funcionalidade>(listViewPermissoes).getCellFactory(p -> p.getNome()));
+		        new TableCellFactory<Funcionalidade>(listViewPermissoes).getCellFactory(p -> p.getNome()));
 	}
 
 }

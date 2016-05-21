@@ -1,15 +1,14 @@
 package br.com.delfos.view;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.controlsfx.control.ListSelectionView;
 
+import br.com.delfos.util.TableCellFactory;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
 
 public class ListSelection<T> extends Dialog<List<T>> {
 
@@ -45,8 +44,8 @@ public class ListSelection<T> extends Dialog<List<T>> {
 
 	}
 
-	public final void setCellFactory(Callback<ListView<T>, ListCell<T>> value) {
-		view.setCellFactory(value);
+	public final void textFormat(Function<T, String> predicate) {
+		view.setCellFactory(new TableCellFactory<T>().getCellFactory(predicate));
 	}
 
 	private AnchorPane getPane(List<T> options) {

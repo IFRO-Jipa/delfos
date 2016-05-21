@@ -98,9 +98,9 @@
 			</font>
 		</Hyperlink>
 		<AnchorPane layoutX="14.0" layoutY="206.0" />
-		<ListView fx:id="listViewPesquisador" layoutX="20.0" layoutY="184.0"
-			prefHeight="105.0" prefWidth="673.0" AnchorPane.leftAnchor="20.0"
-			AnchorPane.rightAnchor="4.0" />
+		<ListView fx:id="listViewPesquisador" layoutX="20.0"
+			layoutY="184.0" prefHeight="105.0" prefWidth="673.0"
+			AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="4.0" />
 		<Text layoutX="591.0" layoutY="28.0" strokeType="OUTSIDE"
 			strokeWidth="0.0" text="Status" AnchorPane.rightAnchor="84.7265625" />
 		<Text fx:id="textAtivo" layoutX="579.0" layoutY="48.0"

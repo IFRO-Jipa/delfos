@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
+import javax.validation.constraints.NotNull;
 
 import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
@@ -22,11 +21,13 @@ import br.com.delfos.model.generic.AbstractModel;
 @Entity
 public class Pesquisa extends AbstractModel<Pesquisa> {
 
+	@NotNull
 	private String nome;
 	private String descricao;
-	private int limite;
+	private int limite = 0;
 
 	@ManyToMany
+	@NotNull
 	private Set<Pessoa> pesquisadores;
 
 	@ManyToMany
@@ -34,8 +35,8 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Questionario> questionarios;
-	
-	@Convert(converter= LocalDatePersistenceConverter.class)
+
+	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate date;
 
 	public String getNome() {
@@ -58,49 +59,72 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		return questionarios;
 	}
 
-	public void setQuestionarios(List<Questionario> questionarios) {
-		this.questionarios = questionarios;
+	public boolean addQuestionario(Questionario questionario) {
+		return this.questionarios.add(questionario);
 	}
 
-	public void addPesquisador(Pessoa pessoa) throws PessoaInvalidaException {
+	public void addQuestionarios(List<Questionario> questionarios) {
+		this.questionarios.addAll(questionarios);
+	}
+
+	public void clearQuestionario() {
+		this.questionarios.clear();
+	}
+
+	public boolean removeQuestionario(Questionario questionario) {
+		return this.questionarios.remove(questionario);
+	}
+
+	public boolean removeQuestionarios(List<Questionario> questionarios) {
+		return this.questionarios.removeAll(questionarios);
+	}
+
+	public boolean addPesquisador(Pessoa pessoa) throws PessoaInvalidaException {
 		if (pessoa.isPesquisador()) {
-			this.pesquisadores.add(pessoa);
+			return this.pesquisadores.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
 			        String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
 	}
 
-	public void addEspecialista(Pessoa pessoa) {
+	public boolean addEspecialista(Pessoa pessoa) {
 		if (pessoa.isEspecialista() || verificaSeVaiAtingirLimite(1)) {
-			this.especialistas.add(pessoa);
+			return this.especialistas.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
 			        String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
 	}
 
 	private boolean verificaSeVaiAtingirLimite(int qtdAdicional) {
-		return this.especialistas.size() + qtdAdicional <= this.limite;
+		return getQtdEspecialistas() + qtdAdicional <= this.limite;
 	}
 
-	public void addEspecialistas(Set<Pessoa> especialistas) throws LimiteDeEspecialistasAtingidoException {
+	private int getQtdEspecialistas() {
+		return this.especialistas != null ? this.especialistas.size() : 0;
+	}
+
+	public boolean addEspecialistas(List<Pessoa> especialistas) throws LimiteDeEspecialistasAtingidoException {
 		if (verificaTipo(especialistas, TipoPessoa.ESPECIALISTA)) {
 			if ((limite == 0) || verificaSeVaiAtingirLimite(especialistas.size()))
-				this.especialistas.addAll(especialistas);
+				return this.especialistas.addAll(especialistas);
 			else
 				throw new LimiteDeEspecialistasAtingidoException(
 				        "A pesquisa estourou o limite de especialistas definido.");
-		}
+		} else
+			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
 
-	public void addPesquisadores(Set<Pessoa> pesquisadores) {
+	public boolean addPesquisadores(List<Pessoa> pesquisadores) {
 		if (verificaTipo(pesquisadores, TipoPessoa.PESQUISADOR)) {
-			this.pesquisadores.addAll(pesquisadores);
-		}
+			return this.pesquisadores.addAll(pesquisadores);
+		} else
+			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
 
-	private boolean verificaTipo(Set<Pessoa> especialistas, TipoPessoa tipo) {
+	private boolean verificaTipo(List<Pessoa> especialistas, TipoPessoa tipo) {
 		boolean resultado = true;
 		for (Pessoa pessoa : especialistas) {
+			System.out.printf("Pessoa: %s Tipo %s", pessoa.getNome(), pessoa.getTipo());
 			resultado = pessoa.getTipo().contains(tipo);
 		}
 		return resultado;
@@ -130,11 +154,11 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		return "Pesquisa [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", questionarios=" + questionarios
 		        + "]";
 	}
-	
+
 	public LocalDate getData() {
 		return date;
 	}
-	
+
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}

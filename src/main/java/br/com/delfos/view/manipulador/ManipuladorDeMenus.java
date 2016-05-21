@@ -25,7 +25,12 @@ public class ManipuladorDeMenus {
 
 	public ManipuladorDeMenus(Set<Funcionalidade> permissoes) throws URISyntaxException {
 		this.permissoes = permissoes;
-		this.file = new File(ManipuladorDeMenus.class.getResource("/menu.xml").toURI());
+
+		this.file = new File((ManipuladorDeMenus.class.getClassLoader().getResource("config/menu.xml").toURI()));
+	}
+
+	public static void main(String[] args) {
+		System.out.println(ManipuladorDeMenus.class.getClassLoader().getResource("config/menu.xml"));
 	}
 
 	public MenuBar create() throws JDOMException, IOException {
