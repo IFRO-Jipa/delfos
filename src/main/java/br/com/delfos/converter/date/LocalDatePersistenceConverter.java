@@ -1,4 +1,4 @@
-package br.com.delfos.converter.datetime;
+package br.com.delfos.converter.date;
 
 import java.sql.Date;
 import java.time.LocalDate;

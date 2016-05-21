@@ -13,7 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
+import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.generic.AbstractModel;
 

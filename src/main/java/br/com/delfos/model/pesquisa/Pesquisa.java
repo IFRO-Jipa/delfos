@@ -1,6 +1,7 @@
 package br.com.delfos.model.pesquisa;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import br.com.delfos.converter.datetime.LocalDatePersistenceConverter;
+import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
 import br.com.delfos.model.basic.Pessoa;
@@ -39,6 +40,11 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate date;
 
+	public Pesquisa() {
+		this.especialistas = new HashSet<>();
+		this.pesquisadores = new HashSet<>();
+	}
+	
 	public String getNome() {
 		return nome;
 	}

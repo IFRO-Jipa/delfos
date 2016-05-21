@@ -29,8 +29,7 @@ public class ManipuladorDeMenus {
 		this.file = new File((ManipuladorDeMenus.class.getClassLoader().getResource("config/menu.xml").toURI()));
 	}
 
-	public static void main(String[] args) {
-		System.out.println(ManipuladorDeMenus.class.getClassLoader().getResource("config/menu.xml"));
+	public static void main(String[] args) throws URISyntaxException, IOException {
 	}
 
 	public MenuBar create() throws JDOMException, IOException {
