@@ -1,16 +1,21 @@
 package br.com.delfos.model.pesquisa;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
@@ -29,9 +34,11 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@ManyToMany
 	@NotNull
+	@ElementCollection
 	private Set<Pessoa> pesquisadores;
 
 	@ManyToMany
+	@ElementCollection
 	private Set<Pessoa> especialistas;
 
 	@OneToMany(fetch = FetchType.EAGER)
@@ -44,7 +51,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		this.especialistas = new HashSet<>();
 		this.pesquisadores = new HashSet<>();
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -169,4 +176,11 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		this.date = date;
 	}
 
+	public Set<Pessoa> getPesquisadores() {
+		return Collections.unmodifiableSet(pesquisadores);
+	}
+
+	public Set<Pessoa> getEspecialistas() {
+		return Collections.unmodifiableSet(especialistas);
+	}
 }

@@ -229,6 +229,13 @@ public class PesquisaController implements Initializable {
 		// p.addQuestionarios(questionarios);
 		p.addEspecialistas(especialistas);
 		p.addPesquisadores(pesquisadores);
+		
+		p.getEspecialistas().forEach(especialista -> {
+			System.out.printf("\nEspecialista %d, seu nome é %s e está presente na lista.", especialista.getId(), especialista.getNome());
+		});
+		p.getPesquisadores().forEach(pesquisador -> {
+			System.out.printf("\nPesquisador %d, seu nome é %s e está presente na lista.", pesquisador.getId(), pesquisador.getNome());
+		});
 
 		return p;
 	}
