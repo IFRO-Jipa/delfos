@@ -8,16 +8,67 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ProgressBar layoutX="14.0" layoutY="368.0" prefHeight="18.0" prefWidth="677.0" progress="1.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" />
-      <Button fx:id="btnSair" layoutX="231.0" mnemonicParsing="false" onAction="#handleButtonSair" text="X" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Text layoutX="2.0" layoutY="13.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IFRO - 2016" />
-      <Text layoutX="14.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carregando" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="14.0" />
-      <ImageView fx:id="imgLogo" fitHeight="203.0" fitWidth="237.0" layoutX="63.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../imgs/logo-full.png" />
-         </image>
-      </ImageView>
-   </children>
+<AnchorPane id="AnchorPane" prefHeight="365.0" prefWidth="476.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.delfos.control.SplashScreenController">
+	<children>
+		<AnchorPane prefHeight="413.0" prefWidth="592.0"
+			style="-fx-background-color: #2b579a;" AnchorPane.bottomAnchor="0.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+			AnchorPane.topAnchor="0.0">
+			<children>
+				<ImageView fx:id="imgLoading" fitHeight="15.0" fitWidth="206.0"
+					layoutX="148.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+
+					</image>
+				</ImageView>
+				<Text fx:id="lblWelcome" fill="WHITE" layoutX="29.0" layoutY="72.796875"
+					opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="447.2421875"
+					AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="21.0">
+					<font>
+						<Font name="Segoe UI" size="48.0" />
+					</font>
+				</Text>
+				<Text fx:id="lblRudy" fill="WHITE" layoutX="138.0" layoutY="115.0"
+					opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0"
+					AnchorPane.leftAnchor="138.0" AnchorPane.topAnchor="95.576171875">
+					<font>
+						<Font name="Segoe UI" size="18.0" />
+					</font>
+				</Text>
+				<VBox fx:id="vboxBottom" layoutX="14.0" layoutY="364.0"
+					opacity="0.0" spacing="3.0" AnchorPane.bottomAnchor="14.0"
+					AnchorPane.leftAnchor="14.0">
+					<children>
+						<Text fill="WHITE" layoutX="14.0" layoutY="288.0" strokeType="OUTSIDE"
+							strokeWidth="0.0" text="Carregando, aguarde...">
+							<font>
+								<Font name="Segoe UI" size="12.0" />
+							</font>
+						</Text>
+						<Text fill="WHITE" layoutX="15.0" layoutY="308.0" strokeType="OUTSIDE"
+							strokeWidth="0.0" text="Copyrigth By IFRO. All right reserveds - 2015-2016.">
+							<font>
+								<Font name="Segoe UI" size="12.0" />
+							</font>
+						</Text>
+					</children>
+				</VBox>
+				<ImageView fx:id="imgLogo" fitHeight="169.0" fitWidth="193.0"
+					layoutX="144.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+					</image>
+				</ImageView>
+				<Button fx:id="btnClose" layoutX="439.0" layoutY="1.0"
+					mnemonicParsing="false" onAction="#handleBtnClose" prefHeight="15.0"
+					prefWidth="35.0" style="-fx-background-color: #143A73;" text="X"
+					textFill="WHITE" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="1.0">
+					<font>
+						<Font name="Arial Black" size="14.0" />
+					</font>
+				</Button>
+			</children>
+		</AnchorPane>
+	</children>
 </AnchorPane>
