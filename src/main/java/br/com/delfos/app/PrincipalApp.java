@@ -1,7 +1,9 @@
 package br.com.delfos.app;
 
 import java.io.IOException;
+import java.util.Optional;
 
+import br.com.delfos.control.PrincipalController;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
 import javafx.application.Application;
@@ -12,11 +14,13 @@ import javafx.stage.Stage;
 public class PrincipalApp extends Application {
 
 	private static Stage stage;
+	
+	private static final String LOCATION = "/fxml/PrincipalView.fxml";
 
 	@Override
 	public void start(Stage stage) throws IOException {
 
-		AnchorPane pane = (AnchorPane) LeitorDeFXML.carrega("/fxml/PrincipalView.fxml");
+		AnchorPane pane = (AnchorPane) LeitorDeFXML.carrega(LOCATION);
 
 		stage.setScene(new Scene(pane));
 		stage.setTitle("Software Delfos - Menu Principal");
@@ -39,6 +43,11 @@ public class PrincipalApp extends Application {
 		if (AlertBuilder.confirmation("Deseja realmente sair?")) {
 			System.exit(0);
 		}
+	}
+
+	public static Optional<PrincipalController> getController() throws IOException {
+			return Optional.ofNullable((PrincipalController) LeitorDeFXML.getController(LOCATION));
+		
 	}
 
 }

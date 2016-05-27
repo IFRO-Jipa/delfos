@@ -2,7 +2,9 @@ package br.com.delfos.control;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -44,9 +46,12 @@ public class PrincipalController implements Initializable {
 	@FXML
 	private BorderPane subRootPane;
 
+	private Map<String, MenuItem> menus;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
+			menus = new HashMap<>();
 			fechaJanelas();
 			configuraECriaOsMenus();
 		} catch (Exception e) {
@@ -97,16 +102,18 @@ public class PrincipalController implements Initializable {
 	private void setOnActionMenu(MenuItem value) {
 		if (value.getId().contains(":")) {
 			String[] props = value.getId().split(":");
+			menus.put(props[1], value);
 			value.setOnAction(e -> {
 				try {
+
 					abreJanela(props[1], value.getText());
 				} catch (IOException e1) {
-					AlertBuilder.error(null, e1, true);
+					AlertBuilder.error(e1);
 				}
 			});
 		}
 		if (value.getText().equals("Logout")) {
-			System.out.println("vai configurar a ação para o menu de logout");
+			System.out.println("vai configurar a aï¿½ï¿½o para o menu de logout");
 			value.setOnAction(action -> acaoParaLogout(action));
 		}
 	}
@@ -139,6 +146,21 @@ public class PrincipalController implements Initializable {
 		if (tab.getTabPane().getMinHeight() > rootPane.getMinWidth()) {
 			rootPane.setMinHeight(tab.getTabPane().getHeight());
 		}
+	}
+
+	/**
+	 * Open window in TabPane, located in frame Principal
+	 * 
+	 * @param view
+	 *            - The FXML Document referenced by View (exclude .fxml from
+	 *            String)
+	 * @throws IOException 
+	 */
+	public void openWindow(String view) throws IOException {
+		view = view.concat(".fxml");
+		MenuItem item = this.menus.get(view);
+		String [] properties = item.getId().split(":");
+		this.abreJanela(properties[1], item.getText());
 	}
 
 }

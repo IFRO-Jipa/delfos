@@ -40,6 +40,8 @@ import javafx.util.Callback;
 @Controller
 public class QuestionarioController implements Initializable {
 
+	
+	
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
 
@@ -96,7 +98,7 @@ public class QuestionarioController implements Initializable {
 			}
 
 			long p = QuestionarioController.this.getTotalDeDias(item);
-			this.setTooltip(new Tooltip(String.format("Seu questionário durará %d dia(s).", p)));
+			this.setTooltip(new Tooltip(String.format("Seu questionï¿½rio durarï¿½ %d dia(s).", p)));
 		};
 	};
 
@@ -140,9 +142,9 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void pesquisa() {
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Consulta por código");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código da quest");
+		dialog.setTitle("Consulta por cï¿½digo");
+		dialog.setHeaderText("PRï¿½VIA - Consulta de Registros");
+		dialog.setContentText("informe o cï¿½digo da quest");
 
 		Optional<String> result = dialog.showAndWait();
 
@@ -180,7 +182,7 @@ public class QuestionarioController implements Initializable {
 		if (a == 0) {
 			this.lblDuracao.setVisible(false);
 		} else {
-			this.lblDuracao.setText(String.format("Duração: %d dia(s)", a));
+			this.lblDuracao.setText(String.format("Duraï¿½ï¿½o: %d dia(s)", a));
 			this.lblDuracao.setVisible(true);
 
 		}

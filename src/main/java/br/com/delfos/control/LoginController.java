@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
 		try {
 			autenticaUsuario();
 		} catch (UserNotAuthenticatedException | IOException e) {
-			AlertBuilder.error(null, e, false);
+			AlertBuilder.error(e);
 		}
 	}
 

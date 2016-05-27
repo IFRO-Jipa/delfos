@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 
 public class LeitorDeFXML {
 	/**
-	 * Responsável por gerenciar as dependências inseridas nos controllers para
+	 * Responsï¿½vel por gerenciar as dependï¿½ncias inseridas nos controllers para
 	 * o JavaFX
 	 * 
 	 * @param url
@@ -15,10 +15,21 @@ public class LeitorDeFXML {
 	 * @throws IOException
 	 */
 	public synchronized static Object carrega(String url) throws IOException {
+		return LeitorDeFXML.load(url).load();
+	}
+	
+	private synchronized static FXMLLoader load(String url) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(LeitorDeFXML.class.getResource(url));
 		loader.setControllerFactory(param -> ContextFactory.getBean(param));
 
-		return loader.load();
+		return loader;
+	}
+	
+	public synchronized static Object getController(String url) throws IOException { 
+		FXMLLoader loader = load(url);
+		loader.load();
+		return loader.getController();
+		
 	}
 }

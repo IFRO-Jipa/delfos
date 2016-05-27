@@ -14,8 +14,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
 /**
- * Classe responsável por manipular os alertas (<code>Alert</code>) gerados pelo
- * software. Seus tipos são: INFO, WARNING, ERROR, NOTIFICATION e DEFAULT.
+ * Classe responsï¿½vel por manipular os alertas (<code>Alert</code>) gerados pelo
+ * software. Seus tipos sï¿½o: INFO, WARNING, ERROR, NOTIFICATION e DEFAULT.
  * 
  * 
  * @author lhleo
@@ -43,7 +43,15 @@ public class AlertBuilder {
 		Toolkit.getDefaultToolkit().beep();
 	}
 
-	public static void error(String msg, Exception ex, boolean expandable) {
+	public static void error(String msg) {
+		error(msg, null, false);
+	}
+
+	public static void error(Exception ex) {
+		error(ex.getMessage(), ex, true);
+	}
+
+	private static void error(String msg, Exception ex, boolean expandable) {
 		alert.setTitle("Erro encontrado");
 		alert.setAlertType(AlertType.ERROR);
 		alert.setHeaderText(msg == null ? ex.getMessage() : msg);
@@ -56,7 +64,7 @@ public class AlertBuilder {
 			ex.printStackTrace(pw);
 			String exceptionText = sw.toString();
 
-			Label label = new Label("Detalhes técnicos: ");
+			Label label = new Label("Detalhes tï¿½cnicos: ");
 
 			TextArea textArea = new TextArea(exceptionText);
 			textArea.setEditable(false);
@@ -80,17 +88,17 @@ public class AlertBuilder {
 
 	public static void information(String mensagem) {
 		alert.setAlertType(AlertType.INFORMATION);
-		alert.setTitle("Mensagem de Informação");
+		alert.setTitle("Mensagem de Informaï¿½ï¿½o");
 		alert.setHeaderText(mensagem);
-		alert.setContentText("Notificação do sistema");
+		alert.setContentText("Notificaï¿½ï¿½o do sistema");
 		alert.showAndWait();
 	}
 
 	public static boolean confirmation(String mensagem) {
 		alert.setAlertType(AlertType.CONFIRMATION);
-		alert.setTitle("Mensagem de Confirmação");
+		alert.setTitle("Mensagem de Confirmaï¿½ï¿½o");
 		alert.setHeaderText(mensagem);
-		alert.setContentText("Escolha a opção desejada para a solicitação");
+		alert.setContentText("Escolha a opï¿½ï¿½o desejada para a solicitaï¿½ï¿½o");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {

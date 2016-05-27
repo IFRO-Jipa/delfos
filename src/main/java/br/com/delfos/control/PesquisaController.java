@@ -1,5 +1,6 @@
 package br.com.delfos.control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
@@ -104,6 +106,8 @@ public class PesquisaController implements Initializable {
 
 	private List<Questionario> questionarios;
 
+	private static final String VIEW_NAME = "QuestionarioView";
+
 	// Link Especialista
 
 	@FXML
@@ -111,7 +115,7 @@ public class PesquisaController implements Initializable {
 
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-			        filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
+					filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -128,7 +132,7 @@ public class PesquisaController implements Initializable {
 	private List<Pessoa> filtraPessoasParaSelecao(TipoPessoa tipo) {
 		List<Pessoa> filtro = new ArrayList<>();
 
-		// cria referência na memória para objetos já criados
+		// cria referï¿½ncia na memï¿½ria para objetos jï¿½ criados
 		List<Pessoa> cache = tipo.equals(TipoPessoa.ESPECIALISTA) ? especialistas : pesquisadores;
 		ListView<Pessoa> list = tipo.equals(TipoPessoa.ESPECIALISTA) ? listViewEspecialista : listViewPesquisador;
 
@@ -152,7 +156,7 @@ public class PesquisaController implements Initializable {
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
-			        filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
+					filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -167,7 +171,19 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-		// ABRIR A TELA DE QUESTIONÁRIO E ESPERAR POR UM REGISTRO NOVO
+		// ABRIR A TELA DE QUESTIONï¿½RIO E ESPERAR POR UM REGISTRO NOVO
+		try {
+			Optional<PrincipalController> optional = PrincipalApp.getController();
+			optional.ifPresent(controller -> {
+				try {
+					controller.openWindow(VIEW_NAME);
+				} catch (Exception e) {
+					AlertBuilder.error(e);
+				}
+			});
+		} catch (IOException e) {
+			AlertBuilder.error(e);
+		}
 	}
 
 	@FXML
@@ -175,7 +191,7 @@ public class PesquisaController implements Initializable {
 		try {
 			this.salvar(montaRegistro());
 		} catch (LimiteDeEspecialistasAtingidoException ex) {
-			// IMPLEMENTAR PROBLEMA DE ERRO
+			AlertBuilder.error(ex);
 		}
 	}
 
@@ -189,7 +205,7 @@ public class PesquisaController implements Initializable {
 				});
 
 				if (!save.isPresent())
-					AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+					AlertBuilder.information("Nï¿½o foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 			}
 		} catch (IllegalArgumentException ex) {
 			AlertBuilder.warning("Preencha os campos corretamente.");
@@ -206,7 +222,8 @@ public class PesquisaController implements Initializable {
 
 		List<Pessoa> pesquisadores = listViewPesquisador.getItems().isEmpty() ? null : listViewPesquisador.getItems();
 		List<Pessoa> especialistas = listViewEspecialista.getItems().isEmpty() ? null : listViewEspecialista.getItems();
-		// List<Questionario> questionarios = listViewQuestionario.getItems().isEmpty() ? null
+		// List<Questionario> questionarios =
+		// listViewQuestionario.getItems().isEmpty() ? null
 		// : listViewQuestionario.getItems();
 
 		p.setId(id);
@@ -246,7 +263,7 @@ public class PesquisaController implements Initializable {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				daoPesquisa.delete(Long.parseLong(txtCodigo.getText()));
 				ManipuladorDeTelas.limpaCampos(rootPane);
-				AlertBuilder.information("Excluído com sucesso");
+				AlertBuilder.information("Excluï¿½do com sucesso");
 			}
 		} else
 			return;
@@ -286,22 +303,22 @@ public class PesquisaController implements Initializable {
 
 	private void configListViews() {
 		listViewEspecialista.setCellFactory(
-		        new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
+				new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewPesquisador.setCellFactory(
-		        new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
+				new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewQuestionario.setCellFactory(new TableCellFactory<Questionario>(listViewQuestionario)
-		        .getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
+				.getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
 	}
 
-	// Pesquisa por código
+	// Pesquisa por cï¿½digo
 	@FXML
 	private void pesquisar() {
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Consulta por código");
+		dialog.setTitle("Consulta por cï¿½digo");
 		dialog.setHeaderText("Consulta de Registros");
-		dialog.setContentText("Informe código da Pesquisa");
+		dialog.setContentText("Informe cï¿½digo da Pesquisa");
 
 		Optional<String> result = dialog.showAndWait();
 
