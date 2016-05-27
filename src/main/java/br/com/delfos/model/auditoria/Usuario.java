@@ -1,5 +1,6 @@
 package br.com.delfos.model.auditoria;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,10 +21,12 @@ enum Status {
 public class Usuario extends AbstractModel<Usuario> {
 
 	@NotNull
-	@Size(min = 4, message = "O login deve conter, no mínimo, quatro caracteres.")
+	@Size(min = 4, message = "O login deve conter, no mï¿½nimo, quatro caracteres.")
 	private String login;
+	
+	@Column(unique=true)
 	@NotNull
-	@Size(min = 6, message = "A senha deve conter, no mínimo, seis caracteres.")
+	@Size(min = 6, message = "A senha deve conter, no mï¿½nimo, seis caracteres.")
 	private String senha;
 
 	private String descricao;

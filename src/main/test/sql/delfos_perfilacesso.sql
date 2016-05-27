@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `perfilacesso`
+-- Dumping data for table `PerfilAcesso`
 --
 
-LOCK TABLES `perfilacesso` WRITE;
-/*!40000 ALTER TABLE `perfilacesso` DISABLE KEYS */;
-INSERT INTO `perfilacesso` VALUES (1,'Perfil para administradores do sistema','Administrador'),(2,'Perfil para desenvolvedores do sistema','Desenvolvedor'),(3,'Perfil para pesquisadores do sistema','Pesquisador'),(4,'Perfil para especialistas do sistema','Especialista');
-/*!40000 ALTER TABLE `perfilacesso` ENABLE KEYS */;
+LOCK TABLES `PerfilAcesso` WRITE;
+/*!40000 ALTER TABLE `PerfilAcesso` DISABLE KEYS */;
+INSERT INTO `PerfilAcesso` VALUES (1,'Perfil para administradores do sistema','Administrador'),(2,'Perfil para desenvolvedores do sistema','Desenvolvedor'),(3,'Perfil para pesquisadores do sistema','Pesquisador'),(4,'Perfil para especialistas do sistema','Especialista');
+/*!40000 ALTER TABLE `PerfilAcesso` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
