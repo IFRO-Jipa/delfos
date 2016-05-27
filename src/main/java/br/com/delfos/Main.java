@@ -1,5 +1,6 @@
 package br.com.delfos;
 
+import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.SplashScreenApp;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -9,9 +10,17 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		new SplashScreenApp().start(primaryStage);
+		
+		Runnable run = () -> {
+			try {
+				new LoginApp().start(primaryStage);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		};
 
-		primaryStage.addEventHandler(WindowEvent.WINDOW_SHOWING, evt -> handleAfterLoading(evt));
-		new SplashScreenApp().start();
+		// run.run();
 
 	}
 
