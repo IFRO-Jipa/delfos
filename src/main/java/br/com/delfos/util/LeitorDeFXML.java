@@ -14,11 +14,11 @@ public class LeitorDeFXML {
 	 * @return
 	 * @throws IOException
 	 */
-	public synchronized static Object carrega(String url) throws IOException {
-		return LeitorDeFXML.load(url).load();
+	public synchronized static Object load(String url) throws IOException {
+		return LeitorDeFXML.getLoader(url).load();
 	}
 	
-	private synchronized static FXMLLoader load(String url) throws IOException {
+	public synchronized static FXMLLoader getLoader(String url) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(LeitorDeFXML.class.getResource(url));
 		loader.setControllerFactory(param -> ContextFactory.getBean(param));
@@ -27,7 +27,7 @@ public class LeitorDeFXML {
 	}
 	
 	public synchronized static Object getController(String url) throws IOException { 
-		FXMLLoader loader = load(url);
+		FXMLLoader loader = getLoader(url);
 		loader.load();
 		return loader.getController();
 		

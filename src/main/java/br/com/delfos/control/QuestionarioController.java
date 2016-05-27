@@ -203,7 +203,7 @@ public class QuestionarioController implements Initializable {
 
 	private void configTabPergunta() {
 		try {
-			AnchorPane load = (AnchorPane) LeitorDeFXML.carrega("/fxml/PerguntaView.fxml");
+			AnchorPane load = (AnchorPane) LeitorDeFXML.load("/fxml/PerguntaView.fxml");
 
 			Tab tab = new Tab("Perguntas");
 			tab.setContent(load);

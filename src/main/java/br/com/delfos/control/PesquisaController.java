@@ -115,7 +115,7 @@ public class PesquisaController implements Initializable {
 
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-					filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
+			        filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -156,7 +156,7 @@ public class PesquisaController implements Initializable {
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
-					filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
+			        filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -171,7 +171,7 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-		// ABRIR A TELA DE QUESTIONï¿½RIO E ESPERAR POR UM REGISTRO NOVO
+		// ABRIR A TELA DE QUESTIONÁRIO E ESPERAR POR UM REGISTRO NOVO
 		try {
 			Optional<PrincipalController> optional = PrincipalApp.getController();
 			optional.ifPresent(controller -> {
@@ -205,7 +205,8 @@ public class PesquisaController implements Initializable {
 				});
 
 				if (!save.isPresent())
-					AlertBuilder.information("Nï¿½o foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+					AlertBuilder
+					        .information("Nï¿½o foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 			}
 		} catch (IllegalArgumentException ex) {
 			AlertBuilder.warning("Preencha os campos corretamente.");
@@ -303,13 +304,13 @@ public class PesquisaController implements Initializable {
 
 	private void configListViews() {
 		listViewEspecialista.setCellFactory(
-				new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
+		        new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewPesquisador.setCellFactory(
-				new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
+		        new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewQuestionario.setCellFactory(new TableCellFactory<Questionario>(listViewQuestionario)
-				.getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
+		        .getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
 	}
 
 	// Pesquisa por cï¿½digo
