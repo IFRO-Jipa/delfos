@@ -23,7 +23,7 @@ public class LoginApp extends Application {
 
 		stage.setScene(new Scene(pane));
 		stage.initStyle(StageStyle.UTILITY);
-		stage.setTitle("Software Delfos - Autenticação de Usuário");
+		stage.setTitle("Software Delfos - AutenticaÃ§Ã£o de Usuï¿½rio");
 		stage.setResizable(false);
 		stage.show();
 		stage.setOnCloseRequest(event -> System.exit(0));

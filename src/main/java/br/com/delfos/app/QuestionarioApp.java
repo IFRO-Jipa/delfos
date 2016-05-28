@@ -26,7 +26,7 @@ public class QuestionarioApp extends Application {
 		AnchorPane pane = loader.load();
 
 		primaryStage.setScene(new Scene(pane));
-		primaryStage.setTitle("Cria��o de Question�rios");
+		primaryStage.setTitle("Criação de Questionários");
 		QuestionarioApp.primaryStage = primaryStage;
 		QuestionarioApp.controller = loader.getController();
 

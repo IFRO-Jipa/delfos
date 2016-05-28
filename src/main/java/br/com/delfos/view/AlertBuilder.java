@@ -29,6 +29,7 @@ public class AlertBuilder {
 	public static final String ALERT_ERRO_EXCLUIR = "";
 	public static final String ALERT_ERRO_PESQUISAR = "";
 	public static final String ALERT_CONFIRM_EXCLUSAO = "Deseja realmente excluir o registro?";
+	public static final String ALERT_CONFIRM_EXIT = "Deseja realmente sair?";
 
 	static {
 		alert = new Alert(AlertType.INFORMATION);

@@ -45,7 +45,7 @@ public class PrincipalApp extends Application {
 	}
 
 	public static void destroy() {
-		if (AlertBuilder.confirmation("Deseja realmente sair?")) {
+		if (AlertBuilder.confirmation(AlertBuilder.ALERT_CONFIRM_EXIT)) {
 			System.exit(0);
 		}
 	}
