@@ -37,8 +37,14 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate vencimento;
 
+	@Override
+	public String toString() {
+		return "Questionario [id=" + getId() + ",nome=" + nome + ", dataInicio=" + dataInicio + ", dataFinalizacao="
+		        + dataFinalizacao + "]";
+	}
+
 	@Lob
-	@Column(name = "descricao", alias = "Descrição")
+	@Column(name = "descricao", alias = "Descriï¿½ï¿½o")
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)
@@ -123,7 +129,7 @@ public class Questionario extends AbstractModel<Questionario> {
 		if (pergunta != null) {
 			this.perguntas.add(pergunta);
 		} else {
-			throw new IllegalArgumentException("Pergunta inválida. [" + pergunta + "]");
+			throw new IllegalArgumentException("Pergunta invï¿½lida. [" + pergunta + "]");
 		}
 	}
 
@@ -131,7 +137,7 @@ public class Questionario extends AbstractModel<Questionario> {
 		if (perguntas != null && !perguntas.isEmpty()) {
 			this.perguntas.addAll(perguntas);
 		} else {
-			throw new IllegalArgumentException("Lista inválida ou vazia.");
+			throw new IllegalArgumentException("Lista invï¿½lida ou vazia.");
 		}
 	}
 

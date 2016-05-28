@@ -157,6 +157,10 @@ public class PrincipalController implements Initializable {
 	 * @throws IOException 
 	 */
 	public void openWindow(String view) throws IOException {
+		configPane(view);
+	}
+
+	private void configPane(String view) throws IOException {
 		view = view.concat(".fxml");
 		MenuItem item = this.menus.get(view);
 		String [] properties = item.getId().split(":");

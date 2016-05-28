@@ -47,7 +47,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval=true)
 	private List<Questionario> questionarios;
 
 	@Convert(converter = LocalDatePersistenceConverter.class)

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.app.PrincipalApp;
+import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
@@ -104,9 +104,8 @@ public class PesquisaController implements Initializable {
 
 	private List<Pessoa> pesquisadores;
 
+	@SuppressWarnings("unused")
 	private List<Questionario> questionarios;
-
-	private static final String VIEW_NAME = "QuestionarioView";
 
 	// Link Especialista
 
@@ -171,18 +170,19 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
-		// ABRIR A TELA DE QUESTION�RIO E ESPERAR POR UM REGISTRO NOVO
+		// ABRIR A TELA DE QUESTIONÁRIO E ESPERAR POR UM REGISTRO NOVO
 		try {
-			Optional<PrincipalController> optional = PrincipalApp.getController();
-			optional.ifPresent(controller -> {
-				try {
-					controller.openWindow(VIEW_NAME);
-				} catch (Exception e) {
-					AlertBuilder.error(e);
-				}
-			});
+			QuestionarioApp frame = new QuestionarioApp();
+			Optional<Questionario> result = frame.showAndWait();
+
+			if (result.isPresent()) {
+				System.out.println("Tem registro ai dentro.");
+				System.out.println(result.get());
+			} else {
+				System.out.println("não tem");
+			}
 		} catch (IOException e) {
-			AlertBuilder.error(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -205,8 +205,7 @@ public class PesquisaController implements Initializable {
 				});
 
 				if (!save.isPresent())
-					AlertBuilder
-					        .information("N�o foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+					AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 			}
 		} catch (IllegalArgumentException ex) {
 			AlertBuilder.warning("Preencha os campos corretamente.");

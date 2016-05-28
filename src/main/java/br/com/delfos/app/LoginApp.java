@@ -20,6 +20,7 @@ public class LoginApp extends Application {
 
 		pane.getStylesheets().add(LoginApp.class.getResource("/css/Login.css").toString());
 
+
 		stage.setScene(new Scene(pane));
 		stage.initStyle(StageStyle.UTILITY);
 		stage.setTitle("Software Delfos - Autenticação de Usuário");

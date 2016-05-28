@@ -7,9 +7,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.validation.ValidationException;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
@@ -40,8 +44,6 @@ import javafx.util.Callback;
 @Controller
 public class QuestionarioController implements Initializable {
 
-	
-	
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
 
@@ -67,6 +69,7 @@ public class QuestionarioController implements Initializable {
 	private TextField txtNome;
 
 	@FXML
+	@NotNull
 	private TextField txtCod;
 
 	@FXML
@@ -87,6 +90,8 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private Label lblDuracao;
 
+	private Optional<Questionario> registro = Optional.empty();
+
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
 		public void updateItem(LocalDate item, boolean empty) {
@@ -98,33 +103,50 @@ public class QuestionarioController implements Initializable {
 			}
 
 			long p = QuestionarioController.this.getTotalDeDias(item);
-			this.setTooltip(new Tooltip(String.format("Seu question�rio durar� %d dia(s).", p)));
+			this.setTooltip(new Tooltip(String.format("Seu questionário durará dia(s).", p)));
 		};
 	};
 
+	public Optional<Questionario> getRegistro() {
+		return registro;
+	}
+
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
+		Long id = txtCod.getText().isEmpty() ? null : Long.parseLong(txtCod.getText());
 		ManipuladorDeTelas.limpaCampos(this.rootPane);
+		this.txtCod.setText(String.valueOf(id));
 		this.lblDuracao.setVisible(false);
 		this.dtInicio.setValue(LocalDate.now());
 	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		this.dtInicio.setValue(LocalDate.now());
+	}
+	
+	private class Teste {
+		public String nome;
+	}
+	
+	public Teste getTeste() { 
+		return null;
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (ManipuladorDeComponentes.validaCampos(this.rootPane)) {
-			Optional<Questionario> save = this.daoQuestionario.save(this.montaRegistro());
+		try {
+			if (ManipuladorDeComponentes.validaCampos(this)) {
+				registro = this.daoQuestionario.save(this.montaRegistro());
 
-			save.ifPresent(questionario -> {
-				this.txtCod.setText(String.valueOf(questionario.getId()));
-				AlertBuilder.information("Salvo com sucesso");
-			});
+				registro.ifPresent(questionario -> {
+					this.txtCod.setText(String.valueOf(questionario.getId()));
+					AlertBuilder.information("Salvo com sucesso");
+					QuestionarioApp.close();
+				});
+			}
+		} catch (ValidationException ex) {
+			AlertBuilder.error(ex);
 		}
-
 	}
 
 	private Questionario montaRegistro() {
@@ -142,15 +164,15 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void pesquisa() {
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Consulta por c�digo");
-		dialog.setHeaderText("PR�VIA - Consulta de Registros");
-		dialog.setContentText("informe o c�digo da quest");
+		dialog.setTitle("Consulta por código");
+		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
+		dialog.setContentText("informe o cédigo da questão");
 
 		Optional<String> result = dialog.showAndWait();
 
 		if (result.isPresent()) {
 			Optional<Questionario> optional = Optional
-					.ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
+			        .ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
 				this.posicionaRegistro(optional.get());
 			} else {
@@ -182,7 +204,7 @@ public class QuestionarioController implements Initializable {
 		if (a == 0) {
 			this.lblDuracao.setVisible(false);
 		} else {
-			this.lblDuracao.setText(String.format("Dura��o: %d dia(s)", a));
+			this.lblDuracao.setText(String.format("Duração: %d dia(s)", a));
 			this.lblDuracao.setVisible(true);
 
 		}
@@ -193,8 +215,10 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setEditable(false);
 		this.dtInicio.disarm();
 		this.dtInicio.setValue(LocalDate.now());
-
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
+		this.btnNovo.setText("Limpar");
+
+		this.txtCod.setTooltip(new Tooltip("código do registro"));
 
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
 		this.configTabPergunta();
