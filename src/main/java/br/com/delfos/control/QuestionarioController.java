@@ -124,13 +124,6 @@ public class QuestionarioController implements Initializable {
 	private void handleButtonExcluir(ActionEvent event) {
 	}
 	
-	private class Teste {
-		public String nome;
-	}
-	
-	public Teste getTeste() { 
-		return null;
-	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
