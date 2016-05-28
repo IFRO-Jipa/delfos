@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.util.Duration;
 
 @SuppressWarnings("deprecation")
+// TODO: Melhorar a implementação. É uma legítima gambiarra
 public class FadeInTransition extends AbstractAnimation {
 	public FadeInTransition(final Node node) {
 		super(node,

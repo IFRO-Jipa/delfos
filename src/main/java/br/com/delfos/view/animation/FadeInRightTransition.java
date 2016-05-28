@@ -10,7 +10,7 @@ import javafx.util.Duration;
  * Created on : Sep 13, 2014, 8:45:48 AM
  * Author : herudi-pc
  */
-
+//TODO: Melhorar a implementação. É uma legítima gambiarra
 @SuppressWarnings("deprecation")
 public class FadeInRightTransition extends AbstractAnimation {
 	/**
