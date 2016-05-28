@@ -14,16 +14,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
 /**
- * Classe respons�vel por manipular os alertas (<code>Alert</code>) gerados pelo
- * software. Seus tipos s�o: INFO, WARNING, ERROR, NOTIFICATION e DEFAULT.
+ * Classe responsável por manipular os alertas (<code>Alert</code>) gerados pelo
+ * software. Seus tipos são: INFO, WARNING, ERROR, NOTIFICATION e DEFAULT.
  * 
  * 
- * @author lhleo
+ * @author Leonardo Braz
  *
  */
 public class AlertBuilder {
 
 	private static Alert alert;
+
+	public static final String ALERT_ERRO_SALVAR = "";
+	public static final String ALERT_ERRO_EXCLUIR = "";
+	public static final String ALERT_ERRO_PESQUISAR = "";
+	public static final String ALERT_CONFIRM_EXCLUSAO = "Deseja realmente excluir o registro?";
 
 	static {
 		alert = new Alert(AlertType.INFORMATION);
@@ -90,15 +95,15 @@ public class AlertBuilder {
 		alert.setAlertType(AlertType.INFORMATION);
 		alert.setTitle("Mensagem de Informa��o");
 		alert.setHeaderText(mensagem);
-		alert.setContentText("Notifica��o do sistema");
+		alert.setContentText("Notificação do sistema");
 		alert.showAndWait();
 	}
 
 	public static boolean confirmation(String mensagem) {
 		alert.setAlertType(AlertType.CONFIRMATION);
-		alert.setTitle("Mensagem de Confirma��o");
+		alert.setTitle("Mensagem de Confirmação");
 		alert.setHeaderText(mensagem);
-		alert.setContentText("Escolha a op��o desejada para a solicita��o");
+		alert.setContentText("Escolha a opção desejada para a solicitação");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {

@@ -129,12 +129,12 @@ public class PessoaController implements Initializable {
 	}
 
 	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
+		// TODO: Retirar esse cï¿½digo feio.... isso nï¿½o vai ser aqui, e sim numa tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código da pessoa");
+		dialog.setHeaderText("PRï¿½VIA - Consulta de Registros");
+		dialog.setContentText("informe o cï¿½digo da pessoa");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
@@ -179,22 +179,21 @@ public class PessoaController implements Initializable {
 				cbEspecialista.setSelected(true);
 			if (tipo.equals(TipoPessoa.PESQUISADOR))
 				cbPesquisador.setSelected(true);
-		});
-		;
+		});;
 	}
 
 	@FXML
-	void handleButtonPesquisaCpf(ActionEvent event) {
+	        void handleButtonPesquisaCpf(ActionEvent event) {
 
 	}
 
 	@FXML
-	void handleButtonNovo(ActionEvent event) {
+	        void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(anchorPane);
 	}
 
 	@FXML
-	void handleButtonExcluir(ActionEvent event) {
+	        void handleButtonExcluir(ActionEvent event) {
 		excluiRegistro();
 	}
 
@@ -203,7 +202,7 @@ public class PessoaController implements Initializable {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				dao.delete(Long.parseLong(txtCodigo.getText()));
 				ManipuladorDeTelas.limpaCampos(anchorPane);
-				AlertBuilder.information("Excluído com sucesso");
+				AlertBuilder.information("ExcluÃ­do com sucesso");
 			}
 		} else
 			return;
@@ -211,7 +210,7 @@ public class PessoaController implements Initializable {
 
 	@FXML
 	@Transactional
-	void handleButtonSalvar(ActionEvent event) {
+	private void handleButtonSalvar(ActionEvent event) {
 
 		Optional<Pessoa> save = dao.save(montaPessoa());
 

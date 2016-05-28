@@ -37,6 +37,7 @@ import javafx.scene.control.TextField;
  * </blockquote>
  * 
  * @author Leonardo Braz
+ * @see {@link Control}, {@link NotNull}
  *
  */
 public class ValidadorDeCampos {
@@ -87,6 +88,7 @@ public class ValidadorDeCampos {
 	 * 
 	 * </blockquote>
 	 * 
+	 * @see {@link Control}, {@link NotNull}
 	 * @param controller
 	 *            - Classe controladora (conterá os campos)
 	 * @return status da validação (campos preenchidos ou não).
@@ -131,7 +133,7 @@ public class ValidadorDeCampos {
 		return false;
 	}
 
-	public static boolean valida(CheckBox obj) {
+	private static boolean valida(CheckBox obj) {
 		if (!obj.isSelected())
 			lancaException(obj);
 		return true;
@@ -142,19 +144,19 @@ public class ValidadorDeCampos {
 		throw new ValidationException(getMessage(obj));
 	}
 
-	public static boolean valida(ComboBox<?> obj) {
+	private static boolean valida(ComboBox<?> obj) {
 		if (obj.getSelectionModel().getSelectedItem() == null)
 			lancaException(obj);
 		return true;
 	}
 
-	public static boolean valida(TextArea obj) throws ValidationException {
+	private static boolean valida(TextArea obj) throws ValidationException {
 		if (obj.getText().isEmpty())
 			lancaException(obj);
 		return true;
 	}
 
-	public static boolean valida(TextField obj) {
+	private static boolean valida(TextField obj) {
 		if (obj.getText().isEmpty())
 			lancaException(obj);
 		return true;
