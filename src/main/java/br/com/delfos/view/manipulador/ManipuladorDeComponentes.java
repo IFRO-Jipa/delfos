@@ -8,10 +8,13 @@ import javax.validation.constraints.NotNull;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ManipuladorDeComponentes {
+
+	private static final String INVALID_FIELD_MESSAGE = "O campo %s Ã© de preenchimento obrigatÃ³rio.";
 
 	public static boolean validaCampos(Object element) {
 		boolean valid = true;
@@ -20,7 +23,7 @@ public class ManipuladorDeComponentes {
 			Class<?> clazz = element.getClass();
 
 			for (Field field : clazz.getDeclaredFields()) {
-				if (valid)
+				if (!valid)
 					break;
 				if (field.isAnnotationPresent(NotNull.class)) {
 					field.setAccessible(true);
@@ -50,31 +53,41 @@ public class ManipuladorDeComponentes {
 			return valida((TextArea) obj);
 		}
 
-		return true;
+		return false;
 	}
 
 	public static boolean valida(CheckBox obj) {
 		if (!obj.isSelected())
+			lancaException(obj);
+		return true;
+	}
 
-			throw new ValidationException("O campo " + obj.getId() + " é de preenchimento obrigatório");
-		return false;
+	private static void lancaException(Control obj) {
+		obj.requestFocus();
+		throw new ValidationException(getMessage(obj));
 	}
 
 	public static boolean valida(ComboBox<?> obj) {
-		if (obj.getSelectionModel().getSelectedItem() != null)
-			throw new ValidationException("O campo " + obj.getId() + " é de preenchimento obrigatório");
-		return false;
+		if (obj.getSelectionModel().getSelectedItem() == null)
+			lancaException(obj);
+		return true;
 	}
 
-	public static boolean valida(TextArea obj) {
-		if (!obj.getText().isEmpty()) {
-			throw new ValidationException("O campo " + obj.getId() + " é de preenchimento obrigatório");
-		}
-		return false;
-	}	
+	public static boolean valida(TextArea obj) throws ValidationException {
+		if (obj.getText().isEmpty())
+			lancaException(obj);
+		return true;
+	}
 
 	public static boolean valida(TextField obj) {
-		return !obj.getText().isEmpty();
+		if (obj.getText().isEmpty())
+			lancaException(obj);
+		return true;
+	}
+
+	private static String getMessage(Control name) {
+		return String.format(INVALID_FIELD_MESSAGE,
+		        name.getTooltip() != null ? name.getTooltip().getText() : name.getId());
 	}
 
 }
