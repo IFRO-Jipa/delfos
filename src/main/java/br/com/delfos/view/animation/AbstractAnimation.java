@@ -1,6 +1,5 @@
 package br.com.delfos.view.animation;
 
-import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;

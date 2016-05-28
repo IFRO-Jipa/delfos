@@ -11,6 +11,7 @@ import javafx.util.Duration;
  * Author : herudi-pc
  */
 
+@SuppressWarnings("deprecation")
 public class FadeInRightTransition extends AbstractAnimation {
 	/**
 	 * Create new FadeInUpTransition
