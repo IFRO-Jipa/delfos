@@ -1,6 +1,5 @@
-package br.com.delfos.control;
+package br.com.delfos.view.animation;
 
-import br.com.delfos.view.animation.AbstractAnimation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.TimelineBuilder;
