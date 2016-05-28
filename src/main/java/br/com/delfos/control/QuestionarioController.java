@@ -18,7 +18,7 @@ import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -128,7 +128,7 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
 		try {
-			if (ManipuladorDeComponentes.validaCampos(this)) {
+			if (ValidadorDeCampos.validateAll(this)) {
 				registro = this.daoQuestionario.save(this.montaRegistro());
 
 				registro.ifPresent(questionario -> {

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 
@@ -25,7 +25,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 	}
 
 	protected Type salvar(Type value, Pane rootPane) {
-		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+		if (ValidadorDeCampos.validateAll(rootPane)) {
 			Optional<Type> save = dao.save(value);
 			return save.get();
 		} else

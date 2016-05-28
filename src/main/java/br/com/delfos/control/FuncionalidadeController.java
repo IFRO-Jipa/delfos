@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import br.com.delfos.view.table.TableViewFactory;
 import javafx.event.ActionEvent;
@@ -96,7 +96,7 @@ public class FuncionalidadeController implements Initializable {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (ManipuladorDeComponentes.validaCampos(this))
+		if (ValidadorDeCampos.validateAll(this))
 			salva();
 	}
 

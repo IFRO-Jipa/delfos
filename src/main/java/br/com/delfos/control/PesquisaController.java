@@ -24,7 +24,7 @@ import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -197,7 +197,7 @@ public class PesquisaController implements Initializable {
 
 	private void salvar(Pesquisa value) throws LimiteDeEspecialistasAtingidoException {
 		try {
-			if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+			if (ValidadorDeCampos.validateAll(rootPane)) {
 				Optional<Pesquisa> save = daoPesquisa.save(value);
 				save.ifPresent(pesquisa -> {
 					txtCodigo.setText(String.valueOf(pesquisa.getId()));

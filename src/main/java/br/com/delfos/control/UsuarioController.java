@@ -16,7 +16,7 @@ import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -100,12 +100,12 @@ public class UsuarioController implements Initializable {
 	}
 
 	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
+		// TODO: Retirar esse cï¿½digo feio.... isso nï¿½o vai ser aqui, e sim numa tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código da pessoa");
+		dialog.setHeaderText("PRï¿½VIA - Consulta de Registros");
+		dialog.setContentText("informe o cï¿½digo da pessoa");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
@@ -153,7 +153,7 @@ public class UsuarioController implements Initializable {
 	private void excluir(String codigo) {
 		if (codigo.isEmpty()) {
 			usuarioDAO.delete(Long.parseLong(txtCodigo.getText()));
-			AlertBuilder.information("Excluído com sucesso");
+			AlertBuilder.information("Excluï¿½do com sucesso");
 			ManipuladorDeTelas.limpaCampos(rootPane);
 			txtLogin.requestFocus();
 		}
@@ -165,7 +165,7 @@ public class UsuarioController implements Initializable {
 	}
 
 	private void salvar(Usuario value) {
-		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+		if (ValidadorDeCampos.validateAll(rootPane)) {
 			Optional<Usuario> save = usuarioDAO.save(value);
 			save.ifPresent(bean -> {
 				txtCodigo.setText(String.valueOf(bean.getId()));
@@ -174,7 +174,7 @@ public class UsuarioController implements Initializable {
 
 			if (!save.isPresent())
 				AlertBuilder.information(
-				        "Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+				        "Nï¿½o foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 		}
 	}
 
@@ -190,7 +190,7 @@ public class UsuarioController implements Initializable {
 			txtSenha.clear();
 			txtConfirmaSenha.clear();
 			txtSenha.requestFocus();
-			throw new IllegalArgumentException("As senhas informadas não coincidem.");
+			throw new IllegalArgumentException("As senhas informadas nï¿½o coincidem.");
 		}
 		u.setStatus(cbStatus.isSelected());
 		return u;

@@ -18,7 +18,7 @@ import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.ManipuladorDeComponentes;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,15 +76,15 @@ public class PerfilAcessoController implements Initializable {
 
 	@FXML
 	        void handleBtnPesquisar(ActionEvent event) {
-		// TODO: Próxima implementação para resolver.......
+		// TODO: Prï¿½xima implementaï¿½ï¿½o para resolver.......
 
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa
+		// TODO: Retirar esse cï¿½digo feio.... isso nï¿½o vai ser aqui, e sim numa
 		// tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog("ex: 1");
 		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código do perfil");
+		dialog.setHeaderText("PRï¿½VIA - Consulta de Registros");
+		dialog.setContentText("informe o cï¿½digo do perfil");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
@@ -122,7 +122,7 @@ public class PerfilAcessoController implements Initializable {
 		if (!txtCodigo.getText().isEmpty()) {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				perfilDao.delete(Long.parseLong(txtCodigo.getText()));
-				AlertBuilder.information("Excluído com sucesso");
+				AlertBuilder.information("Excluï¿½do com sucesso");
 				handleButtonNovo(event);
 			}
 		}
@@ -130,7 +130,7 @@ public class PerfilAcessoController implements Initializable {
 
 	@FXML
 	        void handleButtonSalvar(ActionEvent event) {
-		if (ManipuladorDeComponentes.validaCampos(rootPane)) {
+		if (ValidadorDeCampos.validateAll(rootPane)) {
 			PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
 			perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
 			perfil.setId((txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText())));
@@ -142,10 +142,10 @@ public class PerfilAcessoController implements Initializable {
 				AlertBuilder.information("Salvo com sucesso!");
 				txtCodigo.setText(String.valueOf(response.get().getId()));
 			} else {
-				AlertBuilder.warning("Oops! Não saiu como esperado.\nPor favor, tente novamente.");
+				AlertBuilder.warning("Oops! Nï¿½o saiu como esperado.\nPor favor, tente novamente.");
 			}
 		} else {
-			AlertBuilder.warning("Campos não foram validados.");
+			AlertBuilder.warning("Campos nï¿½o foram validados.");
 		}
 	}
 
