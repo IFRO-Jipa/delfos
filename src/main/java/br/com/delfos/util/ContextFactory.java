@@ -15,4 +15,8 @@ public class ContextFactory {
 		return CONTEXT.getBean(clazz);
 	}
 
+	public static ApplicationContext getContext() {
+		return CONTEXT;
+	}
+
 }

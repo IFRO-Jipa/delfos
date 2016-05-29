@@ -26,6 +26,7 @@ public class LoginApp extends Application {
 		stage.setTitle("Software Delfos - Autenticação de Usu�rio");
 		stage.setResizable(false);
 		stage.show();
+		SplashScreenApp.close();
 		stage.setOnCloseRequest(event -> System.exit(0));
 		LoginApp.stage = stage;
 	}
