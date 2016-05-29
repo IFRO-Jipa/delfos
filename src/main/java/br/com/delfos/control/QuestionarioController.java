@@ -123,7 +123,6 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
 	}
-	
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
@@ -176,6 +175,11 @@ public class QuestionarioController implements Initializable {
 			ManipuladorDeTelas.limpaCampos(this.rootPane);
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
+	}
+
+	public void init(Optional<Questionario> questionario) {
+		questionario.ifPresent(value -> posicionaRegistro(value));
+		this.registro = questionario;
 	}
 
 	private void posicionaRegistro(Questionario quest) {
@@ -233,6 +237,10 @@ public class QuestionarioController implements Initializable {
 
 	private long getTotalDeDias(LocalDate item) {
 		return ChronoUnit.DAYS.between(QuestionarioController.this.dtInicio.getValue(), item);
+	}
+
+	public void clear() {
+		this.registro = Optional.empty();
 	}
 
 }

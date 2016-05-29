@@ -113,7 +113,7 @@ public class PrincipalController implements Initializable {
 			});
 		}
 		if (value.getText().equals("Logout")) {
-			System.out.println("vai configurar a a��o para o menu de logout");
+			System.out.println("vai configurar a ação para o menu de logout");
 			value.setOnAction(action -> acaoParaLogout(action));
 		}
 	}

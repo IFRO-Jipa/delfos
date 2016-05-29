@@ -133,8 +133,8 @@ public class PessoaController implements Initializable {
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PR�VIA - Consulta de Registros");
-		dialog.setContentText("informe o c�digo da pessoa");
+		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
+		dialog.setContentText("informe o código da pessoa");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();

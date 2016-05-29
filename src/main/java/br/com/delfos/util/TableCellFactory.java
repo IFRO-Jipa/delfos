@@ -8,12 +8,26 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.util.Callback;
 
+/**
+ * Classe responsável por criar um modelo para células ({@link TableCell}) de uma {@link ListView}.
+ * 
+ * @author Leonardo Braz
+ *
+ * @param <T>
+ *            - Tipo de dado contido na lista.
+ */
 public class TableCellFactory<T> {
 
 	private ListView<T> listView;
 
+	/**
+	 * Construtor que recebe a listView
+	 * 
+	 * @param listView
+	 */
 	public TableCellFactory(ListView<T> listView) {
 		this.listView = listView;
 	}
@@ -21,6 +35,15 @@ public class TableCellFactory<T> {
 	public TableCellFactory() {
 	}
 
+	/**
+	 * <p>
+	 * Método responsável por gerenciar o conteúdo e texto de uma listView, caso tenha sido
+	 * referenciada pelo construtor.
+	 * 
+	 * @param predicate
+	 *            - configura o que aparecerá em cada célula.
+	 * @return callback que gerenciará os eventos
+	 */
 	public Callback<ListView<T>, ListCell<T>> getCellFactory(Function<T, String> predicate) {
 
 		return p -> {
@@ -48,8 +71,8 @@ public class TableCellFactory<T> {
 		MenuItem menuRemoveAll = new MenuItem();
 		menuRemoveAll.setText("Remover todos");
 		menuRemoveAll.setOnAction(action -> {
-			if (AlertBuilder.confirmation("Remover todas as informa��es selecionadas?")) {
-				listView.getItems().remove(cell.getItem());
+			if (AlertBuilder.confirmation("Remover todas as informações contidas na lista?")) {
+				listView.getItems().clear();
 			}
 		});
 

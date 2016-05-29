@@ -10,7 +10,7 @@ import br.com.delfos.model.pesquisa.Questionario;
 
 public interface PesquisaRepository extends JpaRepository<Pesquisa, Long> {
 
-	@Query("select q from Questionario q right join Pesquisa p where p.id = ?1")
+	@Query("select q from Questionario q join Pesquisa p where p.id = ?1")
 	public List<Questionario> findQuestionarios(Long idPesquisa);
 
 }

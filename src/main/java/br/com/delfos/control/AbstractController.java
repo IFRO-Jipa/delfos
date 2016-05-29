@@ -36,7 +36,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
 		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o c�digo do registro para prosseguir");
+		dialog.setContentText("informe o código do registro para prosseguir");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();

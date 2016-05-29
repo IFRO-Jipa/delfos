@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -36,6 +37,9 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate vencimento;
+
+	@ManyToOne
+	private Pesquisa pesquisa;
 
 	@Override
 	public String toString() {

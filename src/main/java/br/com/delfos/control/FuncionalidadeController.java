@@ -85,12 +85,12 @@ public class FuncionalidadeController implements Initializable {
 				dao.delete(Long.parseLong(txtCodigo.getText()));
 				tbRegistros.getItems()
 				        .removeIf(valor -> valor.getId() == Long.parseLong(txtCodigo.getText()));
-				AlertBuilder.information("Exclu�do com sucesso");
+				AlertBuilder.information("Excluído com sucesso");
 			} else {
 				AlertBuilder.information("Selecione um registro para poder excluir");
 			}
 		} catch (DataIntegrityViolationException e) {
-			AlertBuilder.error("N�o � poss�vel excluir esse registro\nEle � utilizado em outras informa��es.");
+			AlertBuilder.error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
 		}
 	}
 
@@ -109,7 +109,7 @@ public class FuncionalidadeController implements Initializable {
 			abreRegistro(returned.get());
 			AlertBuilder.information("Salvo com sucesso");
 		} else {
-			AlertBuilder.warning("N�o foi salvo... tente novamente");
+			AlertBuilder.warning("Não foi devidamente salvo... tente novamente");
 		}
 
 	}

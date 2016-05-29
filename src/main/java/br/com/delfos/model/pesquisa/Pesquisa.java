@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -38,17 +39,18 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@Enumerated(EnumType.STRING)
 	private StatusPesquisa status;
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@NotNull
 	@CollectionTable(name = "pesquisa_pesquisadores")
 	private Set<Pessoa> pesquisadores;
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval=true)
-	private List<Questionario> questionarios;
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true,
+	           cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE })
+	private Set<Questionario> questionarios;
 
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate date;
@@ -56,6 +58,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	public Pesquisa() {
 		this.especialistas = new HashSet<>();
 		this.pesquisadores = new HashSet<>();
+		this.questionarios = new HashSet<>();
 		this.setAtivo();
 	}
 
@@ -91,7 +94,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		this.descricao = descricao;
 	}
 
-	public List<Questionario> getQuestionarios() {
+	public Set<Questionario> getQuestionarios() {
 		return questionarios;
 	}
 
@@ -120,7 +123,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			return this.pesquisadores.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
+			        String.format("A pessoa %s nï¿½o ï¿½ um pesquisador vï¿½lido.", pessoa.getNome()));
 	}
 
 	public boolean addEspecialista(Pessoa pessoa) {
@@ -128,7 +131,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			return this.especialistas.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
+			        String.format("A pessoa %s nï¿½o ï¿½ um especialista vï¿½lido.", pessoa.getNome()));
 	}
 
 	private boolean verificaSeVaiAtingirLimite(int qtdAdicional) {
@@ -147,14 +150,14 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 				throw new LimiteDeEspecialistasAtingidoException(
 				        "A pesquisa estourou o limite de especialistas definido.");
 		} else
-			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
+			throw new PessoaInvalidaException("As pessoas informadas nï¿½o sï¿½o especialistas vï¿½lidos.");
 	}
 
 	public boolean addPesquisadores(List<Pessoa> pesquisadores) {
 		if (verificaTipo(pesquisadores, TipoPessoa.PESQUISADOR)) {
 			return this.pesquisadores.addAll(pesquisadores);
 		} else
-			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
+			throw new PessoaInvalidaException("As pessoas informadas nï¿½o sï¿½o especialistas vï¿½lidos.");
 	}
 
 	private boolean verificaTipo(List<Pessoa> especialistas, TipoPessoa tipo) {
@@ -182,7 +185,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		if (limite >= 0) {
 			this.limite = limite;
 		} else
-			throw new IllegalArgumentException("Número negativo não é aceito.");
+			throw new IllegalArgumentException("Nï¿½mero negativo nï¿½o ï¿½ aceito.");
 	}
 
 	@Override

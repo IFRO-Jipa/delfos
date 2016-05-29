@@ -19,19 +19,28 @@ public class QuestionarioApp extends Application {
 	private static final String LOCATION = "/fxml/QuestionarioView.fxml";
 	private static QuestionarioController controller;
 	private static Stage primaryStage;
+	private Optional<Questionario> initValue = Optional.empty();
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = LeitorDeFXML.getLoader(LOCATION);
 		AnchorPane pane = loader.load();
 
-		primaryStage.setScene(new Scene(pane));
-		primaryStage.setTitle("Criação de Questionários");
+		configStage(primaryStage, pane);
+		
 		QuestionarioApp.primaryStage = primaryStage;
 		QuestionarioApp.controller = loader.getController();
 
+		controller.init(initValue);
+		controller.clear();
+
 		primaryStage.showAndWait();
 
+	}
+
+	private void configStage(Stage primaryStage, AnchorPane pane) {
+		primaryStage.setScene(new Scene(pane));
+		primaryStage.setTitle("Criação de Questionários");
 	}
 
 	public static void main(String[] args) {
@@ -61,6 +70,10 @@ public class QuestionarioApp extends Application {
 
 	public static void close() {
 		QuestionarioApp.primaryStage.hide();
+	}
+
+	public void init(Optional<Questionario> questionario) {
+		this.initValue = questionario;
 	}
 
 }

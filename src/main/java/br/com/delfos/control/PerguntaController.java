@@ -41,9 +41,9 @@ public class PerguntaController implements Initializable {
 	        .observableArrayList(TipoPergunta.getAll());
 
 	private final ObservableList<PerguntaProperty> dadosTabela = FXCollections.observableArrayList(
-	        new PerguntaProperty("Qual é o seu nome?", TipoPergunta.INTERVALO),
-	        new PerguntaProperty("Qual é o seu grau de conhecimento em Java?", TipoPergunta.MULTIPLA_ESCOLHA),
-	        new PerguntaProperty("Deixe seu comentário sobre a pesquisa?", TipoPergunta.PARAGRAFO));
+	        new PerguntaProperty("Qual Ã© o seu nome?", TipoPergunta.INTERVALO),
+	        new PerguntaProperty("Qual o o seu grau de conhecimento em Java?", TipoPergunta.MULTIPLA_ESCOLHA),
+	        new PerguntaProperty("Deixe seu comentï¿½rio sobre a pesquisa?", TipoPergunta.PARAGRAFO));
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

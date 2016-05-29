@@ -95,7 +95,7 @@ public class UsuarioController implements Initializable {
 	private PessoaDAO pessoaDAO;
 
 	@FXML
-	void handleButtonPesquisaCodigo(ActionEvent event) {
+	        void handleButtonPesquisaCodigo(ActionEvent event) {
 		pesquisaPorCodigo();
 	}
 
@@ -104,15 +104,14 @@ public class UsuarioController implements Initializable {
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PR�VIA - Consulta de Registros");
-		dialog.setContentText("informe o c�digo da pessoa");
+		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
+		dialog.setContentText("informe o código da pessoa");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 
 		if (result.isPresent()) {
-			Optional<Usuario> optional = Optional
-			        .ofNullable(usuarioDAO.findOne(Long.parseLong(result.get())));
+			Optional<Usuario> optional = Optional.ofNullable(usuarioDAO.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
 				posicionaRegistro(optional.get());
 			} else {
@@ -135,18 +134,18 @@ public class UsuarioController implements Initializable {
 	}
 
 	@FXML
-	void handleButtonPesquisaResponsavel(ActionEvent event) {
+	        void handleButtonPesquisaResponsavel(ActionEvent event) {
 
 	}
 
 	@FXML
-	void handleButtonNovo(ActionEvent event) {
+	        void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
 		txtLogin.requestFocus();
 	}
 
 	@FXML
-	void handleButtonExcluir(ActionEvent event) {
+	        void handleButtonExcluir(ActionEvent event) {
 		excluir(txtCodigo.getText());
 	}
 
@@ -160,7 +159,7 @@ public class UsuarioController implements Initializable {
 	}
 
 	@FXML
-	void handleButtonSalvar(ActionEvent event) {
+	        void handleButtonSalvar(ActionEvent event) {
 		this.salvar(montaRegistro());
 	}
 
@@ -173,8 +172,7 @@ public class UsuarioController implements Initializable {
 			});
 
 			if (!save.isPresent())
-				AlertBuilder.information(
-				        "N�o foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 		}
 	}
 
@@ -190,7 +188,7 @@ public class UsuarioController implements Initializable {
 			txtSenha.clear();
 			txtConfirmaSenha.clear();
 			txtSenha.requestFocus();
-			throw new IllegalArgumentException("As senhas informadas n�o coincidem.");
+			throw new IllegalArgumentException("As senhas informadas não coincidem.");
 		}
 		u.setStatus(cbStatus.isSelected());
 		return u;

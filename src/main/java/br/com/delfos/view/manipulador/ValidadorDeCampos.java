@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -128,9 +130,26 @@ public class ValidadorDeCampos {
 			return valida((ComboBox<?>) obj);
 		} else if (obj instanceof TextArea) {
 			return valida((TextArea) obj);
+		} else if (obj instanceof ListView<?>) {
+			return valida((ListView<?>) obj);
+		} else if (obj instanceof DatePicker) {
+			return valida((DatePicker) obj);
 		}
 
 		return false;
+	}
+
+	private static boolean valida(DatePicker obj) {
+		if (obj.getValue() == null)
+			lancaException(obj);
+
+		return true;
+	}
+
+	private static boolean valida(ListView<?> obj) {
+		if (obj.getItems().isEmpty())
+			lancaException(obj);
+		return true;
 	}
 
 	private static boolean valida(CheckBox obj) {

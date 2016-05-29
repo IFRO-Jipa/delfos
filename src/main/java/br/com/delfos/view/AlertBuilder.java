@@ -70,7 +70,7 @@ public class AlertBuilder {
 			ex.printStackTrace(pw);
 			String exceptionText = sw.toString();
 
-			Label label = new Label("Detalhes t�cnicos: ");
+			Label label = new Label("Detalhes técnicos: ");
 
 			TextArea textArea = new TextArea(exceptionText);
 			textArea.setEditable(false);
@@ -94,7 +94,7 @@ public class AlertBuilder {
 
 	public static void information(String mensagem) {
 		alert.setAlertType(AlertType.INFORMATION);
-		alert.setTitle("Mensagem de Informa��o");
+		alert.setTitle("Mensagem de Informação");
 		alert.setHeaderText(mensagem);
 		alert.setContentText("Notificação do sistema");
 		alert.showAndWait();

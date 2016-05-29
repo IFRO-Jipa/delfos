@@ -76,15 +76,15 @@ public class PerfilAcessoController implements Initializable {
 
 	@FXML
 	        void handleBtnPesquisar(ActionEvent event) {
-		// TODO: Pr�xima implementa��o para resolver.......
+		// TODO: Próxima implementa��o para resolver.......
 
 		// TODO: Retirar esse c�digo feio.... isso n�o vai ser aqui, e sim numa
 		// tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog("ex: 1");
 		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PR�VIA - Consulta de Registros");
-		dialog.setContentText("informe o c�digo do perfil");
+		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
+		dialog.setContentText("informe o código do perfil");
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
@@ -122,7 +122,7 @@ public class PerfilAcessoController implements Initializable {
 		if (!txtCodigo.getText().isEmpty()) {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				perfilDao.delete(Long.parseLong(txtCodigo.getText()));
-				AlertBuilder.information("Exclu�do com sucesso");
+				AlertBuilder.information("Excluído com sucesso");
 				handleButtonNovo(event);
 			}
 		}
@@ -142,10 +142,10 @@ public class PerfilAcessoController implements Initializable {
 				AlertBuilder.information("Salvo com sucesso!");
 				txtCodigo.setText(String.valueOf(response.get().getId()));
 			} else {
-				AlertBuilder.warning("Oops! N�o saiu como esperado.\nPor favor, tente novamente.");
+				AlertBuilder.warning("Oops! Não saiu como esperado\nPor favor, tente novamente.");
 			}
 		} else {
-			AlertBuilder.warning("Campos n�o foram validados.");
+			AlertBuilder.warning("Campos não foram validados.");
 		}
 	}
 
