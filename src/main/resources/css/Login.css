@@ -11,7 +11,8 @@
 }
 
 .background { 
-	-fx-background-color: #94B8B8;
+	/*-fx-background-color: #94B8B8;*/
+	-fx-background-color: #2b579a;
 }
 
 .texto {

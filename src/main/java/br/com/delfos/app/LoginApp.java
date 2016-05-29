@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 @Service
 public class LoginApp extends Application {
@@ -20,13 +19,12 @@ public class LoginApp extends Application {
 
 		pane.getStylesheets().add(LoginApp.class.getResource("/css/Login.css").toString());
 
-
 		stage.setScene(new Scene(pane));
-		stage.initStyle(StageStyle.UTILITY);
-		stage.setTitle("Software Delfos - Autenticação de Usu�rio");
+		// stage.initStyle(StageStyle.UTILITY);
+		stage.setTitle("Delfos - Autenticação de Usuário");
 		stage.setResizable(false);
-		stage.show();
 		SplashScreenApp.close();
+		stage.show();
 		stage.setOnCloseRequest(event -> System.exit(0));
 		LoginApp.stage = stage;
 	}
