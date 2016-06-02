@@ -294,7 +294,7 @@ public class PesquisaController implements Initializable {
 	
 	//Muda Status
 
-	private void setStatus() {
+	private void setStatus(boolean status) {
 		if (status) {
 			textAtivo.setText("Em andamento");
 			textAtivo.setStyle("-fx-text-fill: #007FFF");
@@ -313,8 +313,7 @@ public class PesquisaController implements Initializable {
 				if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
 					//Adicionar aqui a mudança de status da pesquisa
 					
-					
-					status == true;
+					status = true;
 					
 					AlertBuilder.information("Pesquisa Finalizada");
 				}
