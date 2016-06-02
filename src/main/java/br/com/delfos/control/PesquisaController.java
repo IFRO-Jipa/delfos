@@ -111,7 +111,7 @@ public class PesquisaController implements Initializable {
 
 	private List<Pessoa> pesquisadores;
 	
-	boolean status;
+	
 
 	@SuppressWarnings("unused")
 	private List<Questionario> questionarios;
@@ -292,8 +292,24 @@ public class PesquisaController implements Initializable {
 			return;
 	}
 	
+	
+	//Botão Finalizar Pesquisa
+	 @FXML
+	    void handleButtonFinalizar(ActionEvent event) {
+		 
+		 //if (!txtCodigo.getText().isEmpty()) {
+			//	if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
+					//Adicionar aqui a mudança de status da pesquisa
+		 
+		 			//Eu tinha feito uma váriavel status aqui na Classe e colocado ela como false aqui no If
+				
+			//		AlertBuilder.information("Pesquisa Finalizada");
+			//	}
+			//} else
+				
+		}
+	
 	//Muda Status
-
 	private void setStatus(boolean status) {
 		if (status) {
 			textAtivo.setText("Em andamento");
@@ -303,24 +319,6 @@ public class PesquisaController implements Initializable {
 			textAtivo.setStyle("-fx-text-fill: #32CD32");
 		}
 	}
-	
-	//Botão Finalizar Pesquisa
-	
-	 @FXML
-	    void handleButtonFinalizar(ActionEvent event) {
-		 
-		 if (!txtCodigo.getText().isEmpty()) {
-				if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
-					//Adicionar aqui a mudança de status da pesquisa
-					
-					status = true;
-					
-					AlertBuilder.information("Pesquisa Finalizada");
-				}
-			} else
-				return;
-		}
-
 	
 	
 	//Inicializando
@@ -384,7 +382,7 @@ public class PesquisaController implements Initializable {
 		}
 	}
 
-	// Pesquisa por código
+	// Pesquisa por códigos
 	@FXML
 	private void pesquisar() {
 		TextInputDialog dialog = new TextInputDialog();
@@ -411,8 +409,9 @@ public class PesquisaController implements Initializable {
 			txtNome.setText(pesquisa.getNome());
 			txtDescricao.setText(pesquisa.getDescricao());
 			txtLimite.setText(String.valueOf(pesquisa.getLimite()));
-			setStatus(pesquisa.isAtivo());
-
+			//textAtivo.setText(String.valueOf(pesquisa.isAtivo()));
+			setStatus(true);
+			
 			listViewEspecialista.getItems().clear();
 			listViewEspecialista.getItems().addAll(pesquisa.getEspecialistas());
 
