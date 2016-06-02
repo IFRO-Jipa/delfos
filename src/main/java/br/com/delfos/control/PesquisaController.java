@@ -91,6 +91,9 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private Button btnNovo;
+	
+	@FXML
+	private Button btFinalizar;
 
 	@FXML
 	private Hyperlink linkAdicionaEspecialista;
@@ -283,6 +286,14 @@ public class PesquisaController implements Initializable {
 		} else
 			return;
 	}
+	
+	//Botão Finalizar Pesquisa
+	
+	 @FXML
+	    void handleButtonFinalizar(ActionEvent event) {
+
+	    }
+	
 	
 	//Inicializando
 

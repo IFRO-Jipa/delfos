@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,7 +70,6 @@ public class QuestionarioController implements Initializable {
 	private TextField txtNome;
 
 	@FXML
-	@NotNull
 	private TextField txtCod;
 
 	@FXML

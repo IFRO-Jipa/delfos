@@ -49,7 +49,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	private Set<Pessoa> especialistas;
 
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true,
-	           cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE })
+	           cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH })
 	private Set<Questionario> questionarios;
 
 	@Convert(converter = LocalDatePersistenceConverter.class)

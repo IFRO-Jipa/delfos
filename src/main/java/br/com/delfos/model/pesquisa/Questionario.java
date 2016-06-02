@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,7 +39,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate vencimento;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.DETACH)
 	private Pesquisa pesquisa;
 
 	@Override
