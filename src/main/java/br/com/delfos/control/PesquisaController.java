@@ -111,7 +111,8 @@ public class PesquisaController implements Initializable {
 
 	private List<Pessoa> pesquisadores;
 	
-	boolean status;
+	boolean status; //Precisa mesmo desta variável?
+	
 
 	@SuppressWarnings("unused")
 	private List<Questionario> questionarios;
@@ -294,7 +295,7 @@ public class PesquisaController implements Initializable {
 	
 	//Muda Status
 
-	private void setStatus(boolean status) {
+	private void setStatus() {
 		if (status) {
 			textAtivo.setText("Em andamento");
 			textAtivo.setStyle("-fx-text-fill: #007FFF");
@@ -312,8 +313,8 @@ public class PesquisaController implements Initializable {
 		 if (!txtCodigo.getText().isEmpty()) {
 				if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
 					//Adicionar aqui a mudança de status da pesquisa
-					
-					status = true;
+						
+					 status = false;
 					
 					AlertBuilder.information("Pesquisa Finalizada");
 				}
@@ -321,7 +322,6 @@ public class PesquisaController implements Initializable {
 				return;
 		}
 
-	
 	
 	//Inicializando
 
@@ -333,7 +333,7 @@ public class PesquisaController implements Initializable {
 	}
 
 	private void configViews() {
-		setStatus(true);
+		status = true;
 	}
 	
 
@@ -384,7 +384,7 @@ public class PesquisaController implements Initializable {
 		}
 	}
 
-	// Pesquisa por código
+	// Pesquisa por códigos
 	@FXML
 	private void pesquisar() {
 		TextInputDialog dialog = new TextInputDialog();
