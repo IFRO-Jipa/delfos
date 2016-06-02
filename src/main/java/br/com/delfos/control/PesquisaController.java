@@ -110,6 +110,8 @@ public class PesquisaController implements Initializable {
 	private List<Pessoa> especialistas;
 
 	private List<Pessoa> pesquisadores;
+	
+	boolean status;
 
 	@SuppressWarnings("unused")
 	private List<Questionario> questionarios;
@@ -255,11 +257,14 @@ public class PesquisaController implements Initializable {
 		}
 		return p;
 	}
+	
+	//Métodos para a manipulação do status da pesquisa
 
 	private boolean getStatus() {
 		// TODO Auto-generated method stub
 		return textAtivo.getText().equals("Em andamento");
 	}
+	
 	
 	//Botão Novo
 
@@ -281,18 +286,42 @@ public class PesquisaController implements Initializable {
 			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
 				daoPesquisa.delete(Long.parseLong(txtCodigo.getText()));
 				ManipuladorDeTelas.limpaCampos(rootPane);
-				AlertBuilder.information("Exclu�do com sucesso");
+				AlertBuilder.information("Excluído com sucesso");
 			}
 		} else
 			return;
+	}
+	
+	//Muda Status
+
+	private void setStatus() {
+		if (status) {
+			textAtivo.setText("Em andamento");
+			textAtivo.setStyle("-fx-text-fill: #007FFF");
+		} else {
+			textAtivo.setText("Finalizada");
+			textAtivo.setStyle("-fx-text-fill: #32CD32");
+		}
 	}
 	
 	//Botão Finalizar Pesquisa
 	
 	 @FXML
 	    void handleButtonFinalizar(ActionEvent event) {
+		 
+		 if (!txtCodigo.getText().isEmpty()) {
+				if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
+					//Adicionar aqui a mudança de status da pesquisa
+					
+					
+					status == true;
+					
+					AlertBuilder.information("Pesquisa Finalizada");
+				}
+			} else
+				return;
+		}
 
-	    }
 	
 	
 	//Inicializando
@@ -308,17 +337,6 @@ public class PesquisaController implements Initializable {
 		setStatus(true);
 	}
 	
-	//Muda Status
-
-	private void setStatus(boolean status) {
-		if (status) {
-			textAtivo.setText("Em andamento");
-			textAtivo.setStyle("-fx-text-fill: #007FFF");
-		} else {
-			textAtivo.setText("Finalizada");
-			textAtivo.setStyle("-fx-text-fill: #32CD32");
-		}
-	}
 
 	private void configCache() {
 		this.especialistas = new ArrayList<>(daoPessoa.findByTipo(TipoPessoa.ESPECIALISTA));

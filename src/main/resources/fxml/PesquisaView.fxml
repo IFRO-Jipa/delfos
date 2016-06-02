@@ -64,6 +64,9 @@
 		<ListView fx:id="listViewPesquisador" layoutX="20.0" layoutY="184.0" prefHeight="105.0" prefWidth="673.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="4.0" />
 		<Text layoutX="591.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" AnchorPane.rightAnchor="84.7265625" />
 		<Text fx:id="textAtivo" layoutX="579.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Em andamento" AnchorPane.rightAnchor="37.73828125" />
-      <Button fx:id="btFinalizar" layoutX="18.0" layoutY="523.0" mnemonicParsing="false" onAction="#handleButtonFinalizar" prefHeight="34.0" prefWidth="92.0" text="Finalizar" />
+      <Button fx:id="btFinalizar" layoutX="18.0" layoutY="523.0" mnemonicParsing="false" onAction="#handleButtonFinalizar" prefHeight="33.0" prefWidth="93.0" text="Finalizar" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="18.0" />
 	</children>
+   <padding>
+      <Insets left="2.0" right="2.0" />
+   </padding>
 </AnchorPane>
