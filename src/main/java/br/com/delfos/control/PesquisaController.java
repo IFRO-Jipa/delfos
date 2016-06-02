@@ -293,8 +293,22 @@ public class PesquisaController implements Initializable {
 			return;
 	}
 	
+	
+	//Botão Finalizar Pesquisa
+	 @FXML
+	    void handleButtonFinalizar(ActionEvent event) {
+		 
+		 if (!txtCodigo.getText().isEmpty()) {
+				if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
+					//Adicionar aqui a mudança de status da pesquisa	
+					status = false;
+					AlertBuilder.information("Pesquisa Finalizada");
+				}
+			} else
+				status = false;
+		}
+	
 	//Muda Status
-
 	private void setStatus() {
 		if (status) {
 			textAtivo.setText("Em andamento");
@@ -305,23 +319,6 @@ public class PesquisaController implements Initializable {
 		}
 	}
 	
-	//Botão Finalizar Pesquisa
-	
-	 @FXML
-	    void handleButtonFinalizar(ActionEvent event) {
-		 
-		 if (!txtCodigo.getText().isEmpty()) {
-				if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
-					//Adicionar aqui a mudança de status da pesquisa
-						
-					 status = false;
-					
-					AlertBuilder.information("Pesquisa Finalizada");
-				}
-			} else
-				return;
-		}
-
 	
 	//Inicializando
 
@@ -333,7 +330,7 @@ public class PesquisaController implements Initializable {
 	}
 
 	private void configViews() {
-		status = true;
+		setStatus();
 	}
 	
 
@@ -411,7 +408,7 @@ public class PesquisaController implements Initializable {
 			txtNome.setText(pesquisa.getNome());
 			txtDescricao.setText(pesquisa.getDescricao());
 			txtLimite.setText(String.valueOf(pesquisa.getLimite()));
-			setStatus(pesquisa.isAtivo());
+			//setStatus(pesquisa.isAtivo());
 
 			listViewEspecialista.getItems().clear();
 			listViewEspecialista.getItems().addAll(pesquisa.getEspecialistas());
