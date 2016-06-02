@@ -156,6 +156,8 @@ public class PesquisaController implements Initializable {
 		return filtro;
 
 	}
+	
+	//Link para adicionar pesquisadores
 
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
@@ -173,6 +175,8 @@ public class PesquisaController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	//Link para adicionar questionários
 
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
@@ -188,6 +192,8 @@ public class PesquisaController implements Initializable {
 			AlertBuilder.error(e);
 		}
 	}
+	
+	//Botão Salvar
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
@@ -251,11 +257,15 @@ public class PesquisaController implements Initializable {
 		// TODO Auto-generated method stub
 		return textAtivo.getText().equals("Em andamento");
 	}
+	
+	//Botão Novo
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
 	}
+	
+	//Botão Excluir
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
@@ -273,6 +283,8 @@ public class PesquisaController implements Initializable {
 		} else
 			return;
 	}
+	
+	//Inicializando
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		configFields();
@@ -284,6 +296,8 @@ public class PesquisaController implements Initializable {
 	private void configViews() {
 		setStatus(true);
 	}
+	
+	//Muda Status
 
 	private void setStatus(boolean status) {
 		if (status) {
