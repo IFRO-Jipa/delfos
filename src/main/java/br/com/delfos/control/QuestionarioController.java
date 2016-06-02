@@ -1,5 +1,6 @@
 package br.com.delfos.control;
 
+// importando o necessário para rodar 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -18,8 +19,8 @@ import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,6 +45,7 @@ import javafx.util.Callback;
 @Controller
 public class QuestionarioController implements Initializable {
 
+	// Declarando variaveis da tela
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
 
@@ -92,6 +94,7 @@ public class QuestionarioController implements Initializable {
 
 	private Optional<Questionario> registro = Optional.empty();
 
+	// método que libera o campo data de vencimento e muda a cor dele
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
 		public void updateItem(LocalDate item, boolean empty) {
@@ -108,12 +111,13 @@ public class QuestionarioController implements Initializable {
 	};
 
 	public Optional<Questionario> getRegistro() {
-		return registro;
+		return this.registro;
 	}
 
+	// ações dos botões
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		Long id = txtCod.getText().isEmpty() ? null : Long.parseLong(txtCod.getText());
+		Long id = this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText());
 		ManipuladorDeTelas.limpaCampos(this.rootPane);
 		this.txtCod.setText(String.valueOf(id));
 		this.lblDuracao.setVisible(false);
@@ -128,9 +132,9 @@ public class QuestionarioController implements Initializable {
 	private void handleButtonSalvar(ActionEvent event) {
 		try {
 			if (ValidadorDeCampos.validateAll(this)) {
-				registro = this.daoQuestionario.save(this.montaRegistro());
+				this.registro = this.daoQuestionario.save(this.montaRegistro());
 
-				registro.ifPresent(questionario -> {
+				this.registro.ifPresent(questionario -> {
 					this.txtCod.setText(String.valueOf(questionario.getId()));
 					AlertBuilder.information("Salvo com sucesso");
 					QuestionarioApp.close();
@@ -141,6 +145,7 @@ public class QuestionarioController implements Initializable {
 		}
 	}
 
+	// monta o objeto do questionario que está na tela para ser salvo
 	private Questionario montaRegistro() {
 		Questionario q = new Questionario();
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
@@ -153,6 +158,7 @@ public class QuestionarioController implements Initializable {
 		return q;
 	}
 
+	// pesquisa por codigo
 	@FXML
 	private void pesquisa() {
 		TextInputDialog dialog = new TextInputDialog();
@@ -164,7 +170,7 @@ public class QuestionarioController implements Initializable {
 
 		if (result.isPresent()) {
 			Optional<Questionario> optional = Optional
-			        .ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
+					.ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
 				this.posicionaRegistro(optional.get());
 			} else {
@@ -178,7 +184,7 @@ public class QuestionarioController implements Initializable {
 	}
 
 	public void init(Optional<Questionario> questionario) {
-		questionario.ifPresent(value -> posicionaRegistro(value));
+		questionario.ifPresent(value -> this.posicionaRegistro(value));
 		this.registro = questionario;
 	}
 
@@ -197,6 +203,7 @@ public class QuestionarioController implements Initializable {
 		this.setDias(this.getTotalDeDias(this.dtVencimento.getValue()));
 	}
 
+	// calculo de duração do questionario
 	private void setDias(Long a) {
 		if (a == 0) {
 			this.lblDuracao.setVisible(false);
