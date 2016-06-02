@@ -300,6 +300,8 @@ public class PesquisaController implements Initializable {
 		 //if (!txtCodigo.getText().isEmpty()) {
 			//	if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
 					//Adicionar aqui a mudança de status da pesquisa
+		 
+		 			//Eu tinha feito uma váriavel status aqui na Classe e colocado ela como false aqui no If
 				
 			//		AlertBuilder.information("Pesquisa Finalizada");
 			//	}
