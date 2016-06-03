@@ -9,8 +9,7 @@ public class Cripto {
 
 		String senhaSalva = getSenhaCriptografada("root", "root");
 
-		String senhaInformada = getSenhaCriptografada("lhleonardo",
-				"ABD6B94653A4375CD165DCDA3F6B2870EBD7378E7A4E62D0755F42FACE3F00A6");
+		String senhaInformada = getSenhaCriptografada("root", "root");
 
 		System.out.printf("%s : %s\n", senhaSalva, senhaInformada);
 
