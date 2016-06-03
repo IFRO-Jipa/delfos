@@ -1,5 +1,8 @@
 package br.com.delfos.control;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,12 +22,33 @@ class AutenticadorDeUsuario {
 	private static Optional<Usuario> usuario;
 
 	public boolean autentica(String login, String senha) {
-		usuario = Optional.ofNullable(dao.findByLoginAndSenha(login, senha));
 
-		if (usuario.isPresent())
-			return true;
+		try {
+			String senhaInformada = getSenhaCriptografada(login, senha);
+			usuario = Optional.ofNullable(dao.findByLoginAndSenha(login, senhaInformada));
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
-		return false;
+		return usuario.isPresent();
+	}
+
+	
+	
+	private String getSenhaCriptografada(String usuario, String minhaSenha)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		StringBuilder builder = new StringBuilder();
+		builder.append(usuario.hashCode());
+		builder.append(minhaSenha);
+		builder.append("delfosdoneriozao".hashCode());
+		MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+		byte messageDigest[] = algorithm.digest(builder.toString().getBytes("UTF-8"));
+
+		StringBuilder hexString = new StringBuilder();
+		for (byte b : messageDigest) {
+			hexString.append(String.format("%02X", 0xFF & b));
+		}
+		return hexString.toString();
 	}
 
 	public static Usuario getUsuarioAutenticado() {

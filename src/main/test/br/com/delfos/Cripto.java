@@ -7,12 +7,13 @@ import java.security.NoSuchAlgorithmException;
 public class Cripto {
 	public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
-		String senhaSalva = getSenhaCriptografada("lhleonardo", "teste123");
-		
-		String senhaInformada = getSenhaCriptografada("lhleonardo", "ABD6B94653A4375CD165DCDA3F6B2870EBD7378E7A4E62D0755F42FACE3F00A6");
+		String senhaSalva = getSenhaCriptografada("root", "root");
+
+		String senhaInformada = getSenhaCriptografada("lhleonardo",
+				"ABD6B94653A4375CD165DCDA3F6B2870EBD7378E7A4E62D0755F42FACE3F00A6");
 
 		System.out.printf("%s : %s\n", senhaSalva, senhaInformada);
-		
+
 		System.out.println(senhaSalva.equals(senhaInformada));
 	}
 
