@@ -12,7 +12,7 @@ import br.com.delfos.model.pesquisa.Questionario;
 @SuppressWarnings("rawtypes")
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
 	
-	@Query("select p.nome p.alternativa_id from Pergunta p inner join Questionario on p.id = Questionario.id where Questionario.id=?")
+	@Query("select p.nome, p.alternativa_id from Pergunta p inner join Questionario q on p.id = q.id where q.id=?")
 	List<Pergunta> findByQuestionario(Questionario questionario);
 
 }
