@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
 /**
@@ -229,7 +230,7 @@ public class QuestionarioController implements Initializable {
 
 	private void configTabPergunta() {
 		try {
-			AnchorPane load = (AnchorPane) LeitorDeFXML.load("/fxml/PerguntaView.fxml");
+			BorderPane load = (BorderPane) LeitorDeFXML.load("/fxml/PerguntaView.fxml");
 
 			Tab tab = new Tab("Perguntas");
 			tab.setContent(load);

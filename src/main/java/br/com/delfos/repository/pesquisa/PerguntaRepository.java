@@ -1,18 +1,15 @@
 package br.com.delfos.repository.pesquisa;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.delfos.model.pesquisa.Pergunta;
-import br.com.delfos.model.pesquisa.Questionario;
 
+public interface PerguntaRepository extends JpaRepository<Pergunta<?>, Long> {
 
-@SuppressWarnings("rawtypes")
-public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
-	
-	@Query("select p.nome, p.alternativa_id from Pergunta p inner join Questionario q on p.id = q.id where q.id=?")
-	List<Pergunta> findByQuestionario(Questionario questionario);
+	@Query("select q.perguntas from Questionario q where q.id = ?1")
+	Set<Pergunta<?>> findByQuestionario(Long id);
 
 }
