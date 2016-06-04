@@ -13,12 +13,13 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
+import br.com.delfos.except.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.ValidadorDeCampos;
+import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -129,8 +130,9 @@ public class PerfilAcessoController implements Initializable {
 	}
 
 	@FXML
-	        void handleButtonSalvar(ActionEvent event) {
-		if (ValidadorDeCampos.validateAll(rootPane)) {
+	public void handleButtonSalvar(ActionEvent event) {
+		try {
+			FXValidator.validate(rootPane);
 			PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
 			perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
 			perfil.setId((txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText())));
@@ -144,8 +146,8 @@ public class PerfilAcessoController implements Initializable {
 			} else {
 				AlertBuilder.warning("Oops! Não saiu como esperado\nPor favor, tente novamente.");
 			}
-		} else {
-			AlertBuilder.warning("Campos não foram validados.");
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
 		}
 	}
 

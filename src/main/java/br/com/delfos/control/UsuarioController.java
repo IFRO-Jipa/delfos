@@ -12,11 +12,12 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.dao.auditoria.UsuarioDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
+import br.com.delfos.except.FXValidatorException;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ValidadorDeCampos;
+import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -164,7 +165,8 @@ public class UsuarioController implements Initializable {
 	}
 
 	private void salvar(Usuario value) {
-		if (ValidadorDeCampos.validateAll(rootPane)) {
+		try {
+			FXValidator.validate(rootPane);
 			Optional<Usuario> save = usuarioDAO.save(value);
 			save.ifPresent(bean -> {
 				txtCodigo.setText(String.valueOf(bean.getId()));
@@ -173,6 +175,8 @@ public class UsuarioController implements Initializable {
 
 			if (!save.isPresent())
 				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
 		}
 	}
 

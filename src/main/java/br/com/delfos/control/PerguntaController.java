@@ -4,17 +4,22 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.converter.table.cell.ConverterComboBoxToCell;
+import br.com.delfos.except.FXValidatorException;
 import br.com.delfos.model.pesquisa.TipoPergunta;
+import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.table.factory.ComboBoxCellFactory;
 import br.com.delfos.view.table.factory.TextFieldCellFactory;
 import br.com.delfos.view.table.property.PerguntaProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -46,12 +51,14 @@ public class PerguntaController implements Initializable {
 	private ObservableList<PerguntaProperty> dadosTabela = FXCollections.emptyObservableList();
 
 	@FXML
-	private ComboBox<TipoPergunta> txtTipoPergunta;
+	@NotNull
+	private ComboBox<TipoPergunta> cbTipoPergunta;
 
 	@FXML
 	private Button btnAddPergunta;
 
 	@FXML
+	@NotNull
 	private TextField txtNomePergunta;
 
 	@Override
@@ -110,6 +117,17 @@ public class PerguntaController implements Initializable {
 
 			System.out.println(item);
 		});
+	}
+
+	@FXML
+	private void handleButtonAddPergunta(ActionEvent event) {
+		try {
+			if (FXValidator.validate(this)) {
+
+			}
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
+		}
 	}
 
 	private void initColumnNome() {

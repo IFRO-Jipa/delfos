@@ -3,8 +3,9 @@ package br.com.delfos.control;
 import java.util.Optional;
 
 import br.com.delfos.dao.generic.AbstractDAO;
+import br.com.delfos.except.FXValidatorException;
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.view.manipulador.ValidadorDeCampos;
+import br.com.delfos.view.manipulador.FXValidator;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 
@@ -24,8 +25,9 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		return this.monta();
 	}
 
-	protected Type salvar(Type value, Pane rootPane) {
-		if (ValidadorDeCampos.validateAll(rootPane)) {
+	protected Type salvar(Type value, Pane rootPane) throws FXValidatorException {
+		
+		if (FXValidator.validate(rootPane)) {
 			Optional<Type> save = dao.save(value);
 			return save.get();
 		} else

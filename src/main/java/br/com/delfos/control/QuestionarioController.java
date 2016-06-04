@@ -1,6 +1,6 @@
 package br.com.delfos.control;
 
-// importando o necessário para rodar 
+// importando o necessário para rodar
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -8,18 +8,17 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
+import br.com.delfos.except.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
-import br.com.delfos.view.manipulador.ValidadorDeCampos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -130,16 +129,15 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
 		try {
-			if (ValidadorDeCampos.validateAll(this)) {
-				this.registro = this.daoQuestionario.save(this.montaRegistro());
+			FXValidator.validate(this);
+			this.registro = this.daoQuestionario.save(this.montaRegistro());
 
-				this.registro.ifPresent(questionario -> {
-					this.txtCod.setText(String.valueOf(questionario.getId()));
-					AlertBuilder.information("Salvo com sucesso");
-					QuestionarioApp.close();
-				});
-			}
-		} catch (ValidationException ex) {
+			this.registro.ifPresent(questionario -> {
+				this.txtCod.setText(String.valueOf(questionario.getId()));
+				AlertBuilder.information("Salvo com sucesso");
+				QuestionarioApp.close();
+			});
+		} catch (FXValidatorException ex) {
 			AlertBuilder.error(ex);
 		}
 	}
@@ -169,7 +167,7 @@ public class QuestionarioController implements Initializable {
 
 		if (result.isPresent()) {
 			Optional<Questionario> optional = Optional
-					.ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
+			        .ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
 			if (optional.isPresent()) {
 				this.posicionaRegistro(optional.get());
 			} else {

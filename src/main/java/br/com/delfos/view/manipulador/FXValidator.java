@@ -2,9 +2,9 @@ package br.com.delfos.view.manipulador;
 
 import java.lang.reflect.Field;
 
-import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 
+import br.com.delfos.except.FXValidatorException;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -42,7 +42,7 @@ import javafx.scene.control.TextField;
  * @see {@link Control}, {@link NotNull}
  *
  */
-public class ValidadorDeCampos {
+public class FXValidator {
 
 	/*
 	 * Mensagem padrão para as exceptions que serão lançadas.
@@ -66,6 +66,7 @@ public class ValidadorDeCampos {
 	 * 
 	 * <pre>
 	 * public class ExampleController {
+	 * 
 	 *     &#64;FXML
 	 *     &#64;NotNull
 	 *     private TextField textField;
@@ -92,10 +93,12 @@ public class ValidadorDeCampos {
 	 * 
 	 * @see {@link Control}, {@link NotNull}
 	 * @param controller
-	 *            - Classe controladora (conterá os campos)
+	 *            - Classe controladora (contém os campos)
 	 * @return status da validação (campos preenchidos ou não).
+	 * @throws FXValidatorException
+	 *             caso o campo esteja nulo.
 	 */
-	public static boolean validateAll(Object controller) {
+	public static boolean validate(Object controller) throws FXValidatorException {
 		boolean valid = true;
 
 		try {
@@ -121,7 +124,7 @@ public class ValidadorDeCampos {
 		return valid;
 	}
 
-	private static boolean validaComponent(Node obj) {
+	private static boolean validaComponent(Node obj) throws FXValidatorException {
 		if (obj instanceof TextField) {
 			return valida((TextField) obj);
 		} else if (obj instanceof CheckBox) {
@@ -139,43 +142,43 @@ public class ValidadorDeCampos {
 		return false;
 	}
 
-	private static boolean valida(DatePicker obj) {
+	private static boolean valida(DatePicker obj) throws FXValidatorException {
 		if (obj.getValue() == null)
 			lancaException(obj);
 
 		return true;
 	}
 
-	private static boolean valida(ListView<?> obj) {
+	private static boolean valida(ListView<?> obj) throws FXValidatorException {
 		if (obj.getItems().isEmpty())
 			lancaException(obj);
 		return true;
 	}
 
-	private static boolean valida(CheckBox obj) {
+	private static boolean valida(CheckBox obj) throws FXValidatorException {
 		if (!obj.isSelected())
 			lancaException(obj);
 		return true;
 	}
 
-	private static void lancaException(Control obj) {
+	private static void lancaException(Control obj) throws FXValidatorException {
 		obj.requestFocus();
-		throw new ValidationException(getMessage(obj));
+		throw new FXValidatorException(getMessage(obj));
 	}
 
-	private static boolean valida(ComboBox<?> obj) {
-		if (obj.getSelectionModel().getSelectedItem() == null)
+	private static boolean valida(ComboBox<?> obj) throws FXValidatorException {
+		if (obj.getSelectionModel().isEmpty())
 			lancaException(obj);
 		return true;
 	}
 
-	private static boolean valida(TextArea obj) throws ValidationException {
+	private static boolean valida(TextArea obj) throws FXValidatorException {
 		if (obj.getText().isEmpty())
 			lancaException(obj);
 		return true;
 	}
 
-	private static boolean valida(TextField obj) {
+	private static boolean valida(TextField obj) throws FXValidatorException {
 		if (obj.getText().isEmpty())
 			lancaException(obj);
 		return true;

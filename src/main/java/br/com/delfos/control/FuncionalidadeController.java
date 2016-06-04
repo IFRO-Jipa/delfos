@@ -12,9 +12,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
+import br.com.delfos.except.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ValidadorDeCampos;
+import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import br.com.delfos.view.table.TableViewFactory;
 import javafx.event.ActionEvent;
@@ -83,21 +84,25 @@ public class FuncionalidadeController implements Initializable {
 		try {
 			if (!txtCodigo.getText().isEmpty()) {
 				dao.delete(Long.parseLong(txtCodigo.getText()));
-				tbRegistros.getItems()
-				        .removeIf(valor -> valor.getId() == Long.parseLong(txtCodigo.getText()));
+				tbRegistros.getItems().removeIf(valor -> valor.getId() == Long.parseLong(txtCodigo.getText()));
 				AlertBuilder.information("Excluído com sucesso");
 			} else {
 				AlertBuilder.information("Selecione um registro para poder excluir");
 			}
 		} catch (DataIntegrityViolationException e) {
-			AlertBuilder.error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
+			AlertBuilder
+			        .error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
 		}
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (ValidadorDeCampos.validateAll(this))
-			salva();
+		try {
+			if (FXValidator.validate(this))
+				salva();
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
+		}
 	}
 
 	private void salva() {
@@ -174,8 +179,7 @@ public class FuncionalidadeController implements Initializable {
 	}
 
 	private void populaTabela(List<Funcionalidade> funcionalidades) {
-		TableView<Funcionalidade> temp = new TableViewFactory<Funcionalidade>()
-		        .criaTableView(funcionalidades);
+		TableView<Funcionalidade> temp = new TableViewFactory<Funcionalidade>().criaTableView(funcionalidades);
 
 		tbRegistros.getColumns().addAll(temp.getColumns());
 		tbRegistros.setItems(temp.getItems());
