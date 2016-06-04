@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.converter.table.cell.ConverterComboBoxToCell;
 import br.com.delfos.model.pesquisa.TipoPergunta;
 import br.com.delfos.view.table.factory.ComboBoxCellFactory;
 import br.com.delfos.view.table.factory.TextFieldCellFactory;
@@ -16,11 +17,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 @Controller
 public class PerguntaController implements Initializable {
@@ -40,10 +42,16 @@ public class PerguntaController implements Initializable {
 	private final ObservableList<TipoPergunta> tiposDePergunta = FXCollections
 	        .observableArrayList(TipoPergunta.getAll());
 
-	private final ObservableList<PerguntaProperty> dadosTabela = FXCollections.observableArrayList(
-	        new PerguntaProperty("Qual é o seu nome?", TipoPergunta.INTERVALO),
-	        new PerguntaProperty("Qual o o seu grau de conhecimento em Java?", TipoPergunta.MULTIPLA_ESCOLHA),
-	        new PerguntaProperty("Deixe seu coment�rio sobre a pesquisa?", TipoPergunta.PARAGRAFO));
+	private ObservableList<PerguntaProperty> dadosTabela = FXCollections.emptyObservableList();
+
+	@FXML
+	private ComboBox<TipoPergunta> txtTipoPergunta;
+
+	@FXML
+	private Button btnAddPergunta;
+
+	@FXML
+	private TextField txtNomePergunta;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -80,7 +88,6 @@ public class PerguntaController implements Initializable {
 
 			@Override
 			protected void updateItem(PerguntaProperty item, boolean empty) {
-				// TODO Auto-generated method stub
 				super.updateItem(item, empty);
 				if (item != null) {
 					setGraphic(button);
@@ -119,22 +126,7 @@ public class PerguntaController implements Initializable {
 	        getComboBoxFactory() {
 
 		return param -> new ComboBoxCellFactory<PerguntaProperty, TipoPergunta>(tiposDePergunta,
-		        getComboBoxConverter());
-	}
-
-	private StringConverter<TipoPergunta> getComboBoxConverter() {
-		return new StringConverter<TipoPergunta>() {
-
-			@Override
-			public TipoPergunta fromString(String string) {
-				return null;
-			}
-
-			@Override
-			public String toString(TipoPergunta object) {
-				return object.name();
-			}
-		};
+		        new ConverterComboBoxToCell<TipoPergunta>().setToString(obj -> obj.name()).convert());
 	}
 
 	private Callback<TableColumn<PerguntaProperty, String>, TableCell<PerguntaProperty, String>> getTextFieldFactory() {
