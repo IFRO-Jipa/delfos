@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 public class PingExample {
@@ -36,7 +35,7 @@ public class PingExample {
 
 	/**
 	 * Cria uma comunicacao com a porta desejada, se a porta estiver disponivel
-	 * returna true, caso contrário uma exception ira ocorrer e retornara false
+	 * returna true, caso contrï¿½rio uma exception ira ocorrer e retornara false
 	 */
 	public static boolean isPortAvailable(int port) {
 		try {
@@ -50,7 +49,7 @@ public class PingExample {
 	}
 
 	/**
-	 * Uma outra maneira de fazer o ping, dessa maneira é invocado o comando
+	 * Uma outra maneira de fazer o ping, dessa maneira ï¿½ invocado o comando
 	 * ping do sistemaOperacional e verificado na mensagem de retorno se houve
 	 * faha.
 	 */
