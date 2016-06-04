@@ -123,7 +123,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			return this.pesquisadores.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s n�o � um pesquisador v�lido.", pessoa.getNome()));
+			        String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
 	}
 
 	public boolean addEspecialista(Pessoa pessoa) {
@@ -131,7 +131,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			return this.especialistas.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s n�o � um especialista v�lido.", pessoa.getNome()));
+			        String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
 	}
 
 	private boolean verificaSeVaiAtingirLimite(int qtdAdicional) {
@@ -150,14 +150,14 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 				throw new LimiteDeEspecialistasAtingidoException(
 				        "A pesquisa estourou o limite de especialistas definido.");
 		} else
-			throw new PessoaInvalidaException("As pessoas informadas n�o s�o especialistas v�lidos.");
+			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
 
 	public boolean addPesquisadores(List<Pessoa> pesquisadores) {
 		if (verificaTipo(pesquisadores, TipoPessoa.PESQUISADOR)) {
 			return this.pesquisadores.addAll(pesquisadores);
 		} else
-			throw new PessoaInvalidaException("As pessoas informadas n�o s�o especialistas v�lidos.");
+			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
 
 	private boolean verificaTipo(List<Pessoa> especialistas, TipoPessoa tipo) {
@@ -185,7 +185,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		if (limite >= 0) {
 			this.limite = limite;
 		} else
-			throw new IllegalArgumentException("N�mero negativo n�o � aceito.");
+			throw new IllegalArgumentException("Número negativo não é aceito.");
 	}
 
 	@Override

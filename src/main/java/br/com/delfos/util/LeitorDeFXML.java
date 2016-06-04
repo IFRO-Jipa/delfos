@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 
 public class LeitorDeFXML {
 	/**
-	 * Respons�vel por gerenciar as depend�ncias inseridas nos controllers para
+	 * Responsável por gerenciar as dependências inseridas nos controllers para
 	 * o JavaFX
 	 * 
 	 * @param url

@@ -18,7 +18,6 @@ class AutenticadorDeUsuario {
 
 	@Autowired
 	private UsuarioDAO dao;
-
 	private static Optional<Usuario> usuario;
 
 	public boolean autentica(String login, String senha) {
@@ -33,10 +32,20 @@ class AutenticadorDeUsuario {
 		return usuario.isPresent();
 	}
 
-	
-	
+	public static Usuario getUsuarioAutenticado() {
+		return usuario.get();
+	}
+
+	public static Set<Funcionalidade> getPermissoesDeAcesso() {
+		return usuario.get().getPerfilAcesso().getPermissoes();
+	}
+
+	public static void logout() {
+		usuario = null;
+	}
+
 	private String getSenhaCriptografada(String usuario, String minhaSenha)
-			throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	        throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		StringBuilder builder = new StringBuilder();
 		builder.append(usuario.hashCode());
 		builder.append(minhaSenha);
@@ -51,15 +60,4 @@ class AutenticadorDeUsuario {
 		return hexString.toString();
 	}
 
-	public static Usuario getUsuarioAutenticado() {
-		return usuario.get();
-	}
-
-	public static Set<Funcionalidade> getPermissoesDeAcesso() {
-		return usuario.get().getPerfilAcesso().getPermissoes();
-	}
-
-	public static void logout() {
-		AutenticadorDeUsuario.usuario = null;
-	}
 }

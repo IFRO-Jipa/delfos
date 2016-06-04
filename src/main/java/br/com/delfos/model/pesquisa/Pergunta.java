@@ -3,12 +3,14 @@ package br.com.delfos.model.pesquisa;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> {
 
+	@NotNull
 	private String nome;
 	private String descricao;
 

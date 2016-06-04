@@ -18,7 +18,7 @@ import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.generic.AbstractModel;
 
 /**
- * Classe respons·vel por modelar as pessoas que ser„o salvas e manipuladas em funÁıes do
+ * Classe respons√°vel por modelar as pessoas que ser√£o salvas e manipuladas em fun√ß√µes do
  * software. <br>
  * Algumas classes que estendem de Pessoa: {@code Especialista}, {@code Pessoa}, etc...
  *
@@ -38,7 +38,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	private String descricao;
 	private String email;
 
-	@NotNull(message = "… necess·rio informar o tipo de pessoa.")
+	@NotNull(message = "√â necess√°rio informar o tipo de pessoa.")
 	@ElementCollection(targetClass = TipoPessoa.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private List<TipoPessoa> tipos;

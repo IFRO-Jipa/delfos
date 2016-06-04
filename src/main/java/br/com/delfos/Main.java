@@ -46,8 +46,7 @@ public class Main extends Application {
 		service.setOnRunning(evt -> {
 			try {
 				new SplashScreenApp().start();
-				
-				
+
 			} catch (Exception e) {
 				AlertBuilder.error(e);
 			}
@@ -61,8 +60,9 @@ public class Main extends Application {
 		});
 
 	}
-	
+
 	public static void main(String[] args) {
+
 		launch(args);
 	}
 }

@@ -49,7 +49,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	@Lob
-	@Column(name = "descricao", alias = "Descri��o")
+	@Column(name = "descricao", alias = "Descrição")
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)

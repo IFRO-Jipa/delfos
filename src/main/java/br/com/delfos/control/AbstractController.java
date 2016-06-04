@@ -3,7 +3,7 @@ package br.com.delfos.control;
 import java.util.Optional;
 
 import br.com.delfos.dao.generic.AbstractDAO;
-import br.com.delfos.except.FXValidatorException;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.view.manipulador.FXValidator;
 import javafx.scene.control.TextInputDialog;

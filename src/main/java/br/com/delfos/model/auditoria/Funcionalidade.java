@@ -14,7 +14,7 @@ public class Funcionalidade extends AbstractModel<Funcionalidade> {
 	@Column(name = "nome", alias = "Nome")
 	private String nome;
 	@NotNull
-	@Column(name = "chave", alias = "Chave de identificação")
+	@Column(name = "chave", alias = "Chave de identificaÃ§Ã£o")
 	private String chave;
 	private String descricao;
 

@@ -129,7 +129,7 @@ public class PessoaController implements Initializable {
 	}
 
 	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse c�digo feio.... isso n�o vai ser aqui, e sim numa tela de
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");

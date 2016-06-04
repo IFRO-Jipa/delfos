@@ -21,12 +21,12 @@ enum Status {
 public class Usuario extends AbstractModel<Usuario> {
 
 	@NotNull
-	@Size(min = 4, message = "O login deve conter, no m�nimo, quatro caracteres.")
+	@Size(min = 4, message = "O login deve conter, no mínimo, quatro caracteres.")
 	private String login;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	@NotNull
-	@Size(min = 6, message = "A senha deve conter, no m�nimo, seis caracteres.")
+	@Size(min = 6, message = "A senha deve conter, no mínimo, seis caracteres.")
 	private String senha;
 
 	private String descricao;
@@ -34,7 +34,7 @@ public class Usuario extends AbstractModel<Usuario> {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PerfilAcesso perfilAcesso;
 
-	@OneToOne(mappedBy = "usuario", optional = true)
+	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Pessoa pessoa;
 
 	@Enumerated(EnumType.STRING)

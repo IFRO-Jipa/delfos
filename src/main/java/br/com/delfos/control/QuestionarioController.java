@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
-import br.com.delfos.except.FXValidatorException;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;

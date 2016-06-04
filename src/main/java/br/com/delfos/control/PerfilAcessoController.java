@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
-import br.com.delfos.except.FXValidatorException;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
@@ -77,9 +77,9 @@ public class PerfilAcessoController implements Initializable {
 
 	@FXML
 	        void handleBtnPesquisar(ActionEvent event) {
-		// TODO: Próxima implementa��o para resolver.......
+		// TODO: Próxima implementação para resolver.......
 
-		// TODO: Retirar esse c�digo feio.... isso n�o vai ser aqui, e sim numa
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa
 		// tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog("ex: 1");
@@ -113,7 +113,7 @@ public class PerfilAcessoController implements Initializable {
 	}
 
 	@FXML
-	        void handleButtonNovo(ActionEvent event) {
+	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
 		txtNome.requestFocus();
 	}

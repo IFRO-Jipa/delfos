@@ -13,6 +13,7 @@ public class TipoLogradouro extends AbstractModel<TipoLogradouro> {
 	@Column(unique = true)
 	private String nome;
 	private String descricao;
+	@NotNull
 	private String sigla;
 
 	public TipoLogradouro(Long id, String nome, String descricao, String sigla) {

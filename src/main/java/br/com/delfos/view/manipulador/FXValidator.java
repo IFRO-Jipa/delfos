@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.validation.constraints.NotNull;
 
-import br.com.delfos.except.FXValidatorException;
+import br.com.delfos.except.view.FXValidatorException;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;

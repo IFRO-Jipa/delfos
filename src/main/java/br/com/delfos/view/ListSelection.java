@@ -23,7 +23,7 @@ public class ListSelection<T> extends Dialog<List<T>> {
 	}
 
 	private void initConfig(String title, List<T> options) {
-		setTitle("Seletor de informações");
+		setTitle("Seletor de informaÃ§Ãµes");
 		setHeaderText(title);
 		initLayout(options);
 	}

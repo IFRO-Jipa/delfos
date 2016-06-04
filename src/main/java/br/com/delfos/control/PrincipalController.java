@@ -154,7 +154,7 @@ public class PrincipalController implements Initializable {
 	 * @param view
 	 *            - The FXML Document referenced by View (exclude .fxml from
 	 *            String)
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void openWindow(String view) throws IOException {
 		configPane(view);
@@ -163,7 +163,7 @@ public class PrincipalController implements Initializable {
 	private void configPane(String view) throws IOException {
 		view = view.concat(".fxml");
 		MenuItem item = this.menus.get(view);
-		String [] properties = item.getId().split(":");
+		String[] properties = item.getId().split(":");
 		this.abreJanela(properties[1], item.getText());
 	}
 

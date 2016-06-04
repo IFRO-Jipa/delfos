@@ -2,14 +2,17 @@ package br.com.delfos.model.basic;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class Cidade extends AbstractModel<Cidade> {
 
+	@NotNull
 	private String nome;
 
+	@NotNull
 	@ManyToOne
 	private Estado estado;
 

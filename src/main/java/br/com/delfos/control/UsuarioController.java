@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.dao.auditoria.UsuarioDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
-import br.com.delfos.except.FXValidatorException;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
@@ -96,12 +96,12 @@ public class UsuarioController implements Initializable {
 	private PessoaDAO pessoaDAO;
 
 	@FXML
-	        void handleButtonPesquisaCodigo(ActionEvent event) {
+	private void handleButtonPesquisaCodigo(ActionEvent event) {
 		pesquisaPorCodigo();
 	}
 
 	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse c�digo feio.... isso n�o vai ser aqui, e sim numa tela de
+		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
 		// consulta.
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
@@ -135,32 +135,32 @@ public class UsuarioController implements Initializable {
 	}
 
 	@FXML
-	        void handleButtonPesquisaResponsavel(ActionEvent event) {
+	private void handleButtonPesquisaResponsavel(ActionEvent event) {
 
 	}
 
 	@FXML
-	        void handleButtonNovo(ActionEvent event) {
+	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(rootPane);
 		txtLogin.requestFocus();
 	}
 
 	@FXML
-	        void handleButtonExcluir(ActionEvent event) {
+	private void handleButtonExcluir(ActionEvent event) {
 		excluir(txtCodigo.getText());
 	}
 
 	private void excluir(String codigo) {
 		if (codigo.isEmpty()) {
 			usuarioDAO.delete(Long.parseLong(txtCodigo.getText()));
-			AlertBuilder.information("Exclu�do com sucesso");
+			AlertBuilder.information("Excluído com sucesso");
 			ManipuladorDeTelas.limpaCampos(rootPane);
 			txtLogin.requestFocus();
 		}
 	}
 
 	@FXML
-	        void handleButtonSalvar(ActionEvent event) {
+	private void handleButtonSalvar(ActionEvent event) {
 		this.salvar(montaRegistro());
 	}
 

@@ -81,7 +81,6 @@ public class LoginController implements Initializable {
 		txtSenha.setOnAction(event -> handleButtonLogar(event));
 		txtLogin.setText("root");
 		txtSenha.setText("root");
-
 	}
 
 }

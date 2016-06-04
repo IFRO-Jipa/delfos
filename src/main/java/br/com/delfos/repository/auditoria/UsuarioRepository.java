@@ -8,8 +8,6 @@ import br.com.delfos.model.auditoria.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	// List<Usuario> findByPerfilAcesso(PerfilAcesso perfilAcesso);
-
 	Usuario findByLoginAndSenha(String login, String senha);
 
 	Optional<Usuario> findByLogin(String login);

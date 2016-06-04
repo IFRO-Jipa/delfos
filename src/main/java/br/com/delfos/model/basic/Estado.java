@@ -3,13 +3,16 @@ package br.com.delfos.model.basic;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class Estado extends AbstractModel<Estado> {
 
+	@NotNull
 	private String nome;
+	@NotNull
 	private String uf;
 
 	@Override

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.converter.table.cell.ConverterComboBoxToCell;
-import br.com.delfos.except.FXValidatorException;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.TipoPergunta;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.FXValidator;
@@ -122,9 +122,8 @@ public class PerguntaController implements Initializable {
 	@FXML
 	private void handleButtonAddPergunta(ActionEvent event) {
 		try {
-			if (FXValidator.validate(this)) {
-
-			}
+			FXValidator.validate(this);
+			dadosTabela.add(new PerguntaProperty(txtNomePergunta.getText(), cbTipoPergunta.getValue()));
 		} catch (FXValidatorException e) {
 			AlertBuilder.error(e);
 		}

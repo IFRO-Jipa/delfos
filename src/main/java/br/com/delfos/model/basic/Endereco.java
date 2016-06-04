@@ -2,16 +2,21 @@ package br.com.delfos.model.basic;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
 
 @Entity
 public class Endereco extends AbstractModel<Endereco> {
 
+	@NotNull
 	private String logradouro;
 	private String descricao;
+	@NotNull
 	private String numero;
+	
 	private String cep;
+	@NotNull
 	private String bairro;
 
 	@OneToOne(mappedBy = "endereco")
