@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class PingExample {
 	public static void main(String[] args) {
-		String host = "10.49.9.4";
+		String host = "google.com.br";
 		// Recomendo no minimo 3 segundos
 		int timeOut = 3000;
 		int port = 8080;
@@ -23,7 +23,7 @@ public class PingExample {
 	}
 
 	/**
-	 * Verifica se determinado host esta atingivel
+	 * Verifica se determinado host esta atingível
 	 */
 	public static boolean doPing(String host, int timeOut) {
 		try {
