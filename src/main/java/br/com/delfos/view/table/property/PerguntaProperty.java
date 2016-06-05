@@ -40,6 +40,10 @@ public class PerguntaProperty<T extends Alternativa> {
 		return tipoPergunta.get();
 	}
 
+	public void setNome(String nome) {
+		this.nome.set(nome);
+	}
+
 	public Long getId() {
 		return this.id.get();
 	}

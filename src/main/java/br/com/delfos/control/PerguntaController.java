@@ -169,13 +169,15 @@ public class PerguntaController implements Initializable {
 
 					Stage dialogStage = new Stage();
 					dialogStage.setScene(new Scene(load));
-					dialogStage.initModality(Modality.WINDOW_MODAL);
+					dialogStage.initModality(Modality.APPLICATION_MODAL);
 					dialogStage.initStyle(StageStyle.UTILITY);
+					controller.setDialogStage(dialogStage);
 					dialogStage.showAndWait();
 
 					if (controller.isOkCliked()) {
 						// aqui vai o código que atualiza a informação da pergunta...
 						System.out.println(controller.getValue());
+						converterPergunta(property, controller.getValue());
 					}
 
 				} catch (Exception e) {
@@ -183,6 +185,13 @@ public class PerguntaController implements Initializable {
 				}
 			}
 		});
+	}
+
+	private void converterPergunta(PerguntaProperty<?> property, Pergunta<?> value) {
+		property.setNome(value.getNome());
+		property.setDescricao(value.getDescricao());
+		property.setAlternativa(value.getAlternativa());
+
 	}
 
 	private Pergunta<?> converterProperty(PerguntaProperty<?> property) {
