@@ -12,7 +12,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
-import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
@@ -98,12 +97,8 @@ public class FuncionalidadeController implements Initializable {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		try {
-			if (FXValidator.validate(this))
-				salva();
-		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
-		}
+		if (FXValidator.validate(this))
+			salva();
 	}
 
 	private void salva() {

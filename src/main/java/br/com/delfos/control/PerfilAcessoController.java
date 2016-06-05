@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
-import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
@@ -131,7 +130,6 @@ public class PerfilAcessoController implements Initializable {
 
 	@FXML
 	public void handleButtonSalvar(ActionEvent event) {
-		try {
 			FXValidator.validate(rootPane);
 			PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
 			perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
@@ -146,9 +144,6 @@ public class PerfilAcessoController implements Initializable {
 			} else {
 				AlertBuilder.warning("Oops! Não saiu como esperado\nPor favor, tente novamente.");
 			}
-		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
-		}
 	}
 
 	private List<Funcionalidade> pegaPermissoes() {

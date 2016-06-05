@@ -17,19 +17,20 @@ public class LeitorDeFXML {
 	public synchronized static Object load(String url) throws IOException {
 		return LeitorDeFXML.getLoader(url).load();
 	}
-	
+
 	public synchronized static FXMLLoader getLoader(String url) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(LeitorDeFXML.class.getResource(url));
+		System.out.println(url);
 		loader.setControllerFactory(param -> ContextFactory.getBean(param));
 
 		return loader;
 	}
-	
-	public synchronized static Object getController(String url) throws IOException { 
+
+	public synchronized static Object getController(String url) throws IOException {
 		FXMLLoader loader = getLoader(url);
 		loader.load();
 		return loader.getController();
-		
+
 	}
 }

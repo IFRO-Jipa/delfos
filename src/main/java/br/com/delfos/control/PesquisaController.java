@@ -17,7 +17,6 @@ import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
-import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
@@ -210,20 +209,16 @@ public class PesquisaController implements Initializable {
 	}
 
 	private void salvar(Pesquisa value) throws LimiteDeEspecialistasAtingidoException {
-		try {
-			FXValidator.validate(rootPane);
-			Optional<Pesquisa> save = daoPesquisa.save(value);
-			save.ifPresent(pesquisa -> {
-				txtCodigo.setText(String.valueOf(pesquisa.getId()));
-				AlertBuilder.information("Salvo com sucesso");
-			});
+		FXValidator.validate(rootPane);
+		Optional<Pesquisa> save = daoPesquisa.save(value);
+		save.ifPresent(pesquisa -> {
+			txtCodigo.setText(String.valueOf(pesquisa.getId()));
+			AlertBuilder.information("Salvo com sucesso");
+		});
 
-			if (!save.isPresent())
-				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+		if (!save.isPresent())
+			AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
 
-		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
-		}
 	}
 
 	Pesquisa montaRegistro() throws LimiteDeEspecialistasAtingidoException {

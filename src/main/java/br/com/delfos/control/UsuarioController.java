@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.dao.auditoria.UsuarioDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
-import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
@@ -31,7 +30,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
@@ -168,8 +166,7 @@ public class UsuarioController implements Initializable {
 	}
 
 	private void salvar(Usuario value) {
-		try {
-			FXValidator.validate(rootPane);
+		if (FXValidator.validate(rootPane)) {
 			Optional<Usuario> save = usuarioDAO.save(value);
 			save.ifPresent(bean -> {
 				txtCodigo.setText(String.valueOf(bean.getId()));
@@ -178,8 +175,6 @@ public class UsuarioController implements Initializable {
 
 			if (!save.isPresent())
 				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
-		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
 		}
 	}
 
@@ -217,12 +212,6 @@ public class UsuarioController implements Initializable {
 			}
 		});
 		comboPerfilAcesso.setItems(perfis);
-	}
-	
-	private void configTooltipComponents() {
-		this.cbStatus.setTooltip(new Tooltip("status do usuário"));
-		this.comboPerfilAcesso.setTooltip(new Tooltip("perfil de acesso"));
-		this.comboPerfilAcesso.setTooltip(new Tooltip(""));
 	}
 
 }

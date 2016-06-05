@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.except.view.FXValidatorException;
+import br.com.delfos.view.AlertBuilder;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -99,7 +100,7 @@ public class FXValidator {
 	 * @throws FXValidatorException
 	 *             caso o campo esteja nulo.
 	 */
-	public synchronized static boolean validate(Object controller) throws FXValidatorException {
+	public synchronized static boolean validate(Object controller) {
 		boolean valid = true;
 
 		FXValidator.controller = controller;
@@ -119,10 +120,11 @@ public class FXValidator {
 			}
 
 		} catch (SecurityException e) {
-			System.out.println(e);
-
+			AlertBuilder.error(e);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			System.out.println(e);
+			AlertBuilder.error(e);
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e.getMessage());
 		}
 		return valid;
 	}

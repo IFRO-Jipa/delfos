@@ -10,6 +10,11 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue("PARAGRAFO")
 public class Paragrafo extends Alternativa {
 
+	@Override
+	public String toString() {
+		return "Paragrafo [valor=" + valor + "]";
+	}
+
 	@Lob
 	@Column(name = "valor_paragrafo")
 	@NotNull

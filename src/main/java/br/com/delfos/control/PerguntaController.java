@@ -8,9 +8,16 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.dialog.EditDialog;
 import br.com.delfos.converter.table.cell.ConverterComboBoxToCell;
-import br.com.delfos.except.view.FXValidatorException;
+import br.com.delfos.model.pesquisa.Alternativa;
+import br.com.delfos.model.pesquisa.Intervalo;
+import br.com.delfos.model.pesquisa.MultiplaEscolha;
+import br.com.delfos.model.pesquisa.Paragrafo;
+import br.com.delfos.model.pesquisa.Pergunta;
+import br.com.delfos.model.pesquisa.Texto;
 import br.com.delfos.model.pesquisa.TipoPergunta;
+import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.table.factory.ComboBoxCellFactory;
@@ -21,7 +28,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -30,6 +39,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @SuppressWarnings("rawtypes")
@@ -135,11 +148,6 @@ public class PerguntaController implements Initializable {
 				}
 				button.setOnAction(event -> handleButtonAction(item));
 
-				button.setDisable(flagDisable(item.getTipoPergunta()));
-			}
-
-			private boolean flagDisable(TipoPergunta tipo) {
-				return tipo.equals(TipoPergunta.INTERVALO) || tipo.equals(TipoPergunta.MULTIPLA_ESCOLHA);
 			}
 
 		};
@@ -149,24 +157,82 @@ public class PerguntaController implements Initializable {
 		Optional<PerguntaProperty<?>> optional = Optional.ofNullable(item);
 		optional.ifPresent(property -> {
 			if (property.getTipoPergunta() != null) {
+				try {
+					String location = property.getTipoPergunta().getLocation();
 
+					System.out.printf("PerguntaController.handleButtonAction(%s)\n", location);
+					FXMLLoader loader = LeitorDeFXML.getLoader(location);
+					AnchorPane load = (AnchorPane) loader.load();
+
+					EditDialog<Pergunta<?>> controller = loader.getController();
+					controller.setValue(converterProperty(property));
+
+					Stage dialogStage = new Stage();
+					dialogStage.setScene(new Scene(load));
+					dialogStage.initModality(Modality.WINDOW_MODAL);
+					dialogStage.initStyle(StageStyle.UTILITY);
+					dialogStage.showAndWait();
+
+					if (controller.isOkCliked()) {
+						// aqui vai o código que atualiza a informação da pergunta...
+						System.out.println(controller.getValue());
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-
 		});
+	}
+
+	private Pergunta<?> converterProperty(PerguntaProperty<?> property) {
+		Pergunta<Alternativa> pergunta = new Pergunta<>();
+		pergunta.setNome(property.getNome());
+		pergunta.setDescricao(property.getDescricao());
+
+		// pergunta.setAlternativa(converterAlternativa(property.getAlternativa()));
+		pergunta.setAlternativa(property.getAlternativa());
+		return pergunta;
+	}
+
+	/**
+	 * Método responsável por montar uma alternativa de uma pergunta.
+	 * 
+	 * Cuidado com esse método, ele foi feito as pressas e só tende a crescer, já que faço mil
+	 * verificações para saber qual é o meu tipo de alternativa.
+	 * 
+	 * TODO: pensar em algo para aplicar um bom design patterns aqui.
+	 * 
+	 * @param alternativa
+	 *            que será montada
+	 * @return objeto populado
+	 */
+	@SuppressWarnings("unused")
+	private Alternativa converterAlternativa(Alternativa alternativa) {
+		if (alternativa instanceof Intervalo) {
+			// retorna a alternativa voltada a intervalos.
+			return null;
+		} else if (alternativa instanceof MultiplaEscolha) {
+			// retorna a alternativa voltada a multiplas escolhas
+			return null;
+		} else if (alternativa instanceof Texto) {
+			// retorna a alternativa voltada a textos
+			return null;
+		} else if (alternativa instanceof Paragrafo) {
+			// retorna a alternativa voltada a parágrafos
+			return null;
+		}
+		return null;
 	}
 
 	@FXML
 	private void handleButtonAddPergunta(ActionEvent event) {
-		try {
-			if (FXValidator.validate(this)) {
-				String nome = txtNomePergunta.getText();
-				TipoPergunta tipoPergunta = cbTipoPergunta.getValue();
-				System.out.printf("%s-%s\n", nome, tipoPergunta);
-				PerguntaProperty pergunta = new PerguntaProperty(nome, tipoPergunta);
-				tbPerguntas.getItems().add(pergunta);
-			}
-		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
+		if (FXValidator.validate(this)) {
+			String nome = txtNomePergunta.getText();
+			TipoPergunta tipoPergunta = cbTipoPergunta.getValue();
+			System.out.printf("%s-%s\n", nome, tipoPergunta);
+			PerguntaProperty pergunta = new PerguntaProperty(nome, tipoPergunta);
+			tbPerguntas.getItems().add(pergunta);
 		}
 	}
 

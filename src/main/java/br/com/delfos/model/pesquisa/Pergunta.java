@@ -62,4 +62,9 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 		this.alternativa = alternativa;
 	}
 
+	@Override
+	public String toString() {
+		return "Pergunta [nome=" + nome + ", descricao=" + descricao + ", alternativa=" + alternativa + "]";
+	}
+
 }

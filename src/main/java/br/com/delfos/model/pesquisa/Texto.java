@@ -8,6 +8,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("TEXTO")
 public class Texto extends Alternativa {
 
+	@Override
+	public String toString() {
+		return "Texto [valor=" + valor + "]";
+	}
+
 	@Column(name = "valor_texto", length = 255)
 	private String valor;
 }

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
-import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.util.view.FXValidator;
@@ -134,18 +133,14 @@ public class QuestionarioController implements Initializable {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		try {
-			FXValidator.validate(this);
-			this.registro = this.daoQuestionario.save(this.montaRegistro());
+		FXValidator.validate(this);
+		this.registro = this.daoQuestionario.save(this.montaRegistro());
 
-			this.registro.ifPresent(questionario -> {
-				this.txtCod.setText(String.valueOf(questionario.getId()));
-				AlertBuilder.information("Salvo com sucesso");
-				QuestionarioApp.close();
-			});
-		} catch (FXValidatorException ex) {
-			AlertBuilder.error(ex);
-		}
+		this.registro.ifPresent(questionario -> {
+			this.txtCod.setText(String.valueOf(questionario.getId()));
+			AlertBuilder.information("Salvo com sucesso");
+			QuestionarioApp.close();
+		});
 	}
 
 	// monta o objeto do questionario que está na tela para ser salvo
