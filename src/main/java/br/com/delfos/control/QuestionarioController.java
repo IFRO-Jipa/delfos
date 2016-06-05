@@ -44,7 +44,7 @@ import javafx.util.Callback;
 @Controller
 public class QuestionarioController implements Initializable {
 
-	// Declarando variaveis da tela
+	// Declarando variáveis da tela
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
 

@@ -48,7 +48,7 @@ public class PerguntaController implements Initializable {
 	private final ObservableList<TipoPergunta> tiposDePergunta = FXCollections
 	        .observableArrayList(TipoPergunta.getAll());
 
-	private ObservableList<PerguntaProperty> dadosTabela = FXCollections.emptyObservableList();
+	private ObservableList<PerguntaProperty> dadosTabela = FXCollections.observableArrayList();
 
 	@FXML
 	@NotNull
@@ -64,6 +64,7 @@ public class PerguntaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initTablePergunta();
+		this.cbTipoPergunta.setItems(tiposDePergunta);
 	}
 
 	private void initTablePergunta() {
@@ -72,6 +73,7 @@ public class PerguntaController implements Initializable {
 		initColumnTipoPergunta();
 		initColumnAcao();
 
+		this.tbPerguntas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		this.tbPerguntas.setEditable(true);
 		this.tbPerguntas.setItems(dadosTabela);
 
@@ -91,7 +93,7 @@ public class PerguntaController implements Initializable {
 			final Button button = new Button("...");
 
 			{
-				button.setMinWidth(columnAcao.getWidth() - 6);
+				button.setMinWidth(columnAcao.getWidth()-10);
 			}
 
 			@Override
@@ -122,8 +124,13 @@ public class PerguntaController implements Initializable {
 	@FXML
 	private void handleButtonAddPergunta(ActionEvent event) {
 		try {
-			FXValidator.validate(this);
-			dadosTabela.add(new PerguntaProperty(txtNomePergunta.getText(), cbTipoPergunta.getValue()));
+			if (FXValidator.validate(this)) {
+				String nome = txtNomePergunta.getText();
+				TipoPergunta tipoPergunta = cbTipoPergunta.getValue();
+				System.out.printf("%s-%s\n", nome, tipoPergunta);
+				PerguntaProperty pergunta = new PerguntaProperty(nome, tipoPergunta);
+				tbPerguntas.getItems().add(pergunta);
+			}
 		} catch (FXValidatorException e) {
 			AlertBuilder.error(e);
 		}
@@ -132,12 +139,13 @@ public class PerguntaController implements Initializable {
 	private void initColumnNome() {
 		this.columnNome.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
 		this.columnNome.setCellFactory(getTextFieldFactory());
-		this.columnNome.setPrefWidth(1000);
+		this.columnNome.setPrefWidth(tbPerguntas.getWidth() * 0.5);
 	}
 
 	private void initColumnTipoPergunta() {
 		this.columnTipo.setCellValueFactory(cellData -> cellData.getValue().getTipoPerguntaProperty());
 		this.columnTipo.setCellFactory(getComboBoxFactory());
+		this.columnTipo.setPrefWidth(tbPerguntas.getWidth() * 0.3);
 	}
 
 	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>>
