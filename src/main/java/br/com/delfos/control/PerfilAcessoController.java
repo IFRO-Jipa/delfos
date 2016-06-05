@@ -17,9 +17,9 @@ import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
+import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,7 +76,7 @@ public class PerfilAcessoController implements Initializable {
 	private List<Funcionalidade> funcionalidades;
 
 	@FXML
-	        void handleBtnPesquisar(ActionEvent event) {
+	private void handleBtnPesquisar(ActionEvent event) {
 		// TODO: Próxima implementação para resolver.......
 
 		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa

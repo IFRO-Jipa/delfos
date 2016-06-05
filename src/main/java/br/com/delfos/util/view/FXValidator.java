@@ -1,4 +1,4 @@
-package br.com.delfos.view.manipulador;
+package br.com.delfos.util.view;
 
 import java.lang.reflect.Field;
 
@@ -47,7 +47,8 @@ public class FXValidator {
 	/*
 	 * Mensagem padrão para as exceptions que serão lançadas.
 	 */
-	private static final String INVALID_FIELD_MESSAGE = "O campo %s é de preenchimento obrigatório.";
+
+	private static Object controller;
 
 	/**
 	 * <p>
@@ -98,8 +99,10 @@ public class FXValidator {
 	 * @throws FXValidatorException
 	 *             caso o campo esteja nulo.
 	 */
-	public static boolean validate(Object controller) throws FXValidatorException {
+	public synchronized static boolean validate(Object controller) throws FXValidatorException {
 		boolean valid = true;
+
+		FXValidator.controller = controller;
 
 		try {
 			Class<?> clazz = controller.getClass();
@@ -184,9 +187,19 @@ public class FXValidator {
 		return true;
 	}
 
-	private static String getMessage(Control name) {
-		return String.format(INVALID_FIELD_MESSAGE,
-		        name.getTooltip() != null ? name.getTooltip().getText() : name.getId());
+	/**
+	 * @param component
+	 *            requisitado
+	 * @return mensagem formatada
+	 */
+	private static String getMessage(Control component) {
+		String key = String.format("%s.%s", controller.getClass().getName(), component.getId());
+		if (Messages.isMessagePresent(key)) {
+			return String.format("%s%s", Messages.getDefaultMessage(), Messages.getMessage(key).get());
+		} else
+
+			return String.format(Messages.getDefaultMessage(),
+			        component.getTooltip() != null ? component.getTooltip().getText() : component.getId());
 	}
 
 }

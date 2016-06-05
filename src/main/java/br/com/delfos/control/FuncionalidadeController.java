@@ -14,8 +14,8 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
+import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import br.com.delfos.view.table.TableViewFactory;
 import javafx.event.ActionEvent;
@@ -67,6 +67,7 @@ public class FuncionalidadeController implements Initializable {
 	private FuncionalidadeDAO dao;
 
 	@FXML
+	@NotNull
 	private ComboBox<Funcionalidade> cbPreRequisito;
 
 	@FXML

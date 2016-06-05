@@ -54,15 +54,18 @@ public class PessoaController implements Initializable {
 	private TextField txtCodigo;
 
 	@FXML
+	@NotNull
 	private TextField txtCpf;
 
 	@FXML
 	private TextArea txtDescricao;
 
 	@FXML
+	@NotNull
 	private TextField txtNumero;
 
 	@FXML
+	@NotNull
 	private ComboBox<TipoLogradouro> comboBoxTipoLogradouro;
 
 	@FXML
@@ -84,6 +87,7 @@ public class PessoaController implements Initializable {
 	private CheckBox cbPesquisador;
 
 	@FXML
+	@NotNull
 	private ComboBox<Cidade> comboBoxCidade;
 
 	@FXML
@@ -93,12 +97,14 @@ public class PessoaController implements Initializable {
 	private Button btnPesquisaCpf;
 
 	@FXML
+	@NotNull
 	private TextField txtLogradouro;
 
 	@FXML
 	private Button btnNovo;
 
 	@FXML
+	@NotNull
 	private TextField txtRg;
 
 	@FXML
@@ -108,6 +114,7 @@ public class PessoaController implements Initializable {
 	private TextArea txtDescricaoEndereco;
 
 	@FXML
+	@NotNull
 	private TextField txtBairro;
 
 	@FXML
@@ -117,6 +124,7 @@ public class PessoaController implements Initializable {
 	private AnchorPane anchorPane;
 
 	@FXML
+	@NotNull
 	private TextField txtEmail;
 
 	@FXML

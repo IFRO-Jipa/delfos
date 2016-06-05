@@ -1,15 +1,18 @@
 package br.com.delfos.control;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.view.manipulador.FXValidator;
+import br.com.delfos.util.view.FXValidator;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 
-public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>> {
+public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>>  implements Initializable{
 
 	private DataAcessObject dao;
 
@@ -49,5 +52,10 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		}
 
 		return null;
+	}
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
 	}
 }

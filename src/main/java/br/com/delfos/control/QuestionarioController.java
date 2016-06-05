@@ -8,6 +8,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -16,8 +18,8 @@ import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
+import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +40,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
 /**
- * @author 00685193209
+ * @author Jéssica Giori
  *
  */
 @Controller
@@ -49,6 +51,7 @@ public class QuestionarioController implements Initializable {
 	private QuestionarioDAO daoQuestionario;
 
 	@FXML
+	@NotNull
 	private DatePicker dtVencimento;
 
 	@FXML
@@ -58,15 +61,18 @@ public class QuestionarioController implements Initializable {
 	private Button btnSalvar;
 
 	@FXML
+	@NotNull
 	private DatePicker dtInicio;
 
 	@FXML
+	@NotNull
 	private CheckBox cbAutenticavel;
 
 	@FXML
 	private Button btnPesquisa;
 
 	@FXML
+	@NotNull
 	private TextField txtNome;
 
 	@FXML
@@ -218,8 +224,6 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(LocalDate.now());
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		this.btnNovo.setText("Limpar");
-
-		this.txtCod.setTooltip(new Tooltip("código do registro"));
 
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
 		this.configTabPergunta();

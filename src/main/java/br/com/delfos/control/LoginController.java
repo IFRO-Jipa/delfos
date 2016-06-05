@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.except.auditoria.UserNotAuthenticatedException;
+import br.com.delfos.except.view.FXValidatorException;
+import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,9 +35,11 @@ public class LoginController implements Initializable {
 	private Button btnAjuda;
 
 	@FXML
+	@NotNull
 	private TextField txtLogin;
 
 	@FXML
+	@NotNull
 	private PasswordField txtSenha;
 
 	@FXML
@@ -46,20 +52,22 @@ public class LoginController implements Initializable {
 	private void handleButtonLogar(ActionEvent event) {
 		try {
 			autenticaUsuario();
-		} catch (UserNotAuthenticatedException | IOException e) {
+		} catch (UserNotAuthenticatedException | IOException | FXValidatorException e) {
 			AlertBuilder.error(e);
 		}
 	}
 
-	private void autenticaUsuario() throws UserNotAuthenticatedException, IOException {
-		boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
+	private void autenticaUsuario() throws UserNotAuthenticatedException, IOException, FXValidatorException {
+		if (FXValidator.validate(this)) {
+			boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
 
-		if (autentica) {
-			new PrincipalApp().start(new Stage());
-			LoginApp.getStage().close();
-		} else {
-			throw new UserNotAuthenticatedException();
+			if (autentica) {
+				new PrincipalApp().start(new Stage());
+				LoginApp.getStage().close();
+			} else {
+				throw new UserNotAuthenticatedException();
 
+			}
 		}
 	}
 

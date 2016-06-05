@@ -16,8 +16,8 @@ import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
+import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +31,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
@@ -61,6 +62,7 @@ public class UsuarioController implements Initializable {
 	private Button btnSalvar;
 
 	@FXML
+	@NotNull
 	private ComboBox<PerfilAcesso> comboPerfilAcesso;
 
 	@FXML
@@ -75,6 +77,7 @@ public class UsuarioController implements Initializable {
 	private PasswordField txtConfirmaSenha;
 
 	@FXML
+	@NotNull
 	private CheckBox cbStatus;
 
 	@FXML
@@ -214,6 +217,12 @@ public class UsuarioController implements Initializable {
 			}
 		});
 		comboPerfilAcesso.setItems(perfis);
+	}
+	
+	private void configTooltipComponents() {
+		this.cbStatus.setTooltip(new Tooltip("status do usuário"));
+		this.comboPerfilAcesso.setTooltip(new Tooltip("perfil de acesso"));
+		this.comboPerfilAcesso.setTooltip(new Tooltip(""));
 	}
 
 }

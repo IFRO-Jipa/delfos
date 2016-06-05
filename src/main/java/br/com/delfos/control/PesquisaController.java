@@ -23,9 +23,9 @@ import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.TableCellFactory;
+import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.FXValidator;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,6 +75,7 @@ public class PesquisaController implements Initializable {
 	private Button btnSalvar;
 
 	@FXML
+	@NotNull
 	private ListView<Pessoa> listViewEspecialista;
 
 	@FXML
