@@ -24,12 +24,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 
+@SuppressWarnings("rawtypes")
 @Controller
 public class PerguntaController implements Initializable {
 
@@ -73,27 +76,53 @@ public class PerguntaController implements Initializable {
 		initColumnTipoPergunta();
 		initColumnAcao();
 
+		initTablePerguntas();
+
+	}
+
+	private void initTablePerguntas() {
 		this.tbPerguntas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		this.tbPerguntas.setEditable(true);
 		this.tbPerguntas.setItems(dadosTabela);
 
+		this.tbPerguntas.setContextMenu(getContextMenu());
+	}
+
+	private ContextMenu getContextMenu() {
+		ContextMenu context = new ContextMenu();
+		MenuItem menuRemover = new MenuItem("Remover");
+		menuRemover.setOnAction(event -> {
+			if (tbPerguntas.getSelectionModel().getSelectedIndex() >= 0) {
+				tbPerguntas.getItems().remove(tbPerguntas.getSelectionModel().getSelectedIndex());
+			}
+		});
+
+		MenuItem menuRemoverTodos = new MenuItem("Remover Todos");
+		menuRemoverTodos.setOnAction(event -> {
+			if (AlertBuilder.confirmation("Deseja realmente excluir todas as perguntas?")) {
+				tbPerguntas.getItems().clear();
+			}
+		});
+
+		context.getItems().add(menuRemover);
+		context.getItems().add(menuRemoverTodos);
+		return context;
 	}
 
 	private void initColumnAcao() {
 		columnAcao.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		columnAcao.setResizable(false);
 		columnAcao.setCellFactory(getButtonFactory());
-
 	}
 
 	private Callback<TableColumn<PerguntaProperty, PerguntaProperty>, TableCell<PerguntaProperty, PerguntaProperty>>
 
 	        getButtonFactory() {
 		return param -> new TableCell<PerguntaProperty, PerguntaProperty>() {
-			final Button button = new Button("...");
+			Button button = new Button("...");
 
 			{
-				button.setMinWidth(columnAcao.getWidth()-10);
+				button.setMinWidth(columnAcao.getWidth() - 10);
 			}
 
 			@Override
@@ -105,19 +134,24 @@ public class PerguntaController implements Initializable {
 					setGraphic(null);
 				}
 				button.setOnAction(event -> handleButtonAction(item));
+
+				button.setDisable(flagDisable(item.getTipoPergunta()));
+			}
+
+			private boolean flagDisable(TipoPergunta tipo) {
+				return tipo.equals(TipoPergunta.INTERVALO) || tipo.equals(TipoPergunta.MULTIPLA_ESCOLHA);
 			}
 
 		};
 	}
 
-	protected void handleButtonAction(PerguntaProperty item) {
-		Optional<PerguntaProperty> optional = Optional.ofNullable(item);
+	protected void handleButtonAction(PerguntaProperty<?> item) {
+		Optional<PerguntaProperty<?>> optional = Optional.ofNullable(item);
 		optional.ifPresent(property -> {
 			if (property.getTipoPergunta() != null) {
-				System.out.println("Um tipo de pergunta foi selecionado.");
+
 			}
 
-			System.out.println(item);
 		});
 	}
 
@@ -142,10 +176,20 @@ public class PerguntaController implements Initializable {
 		this.columnNome.setPrefWidth(tbPerguntas.getWidth() * 0.5);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initColumnTipoPergunta() {
 		this.columnTipo.setCellValueFactory(cellData -> cellData.getValue().getTipoPerguntaProperty());
 		this.columnTipo.setCellFactory(getComboBoxFactory());
 		this.columnTipo.setPrefWidth(tbPerguntas.getWidth() * 0.3);
+	}
+
+	@SuppressWarnings("unused")
+	public void getPerguntas() {
+		ObservableList<PerguntaProperty> properties = this.tbPerguntas.getItems();
+
+		for (PerguntaProperty property : properties) {
+			// TODO: implementar
+		}
 	}
 
 	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>>

@@ -113,6 +113,7 @@ public class FuncionalidadeController implements Initializable {
 
 		if (returned.isPresent()) {
 			abreRegistro(returned.get());
+			atualizaTabela(returned.get());
 			AlertBuilder.information("Salvo com sucesso");
 		} else {
 			AlertBuilder.warning("Não foi devidamente salvo... tente novamente");
@@ -172,11 +173,13 @@ public class FuncionalidadeController implements Initializable {
 	}
 
 	private void atualizaTabela(Funcionalidade funcionalidade) {
-		// tbRegistros.getItems().removeIf(registro -> registro.getId() ==
-		// registro.getId());
-		// tbRegistros.getItems().add(funcionalidade);
-		// tbRegistros.getSelectionModel().select(funcionalidade);
-		// tbRegistros.sort();
+		Optional<Funcionalidade> optional = tbRegistros.getItems().stream()
+		        .filter(f -> f.getId().equals(funcionalidade.getId())).findFirst();
+
+		optional.ifPresent(value -> {
+			int index = tbRegistros.getItems().indexOf(value);
+			tbRegistros.getItems().set(index, funcionalidade);
+		});
 	}
 
 	private void populaTabela(List<Funcionalidade> funcionalidades) {
