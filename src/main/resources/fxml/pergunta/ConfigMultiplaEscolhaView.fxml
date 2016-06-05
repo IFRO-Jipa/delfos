@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="rootPane" prefHeight="389.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.ConfigMultiplaEscolhaController">
+	<children>
+		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+		<TextField fx:id="txtNome" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="317.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="121.0" AnchorPane.topAnchor="31.0" />
+		<Text layoutX="348.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Pergunta" AnchorPane.rightAnchor="12.81640625" />
+		<Text fx:id="lblTipo" layoutX="347.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="..." wrappingWidth="91.18359375" AnchorPane.rightAnchor="13.81640625" />
+		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
+		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="57.0" prefWidth="425.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
+		<TabPane layoutX="14.0" layoutY="144.0" prefHeight="164.0" prefWidth="425.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="144.0">
+			<tabs>
+				<Tab text="Alternativas">
+					<content>
+						<BorderPane prefHeight="200.0" prefWidth="200.0">
+							<top>
+								<HBox prefHeight="24.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+									<children>
+										<TextField fx:id="txtItem" prefHeight="25.0" prefWidth="173.0" promptText="Item">
+											<HBox.margin>
+												<Insets bottom="2.0" left="3.0" right="2.0" top="5.0" />
+											</HBox.margin>
+										</TextField>
+										<TextField fx:id="txtValor" prefHeight="25.0" prefWidth="173.0" promptText="Valor">
+											<HBox.margin>
+												<Insets bottom="2.0" left="3.0" right="2.0" top="5.0" />
+											</HBox.margin>
+										</TextField>
+										<Button fx:id="txtAddAlternativa" mnemonicParsing="false" onAction="#handleButtonAddAlternativa" prefHeight="25.0" prefWidth="64.0" text="OK">
+											<HBox.margin>
+												<Insets bottom="2.0" left="3.0" right="2.0" top="5.0" />
+											</HBox.margin>
+										</Button>
+									</children>
+								</HBox>
+							</top>
+							<center>
+								<TableView fx:id="tbAlternativas" fixedCellSize="0.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+									<columns>
+										<TableColumn fx:id="columnItem" prefWidth="337.0" text="Item" />
+										<TableColumn fx:id="columnValor" minWidth="0.0" prefWidth="87.0" text="Valor" />
+									</columns>
+									<columnResizePolicy>
+										<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+									</columnResizePolicy>
+								</TableView>
+							</center>
+						</BorderPane>
+					</content>
+				</Tab>
+			</tabs>
+		</TabPane>
+		<Button fx:id="btnSalvar" layoutX="357.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="25.0" prefWidth="82.0" text="Salvar" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="13.0" />
+	</children>
+</AnchorPane>
