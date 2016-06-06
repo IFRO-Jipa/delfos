@@ -1,12 +1,28 @@
 package br.com.delfos.control.pesquisa;
 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.dialog.EditDialog;
 import br.com.delfos.model.pesquisa.MultiplaEscolha;
 import br.com.delfos.model.pesquisa.Pergunta;
+import br.com.delfos.util.view.FXValidator;
+import br.com.delfos.view.AlertBuilder;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,24 +33,26 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 @Controller
-public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<MultiplaEscolha>> {
+public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<MultiplaEscolha>>, Initializable {
 	@FXML
 	private Button btnSalvar;
 
 	@FXML
-	private TableColumn<MultiplaEscolha, String> columnItem;
+	private TableColumn<Map.Entry<String, String>, String> columnItem;
 
 	@FXML
 	private AnchorPane rootPane;
 
 	@FXML
+	@NotNull
 	private TextField txtNome;
 
 	@FXML
-	private TableColumn<MultiplaEscolha, Double> columnValor;
+	private TableColumn<Map.Entry<String, Double>, Double> columnValor;
 
 	@FXML
-	private TableView<MultiplaEscolha> tbAlternativas;
+	@NotNull
+	private TableView<Map.Entry<String, Double>> tbAlternativas;
 
 	@FXML
 	private TextArea txtDescricao;
@@ -51,38 +69,86 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	@FXML
 	private Text lblTipo;
 
+	private boolean okCliked = false;
+
+	private Stage dialogStage;
+
+	private ObservableMap<String, Double> itens = FXCollections.observableMap(new HashMap<>());
+	private Pergunta<MultiplaEscolha> value;
+
+	public ConfigMultiplaEscolhaController() {
+	}
+
 	@FXML
 	private void handleButtonAddAlternativa(ActionEvent event) {
-
+		if (!txtItem.getText().isEmpty() && !txtValor.getText().isEmpty()) {
+			String item = txtItem.getText();
+			Double valor = Double.parseDouble(txtValor.getText());
+			
+		} else {
+			AlertBuilder.error("Preencha os campos corretamente para prosseguir.");
+		}
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
+		if (FXValidator.validate(this)) {
+			this.value.setNome(txtNome.getText());
+			this.value.setDescricao(txtDescricao.getText());
 
+			MultiplaEscolha multiplaEscolha = new MultiplaEscolha();
+			multiplaEscolha.addAll(Optional.ofNullable(itens));
+			this.value.setAlternativa(multiplaEscolha);
+			this.okCliked = true;
+
+			this.dialogStage.close();
+		}
 	}
 
 	@Override
 	public boolean isOkCliked() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.okCliked;
 	}
 
 	@Override
 	public void setDialogStage(Stage stage) {
-		// TODO Auto-generated method stub
-
+		this.dialogStage = stage;
 	}
 
 	@Override
 	public void setValue(Pergunta<MultiplaEscolha> value) {
-		// TODO Auto-generated method stub
+		this.value = value;
 
+		this.txtNome.setText(value.getNome());
+		this.txtDescricao.setText(value.getDescricao());
+
+		value.getAlternativa();
 	}
 
 	@Override
 	public Pergunta<MultiplaEscolha> getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.value;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		initColumnItem();
+		initColumnValor();
+		this.tbAlternativas.setItems(FXCollections.observableArrayList(this.itens.entrySet()));
+	}
+
+	private void initColumnValor() {
+		this.columnValor = new TableColumn<>("Value");
+		this.columnValor.setCellValueFactory(valor -> {
+			return new SimpleObjectProperty<Double>(valor.getValue().getValue());
+		});
+	}
+
+	private void initColumnItem() {
+		this.columnItem = new TableColumn<>("Key");
+		this.columnItem.setCellValueFactory(item -> {
+			return new SimpleStringProperty(item.getValue().getKey());
+		});
 	}
 
 }

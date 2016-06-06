@@ -4,6 +4,7 @@ package br.com.delfos.model.pesquisa;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.DiscriminatorValue;
@@ -31,6 +32,10 @@ public class MultiplaEscolha extends Alternativa {
 		if (!escolhas.containsKey(item)) {
 			escolhas.put(item, valor);
 		}
+	}
+
+	public void addAll(Optional<Map<String, Double>> itens) {
+		itens.ifPresent(valores -> escolhas.putAll(valores));
 	}
 
 	@Override

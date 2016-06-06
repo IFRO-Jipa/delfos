@@ -11,11 +11,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.control.dialog.EditDialog;
 import br.com.delfos.converter.table.cell.ConverterComboBoxToCell;
 import br.com.delfos.model.pesquisa.Alternativa;
-import br.com.delfos.model.pesquisa.Intervalo;
-import br.com.delfos.model.pesquisa.MultiplaEscolha;
-import br.com.delfos.model.pesquisa.Paragrafo;
 import br.com.delfos.model.pesquisa.Pergunta;
-import br.com.delfos.model.pesquisa.Texto;
 import br.com.delfos.model.pesquisa.TipoPergunta;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.util.view.FXValidator;
@@ -176,7 +172,6 @@ public class PerguntaController implements Initializable {
 
 					if (controller.isOkCliked()) {
 						// aqui vai o código que atualiza a informação da pergunta...
-						System.out.println(controller.getValue());
 						converterPergunta(property, controller.getValue());
 					}
 
@@ -204,42 +199,11 @@ public class PerguntaController implements Initializable {
 		return pergunta;
 	}
 
-	/**
-	 * Método responsável por montar uma alternativa de uma pergunta.
-	 * 
-	 * Cuidado com esse método, ele foi feito as pressas e só tende a crescer, já que faço mil
-	 * verificações para saber qual é o meu tipo de alternativa.
-	 * 
-	 * TODO: pensar em algo para aplicar um bom design patterns aqui.
-	 * 
-	 * @param alternativa
-	 *            que será montada
-	 * @return objeto populado
-	 */
-	@SuppressWarnings("unused")
-	private Alternativa converterAlternativa(Alternativa alternativa) {
-		if (alternativa instanceof Intervalo) {
-			// retorna a alternativa voltada a intervalos.
-			return null;
-		} else if (alternativa instanceof MultiplaEscolha) {
-			// retorna a alternativa voltada a multiplas escolhas
-			return null;
-		} else if (alternativa instanceof Texto) {
-			// retorna a alternativa voltada a textos
-			return null;
-		} else if (alternativa instanceof Paragrafo) {
-			// retorna a alternativa voltada a parágrafos
-			return null;
-		}
-		return null;
-	}
-
 	@FXML
 	private void handleButtonAddPergunta(ActionEvent event) {
 		if (FXValidator.validate(this)) {
 			String nome = txtNomePergunta.getText();
 			TipoPergunta tipoPergunta = cbTipoPergunta.getValue();
-			System.out.printf("%s-%s\n", nome, tipoPergunta);
 			PerguntaProperty pergunta = new PerguntaProperty(nome, tipoPergunta);
 			tbPerguntas.getItems().add(pergunta);
 		}
