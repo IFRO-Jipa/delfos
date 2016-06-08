@@ -9,7 +9,8 @@ import br.com.delfos.model.pesquisa.Pergunta;
 
 public class TestePegaPerguntas {
 	public static void main (String[]args){
-		Set<Pergunta<?>> listaPergunta = new PerguntaDAO().findByQuestionario(1l);
+		Long id = 23l;
+		Set<Pergunta<?>> listaPergunta = new PerguntaDAO().findByQuestionario(id);
 		
 		for(Iterator<Pergunta<?>> iter = listaPergunta.iterator(); iter.hasNext();){
 			Pergunta<?> pergunta = iter.next();
