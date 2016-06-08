@@ -1,8 +1,5 @@
 package br.com.delfos;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
-import br.com.delfos.model.pesquisa.Pergunta;
+import br.com.delfos.model.pesquisa.Questionario;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/applicationContext.xml")
@@ -21,14 +18,11 @@ public class TestePegaPerguntas {
 
 	@Test
 	public void testa() {
-		Long id = 23l;
+		Long id = 16L;
 
-		Set<Pergunta<?>> listaPergunta = questionarioDAO.findByQuestionario(id);
+		Questionario quest = questionarioDAO.findOne(id);
 
-		for (Iterator<Pergunta<?>> iter = listaPergunta.iterator(); iter.hasNext();) {
-			Pergunta<?> pergunta = iter.next();
-			System.out.println(pergunta.getNome());
-		}
+		System.out.println(quest);
 
 	}
 
