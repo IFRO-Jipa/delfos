@@ -21,7 +21,6 @@ public class LeitorDeFXML {
 	public synchronized static FXMLLoader getLoader(String url) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(LeitorDeFXML.class.getResource(url));
-		System.out.println(url);
 		loader.setControllerFactory(param -> ContextFactory.getBean(param));
 
 		return loader;

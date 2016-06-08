@@ -1,7 +1,9 @@
 package br.com.delfos.view.manipulador;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Set;
 
@@ -15,21 +17,23 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 public class ManipuladorDeMenus {
-	private File file;
+	private InputStream file;
 	private Set<Funcionalidade> permissoes;
 
-	public ManipuladorDeMenus(File file, Set<Funcionalidade> permissoes) {
+	public ManipuladorDeMenus(FileInputStream file, Set<Funcionalidade> permissoes) {
 		this.file = file;
 		this.permissoes = permissoes;
 	}
 
-	public ManipuladorDeMenus(Set<Funcionalidade> permissoes) throws URISyntaxException {
+	public ManipuladorDeMenus(Set<Funcionalidade> permissoes) throws URISyntaxException, FileNotFoundException {
 		this.permissoes = permissoes;
 
-		this.file = new File((ManipuladorDeMenus.class.getClassLoader().getResource("config/menu.xml").toURI()));
+		this.file = ManipuladorDeMenus.class.getClassLoader().getResourceAsStream("config/menu.xml");
+
 	}
 
 	public static void main(String[] args) throws URISyntaxException, IOException {
+		System.out.println(ManipuladorDeMenus.class.getClassLoader().getResource("config/menu.xml").toURI());
 	}
 
 	public MenuBar create() throws JDOMException, IOException {

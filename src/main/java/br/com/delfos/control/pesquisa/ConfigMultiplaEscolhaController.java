@@ -2,8 +2,6 @@ package br.com.delfos.control.pesquisa;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -38,7 +36,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	private Button btnSalvar;
 
 	@FXML
-	private TableColumn<Map.Entry<String, String>, String> columnItem;
+	private TableColumn<ObservableMap.Entry<String, String>, String> columnItem;
 
 	@FXML
 	private AnchorPane rootPane;
@@ -48,11 +46,11 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	private TextField txtNome;
 
 	@FXML
-	private TableColumn<Map.Entry<String, Double>, Double> columnValor;
+	private TableColumn<ObservableMap.Entry<String, Double>, Double> columnValor;
 
 	@FXML
 	@NotNull
-	private TableView<Map.Entry<String, Double>> tbAlternativas;
+	private TableView<ObservableMap.Entry<String, Double>> tbAlternativas;
 
 	@FXML
 	private TextArea txtDescricao;
@@ -84,7 +82,9 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		if (!txtItem.getText().isEmpty() && !txtValor.getText().isEmpty()) {
 			String item = txtItem.getText();
 			Double valor = Double.parseDouble(txtValor.getText());
-			
+			this.itens.put(item, valor);
+
+			this.itens.forEach((chave, valorChave) -> System.out.printf("%s:%s", chave, String.valueOf(valorChave)));
 		} else {
 			AlertBuilder.error("Preencha os campos corretamente para prosseguir.");
 		}
@@ -149,6 +149,15 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.columnItem.setCellValueFactory(item -> {
 			return new SimpleStringProperty(item.getValue().getKey());
 		});
+		/*
+		 * this.columnItem.setOnEditCommit((TableColumn.CellEditEvent<ObservableMap.Entry<String,
+		 * Double>, String> t) -> {
+		 * final String oldKey = t.getOldValue();
+		 * final Number oldPrice = itens.get(oldKey);
+		 * itens.remove(oldKey);
+		 * itens.put(t.getNewValue(), oldPrice);
+		 * }));
+		 */
 	}
 
 }
