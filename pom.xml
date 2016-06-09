@@ -32,6 +32,7 @@
 				<configuration>
 					<vendor>IFRO</vendor>
 					<mainClass>br.com.delfos.Main</mainClass>
+					<appName>Delfos</appName>
 				</configuration>
 			</plugin>
 		</plugins>
