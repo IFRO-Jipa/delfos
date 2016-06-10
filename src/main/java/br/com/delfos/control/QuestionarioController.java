@@ -219,10 +219,17 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(LocalDate.now());
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		this.btnNovo.setText("Limpar");
+		
+		this.reset();
 
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
 		this.configTabPergunta();
 
+	}
+
+	private void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void configTabPergunta() {
