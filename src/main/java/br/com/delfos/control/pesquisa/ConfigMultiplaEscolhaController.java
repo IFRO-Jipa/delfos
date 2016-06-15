@@ -1,7 +1,6 @@
 package br.com.delfos.control.pesquisa;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -36,14 +35,14 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	private Button btnSalvar;
 
 	@FXML
-	private TableColumn<ObservableMap.Entry<String, String>, String> columnItem;
-
-	@FXML
 	private AnchorPane rootPane;
 
 	@FXML
 	@NotNull
 	private TextField txtNome;
+
+	@FXML
+	private TableColumn<ObservableMap.Entry<String, Double>, String> columnItem;
 
 	@FXML
 	private TableColumn<ObservableMap.Entry<String, Double>, Double> columnValor;
@@ -71,7 +70,8 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 
 	private Stage dialogStage;
 
-	private ObservableMap<String, Double> itens = FXCollections.observableMap(new HashMap<>());
+	private ObservableMap<String, Double> itens = FXCollections.observableHashMap();
+
 	private Pergunta<MultiplaEscolha> value;
 
 	public ConfigMultiplaEscolhaController() {
@@ -139,16 +139,12 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 
 	private void initColumnValor() {
 		this.columnValor = new TableColumn<>("Value");
-		this.columnValor.setCellValueFactory(valor -> {
-			return new SimpleObjectProperty<Double>(valor.getValue().getValue());
-		});
+		this.columnValor.setCellValueFactory(p -> new SimpleObjectProperty<Double>(p.getValue().getValue()));
 	}
 
 	private void initColumnItem() {
 		this.columnItem = new TableColumn<>("Key");
-		this.columnItem.setCellValueFactory(item -> {
-			return new SimpleStringProperty(item.getValue().getKey());
-		});
+		this.columnItem.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
 	}
 
 }
