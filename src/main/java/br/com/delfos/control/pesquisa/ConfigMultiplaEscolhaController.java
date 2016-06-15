@@ -1,6 +1,7 @@
 package br.com.delfos.control.pesquisa;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -16,6 +17,7 @@ import br.com.delfos.view.AlertBuilder;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -83,6 +85,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 			String item = txtItem.getText();
 			Double valor = Double.parseDouble(txtValor.getText());
 			this.itens.put(item, valor);
+			this.initTableView();
 
 			this.itens.forEach((chave, valorChave) -> System.out.printf("%s:%s", chave, String.valueOf(valorChave)));
 		} else {
@@ -134,16 +137,32 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	public void initialize(URL location, ResourceBundle resources) {
 		initColumnItem();
 		initColumnValor();
-		this.tbAlternativas.setItems(FXCollections.observableArrayList(this.itens.entrySet()));
+
+		initTableView();
+
+		configTableView();
+	}
+
+	private void configTableView() {
+		this.tbAlternativas.getColumns().clear();
+		this.tbAlternativas.getColumns().add(columnItem);
+		this.tbAlternativas.getColumns().add(columnValor);
+	}
+
+	private void initTableView() {
+		this.tbAlternativas.setItems(null);
+		ObservableList<ObservableMap.Entry<String, Double>> itens = FXCollections
+				.observableArrayList(this.itens.entrySet());
+		this.tbAlternativas.setItems(itens);
 	}
 
 	private void initColumnValor() {
-		this.columnValor = new TableColumn<>("Value");
+		this.columnValor = new TableColumn<>("Item");
 		this.columnValor.setCellValueFactory(p -> new SimpleObjectProperty<Double>(p.getValue().getValue()));
 	}
 
 	private void initColumnItem() {
-		this.columnItem = new TableColumn<>("Key");
+		this.columnItem = new TableColumn<>("Valor");
 		this.columnItem.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
 	}
 
