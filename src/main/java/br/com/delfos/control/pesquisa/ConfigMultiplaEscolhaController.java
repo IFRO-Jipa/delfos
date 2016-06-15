@@ -149,15 +149,6 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.columnItem.setCellValueFactory(item -> {
 			return new SimpleStringProperty(item.getValue().getKey());
 		});
-		/*
-		 * this.columnItem.setOnEditCommit((TableColumn.CellEditEvent<ObservableMap.Entry<String,
-		 * Double>, String> t) -> {
-		 * final String oldKey = t.getOldValue();
-		 * final Number oldPrice = itens.get(oldKey);
-		 * itens.remove(oldKey);
-		 * itens.put(t.getNewValue(), oldPrice);
-		 * }));
-		 */
 	}
 
 }
