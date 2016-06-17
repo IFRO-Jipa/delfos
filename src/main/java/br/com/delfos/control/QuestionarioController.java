@@ -179,6 +179,8 @@ public class QuestionarioController implements Initializable {
 			ManipuladorDeTelas.limpaCampos(this.rootPane);
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
+		this.daoQuestionario.findOne(1l).getPerguntas().forEach(action -> System.out.println(action.getNome() + action.getDescricao() + action.getAlternativa()));
+
 	}
 
 	public void init(Optional<Questionario> questionario) {
