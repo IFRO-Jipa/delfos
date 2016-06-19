@@ -1,7 +1,6 @@
 package br.com.delfos.control.pesquisa;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -40,7 +39,6 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	private AnchorPane rootPane;
 
 	@FXML
-	@NotNull
 	private TextField txtNome;
 
 	@FXML
@@ -86,8 +84,6 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 			Double valor = Double.parseDouble(txtValor.getText());
 			this.itens.put(item, valor);
 			this.initTableView();
-
-			this.itens.forEach((chave, valorChave) -> System.out.printf("%s:%s", chave, String.valueOf(valorChave)));
 		} else {
 			AlertBuilder.error("Preencha os campos corretamente para prosseguir.");
 		}
@@ -95,7 +91,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (FXValidator.validate(this)) {
+		if (!txtNome.getText().isEmpty()) {
 			this.value.setNome(txtNome.getText());
 			this.value.setDescricao(txtDescricao.getText());
 
@@ -152,7 +148,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	private void initTableView() {
 		this.tbAlternativas.setItems(null);
 		ObservableList<ObservableMap.Entry<String, Double>> itens = FXCollections
-				.observableArrayList(this.itens.entrySet());
+		        .observableArrayList(this.itens.entrySet());
 		this.tbAlternativas.setItems(itens);
 	}
 
