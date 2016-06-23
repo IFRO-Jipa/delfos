@@ -22,6 +22,7 @@ import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -45,7 +46,6 @@ import javafx.util.Callback;
 @Controller
 public class QuestionarioController implements Initializable {
 
-	// Declarando variáveis da tela
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
 
@@ -96,6 +96,8 @@ public class QuestionarioController implements Initializable {
 	private Label lblDuracao;
 
 	private Optional<Questionario> registro = Optional.empty();
+	
+	private PerguntaController perguntaController;
 
 	// método que libera o campo data de vencimento e muda a cor dele
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
@@ -112,6 +114,8 @@ public class QuestionarioController implements Initializable {
 			this.setTooltip(new Tooltip(String.format("Seu questionário durará dia(s).", p)));
 		};
 	};
+
+	
 
 	public Optional<Questionario> getRegistro() {
 		return this.registro;
@@ -176,10 +180,11 @@ public class QuestionarioController implements Initializable {
 				AlertBuilder.warning("Nenhum registro foi encontrado.");
 			}
 		} else {
-			ManipuladorDeTelas.limpaCampos(this.rootPane);
+			reset();
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
-		this.daoQuestionario.findOne(1l).getPerguntas().forEach(action -> System.out.println(action.getNome() + action.getDescricao() + action.getAlternativa()));
+		this.daoQuestionario.findOne(1l).getPerguntas().forEach(
+		        action -> System.out.println(action.getNome() + action.getDescricao() + action.getAlternativa()));
 
 	}
 
@@ -195,7 +200,6 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(quest.getDataInicio());
 		this.dtVencimento.setValue(quest.getVencimento());
 		this.cbAutenticavel.setSelected(quest.isAutenticavel());
-
 	}
 
 	@FXML
@@ -205,13 +209,8 @@ public class QuestionarioController implements Initializable {
 
 	// calculo de duração do questionario
 	private void setDias(Long a) {
-		if (a == 0) {
-			this.lblDuracao.setVisible(false);
-		} else {
-			this.lblDuracao.setText(String.format("Duração: %d dia(s)", a));
-			this.lblDuracao.setVisible(true);
-
-		}
+		this.lblDuracao.setVisible(a == 0 ? false : true);
+		this.lblDuracao.setText(a != 0 ? String.format("Duração: %d dia(s)", a) : "");
 	}
 
 	@Override
@@ -221,7 +220,7 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(LocalDate.now());
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		this.btnNovo.setText("Limpar");
-		
+
 		this.reset();
 
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
@@ -230,13 +229,18 @@ public class QuestionarioController implements Initializable {
 	}
 
 	private void reset() {
-		// TODO Auto-generated method stub
-		
+		ManipuladorDeTelas.limpaCampos(rootPane);
+		this.clear();
+		this.dtInicio.setValue(LocalDate.now());
 	}
 
 	private void configTabPergunta() {
 		try {
-			BorderPane load = (BorderPane) LeitorDeFXML.load("/fxml/PerguntaView.fxml");
+
+			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/PerguntaView.fxml");
+
+			BorderPane load = (BorderPane) loader.load();
+			this.perguntaController = loader.getController();
 
 			Tab tab = new Tab("Perguntas");
 			tab.setContent(load);

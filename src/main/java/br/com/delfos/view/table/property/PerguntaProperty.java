@@ -1,7 +1,11 @@
 package br.com.delfos.view.table.property;
 
 import br.com.delfos.model.pesquisa.Alternativa;
+import br.com.delfos.model.pesquisa.Intervalo;
 import br.com.delfos.model.pesquisa.MultiplaEscolha;
+import br.com.delfos.model.pesquisa.Paragrafo;
+import br.com.delfos.model.pesquisa.Pergunta;
+import br.com.delfos.model.pesquisa.Texto;
 import br.com.delfos.model.pesquisa.TipoPergunta;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -101,5 +105,7 @@ public class PerguntaProperty<T extends Alternativa> {
 		property.getAlternativa().getEscolhas().keySet().forEach(System.out::println);
 		property.getAlternativa().add("Alto", 33);
 	}
+
+	
 
 }

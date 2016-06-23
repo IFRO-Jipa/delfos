@@ -1,6 +1,7 @@
 package br.com.delfos.control;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -19,6 +20,7 @@ import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.table.factory.ComboBoxCellFactory;
 import br.com.delfos.view.table.factory.TextFieldCellFactory;
 import br.com.delfos.view.table.property.PerguntaProperty;
+import br.com.delfos.view.table.property.PerguntaPropertyUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,8 +43,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
-@SuppressWarnings("rawtypes")
 @Controller
+@SuppressWarnings("rawtypes")
 public class PerguntaController implements Initializable {
 
 	@FXML
@@ -194,7 +196,6 @@ public class PerguntaController implements Initializable {
 		pergunta.setNome(property.getNome());
 		pergunta.setDescricao(property.getDescricao());
 
-		// pergunta.setAlternativa(converterAlternativa(property.getAlternativa()));
 		pergunta.setAlternativa(property.getAlternativa());
 		return pergunta;
 	}
@@ -222,13 +223,26 @@ public class PerguntaController implements Initializable {
 		this.columnTipo.setPrefWidth(tbPerguntas.getWidth() * 0.3);
 	}
 
-	@SuppressWarnings("unused")
-	public void getPerguntas() {
-		ObservableList<PerguntaProperty> properties = this.tbPerguntas.getItems();
+	public List<Pergunta<?>> getPerguntas() {
+		ObservableList<Pergunta<?>> perguntas = FXCollections.observableArrayList();
 
-		for (PerguntaProperty property : properties) {
-			// TODO: implementar
-		}
+		this.tbPerguntas.getItems().forEach(perguntaProperty -> {
+			Pergunta<?> pergunta = PerguntaPropertyUtil.toValue(perguntaProperty);
+
+			perguntas.add(pergunta);
+		});
+
+		return perguntas;
+
+	}
+
+	public void setPerguntas(List<Pergunta<?>> perguntas) {
+		this.dadosTabela.clear();
+
+		perguntas.forEach(pergunta -> {
+			this.dadosTabela.add(PerguntaPropertyUtil.fromPergunta(pergunta));
+		});
+
 	}
 
 	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>>

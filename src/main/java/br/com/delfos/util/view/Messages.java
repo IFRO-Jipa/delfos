@@ -5,9 +5,13 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
 
+import javafx.scene.control.Control;
+
 class Messages {
 	private static Properties props;
 	private static String defaultMessage;
+	
+	private static String notFoundMessage;
 
 	static {
 		try {
@@ -15,6 +19,7 @@ class Messages {
 			props.load(new FileInputStream(
 			        Messages.class.getClassLoader().getResource("config/tooltip.properties").toString()));
 			defaultMessage = props.getProperty("defaultMessage");
+			notFoundMessage = props.getProperty("notFoundMessage");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -30,5 +35,9 @@ class Messages {
 	
 	public static boolean isMessagePresent(String name) { 
 		return getMessage(name).isPresent();
+	}
+
+	public static Object semEntradaDeTextoPara(Control component) {
+		return String.format(notFoundMessage, component);
 	}
 }
