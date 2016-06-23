@@ -54,6 +54,8 @@ public class LoginController implements Initializable {
 			autenticaUsuario();
 		} catch (UserNotAuthenticatedException | IOException | FXValidatorException e) {
 			AlertBuilder.error(e);
+		} catch (RuntimeException e) {
+			AlertBuilder.error(e);
 		}
 	}
 
@@ -73,7 +75,7 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private void handleButtonAjuda(ActionEvent event) {
-
+		// TODO: Implementar uma telinha de ajuda para o usuário.
 	}
 
 	@Override

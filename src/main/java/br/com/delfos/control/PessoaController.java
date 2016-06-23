@@ -8,13 +8,12 @@ import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.delfos.dao.basic.CidadeDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.basic.TipoLogradouroDAO;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.basic.Cidade;
 import br.com.delfos.model.basic.Endereco;
 import br.com.delfos.model.basic.Pessoa;
@@ -25,7 +24,6 @@ import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -33,15 +31,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 @Controller
-public class PessoaController implements Initializable {
-
-	@Autowired
-	private PessoaDAO dao;
+public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 	@FXML
 	private Button btnPesquisaCodigo;
@@ -133,52 +127,29 @@ public class PessoaController implements Initializable {
 	@FXML
 	private void handleButtonPesquisaCodigo(ActionEvent event) {
 		pesquisaPorCodigo();
-
 	}
 
-	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
-		// consulta.
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código da pessoa");
+	@Override
+	protected void posiciona(Optional<Pessoa> value) {
+		value.ifPresent(pessoa -> {
+			txtCodigo.setText(String.valueOf(pessoa.getId()));
+			txtNome.setText(pessoa.getNome());
+			txtApelido.setText(pessoa.getApelido());
+			txtCpf.setText(pessoa.getCpf());
+			txtRg.setText(pessoa.getRg());
+			txtEmail.setText(pessoa.getEmail());
+			dtDataNascimento.setValue(pessoa.getDataNascimento());
+			txtDescricao.setText(pessoa.getDescricao());
+			posicionaTipoDePessoa(pessoa);
 
-		// Traditional way to get the response value.
-		Optional<String> result = dialog.showAndWait();
-
-		if (result.isPresent()) {
-			Optional<Pessoa> optional = Optional.ofNullable(dao.findOne(Long.parseLong(result.get())));
-			if (optional.isPresent()) {
-				posicionaRegistro(optional.get());
-			} else {
-				ManipuladorDeTelas.limpaCampos(anchorPane);
-				AlertBuilder.warning("Nenhum registro foi encontrado.");
-			}
-		} else {
-			ManipuladorDeTelas.limpaCampos(anchorPane);
-			AlertBuilder.warning("Nenhum registro foi encontrado.");
-		}
-	}
-
-	private void posicionaRegistro(Pessoa pessoa) {
-		txtCodigo.setText(String.valueOf(pessoa.getId()));
-		txtNome.setText(pessoa.getNome());
-		txtApelido.setText(pessoa.getApelido());
-		txtCpf.setText(pessoa.getCpf());
-		txtRg.setText(pessoa.getRg());
-		txtEmail.setText(pessoa.getEmail());
-		dtDataNascimento.setValue(pessoa.getDataNascimento());
-		txtDescricao.setText(pessoa.getDescricao());
-		posicionaTipoDePessoa(pessoa);
-
-		comboBoxTipoLogradouro.getSelectionModel().select(pessoa.getEndereco().getTipoLogradouro());
-		comboBoxCidade.getSelectionModel().select(pessoa.getEndereco().getCidade());
-		txtLogradouro.setText(pessoa.getEndereco().getLogradouro());
-		txtNumero.setText(pessoa.getEndereco().getNumero());
-		txtBairro.setText(pessoa.getEndereco().getBairro());
-		txtDescricaoEndereco.setText(pessoa.getEndereco().getDescricao());
-		txtCep.setText(pessoa.getEndereco().getCep());
+			comboBoxTipoLogradouro.getSelectionModel().select(pessoa.getEndereco().getTipoLogradouro());
+			comboBoxCidade.getSelectionModel().select(pessoa.getEndereco().getCidade());
+			txtLogradouro.setText(pessoa.getEndereco().getLogradouro());
+			txtNumero.setText(pessoa.getEndereco().getNumero());
+			txtBairro.setText(pessoa.getEndereco().getBairro());
+			txtDescricaoEndereco.setText(pessoa.getEndereco().getDescricao());
+			txtCep.setText(pessoa.getEndereco().getCep());
+		});
 	}
 
 	private void posicionaTipoDePessoa(Pessoa pessoa) {
@@ -191,45 +162,42 @@ public class PessoaController implements Initializable {
 	}
 
 	@FXML
-	        void handleButtonPesquisaCpf(ActionEvent event) {
-
+	private void handleButtonPesquisaCpf(ActionEvent event) {
+		// TODO: Implementar a busca personalizada pelo cpf
+		// TODO: Se possível, fazer algo genérico que se adeque para todos os tipos de consultas que
+		// eu queira fazer.
 	}
 
 	@FXML
-	        void handleButtonNovo(ActionEvent event) {
+	private void handleButtonNovo(ActionEvent event) {
 		ManipuladorDeTelas.limpaCampos(anchorPane);
 	}
 
 	@FXML
-	        void handleButtonExcluir(ActionEvent event) {
-		excluiRegistro();
-	}
+	private void handleButtonExcluir(ActionEvent event) {
+		this.deleteIf(pessoa -> pessoa.getId() != null);
 
-	private void excluiRegistro() {
-		if (!txtCodigo.getText().isEmpty()) {
-			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
-				dao.delete(Long.parseLong(txtCodigo.getText()));
-				ManipuladorDeTelas.limpaCampos(anchorPane);
-				AlertBuilder.information("Excluído com sucesso");
-			}
-		} else
-			return;
+		ManipuladorDeTelas.limpaCampos(anchorPane);
 	}
 
 	@FXML
-	@Transactional
 	private void handleButtonSalvar(ActionEvent event) {
 
-		Optional<Pessoa> save = dao.save(montaPessoa());
+		try {
+			Optional<Pessoa> retorno = this.salvar(getValue(), this);
 
-		save.ifPresent(pessoa -> {
-			txtCodigo.setText(String.valueOf(pessoa.getId()));
-			AlertBuilder.information("Salvo com sucesso");
-		});
+			retorno.ifPresent(pessoa -> {
+				txtCodigo.setText(String.valueOf(pessoa.getId()));
+			});
+
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
+		}
 
 	}
 
-	private Pessoa montaPessoa() {
+	@Override
+	protected Pessoa toValue() {
 		Pessoa pessoa = new Pessoa();
 		pessoa.setNome(txtNome.getText());
 		pessoa.setApelido(txtApelido.getText());

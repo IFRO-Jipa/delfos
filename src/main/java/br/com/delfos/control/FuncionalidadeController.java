@@ -8,18 +8,16 @@ import java.util.ResourceBundle;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
-import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import br.com.delfos.view.table.TableViewFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
@@ -29,7 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 @Controller
-public class FuncionalidadeController implements Initializable {
+public class FuncionalidadeController extends AbstractController<Funcionalidade, FuncionalidadeDAO> {
 	@FXML
 	private Button btnSalvar;
 
@@ -71,7 +69,7 @@ public class FuncionalidadeController implements Initializable {
 
 	@FXML
 	private void handleBtnPesquisar(ActionEvent event) {
-
+		this.pesquisaPorCodigo();
 	}
 
 	@FXML
@@ -81,48 +79,26 @@ public class FuncionalidadeController implements Initializable {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		try {
-			if (!txtCodigo.getText().isEmpty()) {
-				dao.delete(Long.parseLong(txtCodigo.getText()));
-				tbRegistros.getItems().removeIf(valor -> valor.getId() == Long.parseLong(txtCodigo.getText()));
-				AlertBuilder.information("Excluído com sucesso");
-			} else {
-				AlertBuilder.information("Selecione um registro para poder excluir");
-			}
-		} catch (DataIntegrityViolationException e) {
-			AlertBuilder
-			        .error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
-		}
+		this.deleteIf(func -> func.getId() != null);
+
+		removeDaTabela(tbRegistros, v -> v.getId() == Long.parseLong(txtCodigo.getText()));
+
+		ManipuladorDeTelas.limpaCampos(rootPane);
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (FXValidator.validate(this))
-			salva();
-	}
+		try {
+			Optional<Funcionalidade> retorno = this.salvar(getValue(), this);
 
-	private void salva() {
-		Funcionalidade funcionalidade = montaRegistro();
+			retorno.ifPresent(funcionalidadeNova -> {
+				txtCodigo.setText(String.valueOf(funcionalidadeNova.getId()));
+				tbRegistros.getItems().add(funcionalidadeNova);
+			});
 
-		Optional<Funcionalidade> returned = dao.save(funcionalidade);
-
-		if (returned.isPresent()) {
-			abreRegistro(returned.get());
-			atualizaTabela(returned.get());
-			AlertBuilder.information("Salvo com sucesso");
-		} else {
-			AlertBuilder.warning("Não foi devidamente salvo... tente novamente");
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
 		}
-
-	}
-
-	private Funcionalidade montaRegistro() {
-		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
-		String nome = txtNome.getText();
-		String chave = txtChave.getText();
-		String descricao = txtDescricao.getText();
-		Funcionalidade preRequisito = (cbPreRequisito.getValue() == null ? null : cbPreRequisito.getValue());
-		return new Funcionalidade(id, nome, chave, descricao, preRequisito);
 	}
 
 	@Override
@@ -132,30 +108,39 @@ public class FuncionalidadeController implements Initializable {
 		this.populaTabela(dao.findAll());
 
 		tbRegistros.getSelectionModel().selectedItemProperty()
-		        .addListener((observable, oldValue, newValue) -> abreRegistro(newValue));
+		        .addListener((observable, oldValue, newValue) -> atualizaCampos(newValue));
 
 		cbPreRequisito.setItems(tbRegistros.getItems());
 		cbPreRequisito.setConverter(new StringConverter<Funcionalidade>() {
 
 			@Override
 			public Funcionalidade fromString(String string) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public String toString(Funcionalidade object) {
-				// TODO Auto-generated method stub
-				return null;
+				return object.getNome();
 			}
 		});
 	}
 
-	private void abreRegistro(Funcionalidade funcionalidade) {
-		if (funcionalidade != null) {
+	@Override
+	protected Funcionalidade toValue() {
+		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
+		String nome = txtNome.getText();
+		String chave = txtChave.getText();
+		String descricao = txtDescricao.getText();
+		Funcionalidade preRequisito = (cbPreRequisito.getValue() == null ? null : cbPreRequisito.getValue());
+		return new Funcionalidade(id, nome, chave, descricao, preRequisito);
+	}
+
+	@Override
+	protected void posiciona(Optional<Funcionalidade> value) {
+		value.ifPresent(funcionalidade -> {
 			atualizaCampos(funcionalidade);
-			atualizaTabela(funcionalidade);
-		}
+			atualizaRegistroNaTabela(funcionalidade);
+		});
 	}
 
 	private void atualizaCampos(Funcionalidade funcionalidade) {
@@ -167,7 +152,7 @@ public class FuncionalidadeController implements Initializable {
 		cbPreRequisito.setValue(funcionalidade.getPreRequisito());
 	}
 
-	private void atualizaTabela(Funcionalidade funcionalidade) {
+	private void atualizaRegistroNaTabela(Funcionalidade funcionalidade) {
 		Optional<Funcionalidade> optional = tbRegistros.getItems().stream()
 		        .filter(f -> f.getId().equals(funcionalidade.getId())).findFirst();
 

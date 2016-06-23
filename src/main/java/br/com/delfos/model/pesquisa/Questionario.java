@@ -3,6 +3,7 @@ package br.com.delfos.model.pesquisa;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,7 +40,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate vencimento;
 
-	@ManyToOne(cascade=CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	private Pesquisa pesquisa;
 
 	@Override
@@ -126,32 +127,26 @@ public class Questionario extends AbstractModel<Questionario> {
 		this.nome = nome;
 	}
 
-	public Set<Pergunta<?>> getPerguntas() {
-		return Collections.unmodifiableSet(this.perguntas);
+	public Optional<Set<Pergunta<?>>> getPerguntas() {
+		return Optional.ofNullable(Collections.unmodifiableSet(this.perguntas));
 	}
 
-	public void addPergunta(Pergunta<? extends Alternativa> pergunta) {
-		if (pergunta != null) {
-			this.perguntas.add(pergunta);
-		} else {
-			throw new IllegalArgumentException("Pergunta inv�lida. [" + pergunta + "]");
-		}
+	public void addPergunta(Optional<Pergunta<? extends Alternativa>> pergunta) {
+		this.perguntas.add(pergunta.orElseThrow(
+		        () -> new IllegalArgumentException(String.format("Pergunta inválida. Detalhe: %s", pergunta))));
 	}
 
-	public void addPerguntas(List<Pergunta<? extends Alternativa>> perguntas) {
-		if (perguntas != null && !perguntas.isEmpty()) {
-			this.perguntas.addAll(perguntas);
-		} else {
-			throw new IllegalArgumentException("Lista inv�lida ou vazia.");
-		}
+	public void addPerguntas(Optional<List<Pergunta<? extends Alternativa>>> perguntas) {
+		this.perguntas.addAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
 	}
 
-	public boolean removePergunta(Pergunta<? extends Alternativa> pergunta) {
-		return this.perguntas.remove(pergunta);
+	public boolean removePergunta(Optional<Pergunta<? extends Alternativa>> pergunta) {
+		return this.perguntas.remove(pergunta.orElseThrow(() -> new IllegalArgumentException("Pergunta inválida.")));
 	}
 
-	public boolean removePerguntas(List<Pergunta<? extends Alternativa>> perguntas) {
-		return this.perguntas.removeAll(perguntas);
+	public boolean removePerguntas(Optional<List<Pergunta<? extends Alternativa>>> perguntas) {
+		return this.perguntas
+		        .removeAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
 	}
 
 }

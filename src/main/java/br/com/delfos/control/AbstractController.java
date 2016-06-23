@@ -1,61 +1,96 @@
 package br.com.delfos.control;
 
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.function.Predicate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.generic.AbstractModel;
+import br.com.delfos.util.Regex;
 import br.com.delfos.util.view.FXValidator;
+import br.com.delfos.util.view.TextFieldFormatter;
+import br.com.delfos.view.AlertBuilder;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.Pane;
+import javafx.util.converter.IntegerStringConverter;
 
-public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>>  implements Initializable{
+public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>>
+                                        implements Initializable {
 
+	@Autowired
 	private DataAcessObject dao;
 
-	protected abstract Type monta();
+	protected abstract Type toValue();
 
-	protected abstract void posiciona(Type type);
+	protected abstract void posiciona(Optional<Type> value);
 
-	public void posicionaRegistro(Type type) {
+	protected void posiciona(Type value) {
+		this.posiciona(Optional.ofNullable(value));
+	}
+
+	public void posicionaRegistro(Optional<Type> type) {
 		this.posiciona(type);
 	}
 
-	public Type montaRegistro() {
-		return this.monta();
+	public Type getValue() {
+		return this.toValue();
 	}
 
-	protected Type salvar(Type value, Pane rootPane) throws FXValidatorException {
-		
-		if (FXValidator.validate(rootPane)) {
-			Optional<Type> save = dao.save(value);
-			return save.get();
+	protected Optional<Type> salvar(Type value, Object controller) throws FXValidatorException {
+		if (FXValidator.validate(controller)) {
+			return dao.save(value);
 		} else
-			return null;
+			return Optional.empty();
 	}
 
-	public Type pesquisaPorCodigo(Pane rootPane) {
+	protected void deleteIf(Predicate<Type> predicate) {
+		try {
+			if (predicate.test(getValue())) {
+				if (AlertBuilder.confirmation(AlertBuilder.ALERT_CONFIRM_EXCLUSAO)) {
+					dao.delete(getValue().getId());
+					AlertBuilder.information("Excluído com sucesso");
+				}
+			} else { 
+				AlertBuilder.warning("Selecione um registro para excluir.");
+			}
+		} catch (DataIntegrityViolationException e) {
+			AlertBuilder
+			        .error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
+		}
+	}
+
+	protected Optional<Type> pesquisaPorCodigo() {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
 		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
 		dialog.setContentText("informe o código do registro para prosseguir");
 
+		dialog.getEditor().setTextFormatter(
+		        TextFieldFormatter.getFormatter(new IntegerStringConverter(), 0, Regex.APENAS_NUMEROS));
+
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 
 		if (result.isPresent()) {
-			Optional<Type> optional = Optional.ofNullable(dao.findOne(Long.parseLong(result.get())));
-			return optional.isPresent() ? optional.get() : null;
+			Optional<Type> value = Optional.ofNullable(dao.findOne(Long.parseLong(result.get())));
+
+			if (value.isPresent()) {
+				this.posiciona(value);
+			} else {
+				AlertBuilder.warning("Nenhum registro foi encontrado.");
+			}
+
 		}
 
-		return null;
+		return Optional.empty();
+
 	}
-	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
+
+	protected boolean removeDaTabela(TableView<Type> tableView, Predicate<Type> predicate) {
+		return tableView.getItems().removeIf(predicate);
 	}
 }

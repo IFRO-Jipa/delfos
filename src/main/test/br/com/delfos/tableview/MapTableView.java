@@ -1,5 +1,7 @@
 package br.com.delfos.tableview;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,7 +34,7 @@ public class MapTableView extends Application {
 		ObservableList<ObservableMap.Entry<String, Double>> items = FXCollections.observableArrayList(map.entrySet());
 		final TableView<ObservableMap.Entry<String, Double>> table = new TableView<>(items);
 
-		table.getColumns().addAll(column1, column2);
+		table.getColumns().addAll(Arrays.asList(column1, column2));
 
 		Scene scene = new Scene(table, 400, 400);
 		stage.setScene(scene);

@@ -20,6 +20,7 @@ class Messages {
 			        Messages.class.getClassLoader().getResource("config/tooltip.properties").toString()));
 			defaultMessage = props.getProperty("defaultMessage");
 			notFoundMessage = props.getProperty("notFoundMessage");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -38,31 +39,29 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @Controller
-@SuppressWarnings("rawtypes")
 public class PerguntaController implements Initializable {
 
 	@FXML
-	private TableView<PerguntaProperty> tbPerguntas;
+	private TableView<PerguntaProperty<?>> tbPerguntas;
 
 	@FXML
-	private TableColumn<PerguntaProperty, String> columnNome;
+	private TableColumn<PerguntaProperty<?>, String> columnNome;
 
 	@FXML
-	private TableColumn<PerguntaProperty, TipoPergunta> columnTipo;
+	private TableColumn<PerguntaProperty<?>, TipoPergunta> columnTipo;
 
 	@FXML
-	private TableColumn<PerguntaProperty, PerguntaProperty> columnAcao;
+	private TableColumn<PerguntaProperty<?>, PerguntaProperty<?>> columnAcao;
 
 	private final ObservableList<TipoPergunta> tiposDePergunta = FXCollections
 	        .observableArrayList(TipoPergunta.getAll());
 
-	private ObservableList<PerguntaProperty> dadosTabela = FXCollections.observableArrayList();
+	private ObservableList<PerguntaProperty<?>> dadosTabela = FXCollections.observableArrayList();
 
 	@FXML
 	@NotNull
@@ -120,37 +119,6 @@ public class PerguntaController implements Initializable {
 		return context;
 	}
 
-	private void initColumnAcao() {
-		columnAcao.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		columnAcao.setResizable(false);
-		columnAcao.setCellFactory(getButtonFactory());
-	}
-
-	private Callback<TableColumn<PerguntaProperty, PerguntaProperty>, TableCell<PerguntaProperty, PerguntaProperty>>
-
-	        getButtonFactory() {
-		return param -> new TableCell<PerguntaProperty, PerguntaProperty>() {
-			Button button = new Button("...");
-
-			{
-				button.setMinWidth(columnAcao.getWidth() - 10);
-			}
-
-			@Override
-			protected void updateItem(PerguntaProperty item, boolean empty) {
-				super.updateItem(item, empty);
-				if (item != null) {
-					setGraphic(button);
-				} else {
-					setGraphic(null);
-				}
-				button.setOnAction(event -> handleButtonAction(item));
-
-			}
-
-		};
-	}
-
 	protected void handleButtonAction(PerguntaProperty<?> item) {
 		Optional<PerguntaProperty<?>> optional = Optional.ofNullable(item);
 		optional.ifPresent(property -> {
@@ -158,22 +126,22 @@ public class PerguntaController implements Initializable {
 				try {
 					String location = property.getTipoPergunta().getLocation();
 
-					System.out.printf("PerguntaController.handleButtonAction(%s)\n", location);
 					FXMLLoader loader = LeitorDeFXML.getLoader(location);
 					AnchorPane load = (AnchorPane) loader.load();
 
+					// tipo de controladora para telas auxiliares.
 					EditDialog<Pergunta<?>> controller = loader.getController();
 					controller.setValue(converterProperty(property));
 
 					Stage dialogStage = new Stage();
 					dialogStage.setScene(new Scene(load));
-					dialogStage.initModality(Modality.APPLICATION_MODAL);
+					// dialogStage.initModality(Modality.APPLICATION_MODAL);
 					dialogStage.initStyle(StageStyle.UTILITY);
 					controller.setDialogStage(dialogStage);
 					dialogStage.showAndWait();
 
 					if (controller.isOkCliked()) {
-						// aqui vai o código que atualiza a informação da pergunta...
+						// aqui vai o código que atualiza a informação da pergunta.
 						converterPergunta(property, controller.getValue());
 					}
 
@@ -205,22 +173,17 @@ public class PerguntaController implements Initializable {
 		if (FXValidator.validate(this)) {
 			String nome = txtNomePergunta.getText();
 			TipoPergunta tipoPergunta = cbTipoPergunta.getValue();
-			PerguntaProperty pergunta = new PerguntaProperty(nome, tipoPergunta);
+			PerguntaProperty<?> pergunta = new PerguntaProperty<>(nome, tipoPergunta);
 			tbPerguntas.getItems().add(pergunta);
 		}
 	}
 
-	private void initColumnNome() {
-		this.columnNome.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
-		this.columnNome.setCellFactory(getTextFieldFactory());
-		this.columnNome.setPrefWidth(tbPerguntas.getWidth() * 0.5);
-	}
+	public void setPerguntas(Optional<Set<Pergunta<?>>> perguntas) {
+		this.dadosTabela.clear();
 
-	@SuppressWarnings("unchecked")
-	private void initColumnTipoPergunta() {
-		this.columnTipo.setCellValueFactory(cellData -> cellData.getValue().getTipoPerguntaProperty());
-		this.columnTipo.setCellFactory(getComboBoxFactory());
-		this.columnTipo.setPrefWidth(tbPerguntas.getWidth() * 0.3);
+		perguntas.ifPresent(values -> values
+		        .forEach(pergunta -> this.dadosTabela.add(PerguntaPropertyUtil.fromPergunta(pergunta))));
+
 	}
 
 	public List<Pergunta<?>> getPerguntas() {
@@ -236,24 +199,80 @@ public class PerguntaController implements Initializable {
 
 	}
 
-	public void setPerguntas(List<Pergunta<?>> perguntas) {
-		this.dadosTabela.clear();
+	/*
+	 * Código que inicializa as colunas da TableView, com entradas de TextField, ComboBox e Button
+	 * em suas células.
+	 * é normal não entender o código de primeira.
+	 */
 
-		perguntas.forEach(pergunta -> {
-			this.dadosTabela.add(PerguntaPropertyUtil.fromPergunta(pergunta));
-		});
-
+	private void initColumnNome() {
+		this.columnNome.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
+		this.columnNome.setCellFactory(getTextFieldFactory());
+		this.columnNome.setPrefWidth(tbPerguntas.getWidth() * 0.5);
 	}
 
-	private Callback<TableColumn<PerguntaProperty, TipoPergunta>, TableCell<PerguntaProperty, TipoPergunta>>
+	private void initColumnTipoPergunta() {
+		this.columnTipo.setCellValueFactory(cellData -> cellData.getValue().getTipoPerguntaProperty());
+		this.columnTipo.setCellFactory(getComboBoxFactory());
+		this.columnTipo.setPrefWidth(tbPerguntas.getWidth() * 0.3);
+	}
+
+	private void initColumnAcao() {
+		columnAcao.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		columnAcao.setResizable(false);
+		columnAcao.setCellFactory(getButtonFactory());
+	}
+
+	/**
+	 * Cria um combobox na célula
+	 * 
+	 * @return célula com combobox
+	 */
+	private Callback<TableColumn<PerguntaProperty<?>, TipoPergunta>, TableCell<PerguntaProperty<?>, TipoPergunta>>
 	        getComboBoxFactory() {
 
-		return param -> new ComboBoxCellFactory<PerguntaProperty, TipoPergunta>(tiposDePergunta,
+		return param -> new ComboBoxCellFactory<PerguntaProperty<?>, TipoPergunta>(tiposDePergunta,
 		        new ConverterComboBoxToCell<TipoPergunta>().setToString(obj -> obj.name()).convert());
 	}
 
-	private Callback<TableColumn<PerguntaProperty, String>, TableCell<PerguntaProperty, String>> getTextFieldFactory() {
-		return param -> new TextFieldCellFactory<PerguntaProperty>();
+	/**
+	 * Cria um textfield na célula
+	 * 
+	 * @return célula com textfield
+	 */
+	private Callback<TableColumn<PerguntaProperty<?>, String>, TableCell<PerguntaProperty<?>, String>>
+	        getTextFieldFactory() {
+		return param -> new TextFieldCellFactory<PerguntaProperty<?>>();
+	}
+
+	/**
+	 * Cria uma célula com botão
+	 * 
+	 * @return botão dentro da célula.
+	 */
+	private Callback<TableColumn<PerguntaProperty<?>, PerguntaProperty<?>>, TableCell<PerguntaProperty<?>, PerguntaProperty<?>>>
+
+	        getButtonFactory() {
+		return param -> new TableCell<PerguntaProperty<?>, PerguntaProperty<?>>() {
+			Button button = new Button("...");
+
+			{
+				button.setMinWidth(columnAcao.getWidth() - 10);
+			}
+
+			@Override
+			protected void updateItem(PerguntaProperty<?> item, boolean empty) {
+				super.updateItem(item, empty);
+				if (item != null) {
+					setGraphic(button);
+				} else {
+					setGraphic(null);
+				}
+				button.setOnAction(event -> handleButtonAction(item));
+
+			}
+
+		};
 	}
 
 }

@@ -13,26 +13,24 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
-import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ManipuladorDeTelas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 @Controller
-public class PerfilAcessoController implements Initializable {
+public class PerfilAcessoController extends AbstractController<PerfilAcesso, PerfilAcessoDAO> {
 
 	@FXML
 	private Button btnSalvar;
@@ -67,48 +65,24 @@ public class PerfilAcessoController implements Initializable {
 	private Button btnNovo;
 
 	@Autowired
-	private PerfilAcessoDAO perfilDao;
-
-	@Autowired
 	private FuncionalidadeDAO daoFuncionalidade;
 
 	private List<Funcionalidade> funcionalidades;
 
 	@FXML
 	private void handleBtnPesquisar(ActionEvent event) {
-		// TODO: Próxima implementação para resolver.......
-
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa
-		// tela de
-		// consulta.
-		TextInputDialog dialog = new TextInputDialog("ex: 1");
-		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código do perfil");
-
-		// Traditional way to get the response value.
-		Optional<String> result = dialog.showAndWait();
-
-		if (result.isPresent()) {
-			Optional<PerfilAcesso> optional = Optional.ofNullable(perfilDao.findOne(Long.parseLong(result.get())));
-			if (optional.isPresent()) {
-				posicionaRegistro(optional.get());
-			} else {
-				ManipuladorDeTelas.limpaCampos(rootPane);
-				AlertBuilder.warning("Nenhum registro foi encontrado.");
-			}
-		} else {
-			ManipuladorDeTelas.limpaCampos(rootPane);
-			AlertBuilder.warning("Nenhum registro foi encontrado.");
-		}
+		pesquisaPorCodigo();
 	}
 
-	private void posicionaRegistro(PerfilAcesso perfil) {
-		txtCodigo.setText(perfil.getId() != null ? String.valueOf(perfil.getId()) : null);
-		txtNome.setText(perfil.getNome());
-		txtDescricao.setText(perfil.getDescricao());
-		listViewPermissoes.getItems().clear();
-		listViewPermissoes.getItems().addAll(perfil.getPermissoes());
+	@Override
+	protected void posiciona(Optional<PerfilAcesso> value) {
+		value.ifPresent(perfil -> {
+			txtCodigo.setText(perfil.getId() != null ? String.valueOf(perfil.getId()) : null);
+			txtNome.setText(perfil.getNome());
+			txtDescricao.setText(perfil.getDescricao());
+			listViewPermissoes.getItems().clear();
+			listViewPermissoes.getItems().addAll(perfil.getPermissoes());
+		});
 	}
 
 	@FXML
@@ -118,32 +92,31 @@ public class PerfilAcessoController implements Initializable {
 	}
 
 	@FXML
-	        void handleButtonExcluir(ActionEvent event) {
-		if (!txtCodigo.getText().isEmpty()) {
-			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
-				perfilDao.delete(Long.parseLong(txtCodigo.getText()));
-				AlertBuilder.information("Excluído com sucesso");
-				handleButtonNovo(event);
-			}
-		}
+	void handleButtonExcluir(ActionEvent event) {
+		this.deleteIf(perfil -> perfil.getId() != null);
+		ManipuladorDeTelas.limpaCampos(rootPane);
 	}
 
 	@FXML
 	public void handleButtonSalvar(ActionEvent event) {
-			FXValidator.validate(rootPane);
-			PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
-			perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
-			perfil.setId((txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText())));
-			perfil.addPermissoes(pegaPermissoes());
+		try {
+			Optional<PerfilAcesso> resultado = this.salvar(this.getValue(), this);
+			resultado.ifPresent(valor -> {
+				txtCodigo.setText(String.valueOf(valor.getId()));
+			});
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
+		}
+	}
 
-			Optional<PerfilAcesso> response = Optional.ofNullable(perfilDao.save(perfil));
+	@Override
+	public PerfilAcesso toValue() {
+		PerfilAcesso perfil = new PerfilAcesso(txtNome.getText());
+		perfil.setDescricao((txtDescricao.getText() != null ? txtDescricao.getText() : null));
+		perfil.setId((txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText())));
+		perfil.addPermissoes(pegaPermissoes());
 
-			if (response.isPresent()) {
-				AlertBuilder.information("Salvo com sucesso!");
-				txtCodigo.setText(String.valueOf(response.get().getId()));
-			} else {
-				AlertBuilder.warning("Oops! Não saiu como esperado\nPor favor, tente novamente.");
-			}
+		return perfil;
 	}
 
 	private List<Funcionalidade> pegaPermissoes() {

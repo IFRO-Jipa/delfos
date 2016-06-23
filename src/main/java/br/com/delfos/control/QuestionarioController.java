@@ -96,7 +96,7 @@ public class QuestionarioController implements Initializable {
 	private Label lblDuracao;
 
 	private Optional<Questionario> registro = Optional.empty();
-	
+
 	private PerguntaController perguntaController;
 
 	// método que libera o campo data de vencimento e muda a cor dele
@@ -111,11 +111,9 @@ public class QuestionarioController implements Initializable {
 			}
 
 			long p = QuestionarioController.this.getTotalDeDias(item);
-			this.setTooltip(new Tooltip(String.format("Seu questionário durará dia(s).", p)));
+			this.setTooltip(new Tooltip(String.format("Seu questionário durará %s dia(s).", p)));
 		};
 	};
-
-	
 
 	public Optional<Questionario> getRegistro() {
 		return this.registro;
@@ -129,10 +127,12 @@ public class QuestionarioController implements Initializable {
 		this.txtCod.setText(String.valueOf(id));
 		this.lblDuracao.setVisible(false);
 		this.dtInicio.setValue(LocalDate.now());
+
 	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
+		// TODO: Implementar a ação de exclusão.
 	}
 
 	@FXML
@@ -183,8 +183,6 @@ public class QuestionarioController implements Initializable {
 			reset();
 			AlertBuilder.warning("Nenhum registro foi encontrado.");
 		}
-		this.daoQuestionario.findOne(1l).getPerguntas().forEach(
-		        action -> System.out.println(action.getNome() + action.getDescricao() + action.getAlternativa()));
 
 	}
 
@@ -200,6 +198,8 @@ public class QuestionarioController implements Initializable {
 		this.dtInicio.setValue(quest.getDataInicio());
 		this.dtVencimento.setValue(quest.getVencimento());
 		this.cbAutenticavel.setSelected(quest.isAutenticavel());
+
+		this.perguntaController.setPerguntas(quest.getPerguntas());
 	}
 
 	@FXML

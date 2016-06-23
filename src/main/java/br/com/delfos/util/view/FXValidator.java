@@ -198,14 +198,14 @@ public class FXValidator {
 		String key = String.format("%s.%s", controller.getClass().getName(), component.getId());
 		if (Messages.isMessagePresent(key)) {
 			return String.format("%s%s", Messages.getDefaultMessage(), Messages.getMessage(key).get());
-		} else
+		} else {
 			try {
 				return String.format(Messages.getDefaultMessage(),
 				        component.getTooltip() != null ? component.getTooltip().getText() : component.getId());
 			} catch (RuntimeException ex) {
-				return String.format(Messages.getDefaultMessage(),
-				        Messages.semEntradaDeTextoPara(component));
+				return String.format(Messages.getDefaultMessage(), Messages.semEntradaDeTextoPara(component));
 			}
+		}
 	}
 
 }
