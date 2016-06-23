@@ -11,6 +11,7 @@ import java.util.Set;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.PrincipalApp;
+import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
@@ -60,7 +61,7 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void configuraECriaOsMenus() throws Exception {
-		Set<Funcionalidade> permissoes = AutenticadorDeUsuario.getPermissoesDeAcesso();
+		Set<Funcionalidade> permissoes = Autenticador.getPermissoesDeAcesso();
 
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 

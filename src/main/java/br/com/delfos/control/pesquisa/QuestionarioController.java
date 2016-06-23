@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.pesquisa;
 
 // importando o necessário para rodar
 import java.io.IOException;
@@ -10,20 +10,19 @@ import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
+import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
-import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
@@ -33,7 +32,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -44,10 +42,7 @@ import javafx.util.Callback;
  *
  */
 @Controller
-public class QuestionarioController implements Initializable {
-
-	@Autowired
-	private QuestionarioDAO daoQuestionario;
+public class QuestionarioController extends AbstractController<Questionario, QuestionarioDAO> {
 
 	@FXML
 	@NotNull
@@ -95,8 +90,6 @@ public class QuestionarioController implements Initializable {
 	@FXML
 	private Label lblDuracao;
 
-	private Optional<Questionario> registro = Optional.empty();
-
 	private PerguntaController perguntaController;
 
 	// método que libera o campo data de vencimento e muda a cor dele
@@ -115,40 +108,35 @@ public class QuestionarioController implements Initializable {
 		};
 	};
 
-	public Optional<Questionario> getRegistro() {
-		return this.registro;
-	}
-
 	// ações dos botões
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		Long id = this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText());
-		ManipuladorDeTelas.limpaCampos(this.rootPane);
-		this.txtCod.setText(String.valueOf(id));
-		this.lblDuracao.setVisible(false);
+		ScreenUtils.limpaCampos(this.rootPane);
 		this.dtInicio.setValue(LocalDate.now());
-
 	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		// TODO: Implementar a ação de exclusão.
+		deleteIf(quest -> quest.getId() != null);
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		FXValidator.validate(this);
-		this.registro = this.daoQuestionario.save(this.montaRegistro());
+		try {
+			Optional<Questionario> optional = this.salvar(toValue(), this);
 
-		this.registro.ifPresent(questionario -> {
-			this.txtCod.setText(String.valueOf(questionario.getId()));
-			AlertBuilder.information("Salvo com sucesso");
-			QuestionarioApp.close();
-		});
+			optional.ifPresent(questionario -> {
+				txtCod.setText(String.valueOf(questionario.getId()));
+				QuestionarioApp.close();
+			});
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
+		}
 	}
 
 	// monta o objeto do questionario que está na tela para ser salvo
-	private Questionario montaRegistro() {
+	@Override
+	protected Questionario toValue() {
 		Questionario q = new Questionario();
 		q.setId(this.txtCod.getText().isEmpty() ? null : Long.parseLong(this.txtCod.getText()));
 
@@ -163,43 +151,26 @@ public class QuestionarioController implements Initializable {
 	// pesquisa por codigo
 	@FXML
 	private void pesquisa() {
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Consulta por código");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o cédigo da questão");
-
-		Optional<String> result = dialog.showAndWait();
-
-		if (result.isPresent()) {
-			Optional<Questionario> optional = Optional
-			        .ofNullable(this.daoQuestionario.findOne(Long.parseLong(result.get())));
-			if (optional.isPresent()) {
-				this.posicionaRegistro(optional.get());
-			} else {
-				ManipuladorDeTelas.limpaCampos(this.rootPane);
-				AlertBuilder.warning("Nenhum registro foi encontrado.");
-			}
-		} else {
-			reset();
-			AlertBuilder.warning("Nenhum registro foi encontrado.");
-		}
-
+		pesquisaPorCodigo();
 	}
 
 	public void init(Optional<Questionario> questionario) {
-		questionario.ifPresent(value -> this.posicionaRegistro(value));
-		this.registro = questionario;
+		if (questionario.isPresent()) {
+			this.posiciona(questionario);
+		}
 	}
 
-	private void posicionaRegistro(Questionario quest) {
-		this.txtCod.setText(String.valueOf(quest.getId()));
-		this.txtNome.setText(quest.getNome());
-		this.txtDesc.setText(quest.getDescricao());
-		this.dtInicio.setValue(quest.getDataInicio());
-		this.dtVencimento.setValue(quest.getVencimento());
-		this.cbAutenticavel.setSelected(quest.isAutenticavel());
+	protected void posiciona(Optional<Questionario> value) {
+		value.ifPresent(quest -> {
+			this.txtCod.setText(String.valueOf(quest.getId()));
+			this.txtNome.setText(quest.getNome());
+			this.txtDesc.setText(quest.getDescricao());
+			this.dtInicio.setValue(quest.getDataInicio());
+			this.dtVencimento.setValue(quest.getVencimento());
+			this.cbAutenticavel.setSelected(quest.isAutenticavel());
 
-		this.perguntaController.setPerguntas(quest.getPerguntas());
+			this.perguntaController.setPerguntas(quest.getPerguntas());
+		});
 	}
 
 	@FXML
@@ -229,8 +200,7 @@ public class QuestionarioController implements Initializable {
 	}
 
 	private void reset() {
-		ManipuladorDeTelas.limpaCampos(rootPane);
-		this.clear();
+		ScreenUtils.limpaCampos(rootPane);
 		this.dtInicio.setValue(LocalDate.now());
 	}
 
@@ -253,10 +223,6 @@ public class QuestionarioController implements Initializable {
 
 	private long getTotalDeDias(LocalDate item) {
 		return ChronoUnit.DAYS.between(QuestionarioController.this.dtInicio.getValue(), item);
-	}
-
-	public void clear() {
-		this.registro = Optional.empty();
 	}
 
 }

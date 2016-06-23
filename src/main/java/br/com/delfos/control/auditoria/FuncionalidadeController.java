@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.auditoria;
 
 import java.net.URL;
 import java.util.List;
@@ -10,11 +10,12 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ScreenUtils;
 import br.com.delfos.view.table.TableViewFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -74,7 +75,7 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	@FXML
@@ -83,13 +84,13 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 
 		removeDaTabela(tbRegistros, v -> v.getId() == Long.parseLong(txtCodigo.getText()));
 
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
 		try {
-			Optional<Funcionalidade> retorno = this.salvar(getValue(), this);
+			Optional<Funcionalidade> retorno = this.salvar(toValue(), this);
 
 			retorno.ifPresent(funcionalidadeNova -> {
 				txtCodigo.setText(String.valueOf(funcionalidadeNova.getId()));

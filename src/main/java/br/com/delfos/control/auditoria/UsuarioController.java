@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.auditoria;
 
 import java.net.URL;
 import java.util.Optional;
@@ -9,32 +9,31 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.dao.auditoria.UsuarioDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
-import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 @Controller
-public class UsuarioController implements Initializable {
+public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 
 	@FXML
 	@NotNull
@@ -89,9 +88,6 @@ public class UsuarioController implements Initializable {
 	@Autowired
 	private PerfilAcessoDAO perfilDAO;
 
-	@Autowired
-	private UsuarioDAO usuarioDAO;
-
 	@SuppressWarnings("unused")
 	@Autowired
 	private PessoaDAO pessoaDAO;
@@ -101,84 +97,53 @@ public class UsuarioController implements Initializable {
 		pesquisaPorCodigo();
 	}
 
-	private void pesquisaPorCodigo() {
-		// TODO: Retirar esse código feio.... isso não vai ser aqui, e sim numa tela de
-		// consulta.
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("PRÉVIA - Consulta de Registros");
-		dialog.setContentText("informe o código da pessoa");
-
-		// Traditional way to get the response value.
-		Optional<String> result = dialog.showAndWait();
-
-		if (result.isPresent()) {
-			Optional<Usuario> optional = Optional.ofNullable(usuarioDAO.findOne(Long.parseLong(result.get())));
-			if (optional.isPresent()) {
-				posicionaRegistro(optional.get());
-			} else {
-				ManipuladorDeTelas.limpaCampos(rootPane);
-				AlertBuilder.warning("Nenhum registro foi encontrado.");
-			}
-		} else {
-			ManipuladorDeTelas.limpaCampos(rootPane);
-			AlertBuilder.warning("Nenhum registro foi encontrado.");
-		}
-	}
-
-	private void posicionaRegistro(Usuario usuario) {
-		txtCodigo.setText(usuario.getId() == null ? null : String.valueOf(usuario.getId()));
-		txtDescricao.setText(usuario.getDescricao() == null ? null : usuario.getDescricao());
-		txtLogin.setText(usuario.getLogin());
-		txtNomeResponsavel.setText(usuario.getPessoa().getNome());
-		comboPerfilAcesso.setValue(usuario.getPerfilAcesso());
-		cbStatus.setSelected(usuario.isAtivo());
+	@Override
+	protected void posiciona(Optional<Usuario> value) {
+		value.ifPresent(usuario -> {
+			txtCodigo.setText(usuario.getId() == null ? null : String.valueOf(usuario.getId()));
+			txtDescricao.setText(usuario.getDescricao() == null ? null : usuario.getDescricao());
+			txtLogin.setText(usuario.getLogin());
+			txtNomeResponsavel.setText(usuario.getPessoa().getNome());
+			comboPerfilAcesso.setValue(usuario.getPerfilAcesso());
+			cbStatus.setSelected(usuario.isAtivo());
+		});
 	}
 
 	@FXML
 	private void handleButtonPesquisaResponsavel(ActionEvent event) {
-
+		// TODO: Implementar a pesquisa personalizável.
 	}
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		ScreenUtils.limpaCampos(rootPane);
 		txtLogin.requestFocus();
 	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		excluir(txtCodigo.getText());
-	}
-
-	private void excluir(String codigo) {
-		if (codigo.isEmpty()) {
-			usuarioDAO.delete(Long.parseLong(txtCodigo.getText()));
-			AlertBuilder.information("Excluído com sucesso");
-			ManipuladorDeTelas.limpaCampos(rootPane);
-			txtLogin.requestFocus();
-		}
+		// excluir(txtCodigo.getText());
+		this.deleteIf(usuario -> usuario.getId() != null);
+		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		this.salvar(montaRegistro());
-	}
+		try {
+			Optional<Usuario> optional = this.salvar(toValue(), this);
 
-	private void salvar(Usuario value) {
-		if (FXValidator.validate(rootPane)) {
-			Optional<Usuario> save = usuarioDAO.save(value);
-			save.ifPresent(bean -> {
-				txtCodigo.setText(String.valueOf(bean.getId()));
-				AlertBuilder.information("Salvo com sucesso");
+			optional.ifPresent(usuario -> {
+				txtCodigo.setText(String.valueOf(usuario.getId()));
+
 			});
 
-			if (!save.isPresent())
-				AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
 		}
 	}
 
-	private Usuario montaRegistro() {
+	@Override
+	protected Usuario toValue() {
 		Usuario u = new Usuario();
 		u.setId(txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText()));
 		u.setPessoa(responsavel);

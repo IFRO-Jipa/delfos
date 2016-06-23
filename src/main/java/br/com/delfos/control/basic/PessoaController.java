@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.basic;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.basic.CidadeDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.basic.TipoLogradouroDAO;
@@ -21,7 +22,7 @@ import br.com.delfos.model.basic.TipoLogradouro;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.util.ContextFactory;
 import br.com.delfos.view.AlertBuilder;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -170,21 +171,21 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(anchorPane);
+		ScreenUtils.limpaCampos(anchorPane);
 	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
 		this.deleteIf(pessoa -> pessoa.getId() != null);
 
-		ManipuladorDeTelas.limpaCampos(anchorPane);
+		ScreenUtils.limpaCampos(anchorPane);
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
 
 		try {
-			Optional<Pessoa> retorno = this.salvar(getValue(), this);
+			Optional<Pessoa> retorno = this.salvar(toValue(), this);
 
 			retorno.ifPresent(pessoa -> {
 				txtCodigo.setText(String.valueOf(pessoa.getId()));

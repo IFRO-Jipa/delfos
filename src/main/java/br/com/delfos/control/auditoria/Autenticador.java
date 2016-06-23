@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.auditoria;
 
 import java.util.Optional;
 import java.util.Set;
@@ -11,7 +11,7 @@ import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.Usuario;
 
 @Service
-class AutenticadorDeUsuario {
+public class Autenticador {
 
 	@Autowired
 	private UsuarioDAO dao;

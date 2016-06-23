@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.auditoria;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,7 +46,7 @@ public class LoginController implements Initializable {
 	private ImageView imgView;
 
 	@Autowired
-	private AutenticadorDeUsuario autenticador;
+	private Autenticador autenticador;
 
 	@FXML
 	private void handleButtonLogar(ActionEvent event) {
@@ -82,7 +82,7 @@ public class LoginController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Image img = new Image(LoginController.class.getResourceAsStream("/imgs/logo-full.png"));
 		imgView.setImage(img);
-		AutenticadorDeUsuario.logout();
+		Autenticador.logout();
 		configuraComponentes();
 	}
 

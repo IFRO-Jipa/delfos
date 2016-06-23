@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.pesquisa;
 
 import java.net.URL;
 import java.util.List;

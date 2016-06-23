@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class ManipuladorDeTelas {
+public class ScreenUtils {
 	public static void limpaCampos(Pane pane) {
 		Optional<Object[]> elements = Optional.ofNullable(pane.getChildren().toArray());
 

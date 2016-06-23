@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <BorderPane prefHeight="378.0" prefWidth="607.0"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.PerguntaController">
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.delfos.control.pesquisa.PerguntaController">
 	<center>
 		<TableView fx:id="tbPerguntas" editable="true" prefHeight="305.0"
 			prefWidth="415.0" BorderPane.alignment="CENTER">

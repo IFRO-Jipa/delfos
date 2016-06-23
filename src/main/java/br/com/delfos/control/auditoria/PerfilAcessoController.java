@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.auditoria;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.except.view.FXValidatorException;
@@ -19,7 +20,7 @@ import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -87,26 +88,28 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		ScreenUtils.limpaCampos(rootPane);
 		txtNome.requestFocus();
 	}
 
 	@FXML
 	void handleButtonExcluir(ActionEvent event) {
 		this.deleteIf(perfil -> perfil.getId() != null);
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	@FXML
 	public void handleButtonSalvar(ActionEvent event) {
-		try {
-			Optional<PerfilAcesso> resultado = this.salvar(this.getValue(), this);
-			resultado.ifPresent(valor -> {
-				txtCodigo.setText(String.valueOf(valor.getId()));
-			});
-		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
-		}
+		getValue().ifPresent(montado -> {
+			try {
+				Optional<PerfilAcesso> resultado = this.salvar(montado, this);
+				resultado.ifPresent(valor -> {
+			        txtCodigo.setText(String.valueOf(valor.getId()));
+		        });
+			} catch (FXValidatorException e) {
+				AlertBuilder.error(e);
+			}
+		});
 	}
 
 	@Override

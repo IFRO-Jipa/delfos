@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.generic;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -36,8 +36,8 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		this.posiciona(type);
 	}
 
-	public Type getValue() {
-		return this.toValue();
+	public Optional<Type> getValue() {
+		return Optional.ofNullable(this.toValue());
 	}
 
 	protected Optional<Type> salvar(Type value, Object controller) throws FXValidatorException {
@@ -49,14 +49,16 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 
 	protected void deleteIf(Predicate<Type> predicate) {
 		try {
-			if (predicate.test(getValue())) {
-				if (AlertBuilder.confirmation(AlertBuilder.ALERT_CONFIRM_EXCLUSAO)) {
-					dao.delete(getValue().getId());
-					AlertBuilder.information("Excluído com sucesso");
+			getValue().ifPresent(value -> {
+				if (predicate.test(value)) {
+					if (AlertBuilder.confirmation(AlertBuilder.ALERT_CONFIRM_EXCLUSAO)) {
+						dao.delete(value.getId());
+						AlertBuilder.information("Excluído com sucesso");
+					}
+				} else {
+					AlertBuilder.warning("Selecione um registro para excluir.");
 				}
-			} else { 
-				AlertBuilder.warning("Selecione um registro para excluir.");
-			}
+			});
 		} catch (DataIntegrityViolationException e) {
 			AlertBuilder
 			        .error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");

@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.pesquisa;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,34 +14,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
+import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
+import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.TableCellFactory;
-import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;
 import br.com.delfos.view.ListSelection;
-import br.com.delfos.view.manipulador.ManipuladorDeTelas;
+import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 @Controller
-public class PesquisaController implements Initializable {
+public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO> {
 
 	@FXML
 	private ListView<Questionario> listViewQuestionario;
@@ -103,21 +102,15 @@ public class PesquisaController implements Initializable {
 	private AnchorPane rootPane;
 
 	@Autowired
-	private PesquisaDAO daoPesquisa;
-
-	@Autowired
 	private PessoaDAO daoPessoa;
 
 	private List<Pessoa> especialistas;
 
 	private List<Pessoa> pesquisadores;
 
-	@SuppressWarnings("unused")
 	private List<Questionario> questionarios;
 
 	private QuestionarioApp questionarioApp;
-
-	// Link Especialista
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -201,53 +194,53 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
+
 		try {
-			this.salvar(montaRegistro());
-		} catch (LimiteDeEspecialistasAtingidoException ex) {
-			AlertBuilder.error(ex);
+			Optional<Pesquisa> result = this.salvar(toValue(), this);
+
+			result.ifPresent(pesquisa -> {
+				txtCodigo.setText(String.valueOf(pesquisa.getId()));
+			});
+
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
 		}
 	}
 
-	private void salvar(Pesquisa value) throws LimiteDeEspecialistasAtingidoException {
-		FXValidator.validate(rootPane);
-		Optional<Pesquisa> save = daoPesquisa.save(value);
-		save.ifPresent(pesquisa -> {
-			txtCodigo.setText(String.valueOf(pesquisa.getId()));
-			AlertBuilder.information("Salvo com sucesso");
-		});
+	@Override
+	protected Pesquisa toValue() {
+		try {
+			Pesquisa p = new Pesquisa();
+			Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
+			String nome = txtNome.getText();
+			String descricao = txtDescricao.getText();
+			LocalDate data = datePesquisa.getValue();
+			int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
 
-		if (!save.isPresent())
-			AlertBuilder.information("Não foi salvo, algo de estranho aconteceu.\nTente novamente mais tarde");
+			List<Pessoa> pesquisadores = listViewPesquisador.getItems().isEmpty() ? null
+			        : listViewPesquisador.getItems();
+			List<Pessoa> especialistas = listViewEspecialista.getItems().isEmpty() ? null
+			        : listViewEspecialista.getItems();
+			List<Questionario> questionarios = listViewQuestionario.getItems().isEmpty() ? null
+			        : listViewQuestionario.getItems();
 
-	}
-
-	Pesquisa montaRegistro() throws LimiteDeEspecialistasAtingidoException {
-		Pesquisa p = new Pesquisa();
-		Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
-		String nome = txtNome.getText();
-		String descricao = txtDescricao.getText();
-		LocalDate data = datePesquisa.getValue();
-		int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
-
-		List<Pessoa> pesquisadores = listViewPesquisador.getItems().isEmpty() ? null : listViewPesquisador.getItems();
-		List<Pessoa> especialistas = listViewEspecialista.getItems().isEmpty() ? null : listViewEspecialista.getItems();
-		List<Questionario> questionarios = listViewQuestionario.getItems().isEmpty() ? null
-		        : listViewQuestionario.getItems();
-
-		p.setId(id);
-		p.setDescricao(descricao);
-		p.setNome(nome);
-		p.setLimite(limite);
-		p.setDate(data);
-		p.addQuestionarios(questionarios);
-		p.addEspecialistas(especialistas);
-		p.addPesquisadores(pesquisadores);
-		if (getStatus()) {
-			p.setAtivo();
-		} else {
-			p.finaliza();
+			p.setId(id);
+			p.setDescricao(descricao);
+			p.setNome(nome);
+			p.setLimite(limite);
+			p.setDate(data);
+			p.addQuestionarios(questionarios);
+			p.addEspecialistas(especialistas);
+			p.addPesquisadores(pesquisadores);
+			if (getStatus()) {
+				p.setAtivo();
+			} else {
+				p.finaliza();
+			}
+			return p;
+		} catch (LimiteDeEspecialistasAtingidoException e) {
+			return null;
 		}
-		return p;
 	}
 
 	// Métodos para a manipulação do status da pesquisa
@@ -261,44 +254,37 @@ public class PesquisaController implements Initializable {
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ManipuladorDeTelas.limpaCampos(rootPane);
+		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	// Botão Excluir
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		excluiRegistro();
-
-	}
-
-	private void excluiRegistro() {
-		if (!txtCodigo.getText().isEmpty()) {
-			if (AlertBuilder.confirmation("Deseja realmente excluir o registro?")) {
-				daoPesquisa.delete(Long.parseLong(txtCodigo.getText()));
-				ManipuladorDeTelas.limpaCampos(rootPane);
-				AlertBuilder.information("Excluído com sucesso");
-			}
-		} else
-			return;
+		deleteIf(pesquisa -> pesquisa.getId() != null);
+		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	// Botão Finalizar Pesquisa
 	@FXML
-	        void handleButtonFinalizar(ActionEvent event) throws LimiteDeEspecialistasAtingidoException {
-		
+	void handleButtonFinalizar(ActionEvent event) throws LimiteDeEspecialistasAtingidoException {
+
+		// TODO: Verificar se essa implementação funciona.
+		// Eu acho que não.
 
 		if (!txtCodigo.getText().isEmpty()) {
-		if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
-			this.montaRegistro().finaliza();
-			this.setStatus(false);
-			// Adicionar aqui a mudança de status da pesquisa
+			if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
+				this.toValue().finaliza();
+				this.setStatus(false);
+				// Adicionar aqui a mudança de status da pesquisa
 
-		// Eu tinha feito uma váriavel status aqui na Classe e colocado ela como false aqui no If
+				// Eu tinha feito uma váriavel status aqui na Classe e colocado ela como false aqui
+				// no If
 
-		AlertBuilder.information("Pesquisa Finalizada");
-		}
-		} else return;
+				AlertBuilder.information("Pesquisa Finalizada");
+			}
+		} else
+			return;
 
 	}
 
@@ -315,6 +301,7 @@ public class PesquisaController implements Initializable {
 
 	// Inicializando
 
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		configFields();
 		configListViews();
@@ -376,25 +363,11 @@ public class PesquisaController implements Initializable {
 	// Pesquisa por códigos
 	@FXML
 	private void pesquisar() {
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Consulta por código");
-		dialog.setHeaderText("Consulta de Registros");
-		dialog.setContentText("Informe código da Pesquisa");
-
-		Optional<String> result = dialog.showAndWait();
-
-		if (result.isPresent()) {
-			Optional<Pesquisa> optional = Optional.ofNullable(this.daoPesquisa.findOne(Long.parseLong(result.get())));
-			if (optional.isPresent()) {
-				this.abreRegistro(optional);
-			} else {
-				ManipuladorDeTelas.limpaCampos(this.rootPane);
-				AlertBuilder.warning("Nenhum registro foi encontrado.");
-			}
-		}
+		pesquisaPorCodigo();
 	}
 
-	void abreRegistro(Optional<Pesquisa> optional) {
+	@Override
+	protected void posiciona(Optional<Pesquisa> optional) {
 		optional.ifPresent(pesquisa -> {
 			txtCodigo.setText(String.valueOf(pesquisa.getId()));
 			txtNome.setText(pesquisa.getNome());

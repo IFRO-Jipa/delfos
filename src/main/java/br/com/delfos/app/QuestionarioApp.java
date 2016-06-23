@@ -3,7 +3,7 @@ package br.com.delfos.app;
 import java.io.IOException;
 import java.util.Optional;
 
-import br.com.delfos.control.QuestionarioController;
+import br.com.delfos.control.pesquisa.QuestionarioController;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import javafx.application.Application;
@@ -32,7 +32,6 @@ public class QuestionarioApp extends Application {
 		QuestionarioApp.controller = loader.getController();
 
 		controller.init(initValue);
-		controller.clear();
 
 		primaryStage.showAndWait();
 
@@ -65,7 +64,7 @@ public class QuestionarioApp extends Application {
 	public Optional<Questionario> showAndWait() throws IOException {
 		this.start(getStage());
 
-		return controller.getRegistro();
+		return controller.getValue();
 	}
 
 	public static void close() {
