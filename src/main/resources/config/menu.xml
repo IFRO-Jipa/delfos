@@ -49,20 +49,22 @@
 				</itens>
 			</menu>
 
-			
+
 		</itens>
 	</menu>
+
 	<menu id="menuRelatório">
 		<name>Relatórios</name>
 	</menu>
+
 	<menu id="menuConta">
-				<name>Conta</name>
-				<itens>
-					<menuItem id="menuMeusQuestionarios">
-						<name>Meus Questionários</name>
-						<view>MeusQuestionariosView.fxml</view>
-					</menuItem>
-				</itens>
-			</menu>
+		<name>Conta</name>
+		<itens>
+			<menuItem id="menuMeusQuestionarios">
+				<name>Meus Questionários</name>
+				<view>MeusQuestionariosView.fxml</view>
+			</menuItem>
+		</itens>
+	</menu>
 
 </menuBar>
