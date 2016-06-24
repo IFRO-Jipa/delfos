@@ -108,6 +108,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	private List<Pessoa> pesquisadores;
 
+	@SuppressWarnings("unused")
 	private List<Questionario> questionarios;
 
 	private QuestionarioApp questionarioApp;
