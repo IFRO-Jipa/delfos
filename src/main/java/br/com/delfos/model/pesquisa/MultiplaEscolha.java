@@ -40,7 +40,7 @@ public class MultiplaEscolha extends Alternativa {
 
 	@Override
 	public String toString() {
-		return "MultiplaEscolha [escolhas=" + escolhas + "]";
+		return "MultiplaEscolha [escolhas=" + escolhas + ", id=" + this.getId() + "]";
 	}
 
 }

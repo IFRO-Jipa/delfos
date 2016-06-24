@@ -12,21 +12,25 @@ public class PerguntaPropertyUtil {
 
 	public static Pergunta<?> toValue(PerguntaProperty<?> property) {
 		Pergunta<?> pergunta = create(property);
+
 		pergunta.setNome(property.getNome());
 		pergunta.setDescricao(property.getDescricao());
 		pergunta.setId(property.getId());
+
 		return pergunta;
 	}
 
-	private static Pergunta<?> create(PerguntaProperty<?> property) {
-		Pergunta<?> pergunta = null;
-		// if (property.)
-		// TODO: Implementar a criação
-		return pergunta;
-
+	private static Pergunta<?> create(PerguntaProperty<?> tipoPergunta) {
+		return tipoPergunta.getTipoPergunta().create(tipoPergunta.getAlternativa());
 	}
 
 	public static PerguntaProperty<?> fromPergunta(Pergunta<?> pergunta) {
+		PerguntaProperty<?> myself = create(pergunta);
+
+		return myself;
+	}
+
+	private static PerguntaProperty<?> create(Pergunta<?> pergunta) {
 		PerguntaProperty<?> myself = null;
 
 		Alternativa myInstance = pergunta.getAlternativa();
@@ -38,36 +42,32 @@ public class PerguntaPropertyUtil {
 		} else if (myInstance instanceof Texto || myInstance instanceof Paragrafo) {
 			myself = createByTextoParagrafo(pergunta);
 		}
-
 		return myself;
 	}
 
 	private static PerguntaProperty<?> createByTextoParagrafo(Pergunta<?> pergunta) {
 		if (pergunta.getAlternativa() instanceof Texto) {
-			return new PerguntaProperty<Texto>(pergunta.getNome(), TipoPergunta.TEXTO);
+			return new PerguntaProperty<Texto>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
+			        TipoPergunta.TEXTO);
 		} else if (pergunta.getAlternativa() instanceof Paragrafo) {
-			return new PerguntaProperty<Paragrafo>(pergunta.getNome(), TipoPergunta.PARAGRAFO);
+			return new PerguntaProperty<Paragrafo>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
+			        TipoPergunta.PARAGRAFO);
 		} else
 			return null;
 	}
 
 	private static PerguntaProperty<Intervalo> createByIntervalo(Pergunta<?> pergunta) {
-		PerguntaProperty<Intervalo> property = new PerguntaProperty<Intervalo>(pergunta.getNome(),
-		        TipoPergunta.INTERVALO);
+		PerguntaProperty<Intervalo> property = new PerguntaProperty<Intervalo>(pergunta.getId(), pergunta.getNome(),
+		        pergunta.getDescricao(), TipoPergunta.INTERVALO);
 
 		property.setAlternativa(pergunta.getAlternativa());
-
-		// TODO implementar
 
 		return property;
 	}
 
 	private static PerguntaProperty<MultiplaEscolha> createByMultiplaEscolha(Pergunta<?> pergunta) {
-		PerguntaProperty<MultiplaEscolha> property = new PerguntaProperty<MultiplaEscolha>(pergunta.getNome(),
+		return new PerguntaProperty<MultiplaEscolha>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
 		        TipoPergunta.MULTIPLA_ESCOLHA);
-
-		// TODO implementar
-		return property;
 
 	}
 

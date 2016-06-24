@@ -13,6 +13,6 @@ public class Texto extends Alternativa {
 		return "Texto [valor=" + valor + "]";
 	}
 
-	@Column(name = "valor_texto", length = 255)
+	@Column(name = "valor_texto")
 	private String valor;
 }

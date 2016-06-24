@@ -20,5 +20,6 @@ public class Alternativa {
 	public Long getId() {
 		return id;
 	}
+	
 
 }

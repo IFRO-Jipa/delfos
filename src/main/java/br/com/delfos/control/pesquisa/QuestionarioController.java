@@ -145,6 +145,9 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		q.setDataInicio(this.dtInicio.getValue());
 		q.setVencimento(this.dtVencimento.getValue());
 		q.setAutenticavel(this.cbAutenticavel.isSelected());
+
+		q.addPerguntas(Optional.ofNullable(perguntaController.getPerguntas()));
+		
 		return q;
 	}
 

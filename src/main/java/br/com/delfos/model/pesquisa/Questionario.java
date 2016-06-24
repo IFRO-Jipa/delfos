@@ -1,7 +1,7 @@
 package br.com.delfos.model.pesquisa;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -59,7 +59,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Type(type = "yes_no")
 	private boolean autenticavel;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
@@ -67,6 +67,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public Questionario() {
+		this.perguntas = new HashSet<>();
 		this.setActive(true);
 	}
 
@@ -128,7 +129,9 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public Optional<Set<Pergunta<?>>> getPerguntas() {
-		return Optional.ofNullable(Collections.unmodifiableSet(this.perguntas));
+		this.perguntas.forEach(System.out::println);
+
+		return Optional.ofNullable(this.perguntas);
 	}
 
 	public void addPergunta(Optional<Pergunta<? extends Alternativa>> pergunta) {
@@ -137,6 +140,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public void addPerguntas(Optional<List<Pergunta<? extends Alternativa>>> perguntas) {
+
 		this.perguntas.addAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
 	}
 

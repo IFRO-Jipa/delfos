@@ -97,6 +97,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 			MultiplaEscolha multiplaEscolha = new MultiplaEscolha();
 			multiplaEscolha.addAll(Optional.ofNullable(itens));
 			this.value.setAlternativa(multiplaEscolha);
+			System.out.println(multiplaEscolha);
 			this.okCliked = true;
 
 			this.dialogStage.close();
@@ -120,11 +121,12 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.txtNome.setText(value.getNome());
 		this.txtDescricao.setText(value.getDescricao());
 
-		value.getAlternativa();
+		MultiplaEscolha alternativa = value.getAlternativa();
 	}
 
 	@Override
 	public Pergunta<MultiplaEscolha> getValue() {
+//		this.value.setAlternativa(alternativa);
 		return this.value;
 	}
 
