@@ -159,13 +159,15 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 				cbEspecialista.setSelected(true);
 			if (tipo.equals(TipoPessoa.PESQUISADOR))
 				cbPesquisador.setSelected(true);
-		});;
+		});
+		;
 	}
 
 	@FXML
 	private void handleButtonPesquisaCpf(ActionEvent event) {
 		// TODO: Implementar a busca personalizada pelo cpf
-		// TODO: Se possível, fazer algo genérico que se adeque para todos os tipos de consultas que
+		// TODO: Se possível, fazer algo genérico que se adeque para todos os
+		// tipos de consultas que
 		// eu queira fazer.
 	}
 
@@ -228,6 +230,8 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 		endereco.setLogradouro(txtLogradouro.getText());
 		endereco.setCidade(comboBoxCidade.getValue());
 		endereco.setNumero(txtNumero.getText());
+
+		System.out.println(comboBoxTipoLogradouro.getValue());
 		endereco.setTipoLogradouro(comboBoxTipoLogradouro.getValue());
 		endereco.setDescricao(txtDescricaoEndereco.getText());
 		endereco.setCep(txtCep.getText());

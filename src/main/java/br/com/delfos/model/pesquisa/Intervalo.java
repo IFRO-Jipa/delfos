@@ -9,8 +9,8 @@ public class Intervalo extends Alternativa {
 
 	@Override
 	public String toString() {
-		return "Intervalo [valorInicial=" + valorInicial + ", valorFinal=" + valorFinal + ", intervalo="
-		        + intervalo + "]";
+		return "Intervalo [valorInicial=" + valorInicial + ", valorFinal=" + valorFinal + ", intervalo=" + intervalo
+				+ "]";
 	}
 
 	private int valorInicial;
@@ -50,6 +50,34 @@ public class Intervalo extends Alternativa {
 
 	public void setIntervalo(int intervalo) {
 		this.intervalo = intervalo;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + intervalo;
+		result = prime * result + valorFinal;
+		result = prime * result + valorInicial;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Intervalo other = (Intervalo) obj;
+		if (intervalo != other.intervalo)
+			return false;
+		if (valorFinal != other.valorFinal)
+			return false;
+		if (valorInicial != other.valorInicial)
+			return false;
+		return true;
 	}
 
 }

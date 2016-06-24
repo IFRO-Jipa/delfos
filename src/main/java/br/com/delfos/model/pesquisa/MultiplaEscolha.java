@@ -16,6 +16,31 @@ import javax.persistence.FetchType;
 @DiscriminatorValue("MULTIPLA_ESCOLHA")
 public class MultiplaEscolha extends Alternativa {
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((escolhas == null) ? 0 : escolhas.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MultiplaEscolha other = (MultiplaEscolha) obj;
+		if (escolhas == null) {
+			if (other.escolhas != null)
+				return false;
+		} else if (!escolhas.equals(other.escolhas))
+			return false;
+		return true;
+	}
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "mesq_escolhas")
 	public Map<String, Double> escolhas;

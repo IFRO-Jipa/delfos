@@ -3,8 +3,7 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-	version="2.1">
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
 	<!-- UNIDADE PADRAO -->
 	<persistence-unit name="mysqlDataSource">
@@ -15,11 +14,9 @@
 
 
 			<!-- CONEXÃO PARA LOCALHOST -->
-			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="root" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" />
-
-
+			<!-- <property name="hibernate.connection.username" value="root" /> <property 
+				name="hibernate.connection.password" value="root" /> <property name="hibernate.connection.url" 
+				value="jdbc:mysql://localhost:3306/delfos" /> -->
 			<!-- CONEXÃO PARA O LABORATÓRIO I -->
 			<!-- <property name="hibernate.connection.username" value="delfos" /> 
 				<property name="hibernate.connection.username" value="delfos" /> <property 
@@ -28,10 +25,10 @@
 
 
 			<!-- CONEXÃO PARA O LABORATÓRIO IV -->
-			<!-- <property name="hibernate.connection.username" value="delfos" /> 
-				<property name="hibernate.connection.password" value="catchau" /> <property 
-				name="hibernate.connection.url" value="jdbc:mysql://10.49.9.42:3306/delfos" 
-				/> <property name="hibernate.default_schema" value="delfos" /> -->
+			<property name="hibernate.connection.username" value="delfos" />
+			<property name="hibernate.connection.password" value="catchau" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://10.49.9.42:3306/delfos" />
+			<property name="hibernate.default_schema" value="delfos" />
 
 			<!-- CONFIGURACAO -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />

@@ -12,7 +12,8 @@ import javafx.scene.control.TableCell;
 import javafx.util.Callback;
 
 /**
- * Classe responsável por criar um modelo para células ({@link TableCell}) de uma {@link ListView}.
+ * Classe responsável por criar um modelo para células ({@link TableCell}) de
+ * uma {@link ListView}.
  * 
  * @author Leonardo Braz
  *
@@ -37,8 +38,8 @@ public class TableCellFactory<T> {
 
 	/**
 	 * <p>
-	 * Método responsável por gerenciar o conteúdo e texto de uma listView, caso tenha sido
-	 * referenciada pelo construtor.
+	 * Método responsável por gerenciar o conteúdo e texto de uma listView, caso
+	 * tenha sido referenciada pelo construtor.
 	 * 
 	 * @param predicate
 	 *            - configura o que aparecerá em cada célula.
@@ -65,7 +66,9 @@ public class TableCellFactory<T> {
 		MenuItem menuRemoveOnly = new MenuItem();
 		menuRemoveOnly.setText("Remover");
 		menuRemoveOnly.setOnAction(action -> {
-			listView.getItems().remove(cell.getItem());
+			if (AlertBuilder.confirmation("Esta ação não pode ser desfeita. Você tem certeza?")) {
+				listView.getItems().remove(cell.getItem());
+			}
 		});
 
 		MenuItem menuRemoveAll = new MenuItem();

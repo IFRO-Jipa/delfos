@@ -118,7 +118,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-			        filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
+					filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -161,7 +161,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 		try {
 			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
-			        filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
+					filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
 
 			seletor.textFormat(pessoa -> pessoa.getNome());
 
@@ -201,6 +201,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			result.ifPresent(pesquisa -> {
 				txtCodigo.setText(String.valueOf(pesquisa.getId()));
+				AlertBuilder.information("Salvo com sucesso.");
 			});
 
 		} catch (FXValidatorException e) {
@@ -219,11 +220,11 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
 
 			List<Pessoa> pesquisadores = listViewPesquisador.getItems().isEmpty() ? null
-			        : listViewPesquisador.getItems();
+					: listViewPesquisador.getItems();
 			List<Pessoa> especialistas = listViewEspecialista.getItems().isEmpty() ? null
-			        : listViewEspecialista.getItems();
+					: listViewEspecialista.getItems();
 			List<Questionario> questionarios = listViewQuestionario.getItems().isEmpty() ? null
-			        : listViewQuestionario.getItems();
+					: listViewQuestionario.getItems();
 
 			p.setId(id);
 			p.setDescricao(descricao);
@@ -279,7 +280,8 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 				this.setStatus(false);
 				// Adicionar aqui a mudança de status da pesquisa
 
-				// Eu tinha feito uma váriavel status aqui na Classe e colocado ela como false aqui
+				// Eu tinha feito uma váriavel status aqui na Classe e colocado
+				// ela como false aqui
 				// no If
 
 				AlertBuilder.information("Pesquisa Finalizada");
@@ -327,13 +329,13 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	private void configListViews() {
 		listViewEspecialista.setCellFactory(
-		        new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
+				new TableCellFactory<Pessoa>(listViewEspecialista).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewPesquisador.setCellFactory(
-		        new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
+				new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewQuestionario.setCellFactory(new TableCellFactory<Questionario>(listViewQuestionario)
-		        .getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
+				.getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
 
 		listViewQuestionario.setOnMouseClicked(evt -> doubleClickListViewQuestionario(evt));
 	}
@@ -344,7 +346,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 				int position = listViewQuestionario.getSelectionModel().getSelectedIndex();
 				if (position >= 0) {
 					Optional<Questionario> selected = Optional
-					        .ofNullable(listViewQuestionario.getSelectionModel().getSelectedItem());
+							.ofNullable(listViewQuestionario.getSelectionModel().getSelectedItem());
 
 					QuestionarioApp frame = new QuestionarioApp();
 					frame.init(selected);

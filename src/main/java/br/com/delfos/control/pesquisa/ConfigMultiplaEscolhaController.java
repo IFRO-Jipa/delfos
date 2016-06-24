@@ -121,12 +121,12 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.txtNome.setText(value.getNome());
 		this.txtDescricao.setText(value.getDescricao());
 
-		MultiplaEscolha alternativa = value.getAlternativa();
+		// MultiplaEscolha alternativa = value.getAlternativa();
 	}
 
 	@Override
 	public Pergunta<MultiplaEscolha> getValue() {
-//		this.value.setAlternativa(alternativa);
+		// this.value.setAlternativa(alternativa);
 		return this.value;
 	}
 
@@ -149,8 +149,9 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 	private void initTableView() {
 		this.tbAlternativas.setItems(null);
 		ObservableList<ObservableMap.Entry<String, Double>> itens = FXCollections
-		        .observableArrayList(this.itens.entrySet());
+				.observableArrayList(this.itens.entrySet());
 		this.tbAlternativas.setItems(itens);
+
 	}
 
 	private void initColumnValor() {
