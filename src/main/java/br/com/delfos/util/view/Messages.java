@@ -10,17 +10,17 @@ import javafx.scene.control.Control;
 class Messages {
 	private static Properties props;
 	private static String defaultMessage;
-	
+
 	private static String notFoundMessage;
 
 	static {
 		try {
 			props = new Properties();
 			props.load(new FileInputStream(
-			        Messages.class.getClassLoader().getResource("config/tooltip.properties").toString()));
+					Messages.class.getClassLoader().getResource("config/tooltip.properties").toString()));
 			defaultMessage = props.getProperty("defaultMessage");
 			notFoundMessage = props.getProperty("notFoundMessage");
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -33,12 +33,12 @@ class Messages {
 	public static Optional<String> getMessage(String name) {
 		return Optional.ofNullable(props.getProperty(name));
 	}
-	
-	public static boolean isMessagePresent(String name) { 
+
+	public static boolean isMessagePresent(String name) {
 		return getMessage(name).isPresent();
 	}
 
 	public static Object semEntradaDeTextoPara(Control component) {
-		return String.format(notFoundMessage, component);
+		return String.format(notFoundMessage, component == null ? "componente desconhecido" : component.getId());
 	}
 }
