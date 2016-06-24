@@ -33,4 +33,10 @@ Os atuais responsáveis pela representação do projeto são:
   * __Leonardo Henrique de Braz__ - Membro representante
   * __Jéssica Giori Silva__ - Membro representante
   * __Marco Antônio dos Santos Souza__ - Membro representante
+  * __Victor Luca de Mello Rodrigues__ - Membro colaborador
+
+#Créditos
+A equipe do software Delfos, juntamente com o IFRO, cede os devidos créditos para os que prestaram suporte, colaboração e empenho no decorrer do projeto. São eles: 
+* [__João Eujácio Teixeira Júnior__](https://github.com/joaoteixeira)
+* __Jones Fernando Giacon__
   
