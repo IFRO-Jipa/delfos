@@ -1,41 +1,53 @@
 package br.com.delfos.control.pessoal;
 
+import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.auditoria.Autenticador;
-import br.com.delfos.dao.pesquisa.QuestionarioDAO;
-import br.com.delfos.model.auditoria.Usuario;
+import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 @Controller
-public class MeusQuestionariosController {
+public class MeusQuestionariosController implements Initializable {
 
 	@FXML
 	private TextField txtFiltro;
 
 	@FXML
-	private ListView<?> listViewQuestionarios;
-
-	private Usuario usuario;
+	private ListView<Questionario> listViewQuestionarios;
 
 	@Autowired
-	private QuestionarioDAO questionario;
+	private PesquisaDAO pesquisaDAO;
 
 	@FXML
 	private void handleFiltraQuestionario(ActionEvent event) {
 
 	}
 
-	public MeusQuestionariosController() {
-		usuario = Autenticador.getUsuarioAutenticado();
-	}
-
 	private void populaListView() {
 
+		List<Pesquisa> pesquisas = pesquisaDAO.findByEspecialista(Autenticador.getUsuarioAutenticado().getPessoa());
+		Set<Questionario> questionarios = new HashSet<>();
+		pesquisas.forEach(pesquisa -> questionarios.addAll(pesquisa.getQuestionarios()));
+
+		this.listViewQuestionarios.getItems().addAll(questionarios);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		populaListView();
 	}
 
 }

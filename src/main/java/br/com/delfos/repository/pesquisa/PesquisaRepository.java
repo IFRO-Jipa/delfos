@@ -13,4 +13,7 @@ public interface PesquisaRepository extends JpaRepository<Pesquisa, Long> {
 	@Query("select q from Questionario q join Pesquisa p where p.id = ?1")
 	public List<Questionario> findQuestionarios(Long idPesquisa);
 
+	@Query("select p from Pesquisa p inner join p.especialistas es where es.id = ?1")
+	List<Pesquisa> findByEspecialista(Long idEspecialista);
+
 }

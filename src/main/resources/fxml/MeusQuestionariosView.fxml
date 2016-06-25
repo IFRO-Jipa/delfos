@@ -8,30 +8,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="271.0" minWidth="564.0" prefHeight="456.0"
-	prefWidth="717.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="br.com.delfos.control.pessoal.MeusQuestionariosController">
+<AnchorPane minHeight="271.0" minWidth="564.0" prefHeight="456.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pessoal.MeusQuestionariosController">
 	<children>
-		<BorderPane layoutX="296.0" layoutY="232.0" prefHeight="651.0"
-			prefWidth="807.0" AnchorPane.bottomAnchor="0.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-			AnchorPane.topAnchor="0.0">
+		<BorderPane layoutX="296.0" layoutY="232.0" prefHeight="651.0" prefWidth="807.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<top>
-				<AnchorPane prefHeight="124.0" prefWidth="658.0"
-					BorderPane.alignment="CENTER">
+				<AnchorPane prefHeight="124.0" prefWidth="658.0" BorderPane.alignment="CENTER">
 					<children>
-						<Text layoutX="14.0" layoutY="48.84765625" strokeType="OUTSIDE"
-							strokeWidth="0.0" text="Meus Questionários" wrappingWidth="380.52734375"
-							AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
+						<Text layoutX="14.0" layoutY="48.84765625" strokeType="OUTSIDE" strokeWidth="0.0" text="Meus Questionários" wrappingWidth="593.52734375" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
 							<font>
 								<Font name="System Bold" size="36.0" />
 							</font>
 						</Text>
-						<Text layoutX="14.0" layoutY="76.0" strokeType="OUTSIDE"
-							strokeWidth="0.0"
-							text="Aqui você encontra todos os questionários e pesquisas disponíveis para iteração. Selecione o desejado e dê um clique duplo."
-							wrappingWidth="661.3447265625" AnchorPane.leftAnchor="14.0"
-							AnchorPane.topAnchor="56.0">
+						<Text layoutX="14.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aqui você encontra todos os questionários e pesquisas disponíveis para iteração. Selecione o desejado e dê um clique duplo." wrappingWidth="661.3447265625" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="56.0">
 							<font>
 								<Font size="18.0" />
 							</font>
@@ -40,24 +28,16 @@
 				</AnchorPane>
 			</top>
 			<center>
-				<BorderPane prefHeight="200.0" prefWidth="200.0"
-					BorderPane.alignment="CENTER">
+				<BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 					<top>
-						<TextField fx:id="txtFiltro" onAction="#handleFiltraQuestionario"
-							prefHeight="30.0" prefWidth="807.0" promptText="Filtrar pelo nome do questionário"
-							BorderPane.alignment="CENTER">
+						<TextField fx:id="txtFiltro" onAction="#handleFiltraQuestionario" prefHeight="30.0" prefWidth="807.0" promptText="Filtrar pelo nome do questionário" BorderPane.alignment="CENTER">
 							<font>
 								<Font size="13.0" />
 							</font>
 						</TextField>
 					</top>
 					<center>
-						<ListView fx:id="listViewQuestionarios" prefHeight="200.0"
-							prefWidth="200.0" BorderPane.alignment="CENTER">
-							<effect>
-								<Bloom threshold="0.65" />
-							</effect>
-						</ListView>
+						<ListView fx:id="listViewQuestionarios" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
 					</center>
 				</BorderPane>
 			</center>
