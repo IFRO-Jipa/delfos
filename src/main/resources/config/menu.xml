@@ -6,12 +6,12 @@
 		<itens>
 			<menuItem id="menuCadastroPessoa">
 				<name>Cadastro de Pessoa</name>
-				<view>PessoaView.fxml</view>
+				<view>basic/PessoaView.fxml</view>
 
 			</menuItem>
 			<menuItem id="menuCadastroPesquisa">
 				<name>Cadastro de Pesquisa</name>
-				<view>PesquisaView.fxml</view>
+				<view>pesquisa/PesquisaView.fxml</view>
 			</menuItem>
 
 
@@ -36,15 +36,15 @@
 				<itens>
 					<menuItem id="menuCadastroUsuario">
 						<name>Cadastro de Usuários</name>
-						<view>UsuarioView.fxml</view>
+						<view>auditoria/UsuarioView.fxml</view>
 					</menuItem>
 					<menuItem id="menuCadastroPerfilAcesso">
 						<name>Cadastro de Perfis de Acesso</name>
-						<view>PerfilAcessoView.fxml</view>
+						<view>auditoria/PerfilAcessoView.fxml</view>
 					</menuItem>
 					<menuItem id="menuCadastroFuncionalidade">
 						<name>Cadastro de Funcionalidade</name>
-						<view>FuncionalidadeView.fxml</view>
+						<view>auditoria/FuncionalidadeView.fxml</view>
 					</menuItem>
 				</itens>
 			</menu>
@@ -62,7 +62,7 @@
 		<itens>
 			<menuItem id="menuMeusQuestionarios">
 				<name>Meus Questionários</name>
-				<view>MeusQuestionariosView.fxml</view>
+				<view>conta/MeusQuestionariosView.fxml</view>
 			</menuItem>
 		</itens>
 	</menu>

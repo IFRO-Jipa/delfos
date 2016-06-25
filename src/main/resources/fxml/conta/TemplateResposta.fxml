@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="303.0" prefWidth="635.0"
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+	<children>
+		<Text fx:id="txtNomePesquisa" layoutX="18.0" layoutY="38.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="Nome da Pesquisa"
+			wrappingWidth="509.54296875" AnchorPane.leftAnchor="18.0">
+			<font>
+				<Font size="22.0" />
+			</font>
+		</Text>
+		<Text layoutX="18.0" layoutY="64.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Responsaveis:" AnchorPane.leftAnchor="18.0"
+			AnchorPane.topAnchor="51.0">
+			<font>
+				<Font name="System Bold" size="13.0" />
+			</font>
+		</Text>
+		<Text fx:id="txtResponsaveis" layoutX="134.0" layoutY="63.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+		<Text layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Questionarios: " AnchorPane.leftAnchor="15.0"
+			AnchorPane.topAnchor="87.93310546875">
+			<font>
+				<Font name="System Bold" size="13.0" />
+			</font>
+		</Text>
+		<Text layoutX="543.4130859375" layoutY="35.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Vencimento" AnchorPane.rightAnchor="25.74560546875"
+			AnchorPane.topAnchor="23.0" />
+		<Text fx:id="txtVencimento" layoutX="534.0" layoutY="54.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="00/00/8888"
+			AnchorPane.rightAnchor="26.072265625" AnchorPane.topAnchor="41.93310546875" />
+		<BorderPane layoutX="16.0" layoutY="107.0" prefHeight="183.0"
+			prefWidth="609.0" AnchorPane.bottomAnchor="11.0"
+			AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="10.0"
+			AnchorPane.topAnchor="107.0">
+			<top>
+				<TextField fx:id="txtFiltro" BorderPane.alignment="CENTER" />
+			</top>
+			<center>
+				<ListView fx:id="listViewQuestionarios" prefHeight="157.0"
+					prefWidth="612.0" BorderPane.alignment="CENTER" />
+			</center>
+		</BorderPane>
+	</children>
+</AnchorPane>
+

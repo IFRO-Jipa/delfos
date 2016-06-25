@@ -128,6 +128,10 @@ public class Questionario extends AbstractModel<Questionario> {
 		this.nome = nome;
 	}
 
+	public Pesquisa getPesquisa() {
+		return pesquisa;
+	}
+
 	public Optional<Set<Pergunta<?>>> getPerguntas() {
 		this.perguntas.forEach(System.out::println);
 

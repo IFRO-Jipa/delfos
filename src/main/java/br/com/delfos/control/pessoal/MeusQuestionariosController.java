@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.util.TableCellFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,7 +49,18 @@ public class MeusQuestionariosController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		configListView();
 		populaListView();
+	}
+
+	private void configListView() {
+		listViewQuestionarios
+		        .setCellFactory(new TableCellFactory<Questionario>(null).getCellFactory(q -> configTexto(q)));
+	}
+
+	private String configTexto(Questionario q) {
+		StringBuilder builder = new StringBuilder();
+		return builder.toString();
 	}
 
 }
