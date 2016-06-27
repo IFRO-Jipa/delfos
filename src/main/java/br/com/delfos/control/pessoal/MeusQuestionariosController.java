@@ -26,7 +26,6 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 @Controller
 public class MeusQuestionariosController implements Initializable {
@@ -93,6 +92,7 @@ public class MeusQuestionariosController implements Initializable {
 
 	private void configCache() {
 		pesquisas = FXCollections.observableArrayList(pesquisaDAO.findByEspecialista(Autenticador.getDonoDaConta()));
+		System.out.println(pesquisas);
 	}
 
 }

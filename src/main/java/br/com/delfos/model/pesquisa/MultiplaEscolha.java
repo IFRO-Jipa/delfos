@@ -43,7 +43,7 @@ public class MultiplaEscolha extends Alternativa {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "mesq_escolhas")
-	public Map<String, Double> escolhas;
+	private Map<String, Double> escolhas;
 
 	public MultiplaEscolha() {
 		escolhas = new HashMap<String, Double>();

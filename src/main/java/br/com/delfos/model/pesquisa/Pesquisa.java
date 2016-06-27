@@ -54,7 +54,6 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate date;
-	
 
 	public Pesquisa() {
 		this.especialistas = new HashSet<>();
@@ -100,11 +99,15 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public boolean addQuestionario(Questionario questionario) {
-		return this.questionarios.add(questionario);
+		if (questionario != null)
+			return this.questionarios.add(questionario);
+		else
+			throw new NullPointerException();
 	}
 
 	public void addQuestionarios(List<Questionario> questionarios) {
-		this.questionarios.addAll(questionarios);
+		if (questionarios != null)
+			this.questionarios.addAll(questionarios);
 	}
 
 	public void clearQuestionario() {

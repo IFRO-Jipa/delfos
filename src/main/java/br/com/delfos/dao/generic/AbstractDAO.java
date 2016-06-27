@@ -13,6 +13,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import br.com.delfos.model.generic.Identificator;
 import br.com.delfos.model.generic.Upgrader;
+import br.com.delfos.view.AlertBuilder;
 
 @SuppressWarnings("rawtypes")
 @NoRepositoryBean
@@ -64,14 +65,18 @@ public abstract class AbstractDAO<Type extends Identificator, ID extends Seriali
 	public <S extends Type> Optional<S> save(S newValue) {
 		Optional<S> result = Optional.empty();
 
-		if (newValue.getId() == null) {
-			// cria novo registro
-			result = Optional.ofNullable((S) repository.save(newValue));
-		} else {
-			// atualiza registro, modificando os valores necessários para atualização
-			S value = (S) this.findOne(newValue.getId());
-			((Upgrader<S>) value).update(value, newValue);
-			result = Optional.ofNullable((S) repository.save(newValue));
+		try {
+			if (newValue.getId() == null) {
+				// cria novo registro
+				result = Optional.ofNullable((S) repository.save(newValue));
+			} else {
+				// atualiza registro, modificando os valores necessários para atualização
+				S value = (S) this.findOne(newValue.getId());
+				((Upgrader<S>) value).update(value, newValue);
+				result = Optional.ofNullable((S) repository.save(newValue));
+			}
+		} catch (RuntimeException ex) {
+			AlertBuilder.error(ex);
 		}
 
 		return result;
