@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.basic;
 
 import java.net.URL;
 import java.util.ResourceBundle;

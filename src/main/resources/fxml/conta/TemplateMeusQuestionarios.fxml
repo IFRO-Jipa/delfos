@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="303.0" prefWidth="635.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+	fx:controller="br.com.delfos.control.pessoal.TemplateMeusQuestionariosController">
 	<children>
 		<Text fx:id="txtNomePesquisa" layoutX="18.0" layoutY="38.0"
 			strokeType="OUTSIDE" strokeWidth="0.0" text="Nome da Pesquisa"

@@ -147,7 +147,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		q.setAutenticavel(this.cbAutenticavel.isSelected());
 
 		q.addPerguntas(Optional.ofNullable(perguntaController.getPerguntas()));
-		
+
 		return q;
 	}
 
@@ -210,7 +210,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	private void configTabPergunta() {
 		try {
 
-			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/PerguntaView.fxml");
+			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/pergunta/PerguntaView.fxml");
 
 			BorderPane load = (BorderPane) loader.load();
 			this.perguntaController = loader.getController();

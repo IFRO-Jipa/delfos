@@ -16,7 +16,7 @@ import javafx.stage.StageStyle;
 
 public class QuestionarioApp extends Application {
 
-	private static final String LOCATION = "/fxml/QuestionarioView.fxml";
+	private static final String LOCATION = "/fxml/pergunta/QuestionarioView.fxml";
 	private static QuestionarioController controller;
 	private static Stage primaryStage;
 	private Optional<Questionario> initValue = Optional.empty();

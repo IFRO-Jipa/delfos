@@ -12,7 +12,7 @@ import javafx.stage.WindowEvent;
 
 public class SplashScreenApp extends Preloader {
 
-	private static final String LOCATION = "/fxml/SplashScreen.fxml";
+	private static final String LOCATION = "/fxml/basic/SplashScreen.fxml";
 	private static Stage stage;
 
 	@Override

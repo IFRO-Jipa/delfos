@@ -54,6 +54,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate date;
+	
 
 	public Pesquisa() {
 		this.especialistas = new HashSet<>();

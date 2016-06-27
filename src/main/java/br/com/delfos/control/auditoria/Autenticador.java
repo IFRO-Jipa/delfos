@@ -1,5 +1,6 @@
 package br.com.delfos.control.auditoria;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.com.delfos.dao.auditoria.UsuarioDAO;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.Usuario;
+import br.com.delfos.model.basic.Pessoa;
 
 @Service
 public class Autenticador {
@@ -28,7 +30,11 @@ public class Autenticador {
 	}
 
 	public static Set<Funcionalidade> getPermissoesDeAcesso() {
-		return usuario.get().getPerfilAcesso().getPermissoes();
+		return Collections.unmodifiableSet(usuario.get().getPerfilAcesso().getPermissoes());
+	}
+
+	public static Pessoa getDonoDaConta() {
+		return usuario.get().getPessoa();
 	}
 
 	public static void logout() {

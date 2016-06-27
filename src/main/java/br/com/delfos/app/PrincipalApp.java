@@ -3,7 +3,7 @@ package br.com.delfos.app;
 import java.io.IOException;
 import java.util.Optional;
 
-import br.com.delfos.control.PrincipalController;
+import br.com.delfos.control.basic.PrincipalController;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
 import javafx.application.Application;
@@ -18,7 +18,7 @@ public class PrincipalApp extends Application {
 
 	private static Optional<PrincipalController> controller;
 
-	private static final String LOCATION = "/fxml/PrincipalView.fxml";
+	private static final String LOCATION = "/fxml/basic/PrincipalView.fxml";
 
 	@Override
 	public void start(Stage stage) throws IOException {

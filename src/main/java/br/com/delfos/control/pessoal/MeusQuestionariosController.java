@@ -1,66 +1,98 @@
 package br.com.delfos.control.pessoal;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
-import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
-import br.com.delfos.model.pesquisa.Questionario;
-import br.com.delfos.util.TableCellFactory;
-import javafx.event.ActionEvent;
+import br.com.delfos.util.LeitorDeFXML;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 @Controller
 public class MeusQuestionariosController implements Initializable {
 
 	@FXML
-	private TextField txtFiltro;
+	private ScrollPane scrollPane;
 
 	@FXML
-	private ListView<Questionario> listViewQuestionarios;
+	private Accordion accordionPesquisas;
+
+	@FXML
+	private AnchorPane rootPane;
 
 	@Autowired
 	private PesquisaDAO pesquisaDAO;
 
-	@FXML
-	private void handleFiltraQuestionario(ActionEvent event) {
-
-	}
-
-	private void populaListView() {
-
-		List<Pesquisa> pesquisas = pesquisaDAO.findByEspecialista(Autenticador.getUsuarioAutenticado().getPessoa());
-		Set<Questionario> questionarios = new HashSet<>();
-		pesquisas.forEach(pesquisa -> questionarios.addAll(pesquisa.getQuestionarios()));
-
-		this.listViewQuestionarios.getItems().addAll(questionarios);
-	}
+	private ObservableList<Pesquisa> pesquisas;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		configListView();
-		populaListView();
+		configCache();
+		configScroll();
+		mostraPesquisas();
 	}
 
-	private void configListView() {
-		listViewQuestionarios
-		        .setCellFactory(new TableCellFactory<Questionario>(null).getCellFactory(q -> configTexto(q)));
+	private void configScroll() {
+		scrollPane.viewportBoundsProperty().addListener((ChangeListener<Bounds>) (observable, oldValue, newValue) -> {
+			accordionPesquisas.setPrefWidth(newValue.getWidth());
+		});
 	}
 
-	private String configTexto(Questionario q) {
-		StringBuilder builder = new StringBuilder();
-		return builder.toString();
+	private void mostraPesquisas() {
+		accordionPesquisas.getPanes().setAll(getTitledPanes());
+	}
+
+	private List<TitledPane> getTitledPanes() {
+		List<TitledPane> panes = new ArrayList<>();
+
+		try {
+			for (Pesquisa pesquisa : pesquisas) {
+				FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/conta/TemplateMeusQuestionarios.fxml");
+				AnchorPane borderPane = loader.load();
+				AnchorPane.setTopAnchor(borderPane, 0.0);
+				AnchorPane.setBottomAnchor(borderPane, 0.0);
+				AnchorPane.setLeftAnchor(borderPane, 0.0);
+				AnchorPane.setRightAnchor(borderPane, 0.0);
+
+				TemplateMeusQuestionariosController controller = loader.getController();
+				controller.set(pesquisa);
+
+				TitledPane panel = new TitledPane();
+				panel.setText(pesquisa.getNome());
+				panel.setContent(borderPane);
+				panel.setPadding(new Insets(0, 0, 4, 0));
+				panel.setAlignment(Pos.TOP_LEFT);
+				panes.add(panel);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return panes;
+	}
+
+	private void configCache() {
+		pesquisas = FXCollections.observableArrayList(pesquisaDAO.findByEspecialista(Autenticador.getDonoDaConta()));
 	}
 
 }

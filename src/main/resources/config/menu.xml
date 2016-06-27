@@ -11,7 +11,7 @@
 			</menuItem>
 			<menuItem id="menuCadastroPesquisa">
 				<name>Cadastro de Pesquisa</name>
-				<view>pesquisa/PesquisaView.fxml</view>
+				<view>pergunta/PesquisaView.fxml</view>
 			</menuItem>
 
 

@@ -1,4 +1,4 @@
-package br.com.delfos.control;
+package br.com.delfos.control.basic;
 
 import java.io.IOException;
 import java.net.URL;
