@@ -1,4 +1,4 @@
-package br.com.delfos.model.pesquisa;
+package br.com.delfos.model.pesquisa.pergunta;
 // EMBEDABLE
 
 import java.util.Collections;
@@ -66,6 +66,14 @@ public class MultiplaEscolha extends Alternativa {
 	@Override
 	public String toString() {
 		return "MultiplaEscolha [escolhas=" + escolhas + ", id=" + this.getId() + "]";
+	}
+
+	public double getValor(String escolha) {
+		return this.escolhas.get(escolha);
+	}
+
+	public boolean contains(String key) {
+		return this.escolhas.containsKey(key);
 	}
 
 }

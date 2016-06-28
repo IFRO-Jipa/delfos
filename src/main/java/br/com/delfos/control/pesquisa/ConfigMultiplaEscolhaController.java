@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.dialog.EditDialog;
-import br.com.delfos.model.pesquisa.MultiplaEscolha;
-import br.com.delfos.model.pesquisa.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
+import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.view.AlertBuilder;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

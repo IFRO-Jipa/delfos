@@ -12,9 +12,9 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.dialog.EditDialog;
 import br.com.delfos.converter.table.cell.ConverterComboBoxToCell;
-import br.com.delfos.model.pesquisa.Alternativa;
-import br.com.delfos.model.pesquisa.Pergunta;
-import br.com.delfos.model.pesquisa.TipoPergunta;
+import br.com.delfos.model.pesquisa.pergunta.Alternativa;
+import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.TipoPergunta;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.view.AlertBuilder;

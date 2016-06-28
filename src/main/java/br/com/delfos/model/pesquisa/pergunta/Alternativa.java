@@ -1,4 +1,4 @@
-package br.com.delfos.model.pesquisa;
+package br.com.delfos.model.pesquisa.pergunta;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;

@@ -1,5 +1,7 @@
 package br.com.delfos.control.pessoal;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -40,18 +42,10 @@ public class TemplateMeusQuestionariosController {
 	}
 
 	private String criaStringComVirgulaEPonto(Set<Pessoa> pesquisadores) {
-		StringBuilder resultado = new StringBuilder();
-		boolean primeiro = true;
-		for (Pessoa pessoa : pesquisadores) {
 
-			if (primeiro)
-				resultado.append(",");
-			resultado.append(pessoa.getNome());
-
-			primeiro = false;
-		}
-
-		return resultado.append(".").toString();
+		List<String> nomes = new ArrayList<>();
+		pesquisadores.forEach(pessoa -> nomes.add(pessoa.getNome()));
+		return nomes.toString().replace("[", "").replace("]", "");
 	}
 
 }

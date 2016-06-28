@@ -5,9 +5,9 @@ import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.dialog.EditDialog;
-import br.com.delfos.model.pesquisa.Paragrafo;
-import br.com.delfos.model.pesquisa.Pergunta;
-import br.com.delfos.model.pesquisa.Texto;
+import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
+import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.Texto;
 import br.com.delfos.util.view.FXValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

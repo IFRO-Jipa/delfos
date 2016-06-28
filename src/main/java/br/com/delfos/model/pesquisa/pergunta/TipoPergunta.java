@@ -1,4 +1,4 @@
-package br.com.delfos.model.pesquisa;
+package br.com.delfos.model.pesquisa.pergunta;
 
 import java.util.Arrays;
 import java.util.List;

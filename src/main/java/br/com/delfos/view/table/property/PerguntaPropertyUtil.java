@@ -1,12 +1,12 @@
 package br.com.delfos.view.table.property;
 
-import br.com.delfos.model.pesquisa.Alternativa;
-import br.com.delfos.model.pesquisa.Intervalo;
-import br.com.delfos.model.pesquisa.MultiplaEscolha;
-import br.com.delfos.model.pesquisa.Paragrafo;
-import br.com.delfos.model.pesquisa.Pergunta;
-import br.com.delfos.model.pesquisa.Texto;
-import br.com.delfos.model.pesquisa.TipoPergunta;
+import br.com.delfos.model.pesquisa.pergunta.Alternativa;
+import br.com.delfos.model.pesquisa.pergunta.Intervalo;
+import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
+import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
+import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.Texto;
+import br.com.delfos.model.pesquisa.pergunta.TipoPergunta;
 
 public class PerguntaPropertyUtil {
 

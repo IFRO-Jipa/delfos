@@ -1,8 +1,8 @@
 package br.com.delfos.view.table.property;
 
-import br.com.delfos.model.pesquisa.Alternativa;
-import br.com.delfos.model.pesquisa.MultiplaEscolha;
-import br.com.delfos.model.pesquisa.TipoPergunta;
+import br.com.delfos.model.pesquisa.pergunta.Alternativa;
+import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
+import br.com.delfos.model.pesquisa.pergunta.TipoPergunta;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;

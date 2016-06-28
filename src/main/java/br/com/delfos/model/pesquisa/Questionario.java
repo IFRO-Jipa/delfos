@@ -20,6 +20,8 @@ import org.hibernate.annotations.Type;
 
 import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.model.generic.AbstractModel;
+import br.com.delfos.model.pesquisa.pergunta.Alternativa;
+import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.view.table.Column;
 
 enum StatusDeQuestionario {

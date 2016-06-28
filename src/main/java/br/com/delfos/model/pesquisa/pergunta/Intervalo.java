@@ -1,4 +1,4 @@
-package br.com.delfos.model.pesquisa;
+package br.com.delfos.model.pesquisa.pergunta;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -6,12 +6,6 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("INTERVALO")
 public class Intervalo extends Alternativa {
-
-	@Override
-	public String toString() {
-		return "Intervalo [valorInicial=" + valorInicial + ", valorFinal=" + valorFinal + ", intervalo=" + intervalo
-				+ "]";
-	}
 
 	private int valorInicial;
 	private int valorFinal;
@@ -50,6 +44,29 @@ public class Intervalo extends Alternativa {
 
 	public void setIntervalo(int intervalo) {
 		this.intervalo = intervalo;
+	}
+
+	@Override
+	public String toString() {
+		return "Intervalo [valorInicial=" + valorInicial + ", valorFinal=" + valorFinal + ", intervalo=" + intervalo
+				+ "]";
+	}
+
+	public boolean seletorValido(int valor) {
+		return valor >= valorInicial && valor <= valorFinal;
+	}
+
+	public int getIntervalos() {
+		int intervalos = 0;
+		int contador = valorInicial;
+
+		while (contador <= valorFinal) {
+			intervalos++;
+
+			contador += this.intervalo;
+		}
+
+		return intervalos;
 	}
 
 	@Override

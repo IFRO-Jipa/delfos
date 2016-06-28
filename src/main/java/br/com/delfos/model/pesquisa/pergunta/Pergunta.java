@@ -1,4 +1,4 @@
-package br.com.delfos.model.pesquisa;
+package br.com.delfos.model.pesquisa.pergunta;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -65,7 +65,7 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 	@Override
 	public String toString() {
 		return "Pergunta [nome=" + nome + ", descricao=" + descricao + ", alternativa=" + alternativa + ", id=" + id
-		        + "]";
+				+ "]";
 	}
 
 }
