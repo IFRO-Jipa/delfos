@@ -12,6 +12,9 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaMultiplaEscolha;
+
 @Entity
 @DiscriminatorValue("MULTIPLA_ESCOLHA")
 public class MultiplaEscolha extends Alternativa {
@@ -46,6 +49,7 @@ public class MultiplaEscolha extends Alternativa {
 	private Map<String, Double> escolhas;
 
 	public MultiplaEscolha() {
+		super(TipoPergunta.MULTIPLA_ESCOLHA);
 		escolhas = new HashMap<String, Double>();
 	}
 
@@ -74,6 +78,11 @@ public class MultiplaEscolha extends Alternativa {
 
 	public boolean contains(String key) {
 		return this.escolhas.containsKey(key);
+	}
+
+	@Override
+	public Resposta<?> createSimpleResposta() {
+		return new RespostaMultiplaEscolha();
 	}
 
 }

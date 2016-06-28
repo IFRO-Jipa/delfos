@@ -13,14 +13,17 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.generic.AbstractModel;
 
 /**
- * Classe responsável por modelar as pessoas que serão salvas e manipuladas em funções do
- * software. <br>
- * Algumas classes que estendem de Pessoa: {@code Especialista}, {@code Pessoa}, etc...
+ * Classe responsável por modelar as pessoas que serão salvas e manipuladas em
+ * funções do software. <br>
+ * Algumas classes que estendem de Pessoa: {@code Especialista}, {@code Pessoa},
+ * etc...
  *
  * @author Leonardo Braz
  * @version 1.0
@@ -44,6 +47,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	private List<TipoPessoa> tipos;
 
 	@NotNull
+	@CPF
 	private String cpf;
 	private String rg;
 
@@ -52,7 +56,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	private Endereco endereco;
 
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-	        CascadeType.REFRESH }, orphanRemoval = true, optional = true)
+			CascadeType.REFRESH }, orphanRemoval = true, optional = true)
 	private Usuario usuario;
 
 	public Pessoa() {
@@ -66,8 +70,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 		this.endereco = endereco;
 	}
 
-	public Pessoa(Long id, String nome, LocalDate dataNascimento, String descricao, String email,
-	        Endereco endereco) {
+	public Pessoa(Long id, String nome, LocalDate dataNascimento, String descricao, String email, Endereco endereco) {
 		super(id);
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;

@@ -41,6 +41,10 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 		return alternativa;
 	}
 
+	public TipoPergunta getTipo() {
+		return this.alternativa.getTipo();
+	}
+
 	public Pergunta() {
 	}
 

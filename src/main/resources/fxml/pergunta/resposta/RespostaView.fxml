@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="490.0" prefWidth="629.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.delfos.control.pessoal.resposta.RespostaController">
+	<children>
+		<Text fx:id="txtNomeQuestionario" layoutX="14.0" layoutY="46.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="Nome do Questionario"
+			AnchorPane.leftAnchor="13.9599609375">
+			<font>
+				<Font size="35.0" />
+			</font>
+		</Text>
+		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="73.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="descricao"
+			wrappingWidth="510.9599609375" AnchorPane.leftAnchor="14.0"
+			AnchorPane.rightAnchor="104.0400390625" />
+		<ScrollPane fx:id="scrollPerguntas" layoutX="14.0" layoutY="87.0"
+			prefHeight="354.0" prefWidth="593.0" AnchorPane.bottomAnchor="49.0"
+			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="22.0"
+			AnchorPane.topAnchor="87.0">
+			<content>
+				<Accordion fx:id="panelPerguntas">
+					<panes>
+						<TitledPane animated="false" text="untitled 1">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0" />
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" text="untitled 2">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0" />
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" text="untitled 3">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0" />
+							</content>
+						</TitledPane>
+					</panes>
+				</Accordion>
+			</content>
+		</ScrollPane>
+		<Button fx:id="btnRegistrar" layoutX="547.0" layoutY="459.0"
+			mnemonicParsing="false" onAction="#handleBtnRegistrar" prefHeight="34.0"
+			prefWidth="92.0" text="Registrar" AnchorPane.bottomAnchor="6.0"
+			AnchorPane.rightAnchor="22.0" />
+		<Button fx:id="btnLimpar" layoutX="14.0" layoutY="450.0"
+			mnemonicParsing="false" onAction="#handleButtonLimpar" prefHeight="34.0"
+			prefWidth="92.0" text="Limpar" AnchorPane.bottomAnchor="6.0"
+			AnchorPane.leftAnchor="14.0" />
+	</children>
+</AnchorPane>

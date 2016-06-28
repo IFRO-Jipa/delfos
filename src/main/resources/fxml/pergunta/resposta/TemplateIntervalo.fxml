@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="117.0" prefWidth="435.0"
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+
+	<children>
+		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Nome da Pergunta">
+			<font>
+				<Font name="System Bold" size="17.0" />
+			</font>
+		</Text>
+		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
+		<Slider fx:id="slideValor" layoutX="14.0" layoutY="68.0"
+			majorTickUnit="2.0" max="10.0" minorTickCount="2" prefHeight="16.0"
+			prefWidth="408.0" showTickLabels="true" showTickMarks="true" value="5.0"
+			AnchorPane.leftAnchor="14.0" />
+	</children>
+
+</AnchorPane>

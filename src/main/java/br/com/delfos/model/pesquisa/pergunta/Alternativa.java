@@ -7,19 +7,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
+
+import br.com.delfos.model.pesquisa.resposta.Resposta;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_alternativa")
-public class Alternativa {
+public abstract class Alternativa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	public abstract Resposta<?> createSimpleResposta();
+
 	public Long getId() {
 		return id;
 	}
+
+	public Alternativa(TipoPergunta tipo) {
+		this.tipo = tipo;
+	}
+
+	@Transient
+	private TipoPergunta tipo;
 
 	@Override
 	public int hashCode() {
@@ -44,6 +56,10 @@ public class Alternativa {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public TipoPergunta getTipo() {
+		return tipo;
 	}
 
 }

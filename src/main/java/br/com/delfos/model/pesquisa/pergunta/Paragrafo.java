@@ -5,9 +5,16 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaParagrafo;
+
 @Entity
 @DiscriminatorValue("PARAGRAFO")
 public class Paragrafo extends Alternativa {
+
+	public Paragrafo() {
+		super(TipoPergunta.PARAGRAFO);
+	}
 
 	@Override
 	public int hashCode() {
@@ -42,5 +49,10 @@ public class Paragrafo extends Alternativa {
 	@Lob
 	@Column(name = "valor_paragrafo")
 	private String valor;
+
+	@Override
+	public Resposta<?> createSimpleResposta() {
+		return new RespostaParagrafo();
+	}
 
 }

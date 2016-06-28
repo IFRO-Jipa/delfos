@@ -4,9 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaTexto;
+
 @Entity
 @DiscriminatorValue("TEXTO")
 public class Texto extends Alternativa {
+
+	public Texto() {
+		super(TipoPergunta.TEXTO);
+	}
 
 	@Override
 	public int hashCode() {
@@ -40,4 +47,9 @@ public class Texto extends Alternativa {
 
 	@Column(name = "valor_texto")
 	private String valor;
+
+	@Override
+	public Resposta<?> createSimpleResposta() {
+		return new RespostaTexto();
+	}
 }

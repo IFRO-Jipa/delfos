@@ -8,6 +8,8 @@ interface Conversor {
 
 	String getLocation();
 
+	String getLocationResposta();
+
 	Pergunta<?> create(Alternativa alternativa);
 }
 
@@ -32,6 +34,11 @@ public enum TipoPergunta implements Conversor {
 			return pergunta;
 		}
 
+		@Override
+		public String getLocationResposta() {
+			return "/fxml/resposta/TemplateTexto.fxml";
+		}
+
 	},
 	PARAGRAFO {
 		@Override
@@ -50,6 +57,11 @@ public enum TipoPergunta implements Conversor {
 			paragrafo.setAlternativa((Paragrafo) alternativa);
 
 			return paragrafo;
+		}
+
+		@Override
+		public String getLocationResposta() {
+			return "/fxml/resposta/TemplateParagrafo.fxml";
 		}
 
 	},
@@ -72,6 +84,11 @@ public enum TipoPergunta implements Conversor {
 			return m;
 		}
 
+		@Override
+		public String getLocationResposta() {
+			return "/fxml/resposta/TemplateMultiplaEscolha.fxml";
+		}
+
 	},
 	INTERVALO {
 
@@ -90,6 +107,11 @@ public enum TipoPergunta implements Conversor {
 			Pergunta<Intervalo> i = new Pergunta<>();
 			i.setAlternativa((Intervalo) alternativa);
 			return i;
+		}
+
+		@Override
+		public String getLocationResposta() {
+			return "/fxml/resposta/TemplateIntervalo.fxml";
 		}
 
 	};

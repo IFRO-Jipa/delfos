@@ -3,6 +3,9 @@ package br.com.delfos.model.pesquisa.pergunta;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaIntervalo;
+
 @Entity
 @DiscriminatorValue("INTERVALO")
 public class Intervalo extends Alternativa {
@@ -12,7 +15,7 @@ public class Intervalo extends Alternativa {
 	private int intervalo;
 
 	public Intervalo(int valorInicial, int valorFinal, int intervalo) {
-		super();
+		super(TipoPergunta.INTERVALO);
 		this.valorInicial = valorInicial;
 		this.valorFinal = valorFinal;
 		this.intervalo = intervalo;
@@ -95,6 +98,11 @@ public class Intervalo extends Alternativa {
 		if (valorInicial != other.valorInicial)
 			return false;
 		return true;
+	}
+
+	@Override
+	public Resposta<?> createSimpleResposta() {
+		return new RespostaIntervalo();
 	}
 
 }
