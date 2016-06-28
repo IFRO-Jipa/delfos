@@ -59,7 +59,7 @@ public class ConfigIntervaloController implements EditDialog<Pergunta<Intervalo>
 		if (FXValidator.validate(this)) {
 			this.value.setNome(txtNome.getText());
 			this.value.setDescricao(txtDescricao.getText());
-			this.value.getAlternativa().setIntervalo(Integer.parseInt(txtIntervalo.getText()));
+			this.value.getAlternativa().setIncremento(Integer.parseInt(txtIntervalo.getText()));
 			this.value.getAlternativa().setValorInicial(Integer.parseInt(txtValorInicial.getText()));
 			this.value.getAlternativa().setValorFinal(Integer.parseInt(txtValorFinal.getText()));
 
@@ -88,7 +88,7 @@ public class ConfigIntervaloController implements EditDialog<Pergunta<Intervalo>
 		this.lblTipo.setText("Intervalo");
 
 		// define as informações do intervalo.
-		this.txtIntervalo.setText(String.valueOf(value.getAlternativa().getIntervalo()));
+		this.txtIntervalo.setText(String.valueOf(value.getAlternativa().getIncremento()));
 		this.txtValorInicial.setText(String.valueOf(value.getAlternativa().getValorInicial()));
 		this.txtValorFinal.setText(String.valueOf(value.getAlternativa().getValorFinal()));
 

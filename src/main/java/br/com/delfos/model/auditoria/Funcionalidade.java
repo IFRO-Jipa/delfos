@@ -5,16 +5,16 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.view.table.Column;
+import br.com.delfos.view.table.TableColumnConfig;
 
 @Entity
 public class Funcionalidade extends AbstractModel<Funcionalidade> {
 
 	@NotNull
-	@Column(name = "nome", alias = "Nome")
+	@TableColumnConfig(name = "nome", alias = "Nome")
 	private String nome;
 	@NotNull
-	@Column(name = "chave", alias = "Chave de identificação")
+	@TableColumnConfig(name = "chave", alias = "Chave de identificação")
 	private String chave;
 	private String descricao;
 

@@ -1,6 +1,6 @@
 package br.com.delfos.model.pesquisa.resposta;
 
-public interface RespostaImpl<T> {
+interface RespostaImpl<T> {
 
 	T getEscolha();
 

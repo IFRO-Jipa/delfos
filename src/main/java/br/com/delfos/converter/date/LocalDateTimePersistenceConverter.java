@@ -17,7 +17,6 @@ public class LocalDateTimePersistenceConverter implements AttributeConverter<Loc
 
 	@Override
 	public LocalDateTime convertToEntityAttribute(Timestamp arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

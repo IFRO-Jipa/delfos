@@ -31,7 +31,6 @@ public class ScreenUtils {
 			} else if (element instanceof DatePicker) {
 				((DatePicker) element).setValue(null);
 			} else if (element instanceof ComboBox<?>) {
-				// TODO: LIMPAR COMBOBOX
 				((ComboBox<?>) element).setValue(null);
 			} else if (element instanceof Group) {
 				limpaCampos((Group) element);

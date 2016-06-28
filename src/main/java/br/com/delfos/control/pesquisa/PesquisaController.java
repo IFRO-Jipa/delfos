@@ -248,7 +248,6 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	// Métodos para a manipulação do status da pesquisa
 
 	private boolean getStatus() {
-		// TODO Auto-generated method stub
 		return textAtivo.getText().equals("Em andamento");
 	}
 

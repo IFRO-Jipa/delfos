@@ -5,14 +5,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import br.com.delfos.view.table.Column;
+import br.com.delfos.view.table.TableColumnConfig;
 
 @MappedSuperclass
 public abstract class AbstractModel<T> implements Identificator, Upgrader<T> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(alias = "ID", name = "id")
+	@TableColumnConfig(alias = "ID", name = "id")
 	protected Long id;
 
 	@Override

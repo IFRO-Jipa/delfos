@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="117.0" prefWidth="435.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+	fx:controller="br.com.delfos.control.pessoal.resposta.RespostaIntervaloController">
 
 	<children>
 		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE"

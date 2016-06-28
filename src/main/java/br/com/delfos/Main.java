@@ -23,7 +23,6 @@ public class Main extends Application {
 
 			@Override
 			protected Task<ApplicationContext> createTask() {
-				// TODO Auto-generated method stub
 				return new Task<ApplicationContext>() {
 
 					@Override

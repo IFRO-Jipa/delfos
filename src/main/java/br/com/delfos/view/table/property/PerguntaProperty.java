@@ -1,7 +1,6 @@
 package br.com.delfos.view.table.property;
 
 import br.com.delfos.model.pesquisa.pergunta.Alternativa;
-import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
 import br.com.delfos.model.pesquisa.pergunta.TipoPergunta;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -93,15 +92,5 @@ public class PerguntaProperty<T extends Alternativa> {
 	public String toString() {
 		return "PerguntaProperty [nome=" + nome.get() + ", tipoPergunta=" + tipoPergunta.get() + "]";
 	}
-
-	public static void main(String[] args) {
-		PerguntaProperty<MultiplaEscolha> property = new PerguntaProperty<MultiplaEscolha>("asdfasdfa",
-		        TipoPergunta.MULTIPLA_ESCOLHA);
-		property.setAlternativa(new MultiplaEscolha());
-		property.getAlternativa().getEscolhas().keySet().forEach(System.out::println);
-		property.getAlternativa().add("Alto", 33);
-	}
-
-	
 
 }

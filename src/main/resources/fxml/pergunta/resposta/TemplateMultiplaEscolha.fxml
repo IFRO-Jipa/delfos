@@ -9,7 +9,8 @@
 
 
 <AnchorPane fx:id="rootElement" prefHeight="190.0" prefWidth="457.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+	fx:controller="br.com.delfos.control.pessoal.resposta.RespostaMultiplaEscolhaController">
 	<children>
 		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE"
 			strokeWidth="0.0" text="Nome da Pergunta">

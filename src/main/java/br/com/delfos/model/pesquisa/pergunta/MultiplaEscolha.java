@@ -1,10 +1,10 @@
 package br.com.delfos.model.pesquisa.pergunta;
 // EMBEDABLE
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.DiscriminatorValue;
@@ -53,8 +53,8 @@ public class MultiplaEscolha extends Alternativa {
 		escolhas = new HashMap<String, Double>();
 	}
 
-	public Map<String, Double> getEscolhas() {
-		return Collections.unmodifiableMap(escolhas);
+	public Set<String> getEscolhas() {
+		return this.escolhas.keySet();
 	}
 
 	public void add(String item, double valor) {

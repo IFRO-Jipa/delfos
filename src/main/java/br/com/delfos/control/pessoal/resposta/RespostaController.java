@@ -48,7 +48,7 @@ public class RespostaController implements Initializable {
 
 	private Questionario questionario;
 
-	private List<RespostaImpl<?>> controllers;
+	private List<RespostaControllerImpl<?, ?>> controllers;
 
 	@FXML
 	private void handleBtnRegistrar(ActionEvent event) {
@@ -58,7 +58,7 @@ public class RespostaController implements Initializable {
 	@FXML
 	private void handleButtonLimpar(ActionEvent event) {
 		if (AlertBuilder.confirmation("Todo o trabalho será perdido. Deseja continuar?")) {
-			controllers.forEach(RespostaImpl::clear);
+			controllers.forEach(RespostaControllerImpl::clearSelected);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class RespostaController implements Initializable {
 		try {
 			FXMLLoader loader = LeitorDeFXML.getLoader(tipo.getLocationResposta());
 			AnchorPane pane = loader.load();
-			RespostaImpl<?> controller = loader.getController();
+			RespostaControllerImpl<?, ?> controller = loader.getController();
 			// TODO: Passar a pergunta para o controlador.
 			this.controllers.add(controller);
 			return pane;

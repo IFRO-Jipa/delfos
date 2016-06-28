@@ -22,7 +22,7 @@ import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
-import br.com.delfos.view.table.Column;
+import br.com.delfos.view.table.TableColumnConfig;
 
 enum StatusDeQuestionario {
 	ATIVO, INATIVO;
@@ -31,7 +31,7 @@ enum StatusDeQuestionario {
 @Entity
 public class Questionario extends AbstractModel<Questionario> {
 
-	@Column(name = "nome", alias = "Nome")
+	@TableColumnConfig(name = "nome", alias = "Nome")
 	private String nome;
 
 	@Convert(converter = LocalDatePersistenceConverter.class)
@@ -52,7 +52,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	@Lob
-	@Column(name = "descricao", alias = "Descrição")
+	@TableColumnConfig(name = "descricao", alias = "Descrição")
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)

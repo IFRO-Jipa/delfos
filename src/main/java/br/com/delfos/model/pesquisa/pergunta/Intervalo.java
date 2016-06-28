@@ -12,13 +12,13 @@ public class Intervalo extends Alternativa {
 
 	private int valorInicial;
 	private int valorFinal;
-	private int intervalo;
+	private int incremento;
 
-	public Intervalo(int valorInicial, int valorFinal, int intervalo) {
+	public Intervalo(int valorInicial, int valorFinal, int incremento) {
 		super(TipoPergunta.INTERVALO);
 		this.valorInicial = valorInicial;
 		this.valorFinal = valorFinal;
-		this.intervalo = intervalo;
+		this.incremento = incremento;
 	}
 
 	public Intervalo() {
@@ -41,17 +41,17 @@ public class Intervalo extends Alternativa {
 		this.valorFinal = valorFinal;
 	}
 
-	public int getIntervalo() {
-		return intervalo;
+	public int getIncremento() {
+		return incremento;
 	}
 
-	public void setIntervalo(int intervalo) {
-		this.intervalo = intervalo;
+	public void setIncremento(int intervalo) {
+		this.incremento = intervalo;
 	}
 
 	@Override
 	public String toString() {
-		return "Intervalo [valorInicial=" + valorInicial + ", valorFinal=" + valorFinal + ", intervalo=" + intervalo
+		return "Intervalo [valorInicial=" + valorInicial + ", valorFinal=" + valorFinal + ", intervalo=" + incremento
 				+ "]";
 	}
 
@@ -66,7 +66,7 @@ public class Intervalo extends Alternativa {
 		while (contador <= valorFinal) {
 			intervalos++;
 
-			contador += this.intervalo;
+			contador += this.incremento;
 		}
 
 		return intervalos;
@@ -76,7 +76,7 @@ public class Intervalo extends Alternativa {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + intervalo;
+		result = prime * result + incremento;
 		result = prime * result + valorFinal;
 		result = prime * result + valorInicial;
 		return result;
@@ -91,7 +91,7 @@ public class Intervalo extends Alternativa {
 		if (getClass() != obj.getClass())
 			return false;
 		Intervalo other = (Intervalo) obj;
-		if (intervalo != other.intervalo)
+		if (incremento != other.incremento)
 			return false;
 		if (valorFinal != other.valorFinal)
 			return false;

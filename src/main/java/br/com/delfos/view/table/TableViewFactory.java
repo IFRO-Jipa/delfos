@@ -52,9 +52,9 @@ public class TableViewFactory<Type> {
 	private List<TableColumn<Type, ?>> getColumns(Field[] fields) {
 		List<TableColumn<Type, ?>> columns = new ArrayList<>();
 		for (Field f : fields) {
-			if (f.isAnnotationPresent(br.com.delfos.view.table.Column.class)) {
+			if (f.isAnnotationPresent(br.com.delfos.view.table.TableColumnConfig.class)) {
 
-				br.com.delfos.view.table.Column annotation = f.getAnnotation(br.com.delfos.view.table.Column.class);
+				br.com.delfos.view.table.TableColumnConfig annotation = f.getAnnotation(br.com.delfos.view.table.TableColumnConfig.class);
 				TableColumn<Type, ?> tableColumn = criaColuna(f.getType(), annotation.alias(),
 				        annotation.name());
 

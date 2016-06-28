@@ -126,6 +126,14 @@ public class PrincipalController implements Initializable {
 	private void abreJanela(String view, String title) throws IOException {
 		AnchorPane load = (AnchorPane) LeitorDeFXML.load(String.format("/fxml/%s", view));
 
+		configTabPane(title, load);
+	}
+
+	private void abreJanela(AnchorPane pane, String title) {
+		configTabPane(title, pane);
+	}
+
+	private void configTabPane(String title, AnchorPane load) {
 		Tab tab = new Tab(title);
 		tab.setContent(load);
 
@@ -134,7 +142,6 @@ public class PrincipalController implements Initializable {
 		tabPane.getSelectionModel().select(tab);
 
 		configuraMinSizeDaTela(tab);
-
 	}
 
 	private void configuraMinSizeDaTela(Tab tab) {
@@ -150,7 +157,7 @@ public class PrincipalController implements Initializable {
 	}
 
 	/**
-	 * Open window in TabPane, located in frame Principal
+	 * Open pane in TabPane, located in frame Principal
 	 * 
 	 * @param view
 	 *            - The FXML Document referenced by View (exclude .fxml from
@@ -166,6 +173,10 @@ public class PrincipalController implements Initializable {
 		MenuItem item = this.menus.get(view);
 		String[] properties = item.getId().split(":");
 		this.abreJanela(properties[1], item.getText());
+	}
+
+	public void openWindow(AnchorPane pane, String title) {
+		this.abreJanela(pane, title);
 	}
 
 }
