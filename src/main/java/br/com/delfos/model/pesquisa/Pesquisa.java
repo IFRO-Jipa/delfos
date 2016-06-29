@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.except.basic.PessoaInvalidaException;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
 import br.com.delfos.model.basic.Pessoa;
@@ -48,12 +46,15 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true,
-	           cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH })
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REMOVE, CascadeType.DETACH })
 	private Set<Questionario> questionarios;
 
-	@Convert(converter = LocalDatePersistenceConverter.class)
-	private LocalDate date;
+	private LocalDate dataInicio;
+
+	private LocalDate dataVencimento;
+
+	private LocalDate dataFinalizada;
 
 	public Pesquisa() {
 		this.especialistas = new HashSet<>();
@@ -67,6 +68,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public void finaliza() {
+		this.dataFinalizada = LocalDate.now();
 		this.status = StatusPesquisa.FINALIZADA;
 	}
 
@@ -76,6 +78,26 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	public boolean isFinalizada() {
 		return !isAtivo();
+	}
+
+	public LocalDate getDataFinalizada() {
+		return dataFinalizada;
+	}
+
+	public void setDataVencimento(LocalDate dataVencimento) {
+		this.dataVencimento = dataVencimento;
+	}
+
+	public LocalDate getDataVencimento() {
+		return dataVencimento;
+	}
+
+	public boolean isVencida() {
+		return LocalDate.now().isAfter(dataVencimento);
+	}
+
+	public boolean isValida() {
+		return !isVencida();
 	}
 
 	public String getNome() {
@@ -127,7 +149,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			return this.pesquisadores.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
+					String.format("A pessoa %s não é um pesquisador válido.", pessoa.getNome()));
 	}
 
 	public boolean addEspecialista(Pessoa pessoa) {
@@ -135,7 +157,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			return this.especialistas.add(pessoa);
 		} else
 			throw new PessoaInvalidaException(
-			        String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
+					String.format("A pessoa %s não é um especialista válido.", pessoa.getNome()));
 	}
 
 	private boolean verificaSeVaiAtingirLimite(int qtdAdicional) {
@@ -152,7 +174,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 				return this.especialistas.addAll(especialistas);
 			else
 				throw new LimiteDeEspecialistasAtingidoException(
-				        "A pesquisa estourou o limite de especialistas definido.");
+						"A pesquisa estourou o limite de especialistas definido.");
 		} else
 			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
@@ -195,15 +217,15 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@Override
 	public String toString() {
 		return "Pesquisa [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", questionarios=" + questionarios
-		        + "]";
+				+ "]";
 	}
 
-	public LocalDate getData() {
-		return date;
+	public LocalDate getDataInicio() {
+		return dataInicio;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setDataInicio(LocalDate date) {
+		this.dataInicio = date;
 	}
 
 	public Set<Pessoa> getPesquisadores() {

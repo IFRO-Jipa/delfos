@@ -2,6 +2,7 @@ package br.com.delfos.control.pessoal;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 @Controller
-public class TemplateMeusQuestionariosController implements Initializable {
+public final class TemplateMeusQuestionariosController implements Initializable {
 
 	@FXML
 	private Text txtNomePesquisa;
@@ -44,10 +45,10 @@ public class TemplateMeusQuestionariosController implements Initializable {
 	@FXML
 	private ListView<Questionario> listViewQuestionarios;
 
-	public void set(Pesquisa pesquisa) {
+	public void set(final Pesquisa pesquisa) {
 		this.txtNomePesquisa.setText(pesquisa.getNome());
 		this.txtResponsaveis.setText(criaStringComVirgulaEPonto(pesquisa.getPesquisadores()));
-		this.txtVencimento.setText("04/94/2222");
+		this.txtVencimento.setText(pesquisa.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
 		this.listViewQuestionarios.setItems(FXCollections.observableArrayList(pesquisa.getQuestionarios()));
 
@@ -63,7 +64,6 @@ public class TemplateMeusQuestionariosController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.listViewQuestionarios.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
-				System.out.println(listViewQuestionarios.getItems());
 				abreTelaResposta(listViewQuestionarios.getSelectionModel().getSelectedItem());
 			}
 		});
@@ -71,7 +71,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 
 	private void abreTelaResposta(Questionario selectedItem) {
 		try {
-			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/pergunta/resposta/RespostaView.fxml");
+			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/resposta/RespostaView.fxml");
 			AnchorPane pane = loader.load();
 			RespostaController controller = loader.getController();
 			controller.set(Optional.ofNullable(selectedItem));

@@ -63,7 +63,7 @@ public class TipoLogradouro extends AbstractModel<TipoLogradouro> {
 
 	@Override
 	public String toString() {
-		return String.format("%s-%s", this.sigla, this.nome);
+		return this.sigla + " -> " + this.nome;
 	}
 
 }

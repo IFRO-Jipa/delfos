@@ -42,6 +42,9 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	private Button btnPesquisaCodigo;
 
 	@FXML
+	private ComboBox<TipoLogradouro> comboBoxTipoLogradouro;
+
+	@FXML
 	@NotNull
 	private TextField txtNome;
 
@@ -58,10 +61,6 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	@FXML
 	@NotNull
 	private TextField txtNumero;
-
-	@FXML
-	@NotNull
-	private ComboBox<TipoLogradouro> comboBoxTipoLogradouro;
 
 	@FXML
 	private Button btnSalvar;
@@ -191,6 +190,7 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 			retorno.ifPresent(pessoa -> {
 				txtCodigo.setText(String.valueOf(pessoa.getId()));
+				AlertBuilder.information("Salvo com sucesso.");
 			});
 
 		} catch (FXValidatorException e) {
@@ -231,11 +231,12 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 		endereco.setCidade(comboBoxCidade.getValue());
 		endereco.setNumero(txtNumero.getText());
 
-		System.out.println(comboBoxTipoLogradouro.getValue());
+		TipoLogradouro tipoLogradouro = comboBoxTipoLogradouro.getValue();
+		System.out.println(tipoLogradouro);
+
 		endereco.setTipoLogradouro(comboBoxTipoLogradouro.getValue());
 		endereco.setDescricao(txtDescricaoEndereco.getText());
 		endereco.setCep(txtCep.getText());
-		endereco.setId(pessoa.getId());
 		return endereco;
 	}
 

@@ -19,7 +19,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.util.converter.IntegerStringConverter;
 
 public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>>
-                                        implements Initializable {
+		implements Initializable {
 
 	@Autowired
 	private DataAcessObject dao;
@@ -41,7 +41,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 	}
 
 	protected Optional<Type> salvar(Type value, Object controller) throws FXValidatorException {
-		if (FXValidator.validate(controller)) {
+		if (FXValidator.validate(controller) && value != null) {
 			return dao.save(value);
 		} else
 			return Optional.empty();
@@ -61,7 +61,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 			});
 		} catch (DataIntegrityViolationException e) {
 			AlertBuilder
-			        .error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
+					.error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
 		}
 	}
 
@@ -72,7 +72,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		dialog.setContentText("informe o código do registro para prosseguir");
 
 		dialog.getEditor().setTextFormatter(
-		        TextFieldFormatter.getFormatter(new IntegerStringConverter(), 0, Regex.APENAS_NUMEROS));
+				TextFieldFormatter.getFormatter(new IntegerStringConverter(), 0, Regex.APENAS_NUMEROS));
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();

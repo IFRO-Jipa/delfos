@@ -1,45 +1,41 @@
 package br.com.delfos.util.view;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import br.com.delfos.dao.basic.PessoaDAO;
+import br.com.delfos.dao.pesquisa.PesquisaDAO;
+import br.com.delfos.model.pesquisa.Pesquisa;
+import br.com.delfos.model.pesquisa.Questionario;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+@Controller
 public class Main extends Application {
 
-	private RadioButton rb3;
-	private RadioButton rb2;
-	private RadioButton rb1;
-	private ToggleGroup tButton;
-	private VBox boxItems;
+	@Autowired
+	private PesquisaDAO pesquisa;
+
+	@Autowired
+	private PessoaDAO pessoa;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		create();
-		config();
+		AnchorPane pane = new AnchorPane();
+		ListView<Questionario> listQuestionarios = new ListView<>();
+		List<Pesquisa> pesquisas = pesquisa.findByEspecialista(pessoa.findOne(1L));
 
-		primaryStage.setScene(new Scene(new AnchorPane(boxItems)));
+		listQuestionarios.getItems().addAll(pesquisas.get(0).getQuestionarios());
+		pane.getChildren().add(listQuestionarios);
+
+		primaryStage.setScene(new Scene(pane));
+		primaryStage.setTitle("Titulo");
 		primaryStage.show();
-	}
-
-	private void config() {
-		boxItems = new VBox(rb1, rb2, rb3);
-		boxItems.getChildren().forEach(item -> VBox.setMargin(item, new Insets(0.0, 5.0, 6.0, 5.0)));
-	}
-
-	private void create() {
-		rb1 = new RadioButton("Primeiro");
-		rb2 = new RadioButton("Segundo");
-		rb3 = new RadioButton("Terceiro");
-
-		tButton = new ToggleGroup();
-		rb1.setToggleGroup(tButton);
-		rb2.setToggleGroup(tButton);
-		rb3.setToggleGroup(tButton);
 	}
 
 	public static void main(String[] args) {

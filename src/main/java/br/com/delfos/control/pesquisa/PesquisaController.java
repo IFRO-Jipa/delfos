@@ -3,6 +3,8 @@ package br.com.delfos.control.pesquisa;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,14 +32,17 @@ import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 @Controller
 public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO> {
@@ -68,6 +73,10 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	@FXML
 	@NotNull
 	private DatePicker datePesquisa;
+
+	@FXML
+	@NotNull
+	private DatePicker dateVencimento;
 
 	@FXML
 	private Button btnSalvar;
@@ -108,10 +117,26 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	private List<Pessoa> pesquisadores;
 
-	@SuppressWarnings("unused")
-	private List<Questionario> questionarios;
-
 	private QuestionarioApp questionarioApp;
+
+	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
+		@Override
+		public void updateItem(LocalDate item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if (item.isBefore(PesquisaController.this.datePesquisa.getValue().plusDays(1))) {
+				this.setDisable(true);
+				this.setStyle("-fx-background-color: #ffc0cb;");
+			}
+
+			long p = PesquisaController.this.getTotalDeDias(item);
+			this.setTooltip(new Tooltip(String.format("Seu questionário durará %s dia(s).", p)));
+		};
+	};
+
+	private long getTotalDeDias(LocalDate item) {
+		return ChronoUnit.DAYS.between(PesquisaController.this.datePesquisa.getValue(), item);
+	}
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
@@ -156,7 +181,6 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	}
 
 	// Link para adicionar pesquisadores
-
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
 		try {
@@ -175,7 +199,6 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	}
 
 	// Link para adicionar questionários
-
 	@FXML
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 		// ABRIR A TELA DE QUESTIONÁRIO E ESPERAR POR UM REGISTRO NOVO
@@ -217,6 +240,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			String nome = txtNome.getText();
 			String descricao = txtDescricao.getText();
 			LocalDate data = datePesquisa.getValue();
+			LocalDate dataVencimento = dateVencimento.getValue();
 			int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
 
 			List<Pessoa> pesquisadores = listViewPesquisador.getItems().isEmpty() ? null
@@ -230,36 +254,25 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			p.setDescricao(descricao);
 			p.setNome(nome);
 			p.setLimite(limite);
-			p.setDate(data);
+			p.setDataInicio(data);
 			p.addQuestionarios(questionarios);
 			p.addEspecialistas(especialistas);
 			p.addPesquisadores(pesquisadores);
-			if (getStatus()) {
-				p.setAtivo();
-			} else {
-				p.finaliza();
-			}
+			p.setDataVencimento(dataVencimento);
 			return p;
 		} catch (LimiteDeEspecialistasAtingidoException e) {
+			AlertBuilder.error(e);
 			return null;
 		}
 	}
 
-	// Métodos para a manipulação do status da pesquisa
-
-	private boolean getStatus() {
-		return textAtivo.getText().equals("Em andamento");
-	}
-
 	// Botão Novo
-
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	// Botão Excluir
-
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
 		deleteIf(pesquisa -> pesquisa.getId() != null);
@@ -268,51 +281,49 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	// Botão Finalizar Pesquisa
 	@FXML
-	void handleButtonFinalizar(ActionEvent event) throws LimiteDeEspecialistasAtingidoException {
-
-		// TODO: Verificar se essa implementação funciona.
-		// Eu acho que não.
-
-		if (!txtCodigo.getText().isEmpty()) {
-			if (AlertBuilder.confirmation("Deseja realmente finalizar Pesquisa?")) {
-				this.toValue().finaliza();
-				this.setStatus(false);
-				// Adicionar aqui a mudança de status da pesquisa
-
-				// Eu tinha feito uma váriavel status aqui na Classe e colocado
-				// ela como false aqui
-				// no If
-
-				AlertBuilder.information("Pesquisa Finalizada");
+	void handleButtonFinalizar(ActionEvent event) {
+		String mensagem = "Se você finalizar essa pesquisa, ela não poderá ser utilizada novamente e não "
+				+ "estará disponível para interação entre os especialistas, sendo necessária a criação de uma nova. "
+				+ "\nDeseja realmente finalizar?";
+		if (AlertBuilder.confirmation(mensagem)) {
+			try {
+				Pesquisa pesquisa = toValue();
+				pesquisa.finaliza();
+				this.salvar(pesquisa, this).ifPresent(optional -> {
+					verificaSituacao(pesquisa);
+					AlertBuilder.information("Finalizada com sucesso");
+				});
+			} catch (FXValidatorException e) {
+				AlertBuilder.error(e);
 			}
-		} else
-			return;
-
+		}
 	}
 
 	// Muda Status
-	private void setStatus(boolean status) {
-		if (status) {
-			textAtivo.setText("Em andamento");
-			textAtivo.setStyle("-fx-text-fill: #007FFF");
+	private void setStatus(Pesquisa pesquisa) {
+		if (pesquisa != null) {
+			if (pesquisa.isValida()) {
+				textAtivo.setText("Em andamento");
+			} else if (pesquisa.isVencida()) {
+				long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataVencimento());
+				textAtivo.setText(String.format("Vencido há %d dia(s)", dias));
+			} else if (pesquisa.isFinalizada()) {
+				long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataFinalizada());
+				textAtivo.setText(String.format("Finalizado em %s [%d dia(s)]",
+						pesquisa.getDataFinalizada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), dias));
+			}
 		} else {
-			textAtivo.setText("Finalizada");
-			textAtivo.setStyle("-fx-text-fill: #32CD32");
+			textAtivo.setText("Não informada.");
 		}
 	}
 
 	// Inicializando
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		configFields();
 		configListViews();
 		configCache();
-		configViews();
-	}
-
-	private void configViews() {
-		setStatus(true);
+		setStatus(null);
 	}
 
 	private void configCache() {
@@ -324,6 +335,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		this.datePesquisa.setEditable(false);
 		this.datePesquisa.disarm();
 		this.datePesquisa.setValue(LocalDate.now());
+		this.dateVencimento.setDayCellFactory(factoryDeVencimento);
 	}
 
 	private void configListViews() {
@@ -375,20 +387,51 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			txtNome.setText(pesquisa.getNome());
 			txtDescricao.setText(pesquisa.getDescricao());
 			txtLimite.setText(String.valueOf(pesquisa.getLimite()));
-			// textAtivo.setText(String.valueOf(pesquisa.isAtivo()));
-			setStatus(true);
-
-			listViewEspecialista.getItems().clear();
-			listViewEspecialista.getItems().addAll(pesquisa.getEspecialistas());
 
 			listViewPesquisador.getItems().clear();
-			listViewPesquisador.getItems().addAll(pesquisa.getPesquisadores());
-
+			listViewEspecialista.getItems().clear();
 			listViewQuestionario.getItems().clear();
-			listViewQuestionario.getItems().addAll(pesquisa.getQuestionarios());
 
-			System.out.println(pesquisa.getQuestionarios());
+			if (pesquisa.getPesquisadores() != null) {
+				listViewPesquisador.getItems().setAll(pesquisa.getPesquisadores());
+			}
+
+			if (pesquisa.getEspecialistas() != null) {
+				listViewEspecialista.getItems().setAll(pesquisa.getEspecialistas());
+			}
+
+			if (pesquisa.getQuestionarios() != null) {
+				listViewQuestionario.getItems().setAll(pesquisa.getQuestionarios());
+			}
+
+			verificaSituacao(pesquisa);
+			setStatus(pesquisa);
 		});
+	}
+
+	private void verificaSituacao(Pesquisa pesquisa) {
+		if (pesquisa.isVencida() || pesquisa.isFinalizada()) {
+			btnSalvar.setDisable(true);
+		}
+
+		if (pesquisa.isVencida() && !pesquisa.isFinalizada()) {
+
+			btnSalvar.setDisable(true);
+			try {
+				this.salvar(toValue(), this)
+						.ifPresent(optional -> AlertBuilder
+								.warning("Por conta da pesquisa estar vencida, ela será finalizada automaticamente. "
+										+ "As alterações realizadas nela não serão refletidas."));
+			} catch (FXValidatorException e) {
+				AlertBuilder.error(e);
+			}
+		}
+
+		if (pesquisa.isFinalizada()) {
+			btnSalvar.setDisable(true);
+			btFinalizar.setDisable(true);
+		}
+
 	}
 
 }

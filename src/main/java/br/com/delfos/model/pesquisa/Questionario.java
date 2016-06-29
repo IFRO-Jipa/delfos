@@ -48,7 +48,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Override
 	public String toString() {
 		return "Questionario [id=" + getId() + ",nome=" + nome + ", dataInicio=" + dataInicio + ", dataFinalizacao="
-		        + dataFinalizacao + "]";
+				+ dataFinalizacao + "]";
 	}
 
 	@Lob
@@ -61,8 +61,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Type(type = "yes_no")
 	private boolean autenticavel;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH },
-	           orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.DETACH }, orphanRemoval = true)
 	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
@@ -143,7 +142,7 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	public void addPergunta(Optional<Pergunta<? extends Alternativa>> pergunta) {
 		this.perguntas.add(pergunta.orElseThrow(
-		        () -> new IllegalArgumentException(String.format("Pergunta inválida. Detalhe: %s", pergunta))));
+				() -> new IllegalArgumentException(String.format("Pergunta inválida. Detalhe: %s", pergunta))));
 	}
 
 	public void addPerguntas(Optional<List<Pergunta<? extends Alternativa>>> perguntas) {
@@ -157,7 +156,7 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	public boolean removePerguntas(Optional<List<Pergunta<? extends Alternativa>>> perguntas) {
 		return this.perguntas
-		        .removeAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
+				.removeAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
 	}
 
 }

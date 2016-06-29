@@ -1,6 +1,7 @@
 package br.com.delfos.dao.pesquisa;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,12 +19,19 @@ public class PesquisaDAO extends AbstractDAO<Pesquisa, Long, PesquisaRepository>
 		return repository.findQuestionarios(idPesquisa);
 	}
 
+	/**
+	 * Esse método só traz as pesquisa que não estão finalizadas ou vencidas.
+	 * 
+	 * @param pessoa
+	 * @return
+	 */
 	public List<Pesquisa> findByEspecialista(Pessoa pessoa) {
 		if (pessoa.getTipo().contains(TipoPessoa.ESPECIALISTA)) {
-			return repository.findByEspecialista(pessoa.getId());
+			List<Pesquisa> result = repository.findByEspecialista(pessoa.getId());
+			return result.stream().filter(Pesquisa::isValida).collect(Collectors.toList());
 		} else
 			throw new IllegalArgumentException(String.format(
-			        "%s não possuí questionários para responder pois não é um especialista válido.", pessoa.getNome()));
+					"%s não possuí questionários para responder pois não é um especialista válido.", pessoa.getNome()));
 	}
 
 }

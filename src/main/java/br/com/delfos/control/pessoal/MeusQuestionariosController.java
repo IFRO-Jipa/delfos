@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.model.pesquisa.Pesquisa;
-import br.com.delfos.util.LeitorDeFXML;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -66,14 +65,16 @@ public class MeusQuestionariosController implements Initializable {
 
 		try {
 			for (Pesquisa pesquisa : pesquisas) {
-				FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/conta/TemplateMeusQuestionarios.fxml");
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(
+						MeusQuestionariosController.class.getResource("/fxml/conta/TemplateMeusQuestionarios.fxml"));
 				AnchorPane borderPane = loader.load();
 				AnchorPane.setTopAnchor(borderPane, 0.0);
 				AnchorPane.setBottomAnchor(borderPane, 0.0);
 				AnchorPane.setLeftAnchor(borderPane, 0.0);
 				AnchorPane.setRightAnchor(borderPane, 0.0);
 
-				TemplateMeusQuestionariosController controller = loader.getController();
+				final TemplateMeusQuestionariosController controller = loader.getController();
 				controller.set(pesquisa);
 
 				TitledPane panel = new TitledPane();
@@ -92,9 +93,6 @@ public class MeusQuestionariosController implements Initializable {
 
 	private void configCache() {
 		pesquisas = FXCollections.observableArrayList(pesquisaDAO.findByEspecialista(Autenticador.getDonoDaConta()));
-
-		pesquisas.forEach(pesquisa -> pesquisa.getQuestionarios().forEach(questionario -> questionario.getPerguntas()
-				.ifPresent(pergunta -> pergunta.forEach(System.out::println))));
 	}
 
 }

@@ -1,5 +1,6 @@
 package br.com.delfos.model.basic;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ public class Endereco extends AbstractModel<Endereco> {
 	private String descricao;
 	@NotNull
 	private String numero;
-	
+
 	private String cep;
 	@NotNull
 	private String bairro;
@@ -22,14 +23,14 @@ public class Endereco extends AbstractModel<Endereco> {
 	@OneToOne(mappedBy = "endereco")
 	private Pessoa pessoa;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.DETACH)
 	private TipoLogradouro tipoLogradouro;
 
 	@OneToOne
 	private Cidade cidade;
 
 	public Endereco(String logradouro, String descricao, String numero, String cep, String bairro,
-	        TipoLogradouro tipoLogradouro, Cidade cidade) {
+			TipoLogradouro tipoLogradouro, Cidade cidade) {
 		this.logradouro = logradouro;
 		this.descricao = descricao;
 		this.numero = numero;
@@ -40,7 +41,7 @@ public class Endereco extends AbstractModel<Endereco> {
 	}
 
 	public Endereco(Long id, String logradouro, String descricao, String numero, String cep, String bairro,
-	        TipoLogradouro tipoLogradouro, Cidade cidade) {
+			TipoLogradouro tipoLogradouro, Cidade cidade) {
 		this.id = id;
 		this.logradouro = logradouro;
 		this.descricao = descricao;

@@ -1,5 +1,4 @@
 package br.com.delfos.model.pesquisa.pergunta;
-// EMBEDABLE
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +44,7 @@ public class MultiplaEscolha extends Alternativa {
 	}
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "mesq_escolhas")
+	@CollectionTable(name = "AlternativaEscolhas")
 	private Map<String, Double> escolhas;
 
 	public MultiplaEscolha() {

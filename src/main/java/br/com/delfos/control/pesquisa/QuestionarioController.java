@@ -194,6 +194,8 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		this.dtInicio.setValue(LocalDate.now());
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		this.btnNovo.setText("Limpar");
+		
+		
 
 		this.reset();
 
