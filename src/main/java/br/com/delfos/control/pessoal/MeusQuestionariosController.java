@@ -92,7 +92,9 @@ public class MeusQuestionariosController implements Initializable {
 
 	private void configCache() {
 		pesquisas = FXCollections.observableArrayList(pesquisaDAO.findByEspecialista(Autenticador.getDonoDaConta()));
-		System.out.println(pesquisas);
+
+		pesquisas.forEach(pesquisa -> pesquisa.getQuestionarios().forEach(questionario -> questionario.getPerguntas()
+				.ifPresent(pergunta -> pergunta.forEach(System.out::println))));
 	}
 
 }

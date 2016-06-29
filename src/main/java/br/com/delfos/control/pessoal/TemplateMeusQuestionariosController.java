@@ -17,6 +17,7 @@ import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,7 +49,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 		this.txtResponsaveis.setText(criaStringComVirgulaEPonto(pesquisa.getPesquisadores()));
 		this.txtVencimento.setText("04/94/2222");
 
-		this.listViewQuestionarios.getItems().setAll(pesquisa.getQuestionarios());
+		this.listViewQuestionarios.setItems(FXCollections.observableArrayList(pesquisa.getQuestionarios()));
 
 	}
 
@@ -61,8 +62,10 @@ public class TemplateMeusQuestionariosController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.listViewQuestionarios.setOnMouseClicked(event -> {
-			if (event.getClickCount() == 2)
+			if (event.getClickCount() == 2) {
+				System.out.println(listViewQuestionarios.getItems());
 				abreTelaResposta(listViewQuestionarios.getSelectionModel().getSelectedItem());
+			}
 		});
 	}
 
