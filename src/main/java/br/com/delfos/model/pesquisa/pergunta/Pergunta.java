@@ -10,7 +10,7 @@ import br.com.delfos.model.generic.AbstractModel;
 @Entity
 public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> {
 
-	@NotNull
+	@NotNull(message = "O nome não pode deixar de ser informado")
 	private String nome;
 	private String descricao;
 

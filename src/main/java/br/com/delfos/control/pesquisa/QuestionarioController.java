@@ -129,6 +129,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 				QuestionarioApp.close();
 			});
 		} catch (FXValidatorException e) {
+			e.printStackTrace();
 			AlertBuilder.error(e);
 		}
 	}
@@ -193,8 +194,6 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		this.dtInicio.setValue(LocalDate.now());
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		this.btnNovo.setText("Limpar");
-		
-		
 
 		this.reset();
 
