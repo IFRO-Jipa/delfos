@@ -1,6 +1,5 @@
 package br.com.delfos.control.pesquisa;
 
-// importando o necessário para rodar
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;

@@ -97,7 +97,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public boolean isValida() {
-		return !isVencida();
+		return !isVencida() && !isFinalizada();
 	}
 
 	public String getNome() {
@@ -234,5 +234,9 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	public Set<Pessoa> getEspecialistas() {
 		return Collections.unmodifiableSet(especialistas);
+	}
+
+	public boolean isEmptyQuestionario() {
+		return questionarios == null ? false : questionarios.isEmpty();
 	}
 }

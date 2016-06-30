@@ -9,11 +9,11 @@ public interface Upgrader<T> {
 	default void update(T oldValue, T newValue) {
 		try {
 			Field[] oldFields = oldValue.getClass().getDeclaredFields();
-			Class<? extends Object> classOfNew = newValue.getClass();
+			Class<? extends Object> newClass = newValue.getClass();
 
 			for (Field oldField : oldFields) {
 
-				Field newField = classOfNew.getDeclaredField(oldField.getName());
+				Field newField = newClass.getDeclaredField(oldField.getName());
 
 				oldField.setAccessible(true);
 				newField.setAccessible(true);

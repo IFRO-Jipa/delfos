@@ -82,6 +82,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 
 			if (value.isPresent()) {
 				this.posiciona(value);
+				return value;
 			} else {
 				AlertBuilder.warning("Nenhum registro foi encontrado.");
 			}

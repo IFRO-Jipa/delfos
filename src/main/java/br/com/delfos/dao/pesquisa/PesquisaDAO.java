@@ -26,9 +26,12 @@ public class PesquisaDAO extends AbstractDAO<Pesquisa, Long, PesquisaRepository>
 	 * @return
 	 */
 	public List<Pesquisa> findByEspecialista(Pessoa pessoa) {
+		// TODO trazer apenas as que não foram respondido pelo especialista.
+		// TODO trazer apenas as que possuem questionários
 		if (pessoa.getTipo().contains(TipoPessoa.ESPECIALISTA)) {
 			List<Pesquisa> result = repository.findByEspecialista(pessoa.getId());
-			return result.stream().filter(Pesquisa::isValida).collect(Collectors.toList());
+			return result.stream().filter(pesquisa -> pesquisa.isValida() && !pesquisa.isEmptyQuestionario())
+					.collect(Collectors.toList());
 		} else
 			throw new IllegalArgumentException(String.format(
 					"%s não possuí questionários para responder pois não é um especialista válido.", pessoa.getNome()));

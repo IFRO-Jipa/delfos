@@ -15,7 +15,7 @@ public class PerguntaPropertyUtil {
 
 		pergunta.setNome(property.getNome());
 		pergunta.setDescricao(property.getDescricao());
-		pergunta.setId(property.getId());
+		pergunta.setId(property.getId() == 0 ? null : property.getId());
 
 		return pergunta;
 	}
@@ -48,17 +48,17 @@ public class PerguntaPropertyUtil {
 	private static PerguntaProperty<?> createByTextoParagrafo(Pergunta<?> pergunta) {
 		if (pergunta.getAlternativa() instanceof Texto) {
 			return new PerguntaProperty<Texto>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
-			        TipoPergunta.TEXTO);
+					TipoPergunta.TEXTO);
 		} else if (pergunta.getAlternativa() instanceof Paragrafo) {
 			return new PerguntaProperty<Paragrafo>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
-			        TipoPergunta.PARAGRAFO);
+					TipoPergunta.PARAGRAFO);
 		} else
 			return null;
 	}
 
 	private static PerguntaProperty<Intervalo> createByIntervalo(Pergunta<?> pergunta) {
 		PerguntaProperty<Intervalo> property = new PerguntaProperty<Intervalo>(pergunta.getId(), pergunta.getNome(),
-		        pergunta.getDescricao(), TipoPergunta.INTERVALO);
+				pergunta.getDescricao(), TipoPergunta.INTERVALO);
 
 		property.setAlternativa(pergunta.getAlternativa());
 
@@ -67,7 +67,7 @@ public class PerguntaPropertyUtil {
 
 	private static PerguntaProperty<MultiplaEscolha> createByMultiplaEscolha(Pergunta<?> pergunta) {
 		return new PerguntaProperty<MultiplaEscolha>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
-		        TipoPergunta.MULTIPLA_ESCOLHA);
+				TipoPergunta.MULTIPLA_ESCOLHA);
 
 	}
 

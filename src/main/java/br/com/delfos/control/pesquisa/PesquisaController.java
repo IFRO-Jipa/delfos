@@ -130,7 +130,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			}
 
 			long p = PesquisaController.this.getTotalDeDias(item);
-			this.setTooltip(new Tooltip(String.format("Seu questionário durará %s dia(s).", p)));
+			this.setTooltip(new Tooltip(String.format("Sua pesquisa durará %s dia(s).", p)));
 		};
 	};
 
@@ -225,6 +225,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			result.ifPresent(pesquisa -> {
 				txtCodigo.setText(String.valueOf(pesquisa.getId()));
 				AlertBuilder.information("Salvo com sucesso.");
+				setStatus(pesquisa);
 			});
 
 		} catch (FXValidatorException e) {
@@ -270,21 +271,25 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ScreenUtils.limpaCampos(rootPane);
+		setStatus(null);
+		verificaSituacao(null);
 	}
 
 	// Botão Excluir
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
 		deleteIf(pesquisa -> pesquisa.getId() != null);
+		setStatus(null);
+		verificaSituacao(null);
 		ScreenUtils.limpaCampos(rootPane);
 	}
 
 	// Botão Finalizar Pesquisa
 	@FXML
-	void handleButtonFinalizar(ActionEvent event) {
-		String mensagem = "Se você finalizar essa pesquisa, ela não poderá ser utilizada novamente e não "
-				+ "estará disponível para interação entre os especialistas, sendo necessária a criação de uma nova. "
-				+ "\nDeseja realmente finalizar?";
+	private void handleButtonFinalizar(ActionEvent event) {
+		String mensagem = "Se você finalizar essa pesquisa, ela não poderá ser utilizada novamente e \nnão "
+				+ "estará disponível para interação entre os especialistas, \nsendo necessária a criação de uma nova. "
+				+ "\n\nDeseja realmente finalizar?";
 		if (AlertBuilder.confirmation(mensagem)) {
 			try {
 				Pesquisa pesquisa = toValue();
@@ -304,13 +309,17 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		if (pesquisa != null) {
 			if (pesquisa.isValida()) {
 				textAtivo.setText("Em andamento");
-			} else if (pesquisa.isVencida()) {
-				long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataVencimento());
-				textAtivo.setText(String.format("Vencido há %d dia(s)", dias));
-			} else if (pesquisa.isFinalizada()) {
-				long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataFinalizada());
-				textAtivo.setText(String.format("Finalizado em %s [%d dia(s)]",
-						pesquisa.getDataFinalizada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), dias));
+				btFinalizar.setDisable(false);
+				btnSalvar.setDisable(false);
+			} else {
+				if (pesquisa.isVencida()) {
+					long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataVencimento());
+					textAtivo.setText(String.format("Vencido há %d dia(s)", dias));
+				} else if (pesquisa.isFinalizada()) {
+					long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataFinalizada());
+					textAtivo.setText(String.format("Finalizado em %s [%d dia(s)]",
+							pesquisa.getDataFinalizada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), dias));
+				}
 			}
 		} else {
 			textAtivo.setText("Não informada.");
@@ -377,7 +386,11 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	// Pesquisa por códigos
 	@FXML
 	private void pesquisar() {
-		pesquisaPorCodigo();
+		pesquisaPorCodigo().ifPresent(pesquisa -> {
+			verificaSituacao(pesquisa);
+			setStatus(pesquisa);
+		});
+		;
 	}
 
 	@Override
@@ -387,6 +400,8 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			txtNome.setText(pesquisa.getNome());
 			txtDescricao.setText(pesquisa.getDescricao());
 			txtLimite.setText(String.valueOf(pesquisa.getLimite()));
+			datePesquisa.setValue(pesquisa.getDataInicio());
+			dateVencimento.setValue(pesquisa.getDataVencimento());
 
 			listViewPesquisador.getItems().clear();
 			listViewEspecialista.getItems().clear();
@@ -410,28 +425,32 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	}
 
 	private void verificaSituacao(Pesquisa pesquisa) {
-		if (pesquisa.isVencida() || pesquisa.isFinalizada()) {
-			btnSalvar.setDisable(true);
-		}
-
-		if (pesquisa.isVencida() && !pesquisa.isFinalizada()) {
-
-			btnSalvar.setDisable(true);
-			try {
-				this.salvar(toValue(), this)
-						.ifPresent(optional -> AlertBuilder
-								.warning("Por conta da pesquisa estar vencida, ela será finalizada automaticamente. "
-										+ "As alterações realizadas nela não serão refletidas."));
-			} catch (FXValidatorException e) {
-				AlertBuilder.error(e);
+		if (pesquisa != null) {
+			if (pesquisa.isVencida() || pesquisa.isFinalizada()) {
+				btnSalvar.setDisable(true);
 			}
-		}
 
-		if (pesquisa.isFinalizada()) {
-			btnSalvar.setDisable(true);
-			btFinalizar.setDisable(true);
-		}
+			if (pesquisa.isVencida() && !pesquisa.isFinalizada()) {
 
+				btnSalvar.setDisable(true);
+				try {
+					this.salvar(toValue(), this)
+							.ifPresent(optional -> AlertBuilder.warning(
+									"Por conta da pesquisa estar vencida, ela será finalizada automaticamente. "
+											+ "As alterações realizadas nela não serão refletidas."));
+				} catch (FXValidatorException e) {
+					AlertBuilder.error(e);
+				}
+			}
+
+			if (pesquisa.isFinalizada()) {
+				btnSalvar.setDisable(true);
+				btFinalizar.setDisable(true);
+			}
+
+		} else {
+			btnSalvar.setDisable(false);
+		}
 	}
 
 }

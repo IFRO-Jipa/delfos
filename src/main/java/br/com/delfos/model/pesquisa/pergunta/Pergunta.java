@@ -2,12 +2,10 @@ package br.com.delfos.model.pesquisa.pergunta;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.model.generic.AbstractModel;
-import br.com.delfos.model.pesquisa.Questionario;
 
 @Entity
 public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> {
@@ -15,9 +13,6 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 	@NotNull
 	private String nome;
 	private String descricao;
-
-	@ManyToOne(cascade = CascadeType.DETACH)
-	private Questionario questionario;
 
 	@OneToOne(targetEntity = Alternativa.class, cascade = { CascadeType.PERSIST })
 	private T alternativa;
