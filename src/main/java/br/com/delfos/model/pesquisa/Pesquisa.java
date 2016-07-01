@@ -1,6 +1,7 @@
 package br.com.delfos.model.pesquisa;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -31,6 +33,8 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@NotNull
 	private String nome;
+	
+	@Lob
 	private String descricao;
 	private int limite = 0;
 
@@ -46,8 +50,8 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REMOVE, CascadeType.DETACH })
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+			CascadeType.DETACH })
 	private Set<Questionario> questionarios;
 
 	private LocalDate dataInicio;
@@ -67,9 +71,15 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		this.status = StatusPesquisa.EM_ANDAMENTO;
 	}
 
+	public void finalizadaEm(LocalDate data) {
+		if (data != null) {
+			this.dataFinalizada = data;
+			this.status = StatusPesquisa.FINALIZADA;
+		}
+	}
+
 	public void finaliza() {
-		this.dataFinalizada = LocalDate.now();
-		this.status = StatusPesquisa.FINALIZADA;
+		finalizadaEm(LocalDate.now());
 	}
 
 	public boolean isAtivo() {
@@ -121,23 +131,23 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public boolean addQuestionario(Questionario questionario) {
-		if (questionario != null)
+		if (questionario != null) {
 			return this.questionarios.add(questionario);
-		else
+		} else
 			throw new NullPointerException();
 	}
 
-	public void addQuestionarios(List<Questionario> questionarios) {
+	public void addQuestionarios(Set<Questionario> questionarios) {
 		if (questionarios != null)
 			this.questionarios.addAll(questionarios);
 	}
 
-	public void clearQuestionario() {
+	public void clearQuestionarios() {
 		this.questionarios.clear();
 	}
 
 	public boolean removeQuestionario(Questionario questionario) {
-		return this.questionarios.remove(questionario);
+		return this.questionarios.removeIf(value -> value.getId().equals(questionario.getId()));
 	}
 
 	public boolean removeQuestionarios(List<Questionario> questionarios) {
@@ -168,7 +178,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		return this.especialistas != null ? this.especialistas.size() : 0;
 	}
 
-	public boolean addEspecialistas(List<Pessoa> especialistas) throws LimiteDeEspecialistasAtingidoException {
+	public boolean addEspecialistas(Set<Pessoa> especialistas) throws LimiteDeEspecialistasAtingidoException {
 		if (verificaTipo(especialistas, TipoPessoa.ESPECIALISTA)) {
 			if ((limite == 0) || verificaSeVaiAtingirLimite(especialistas.size()))
 				return this.especialistas.addAll(especialistas);
@@ -179,14 +189,14 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
 
-	public boolean addPesquisadores(List<Pessoa> pesquisadores) {
+	public boolean addPesquisadores(Set<Pessoa> pesquisadores) {
 		if (verificaTipo(pesquisadores, TipoPessoa.PESQUISADOR)) {
 			return this.pesquisadores.addAll(pesquisadores);
 		} else
 			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
 	}
 
-	private boolean verificaTipo(List<Pessoa> especialistas, TipoPessoa tipo) {
+	private boolean verificaTipo(Collection<Pessoa> especialistas, TipoPessoa tipo) {
 		boolean resultado = true;
 		for (Pessoa pessoa : especialistas) {
 			System.out.printf("Pessoa: %s Tipo %s", pessoa.getNome(), pessoa.getTipo());
@@ -239,4 +249,100 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	public boolean isEmptyQuestionario() {
 		return questionarios == null ? false : questionarios.isEmpty();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataFinalizada == null) ? 0 : dataFinalizada.hashCode());
+		result = prime * result + ((dataInicio == null) ? 0 : dataInicio.hashCode());
+		result = prime * result + ((dataVencimento == null) ? 0 : dataVencimento.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((especialistas == null) ? 0 : especialistas.hashCode());
+		result = prime * result + limite;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((pesquisadores == null) ? 0 : pesquisadores.hashCode());
+		result = prime * result + ((questionarios == null) ? 0 : questionarios.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Pesquisa)) {
+			return false;
+		}
+		Pesquisa other = (Pesquisa) obj;
+		if (dataFinalizada == null) {
+			if (other.dataFinalizada != null) {
+				return false;
+			}
+		} else if (!dataFinalizada.equals(other.dataFinalizada)) {
+			return false;
+		}
+		if (dataInicio == null) {
+			if (other.dataInicio != null) {
+				return false;
+			}
+		} else if (!dataInicio.equals(other.dataInicio)) {
+			return false;
+		}
+		if (dataVencimento == null) {
+			if (other.dataVencimento != null) {
+				return false;
+			}
+		} else if (!dataVencimento.equals(other.dataVencimento)) {
+			return false;
+		}
+		if (descricao == null) {
+			if (other.descricao != null) {
+				return false;
+			}
+		} else if (!descricao.equals(other.descricao)) {
+			return false;
+		}
+		if (especialistas == null) {
+			if (other.especialistas != null) {
+				return false;
+			}
+		} else if (!especialistas.equals(other.especialistas)) {
+			return false;
+		}
+		if (limite != other.limite) {
+			return false;
+		}
+		if (nome == null) {
+			if (other.nome != null) {
+				return false;
+			}
+		} else if (!nome.equals(other.nome)) {
+			return false;
+		}
+		if (pesquisadores == null) {
+			if (other.pesquisadores != null) {
+				return false;
+			}
+		} else if (!pesquisadores.equals(other.pesquisadores)) {
+			return false;
+		}
+		if (questionarios == null) {
+			if (other.questionarios != null) {
+				return false;
+			}
+		} else if (!questionarios.equals(other.questionarios)) {
+			return false;
+		}
+		if (status != other.status) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 }

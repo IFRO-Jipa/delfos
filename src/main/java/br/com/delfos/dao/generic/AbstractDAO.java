@@ -70,12 +70,14 @@ public abstract class AbstractDAO<Type extends Identificator, ID extends Seriali
 				// cria novo registro
 				result = Optional.ofNullable((S) repository.save(newValue));
 			} else {
-				// atualiza registro, modificando os valores necessários para atualização
+				// atualiza registro, modificando os valores necessários para
+				// atualização
 				S value = (S) this.findOne(newValue.getId());
 				((Upgrader<S>) value).update(value, newValue);
 				result = Optional.ofNullable((S) repository.save(newValue));
 			}
 		} catch (RuntimeException ex) {
+			ex.printStackTrace();
 			AlertBuilder.error(ex);
 		}
 

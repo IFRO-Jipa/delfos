@@ -13,7 +13,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -42,9 +41,6 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate vencimento;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
-	private Pesquisa pesquisa;
-
 	@Override
 	public String toString() {
 		return "Questionario [id=" + getId() + ",nome=" + nome + ", dataInicio=" + dataInicio + ", dataFinalizacao="
@@ -61,7 +57,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Type(type = "yes_no")
 	private boolean autenticavel;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.DETACH }, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.PERSIST }, orphanRemoval = true)
 	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
@@ -130,11 +126,8 @@ public class Questionario extends AbstractModel<Questionario> {
 		this.nome = nome;
 	}
 
-	public Pesquisa getPesquisa() {
-		return pesquisa;
-	}
-
 	public Optional<Set<Pergunta<?>>> getPerguntas() {
+		// TODO: Apagar essa linha de impressão
 		this.perguntas.forEach(System.out::println);
 
 		return Optional.ofNullable(this.perguntas);
@@ -145,7 +138,7 @@ public class Questionario extends AbstractModel<Questionario> {
 				() -> new IllegalArgumentException(String.format("Pergunta inválida. Detalhe: %s", pergunta))));
 	}
 
-	public void addPerguntas(Optional<List<Pergunta<? extends Alternativa>>> perguntas) {
+	public void addPerguntas(Optional<Set<Pergunta<? extends Alternativa>>> perguntas) {
 
 		this.perguntas.addAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
 	}
@@ -161,6 +154,67 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	public void clearPerguntas() {
 		this.perguntas.clear();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (autenticavel ? 1231 : 1237);
+		result = prime * result + ((dataFinalizacao == null) ? 0 : dataFinalizacao.hashCode());
+		result = prime * result + ((dataInicio == null) ? 0 : dataInicio.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((perguntas == null) ? 0 : perguntas.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((vencimento == null) ? 0 : vencimento.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Questionario other = (Questionario) obj;
+		if (autenticavel != other.autenticavel)
+			return false;
+		if (dataFinalizacao == null) {
+			if (other.dataFinalizacao != null)
+				return false;
+		} else if (!dataFinalizacao.equals(other.dataFinalizacao))
+			return false;
+		if (dataInicio == null) {
+			if (other.dataInicio != null)
+				return false;
+		} else if (!dataInicio.equals(other.dataInicio))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (perguntas == null) {
+			if (other.perguntas != null)
+				return false;
+		} else if (!perguntas.equals(other.perguntas))
+			return false;
+		if (status != other.status)
+			return false;
+		if (vencimento == null) {
+			if (other.vencimento != null)
+				return false;
+		} else if (!vencimento.equals(other.vencimento))
+			return false;
+		return true;
 	}
 
 }

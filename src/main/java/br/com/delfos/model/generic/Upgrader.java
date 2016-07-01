@@ -1,6 +1,7 @@
 package br.com.delfos.model.generic;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 
 public interface Upgrader<T> {
 
@@ -46,6 +47,11 @@ public interface Upgrader<T> {
 					// se o novo valor não for nulo, então verifica se o antigo
 					// é nulo ou diferente do novo. Caso seja, atualiza o antigo
 					// para o novo valor.
+					// if (newVal instanceof Collection &&
+					// !newVal.equals(oldVal)) {
+					// oldVal = newVal;
+					// continue;
+					// }
 					boolean iguais = oldVal == null ? false : oldVal.equals(newValue);
 					if (!iguais) {
 						oldVal = newVal;

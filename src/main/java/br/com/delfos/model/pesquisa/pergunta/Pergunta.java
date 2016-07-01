@@ -14,7 +14,7 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 	private String nome;
 	private String descricao;
 
-	@OneToOne(targetEntity = Alternativa.class, cascade = { CascadeType.PERSIST })
+	@OneToOne(targetEntity = Alternativa.class, cascade = { CascadeType.PERSIST, CascadeType.DETACH })
 	private T alternativa;
 
 	public String getNome() {

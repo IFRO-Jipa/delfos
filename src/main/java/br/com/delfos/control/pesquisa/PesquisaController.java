@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -237,29 +238,19 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	protected Pesquisa toValue() {
 		try {
 			Pesquisa p = new Pesquisa();
-			Long id = txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText());
-			String nome = txtNome.getText();
-			String descricao = txtDescricao.getText();
-			LocalDate data = datePesquisa.getValue();
-			LocalDate dataVencimento = dateVencimento.getValue();
-			int limite = txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText());
+			
+			p.setId(txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText()));
 
-			List<Pessoa> pesquisadores = listViewPesquisador.getItems().isEmpty() ? null
-					: listViewPesquisador.getItems();
-			List<Pessoa> especialistas = listViewEspecialista.getItems().isEmpty() ? null
-					: listViewEspecialista.getItems();
-			List<Questionario> questionarios = listViewQuestionario.getItems().isEmpty() ? null
-					: listViewQuestionario.getItems();
+			p.setNome(txtNome.getText());
+			p.setDescricao(txtDescricao.getText());
+			p.setLimite(Integer.parseInt(txtLimite.getText()));
 
-			p.setId(id);
-			p.setDescricao(descricao);
-			p.setNome(nome);
-			p.setLimite(limite);
-			p.setDataInicio(data);
-			p.addQuestionarios(questionarios);
-			p.addEspecialistas(especialistas);
-			p.addPesquisadores(pesquisadores);
-			p.setDataVencimento(dataVencimento);
+			p.setDataInicio(datePesquisa.getValue());
+			p.setDataVencimento(dateVencimento.getValue());
+			p.addEspecialistas(listViewEspecialista.getItems().isEmpty() ? null : new HashSet<>(listViewEspecialista.getItems()));
+			p.addPesquisadores(listViewPesquisador.getItems().isEmpty() ? null :  new HashSet<>(listViewPesquisador .getItems()));
+			p.addQuestionarios(listViewQuestionario.getItems().isEmpty() ? null : new HashSet<>(listViewQuestionario.getItems()));
+
 			return p;
 		} catch (LimiteDeEspecialistasAtingidoException e) {
 			AlertBuilder.error(e);
@@ -355,7 +346,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 				new TableCellFactory<Pessoa>(listViewPesquisador).getCellFactory(pessoa -> pessoa.getNome()));
 
 		listViewQuestionario.setCellFactory(new TableCellFactory<Questionario>(listViewQuestionario)
-				.getCellFactory(questionario -> String.valueOf(questionario.getId() + "-" + questionario.getNome())));
+				.getCellFactory(questionario -> String.valueOf(questionario.getNome())));
 
 		listViewQuestionario.setOnMouseClicked(evt -> doubleClickListViewQuestionario(evt));
 	}

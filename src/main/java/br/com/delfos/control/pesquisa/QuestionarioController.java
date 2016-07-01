@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -121,17 +122,14 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		try {
-			Optional<Questionario> optional = this.salvar(toValue(), this);
-
-			optional.ifPresent(questionario -> {
-				txtCod.setText(String.valueOf(questionario.getId()));
-				QuestionarioApp.close();
-			});
-		} catch (FXValidatorException e) {
-			e.printStackTrace();
-			AlertBuilder.error(e);
+		if (!txtCod.getText().isEmpty()) {
+			try {
+				this.salvar(toValue(), this).ifPresent(x -> AlertBuilder.information("Todas as alterações foram salvas."));;
+			} catch (FXValidatorException e) {
+				AlertBuilder.error(e);
+			}
 		}
+		QuestionarioApp.close();
 	}
 
 	// monta o objeto do questionario que está na tela para ser salvo
@@ -146,7 +144,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		q.setVencimento(this.dtVencimento.getValue());
 		q.setAutenticavel(this.cbAutenticavel.isSelected());
 
-		q.addPerguntas(Optional.ofNullable(perguntaController.getPerguntas()));
+		q.addPerguntas(Optional.ofNullable(new HashSet<>(perguntaController.getPerguntas())));
 
 		return q;
 	}
@@ -158,17 +156,15 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	}
 
 	public void init(Optional<Questionario> questionario) {
-		if (questionario.isPresent()) {
-			this.posiciona(questionario);
-		}
+		this.posiciona(questionario);
 	}
 
 	protected void posiciona(Optional<Questionario> value) {
 		value.ifPresent(quest -> {
-			this.txtCod.setText(String.valueOf(quest.getId()));
+			this.txtCod.setText(quest.getId() == null ? "" : String.valueOf(quest.getId()));
 			this.txtNome.setText(quest.getNome());
 			this.txtDesc.setText(quest.getDescricao());
-			this.dtInicio.setValue(quest.getDataInicio());
+			this.dtInicio.setValue(quest.getDataInicio() == null ? LocalDate.now() : quest.getDataInicio());
 			this.dtVencimento.setValue(quest.getVencimento());
 			this.cbAutenticavel.setSelected(quest.isAutenticavel());
 

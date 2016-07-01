@@ -31,12 +31,8 @@ public class AlertBuilder {
 	public static final String ALERT_CONFIRM_EXCLUSAO = "Deseja realmente excluir o registro?";
 	public static final String ALERT_CONFIRM_EXIT = "Deseja realmente sair?";
 
-	static {
-		alert = new Alert(AlertType.INFORMATION);
-	}
-
 	public static void warning(String mensagem) {
-		alert.setAlertType(AlertType.WARNING);
+		alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Aviso do sistema");
 		alert.setHeaderText("Aviso importante");
 		alert.setContentText(mensagem);
@@ -58,8 +54,8 @@ public class AlertBuilder {
 	}
 
 	private static void error(String msg, Exception ex, boolean expandable) {
+		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Erro encontrado");
-		alert.setAlertType(AlertType.ERROR);
 		alert.setHeaderText(msg == null ? ex.getMessage() : msg);
 		alert.setContentText("Falha localizada");
 
@@ -93,7 +89,7 @@ public class AlertBuilder {
 	}
 
 	public static void information(String mensagem) {
-		alert.setAlertType(AlertType.INFORMATION);
+		alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Mensagem de Informação");
 		alert.setHeaderText(mensagem);
 		alert.setContentText("Notificação do sistema");
@@ -101,7 +97,8 @@ public class AlertBuilder {
 	}
 
 	public static boolean confirmation(String mensagem) {
-		alert.setAlertType(AlertType.CONFIRMATION);
+		alert = new Alert(AlertType.CONFIRMATION);
+		// alert.setAlertType(AlertType.CONFIRMATION);
 		alert.setTitle("Mensagem de Confirmação");
 		alert.setHeaderText(mensagem);
 		alert.setContentText("Escolha a opção desejada para a solicitação");

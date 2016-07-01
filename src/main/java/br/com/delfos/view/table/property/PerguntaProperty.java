@@ -24,7 +24,7 @@ public class PerguntaProperty<T extends Alternativa> {
 	}
 
 	public PerguntaProperty(Long id, String nome, String descricao, TipoPergunta tipo) {
-		this.id = new SimpleLongProperty(id);
+		this.id = id == null ? new SimpleLongProperty() : new SimpleLongProperty(id);
 		this.nome = new SimpleStringProperty(nome);
 		this.descricao = new SimpleStringProperty(descricao);
 		this.tipoPergunta = new SimpleObjectProperty<>(tipo);
