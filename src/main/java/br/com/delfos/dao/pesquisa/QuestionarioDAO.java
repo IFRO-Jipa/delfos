@@ -1,5 +1,6 @@
 package br.com.delfos.dao.pesquisa;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -25,35 +26,60 @@ public class QuestionarioDAO extends AbstractDAO<Questionario, Long, Questionari
 		return repository.findByPesquisa(pesquisa.getId());
 	}
 
-	@Override
-	public <S extends Questionario> Optional<S> save(S newValue) {
-		Optional<S> resultado = Optional.empty();
-
-		try {
-			if (newValue.getId() == null) {
-				final Set<Pergunta<?>> minhaLista = new HashSet<>();
-
-				newValue.getPerguntas().ifPresent(perguntas -> minhaLista.addAll(perguntas));
-
-				newValue.clearPerguntas();
-				minhaLista.forEach(pergunta -> {
-					newValue.addPergunta(daoPergunta.save(pergunta));
-				});
-				
-				 // TODO: Continuar implementação
-				// resultado = Optional.ofNullable((S)
-				// repository.save(newValue));
-			} else {
-				// S value = (S) this.findOne(newValue.getId());
-				// ((Upgrader<S>) value).update(value, newValue);
-				// resultado = Optional.ofNullable((S)
-				// repository.save(newValue));
-			}
-		} catch (RuntimeException ex) {
-			AlertBuilder.error(ex);
-		}
-
-		return resultado;
-	}
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public <S extends Questionario> Optional<S> save(S newValue) {
+//		Optional<Questionario> resultado = Optional.empty();
+//
+//		try {
+//			if (newValue.getId() == null) {
+//
+//				List<Pergunta<?>> perguntasPersistidas = new ArrayList<>();
+//
+//				newValue.getPerguntas().ifPresent(perguntas -> perguntas.forEach(pergunta -> {
+//					daoPergunta.save(pergunta).ifPresent(persistida -> perguntasPersistidas.add(persistida));
+//				}));
+//
+//				newValue.clearPerguntas();
+//
+//				perguntasPersistidas.forEach(
+//						pergunta -> newValue.addPergunta(Optional.ofNullable(daoPergunta.findOne(pergunta.getId()))));
+//
+//				resultado = Optional.ofNullable(repository.save(newValue));
+//				// Set<Pergunta<?>> minhaLista = new HashSet<>();
+//				//
+//				// newValue.getPerguntas().ifPresent(perguntas ->
+//				// minhaLista.addAll(perguntas));
+//				//
+//				// newValue.clearPerguntas();
+//				// if (!minhaLista.isEmpty())
+//				// minhaLista.forEach(pergunta ->
+//				// newValue.addPergunta(daoPergunta.save(pergunta)));
+//				//
+//				// resultado = Optional.ofNullable(repository.save(newValue));
+//
+//				// TODO: Continuar implementação
+//			} else {
+//				Set<Pergunta<?>> perguntas = newValue.getPerguntas().orElse(null);
+//
+//				List<Pergunta<?>> perguntasSalvas = new ArrayList<>();
+//
+//				if (!perguntas.isEmpty())
+//					perguntas.forEach(
+//							pergunta -> daoPergunta.save(pergunta).ifPresent(salva -> perguntasSalvas.add(salva)));
+//
+//				Questionario value = this.findOne(newValue.getId());
+//				value.update(value, newValue);
+//				value.clearPerguntas();
+//				value.addPerguntas(Optional.ofNullable(perguntasSalvas));
+//
+//				resultado = Optional.ofNullable(repository.save(value));
+//			}
+//		} catch (RuntimeException ex) {
+//			AlertBuilder.error(ex);
+//		}
+//
+//		return (Optional<S>) resultado;
+//	}
 
 }

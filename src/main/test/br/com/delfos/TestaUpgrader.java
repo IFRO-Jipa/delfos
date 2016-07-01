@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import br.com.delfos.model.generic.Upgrader;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.pergunta.Texto;
 
@@ -24,8 +25,16 @@ public class TestaUpgrader implements Upgrader<Questionario> {
 			pergunta.setDescricao("Vendo se a pergunta vai ser validada corretamente.");
 			pergunta.setAlternativa(new Texto());
 
+			questionarioVazio.addPergunta(Optional.ofNullable(pergunta));
 			questionarioComPerguntas.addPergunta(Optional.ofNullable(pergunta));
 		}
+
+		Pergunta<Paragrafo> paragrafo = new Pergunta<>();
+		paragrafo.setNome("Opa olha só alguem foi adicionada");
+		paragrafo.setDescricao("Teste");
+		paragrafo.setAlternativa(new Paragrafo());
+
+		questionarioComPerguntas.addPergunta(Optional.ofNullable(paragrafo));
 
 		System.out.println("Antes da verificação (vazio e com perguntas)");
 		System.out.println(questionarioVazio.getPerguntas());
