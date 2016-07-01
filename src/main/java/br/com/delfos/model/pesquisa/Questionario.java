@@ -159,4 +159,8 @@ public class Questionario extends AbstractModel<Questionario> {
 				.removeAll(perguntas.orElseThrow(() -> new IllegalArgumentException("Lista inválida ou vazia.")));
 	}
 
+	public void clearPerguntas() {
+		this.perguntas.clear();
+	}
+
 }
