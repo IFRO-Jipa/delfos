@@ -74,7 +74,7 @@ public abstract class AbstractDAO<Type extends Identificator, ID extends Seriali
 				// atualização
 				S value = (S) this.findOne(newValue.getId());
 				((Upgrader<S>) value).update(value, newValue);
-				result = Optional.ofNullable((S) repository.save(newValue));
+				result = Optional.ofNullable((S) repository.save(value));
 			}
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();

@@ -31,7 +31,6 @@ public class QuestionarioDAOTest {
 
 	@Autowired
 	private PesquisaDAO daoPesquisa;
-
 	@Autowired
 	private QuestionarioDAO daoQuestionario;
 
