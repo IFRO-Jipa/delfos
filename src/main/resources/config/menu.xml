@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<menuBar>
+	<menu id="menuCadastro">
+		<name>Cadastros</name>
+		<itens>
+			<menuItem id="menuCadastroPessoa">
+				<name>Cadastro de Pessoa</name>
+				<view>basic/PessoaView.fxml</view>
+
+			</menuItem>
+			<menuItem id="menuCadastroPesquisa">
+				<name>Cadastro de Pesquisa</name>
+				<view>pergunta/PesquisaView.fxml</view>
+			</menuItem>
+
+
+			<menu id="menuCadastroLocalizacao">
+				<name>Localização</name>
+				<itens>
+					<menuItem id="menuCadastroCidade">
+						<name>Cadastro de Cidades</name>
+						<view>CidadeView.fxml</view>
+					</menuItem>
+
+					<menuItem id="menuCadastroEstado">
+						<name>Cadastro de Estados</name>
+						<view>EstadoView.fxml</view>
+					</menuItem>
+
+				</itens>
+			</menu>
+
+			<menu id="menuCadastroAcesso">
+				<name>Acesso</name>
+				<itens>
+					<menuItem id="menuCadastroUsuario">
+						<name>Cadastro de Usuários</name>
+						<view>auditoria/UsuarioView.fxml</view>
+					</menuItem>
+					<menuItem id="menuCadastroPerfilAcesso">
+						<name>Cadastro de Perfis de Acesso</name>
+						<view>auditoria/PerfilAcessoView.fxml</view>
+					</menuItem>
+					<menuItem id="menuCadastroFuncionalidade">
+						<name>Cadastro de Funcionalidade</name>
+						<view>auditoria/FuncionalidadeView.fxml</view>
+					</menuItem>
+				</itens>
+			</menu>
+
+
+		</itens>
+	</menu>
+
+	<menu id="menuRelatório">
+		<name>Relatórios</name>
+	</menu>
+
+	<menu id="menuConta">
+		<name>Conta</name>
+		<itens>
+			<menuItem id="menuMeusQuestionarios">
+				<name>Meus Questionários</name>
+				<view>conta/MeusQuestionariosView.fxml</view>
+			</menuItem>
+		</itens>
+	</menu>
+
+</menuBar>

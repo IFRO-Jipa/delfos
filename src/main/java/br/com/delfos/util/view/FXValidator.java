@@ -1,0 +1,211 @@
+package br.com.delfos.util.view;
+
+import java.lang.reflect.Field;
+
+import javax.validation.constraints.NotNull;
+
+import br.com.delfos.except.view.FXValidatorException;
+import br.com.delfos.view.AlertBuilder;
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * <p>
+ * Classe responsável por realizar validação automática de campos (<code>Control</code> do JavaFX,
+ * tais como <code>TextField</code>, <code>CheckBox</code>, <code>TextArea</code>, etc), afim de
+ * descobrir se o usuário informou todas as informações necessárias.
+ * 
+ * <p>
+ * Para definir que um campo tem seu preenchimento obrigatório, adicione a anotação @NotNull acima
+ * do elemento que deseja validar.
+ * 
+ * 
+ * <p>
+ * <strong>Exemplo:</strong>
+ * 
+ * <blockquote>
+ * 
+ * <pre>
+ * &#64;FXML
+ * &#64;NotNull
+ * private TextField textField;
+ * </pre>
+ * 
+ * </blockquote>
+ * 
+ * @author Leonardo Braz
+ * @see {@link Control}, {@link NotNull}
+ *
+ */
+public class FXValidator {
+
+	/*
+	 * Mensagem padrão para as exceptions que serão lançadas.
+	 */
+
+	private static Object controller;
+
+	/**
+	 * <p>
+	 * Esse método faz a verificação dos campos nulos de uma determinada classe (geralmente é um
+	 * Controller para um FXML). Sua validação será feita a partir dos atributos da classe passada
+	 * por parâmetro.
+	 * <p>
+	 * Caso o atributo marcado (lembrando que seja um tipo de Control visual do JavaFX), será feita
+	 * a verificação para seu determinado tipo, afim de saber se foi informado ou não algum valor
+	 * pelo usuário
+	 * 
+	 * <p>
+	 * <strong>Exemplo</strong>
+	 * 
+	 * <blockquote>
+	 * 
+	 * <pre>
+	 * public class ExampleController {
+	 * 
+	 *     &#64;FXML
+	 *     &#64;NotNull
+	 *     private TextField textField;
+	 * 
+	 *     &#64;FXML
+	 *     private TextArea textArea;
+	 * 
+	 *     &#64;FXML
+	 *     &#64;NotNull
+	 *     private ComboBox<?> comboBox;
+	 * 
+	 *     public void action() {
+	 *         if (ValidadorDeCampos.validateAll(this)) {
+	 *             // vai verificar se o textField possui texto e se foi selecionado algum
+	 *             // valor no comboBox. Será deixado de lado o textArea, já que não foi
+	 *             // anotado como NotNull
+	 *         }
+	 *     }
+	 * 
+	 * }
+	 * </pre>
+	 * 
+	 * </blockquote>
+	 * 
+	 * @see {@link Control}, {@link NotNull}
+	 * @param controller
+	 *            - Classe controladora (contém os campos)
+	 * @return status da validação (campos preenchidos ou não).
+	 * @throws FXValidatorException
+	 *             caso o campo esteja nulo.
+	 */
+	public synchronized static boolean validate(Object controller) {
+		boolean valid = true;
+
+		FXValidator.controller = controller;
+
+		try {
+			Class<?> clazz = controller.getClass();
+
+			for (Field field : clazz.getDeclaredFields()) {
+				if (!valid)
+					break;
+				if (field.isAnnotationPresent(NotNull.class)) {
+					field.setAccessible(true);
+					Object obj = field.get(controller);
+					valid = validaComponent((Node) obj);
+
+				}
+			}
+
+		} catch (SecurityException e) {
+			AlertBuilder.error(e);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			AlertBuilder.error(e);
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e.getMessage());
+		}
+		return valid;
+	}
+
+	private static boolean validaComponent(Node obj) throws FXValidatorException {
+		if (obj instanceof TextField) {
+			return valida((TextField) obj);
+		} else if (obj instanceof CheckBox) {
+			return valida((CheckBox) obj);
+		} else if (obj instanceof ComboBox<?>) {
+			return valida((ComboBox<?>) obj);
+		} else if (obj instanceof TextArea) {
+			return valida((TextArea) obj);
+		} else if (obj instanceof ListView<?>) {
+			return valida((ListView<?>) obj);
+		} else if (obj instanceof DatePicker) {
+			return valida((DatePicker) obj);
+		}
+
+		return false;
+	}
+
+	private static boolean valida(DatePicker obj) throws FXValidatorException {
+		if (obj.getValue() == null)
+			lancaException(obj);
+
+		return true;
+	}
+
+	private static boolean valida(ListView<?> obj) throws FXValidatorException {
+		if (obj.getItems().isEmpty())
+			lancaException(obj);
+		return true;
+	}
+
+	private static boolean valida(CheckBox obj) throws FXValidatorException {
+		if (!obj.isSelected())
+			lancaException(obj);
+		return true;
+	}
+
+	private static void lancaException(Control obj) throws FXValidatorException {
+		obj.requestFocus();
+		throw new FXValidatorException(getMessage(obj));
+	}
+
+	private static boolean valida(ComboBox<?> obj) throws FXValidatorException {
+		if (obj.getSelectionModel().isEmpty())
+			lancaException(obj);
+		return true;
+	}
+
+	private static boolean valida(TextArea obj) throws FXValidatorException {
+		if (obj.getText().isEmpty())
+			lancaException(obj);
+		return true;
+	}
+
+	private static boolean valida(TextField obj) throws FXValidatorException {
+		if (obj.getText().isEmpty())
+			lancaException(obj);
+		return true;
+	}
+
+	/**
+	 * @param component
+	 *            requisitado
+	 * @return mensagem formatada
+	 */
+	private static String getMessage(Control component) {
+		String key = String.format("%s.%s", controller.getClass().getName(), component.getId());
+		if (Messages.isMessagePresent(key)) {
+			return String.format("%s%s", Messages.getDefaultMessage(), Messages.getMessage(key).get());
+		} else {
+			try {
+				return String.format(Messages.getDefaultMessage(),
+				        component.getTooltip() != null ? component.getTooltip().getText() : component.getId());
+			} catch (RuntimeException ex) {
+				return String.format(Messages.getDefaultMessage(), Messages.semEntradaDeTextoPara(component));
+			}
+		}
+	}
+
+}

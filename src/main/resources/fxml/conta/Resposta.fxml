@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0"
+	prefWidth="687.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="br.com.delfos.control.pesquisa.RespostaController">
+	<children>
+		<Text fx:id="txtNomePesquisa" layoutX="14.0" layoutY="38.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="Nome da Pesquisa">
+			<font>
+				<Font size="24.0" />
+			</font>
+		</Text>
+		<Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Autor(es):" />
+		<Text fx:id="txtAutor" layoutX="74.0" layoutY="60.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Nome dos autores" />
+		<Text layoutX="519.619140625" layoutY="37.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Iniciada em " AnchorPane.rightAnchor="103.578125" />
+		<Text fx:id="txtDataInicio" layoutX="618.00390625" layoutY="36.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="data Inicio"
+			AnchorPane.rightAnchor="13.994140625" />
+		<Text fx:id="txtDataFinalizada" layoutX="619.00390625" layoutY="59.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="data Inicio"
+			AnchorPane.rightAnchor="12.994140625" />
+		<Text layoutX="518.15234375" layoutY="59.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Finalizada em" AnchorPane.rightAnchor="96.771484375" />
+		<VBox fx:id="panePerguntas" layoutX="15.0" layoutY="81.0"
+			prefHeight="271.0" prefWidth="660.0" style="-fx-border-color: #C1C1C1;"
+			AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="15.0"
+			AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="81.0" />
+		<Button fx:id="btnEnviar" layoutX="583.0" layoutY="359.0"
+			mnemonicParsing="false" prefHeight="35.0" prefWidth="91.0" text="Enviar"
+			AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="13.0" />
+		<Button layoutX="16.0" layoutY="359.0" mnemonicParsing="false"
+			prefHeight="35.0" prefWidth="91.0" text="Redefinir"
+			AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="16.0" />
+	</children>
+</AnchorPane>

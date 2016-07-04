@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="rootPane" prefHeight="515.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.QuestionarioController">
+	<children>
+		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
+		<TextField fx:id="txtCod" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="39.0" AnchorPane.leftAnchor="14.0" />
+		<Button fx:id="btnPesquisa" layoutX="53.0" layoutY="31.0" mnemonicParsing="false" onAction="#pesquisa" text="..." AnchorPane.leftAnchor="53.0" />
+		<Text layoutX="85.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="85.0" />
+		<TextField fx:id="txtNome" layoutX="85.0" layoutY="31.0" prefHeight="25.0" prefWidth="402.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="13.0" />
+		<Text layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
+		<TextArea fx:id="txtDesc" layoutX="14.0" layoutY="82.0" prefHeight="60.0" prefWidth="474.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" />
+		<TabPane fx:id="tbPerguntas" layoutX="14.0" layoutY="202.0" prefHeight="256.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="202.0">
+		</TabPane>
+		<Group layoutX="-186.0" layoutY="-107.0" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="11.0">
+			<children>
+				<Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">
+					<padding>
+						<Insets left="2.0" right="2.0" />
+					</padding>
+				</Button>
+				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0" prefWidth="93.0" text="Excluir">
+					<padding>
+						<Insets left="2.0" right="2.0" />
+					</padding>
+				</Button>
+				<Button fx:id="btnSalvar" layoutX="390.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
+					<padding>
+						<Insets left="2.0" right="2.0" />
+					</padding>
+				</Button>
+			</children>
+		</Group>
+		<DatePicker fx:id="dtVencimento" layoutX="174.0" layoutY="164.0" onAction="#printa" prefHeight="25.0" prefWidth="149.0" showWeekNumbers="true" />
+		<Label layoutX="175.0" layoutY="148.0" text="Data de Vencimento" />
+		<DatePicker fx:id="dtInicio" disable="true" editable="false" layoutX="14.0" layoutY="164.0" prefHeight="25.0" prefWidth="149.0" showWeekNumbers="true" />
+		<Label layoutX="16.0" layoutY="148.0" text="Data Inicio" />
+		<CheckBox fx:id="cbAutenticavel" layoutX="334.0" layoutY="167.0" mnemonicParsing="false" text="Requer Autenticação">
+			<tooltip>
+				<Tooltip text="O usuário que for responder precisa se identificar ?" />
+			</tooltip>
+		</CheckBox>
+		<Label layoutX="514.0" layoutY="169.0" text="Status:" />
+		<Label fx:id="lblSatus" layoutX="568.0" layoutY="169.0" text="Ativo" />
+      <Label fx:id="lblDuracao" layoutX="619.0" layoutY="169.0" />
+	</children>
+</AnchorPane>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="352.0" prefWidth="405.0" styleClass="background"
+	stylesheets="@../../../../target/classes/css/Login.css" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.LoginController">
+	<children>
+		<TextField fx:id="txtLogin" layoutX="102.0" layoutY="196.0"
+			prefHeight="25.0" prefWidth="201.0" />
+		<PasswordField fx:id="txtSenha" layoutX="102.0" layoutY="244.0"
+			prefHeight="25.0" prefWidth="201.0" />
+		<Button fx:id="btnEntrar" layoutX="102.0" layoutY="281.0"
+			mnemonicParsing="false" onAction="#handleButtonLogar" prefHeight="31.0"
+			prefWidth="201.0" styleClass="botao" text="Entrar" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Button>
+		<Button fx:id="btnAjuda" layoutX="398.0" layoutY="2.0"
+			mnemonicParsing="false" onAction="#handleButtonAjuda" text="?"
+			textFill="WHITE" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="2.0">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+			<styleClass>
+				<String fx:value="botao" />
+				<String fx:value="botao-ajuda" />
+			</styleClass>
+		</Button>
+		<ImageView fx:id="imgView" fitHeight="150.0" fitWidth="200.0"
+			layoutX="119.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../imgs/logo-full.png" />
+			</image>
+		</ImageView>
+		<Text fill="WHITE" layoutX="103.0" layoutY="192.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" styleClass="texto" text="Usuário">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Text>
+		<Text fill="WHITE" layoutX="102.0" layoutY="242.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" styleClass="texto" text="Senha">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Text>
+		<Text fill="WHITE" layoutX="5.0" layoutY="348.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="© IFRO - 2016">
+			<font>
+				<Font name="System Bold" size="11.0" />
+			</font>
+			<styleClass>
+				<String fx:value="texto" />
+				<String fx:value="texto-logo" />
+			</styleClass>
+		</Text>
+	</children>
+
+
+</AnchorPane>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+
+	<!-- UNIDADE PADRAO -->
+	<persistence-unit name="mysqlDataSource">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<properties>
+			<!-- DADOS CONEXAO -->
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+
+
+			<!-- CONEXÃO PARA LOCALHOST -->
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="root" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" />
+
+
+			<!-- CONEXÃO PARA O LABORATÓRIO I -->
+			<!-- <property name="hibernate.connection.username" value="delfos" /> 
+				<property name="hibernate.connection.username" value="delfos" /> <property 
+				name="hibernate.connection.password" value="catchau" /> <property name="hibernate.connection.url" 
+				value="jdbc:mysql://10.49.1.59:3306/delfos" /> -->
+
+
+			<!-- CONEXÃO PARA O LABORATÓRIO IV -->
+			<!-- <property name="hibernate.connection.username" value="delfos" /> 
+				<property name="hibernate.connection.password" value="catchau" /> <property 
+				name="hibernate.connection.url" value="jdbc:mysql://10.49.9.42:3306/delfos" 
+				/> <property name="hibernate.default_schema" value="delfos" /> -->
+
+			<!-- CONFIGURACAO -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.archive.autodetection" value="class" />
+			<!-- POOL -->
+			<property name="hibernate.c3p0.min_size" value="3" />
+			<property name="hibernate.c3p0.max_size" value="3" />
+			<property name="hibernate.c3p0.timeout" value="10" />
+			<property name="hibernate.c3p0.max_statements" value="20" />
+			<property name="hibernate.c3p0.idle_test_period" value="3000" />
+			<property name="hibernate.c3p0.acquire_increment" value="5" />
+		</properties>
+	</persistence-unit>
+</persistence>
