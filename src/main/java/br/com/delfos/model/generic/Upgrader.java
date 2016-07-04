@@ -1,7 +1,6 @@
 package br.com.delfos.model.generic;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
 
 public interface Upgrader<T> {
 
