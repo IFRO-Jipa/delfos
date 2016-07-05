@@ -21,13 +21,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 @Controller
 public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<MultiplaEscolha>>, Initializable {
@@ -94,10 +98,9 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 			this.value.setNome(txtNome.getText());
 			this.value.setDescricao(txtDescricao.getText());
 
-			MultiplaEscolha multiplaEscolha = new MultiplaEscolha();
-			multiplaEscolha.addAll(Optional.ofNullable(itens));
-			this.value.setAlternativa(multiplaEscolha);
-			System.out.println(multiplaEscolha);
+			this.value.getAlternativa().clearEscolhas();
+			this.value.getAlternativa().addAll(Optional.ofNullable(this.itens));
+			
 			this.okCliked = true;
 
 			this.dialogStage.close();
@@ -121,12 +124,17 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.txtNome.setText(value.getNome());
 		this.txtDescricao.setText(value.getDescricao());
 
-		// MultiplaEscolha alternativa = value.getAlternativa();
+		tbAlternativas.getItems().clear();
+
+		MultiplaEscolha alternativa = value.getAlternativa();
+		alternativa.get().ifPresent(values -> this.itens.putAll(values));
+
+		populaTableView();
 	}
 
 	@Override
 	public Pergunta<MultiplaEscolha> getValue() {
-		// this.value.setAlternativa(alternativa);
+		this.value.getAlternativa().addAll(Optional.ofNullable(this.itens));
 		return this.value;
 	}
 
@@ -144,24 +152,81 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.tbAlternativas.getColumns().clear();
 		this.tbAlternativas.getColumns().add(columnItem);
 		this.tbAlternativas.getColumns().add(columnValor);
+		this.tbAlternativas.setEditable(true);
 	}
 
 	private void initTableView() {
 		this.tbAlternativas.setItems(null);
+		this.tbAlternativas.setContextMenu(getContextMenu());
+		populaTableView();
+
+	}
+
+	private ContextMenu getContextMenu() {
+		ContextMenu context = new ContextMenu();
+		MenuItem menuRemover = new MenuItem("Remover");
+		menuRemover.setOnAction(event -> {
+			if (tbAlternativas.getSelectionModel().getSelectedIndex() >= 0) {
+				tbAlternativas.getItems().remove(tbAlternativas.getSelectionModel().getSelectedIndex());
+			}
+		});
+
+		MenuItem menuRemoverTodos = new MenuItem("Remover Todos");
+		menuRemoverTodos.setOnAction(event -> {
+			if (AlertBuilder.confirmation("Deseja realmente excluir todas as perguntas?")) {
+				tbAlternativas.getItems().clear();
+			}
+		});
+
+		context.getItems().add(menuRemover);
+		context.getItems().add(menuRemoverTodos);
+		return context;
+	}
+
+	private void populaTableView() {
 		ObservableList<ObservableMap.Entry<String, Double>> itens = FXCollections
 				.observableArrayList(this.itens.entrySet());
 		this.tbAlternativas.setItems(itens);
-
 	}
 
 	private void initColumnValor() {
 		this.columnValor = new TableColumn<>("Item");
 		this.columnValor.setCellValueFactory(p -> new SimpleObjectProperty<Double>(p.getValue().getValue()));
+		this.columnValor.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
+
+			@Override
+			public String toString(Double object) {
+				return String.valueOf(object);
+			}
+
+			@Override
+			public Double fromString(String string) {
+				try {
+					return Double.parseDouble(string);
+				} catch (NumberFormatException e) {
+					return 0.0;
+				}
+			}
+		}));
+
+		this.columnValor.setOnEditCommit(event -> {
+			System.out.printf("[antigo=%.2f, novo=%.2f]\n", event.getOldValue(), event.getNewValue());
+			event.getTableView().getItems().get(event.getTablePosition().getRow()).setValue(event.getNewValue());
+		});
 	}
 
 	private void initColumnItem() {
 		this.columnItem = new TableColumn<>("Valor");
 		this.columnItem.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
+		this.columnItem.setCellFactory(TextFieldTableCell.forTableColumn());
+		this.columnItem.setOnEditCommit(event -> {
+			System.out.printf("[antigo=%s, novo=%s]\n", event.getOldValue(), event.getNewValue());
+			if (!this.itens.containsKey(event.getNewValue())) {
+				this.itens.put(event.getNewValue(), this.itens.get(event.getOldValue()));
+				this.itens.remove(event.getOldValue());
+				populaTableView();
+			}
+		});
 	}
 
 }

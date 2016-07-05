@@ -9,5 +9,4 @@ import br.com.delfos.model.pesquisa.resposta.Resposta;
 
 public interface RespostaRepository extends JpaRepository<Resposta<?>, Long> {
 	List<Resposta<?>> findByPergunta(Pergunta<?> pergunta);
-
 }

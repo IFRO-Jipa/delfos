@@ -62,4 +62,8 @@ public abstract class Alternativa {
 		return tipo;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

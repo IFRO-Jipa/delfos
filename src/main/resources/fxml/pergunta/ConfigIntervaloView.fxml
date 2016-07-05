@@ -13,7 +13,7 @@
 		<Text layoutX="348.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Pergunta" AnchorPane.rightAnchor="12.81640625" />
 		<Text fx:id="lblTipo" layoutX="381.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="..." wrappingWidth="91.18359375" AnchorPane.leftAnchor="381.0" AnchorPane.rightAnchor="14.0" />
 		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="79.0" prefWidth="425.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
+		<TextArea wrapText="true" fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="79.0" prefWidth="425.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
 		<Text layoutX="15.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor Inicial" AnchorPane.leftAnchor="15.0" />
 		<TextField fx:id="txtValorInicial" layoutX="14.0" layoutY="188.0" prefHeight="25.0" prefWidth="130.0" AnchorPane.leftAnchor="14.0" />
 		<Text layoutX="160.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor Final" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="236.4765625" />

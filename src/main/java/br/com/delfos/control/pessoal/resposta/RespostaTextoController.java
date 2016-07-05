@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.pergunta.Texto;
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaTexto;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -53,6 +55,13 @@ public class RespostaTextoController implements RespostaControllerImpl<Texto, St
 	@Override
 	public boolean isSelected() {
 		return !this.txtMensagem.getText().isEmpty();
+	}
+
+	@Override
+	public Resposta<?> getResposta() {
+		RespostaTexto resposta = new RespostaTexto();
+		resposta.setEscolha(getSelected());
+		return resposta;
 	}
 
 }

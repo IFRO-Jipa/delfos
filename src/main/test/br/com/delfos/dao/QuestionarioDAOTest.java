@@ -1,8 +1,10 @@
 package br.com.delfos.dao;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +39,6 @@ public class QuestionarioDAOTest {
 	@Autowired
 	private PessoaDAO daoPessoa;
 
-	@Test
 	public void modificaInformacoesDoQuestionario() {
 		Questionario questionario = daoQuestionario.findOne(71L);
 		questionario.setNome("Novo nome para o questionário");
@@ -96,6 +97,25 @@ public class QuestionarioDAOTest {
 				Optional.ofNullable(new HashSet<>(Arrays.asList(perguntaTexto, perguntaParagrafo, perguntaIntervalo))));
 
 		return questionario;
+	}
+
+	@Test
+	public void buscaQuestionarioDasPesquisas() {
+		List<Pesquisa> pesquisas = daoPesquisa.findAll();
+
+		pesquisas.forEach(pesquisa -> {
+			System.out.println("-----------------");
+			System.out.printf("Nome da pesquisa-> %s\n", pesquisa.getNome());
+			pesquisa.getQuestionarios().forEach(questionario -> {
+				System.out.println("#########################");
+				System.out.printf("Questionário [id=%d, nome=%s, descricao = %s]\n", questionario.getId(),
+						questionario.getNome(), questionario.getDescricao());
+				questionario.getPerguntas().ifPresent(perguntas -> perguntas.forEach(pergunta -> {
+					System.out.printf("Pergunta do questionario %d[info=%s]\n", questionario.getId(), pergunta);
+				}));
+			});
+		});
+
 	}
 
 }

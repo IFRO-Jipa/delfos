@@ -59,7 +59,7 @@ public class PerguntaController implements Initializable {
 	private TableColumn<PerguntaProperty<?>, PerguntaProperty<?>> columnAcao;
 
 	private final ObservableList<TipoPergunta> tiposDePergunta = FXCollections
-	        .observableArrayList(TipoPergunta.getAll());
+			.observableArrayList(TipoPergunta.getAll());
 
 	private ObservableList<PerguntaProperty<?>> dadosTabela = FXCollections.observableArrayList();
 
@@ -141,7 +141,8 @@ public class PerguntaController implements Initializable {
 					dialogStage.showAndWait();
 
 					if (controller.isOkCliked()) {
-						// aqui vai o código que atualiza a informação da pergunta.
+						// aqui vai o código que atualiza a informação da
+						// pergunta.
 						converterPergunta(property, controller.getValue());
 					}
 
@@ -161,6 +162,7 @@ public class PerguntaController implements Initializable {
 
 	private Pergunta<?> converterProperty(PerguntaProperty<?> property) {
 		Pergunta<Alternativa> pergunta = new Pergunta<>();
+		pergunta.setId(property.getId() == 0 ? null : property.getId());
 		pergunta.setNome(property.getNome());
 		pergunta.setDescricao(property.getDescricao());
 
@@ -182,7 +184,7 @@ public class PerguntaController implements Initializable {
 		this.dadosTabela.clear();
 
 		perguntas.ifPresent(values -> values
-		        .forEach(pergunta -> this.dadosTabela.add(PerguntaPropertyUtil.fromPergunta(pergunta))));
+				.forEach(pergunta -> this.dadosTabela.add(PerguntaPropertyUtil.fromPergunta(pergunta))));
 
 	}
 
@@ -200,9 +202,9 @@ public class PerguntaController implements Initializable {
 	}
 
 	/*
-	 * Código que inicializa as colunas da TableView, com entradas de TextField, ComboBox e Button
-	 * em suas células.
-	 * é normal não entender o código de primeira.
+	 * Código que inicializa as colunas da TableView, com entradas de TextField,
+	 * ComboBox e Button em suas células. é normal não entender o código de
+	 * primeira.
 	 */
 
 	private void initColumnNome() {
@@ -228,11 +230,10 @@ public class PerguntaController implements Initializable {
 	 * 
 	 * @return célula com combobox
 	 */
-	private Callback<TableColumn<PerguntaProperty<?>, TipoPergunta>, TableCell<PerguntaProperty<?>, TipoPergunta>>
-	        getComboBoxFactory() {
+	private Callback<TableColumn<PerguntaProperty<?>, TipoPergunta>, TableCell<PerguntaProperty<?>, TipoPergunta>> getComboBoxFactory() {
 
 		return param -> new ComboBoxCellFactory<PerguntaProperty<?>, TipoPergunta>(tiposDePergunta,
-		        new ConverterComboBoxToCell<TipoPergunta>().setToString(obj -> obj.name()).convert());
+				new ConverterComboBoxToCell<TipoPergunta>().setToString(obj -> obj.name()).convert());
 	}
 
 	/**
@@ -240,8 +241,7 @@ public class PerguntaController implements Initializable {
 	 * 
 	 * @return célula com textfield
 	 */
-	private Callback<TableColumn<PerguntaProperty<?>, String>, TableCell<PerguntaProperty<?>, String>>
-	        getTextFieldFactory() {
+	private Callback<TableColumn<PerguntaProperty<?>, String>, TableCell<PerguntaProperty<?>, String>> getTextFieldFactory() {
 		return param -> new TextFieldCellFactory<PerguntaProperty<?>>();
 	}
 
@@ -252,7 +252,7 @@ public class PerguntaController implements Initializable {
 	 */
 	private Callback<TableColumn<PerguntaProperty<?>, PerguntaProperty<?>>, TableCell<PerguntaProperty<?>, PerguntaProperty<?>>>
 
-	        getButtonFactory() {
+			getButtonFactory() {
 		return param -> new TableCell<PerguntaProperty<?>, PerguntaProperty<?>>() {
 			Button button = new Button("...");
 

@@ -57,12 +57,12 @@ public class TextFieldCellFactory<T> extends TableCell<T, String> {
 		textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
 		textField.setOnAction((e) -> commitEdit(textField.getText()));
 		textField.focusedProperty()
-		        .addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-			        if (!newValue) {
-				        System.out.println("Commiting " + textField.getText());
-				        commitEdit(textField.getText());
-			        }
-		        });
+				.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+					if (!newValue) {
+						System.out.println("Commiting " + textField.getText());
+						commitEdit(textField.getText());
+					}
+				});
 	}
 
 	private String getString() {

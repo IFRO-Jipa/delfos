@@ -24,9 +24,9 @@
 			AnchorPane.rightAnchor="13.81640625" />
 		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE"
 			strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0"
+		<TextArea  fx:id="txtDescricao" layoutX="14.0" layoutY="82.0"
 			prefHeight="119.0" prefWidth="387.0" AnchorPane.leftAnchor="14.0"
-			AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
+			AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" wrapText="true"/>
 		<Button fx:id="btnSalvar" layoutX="348.0" layoutY="207.0"
 			mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="25.0"
 			prefWidth="71.0" text="Salvar" AnchorPane.bottomAnchor="6.0"

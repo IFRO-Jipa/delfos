@@ -2,16 +2,22 @@ package br.com.delfos.control.pessoal.resposta;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.auditoria.Autenticador;
+import br.com.delfos.dao.pesquisa.RespostaDAO;
+import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
-import br.com.delfos.model.pesquisa.pergunta.TipoPergunta;
+import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
 import javafx.event.ActionEvent;
@@ -27,6 +33,9 @@ import javafx.scene.text.Text;
 
 @Controller
 public class RespostaController implements Initializable {
+
+	@Autowired
+	private RespostaDAO daoResposta;
 
 	@FXML
 	private Text txtNomeQuestionario;
@@ -53,6 +62,14 @@ public class RespostaController implements Initializable {
 	@FXML
 	private void handleBtnRegistrar(ActionEvent event) {
 		// SALVAR NO BANCO DE DADOS
+		Pessoa expert = Autenticador.getDonoDaConta();
+
+		controllers.forEach(controller -> {
+			Resposta<?> resposta = controller.getResposta();
+			resposta.setExpert(Optional.ofNullable(expert));
+			resposta.setQuestionario(this.questionario);
+			daoResposta.save(resposta);
+		});
 	}
 
 	@FXML
@@ -65,6 +82,7 @@ public class RespostaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		configScrollPane();
+		this.controllers = new ArrayList<>();
 	}
 
 	private void configScrollPane() {
@@ -85,26 +103,29 @@ public class RespostaController implements Initializable {
 	}
 
 	private void createPanels(Optional<Set<Pergunta<?>>> optionalPerguntas) {
+		panelPerguntas.getPanes().clear();
+
 		optionalPerguntas.ifPresent(perguntas -> perguntas.forEach(pergunta -> {
 			TitledPane titledPane = createTitledPane(pergunta);
-			panelPerguntas.getPanes().clear();
+			// panelPerguntas.getPanes().clear();
 			panelPerguntas.getPanes().add(titledPane);
 		}));
 	}
 
 	private TitledPane createTitledPane(Pergunta<?> pergunta) {
-		TitledPane titledPane = new TitledPane(pergunta.getNome(), createPane(pergunta.getTipo()));
-		titledPane.setCollapsible(false);
+		TitledPane titledPane = new TitledPane(pergunta.getNome(), createPane(pergunta));
 		titledPane.setExpanded(true);
+		titledPane.setCollapsible(true);
 		return titledPane;
 	}
 
-	private AnchorPane createPane(TipoPergunta tipo) {
+	private AnchorPane createPane(Pergunta<?> pergunta) {
 		try {
-			FXMLLoader loader = LeitorDeFXML.getLoader(tipo.getLocationResposta());
+			FXMLLoader loader = LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
 			AnchorPane pane = loader.load();
-			RespostaControllerImpl<?, ?> controller = loader.getController();
+			RespostaControllerImpl<Alternativa, ?> controller = loader.getController();
 			// TODO: Passar a pergunta para o controlador.
+			controller.set(Optional.ofNullable(pergunta));
 			this.controllers.add(controller);
 			return pane;
 		} catch (IOException e) {

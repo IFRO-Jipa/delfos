@@ -1,11 +1,13 @@
 package br.com.delfos.dao.pesquisa;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
 import br.com.delfos.dao.generic.AbstractDAO;
 import br.com.delfos.model.pesquisa.pergunta.Alternativa;
+import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.repository.pesquisa.PerguntaRepository;
 
@@ -19,7 +21,13 @@ public class PerguntaDAO extends AbstractDAO<Pergunta<?>, Long, PerguntaReposito
 			return Optional.ofNullable(repository.save(newValue));
 		} else {
 			Pergunta<Alternativa> pergunta = (Pergunta<Alternativa>) this.findOne(newValue.getId());
-			pergunta.setAlternativa(newValue.getAlternativa());
+			// adiciono os itens aqui, caso seja uma MultiplaEscolha.
+			if (pergunta.getAlternativa() instanceof MultiplaEscolha) {
+				Optional<Map<String, Double>> itens = ((MultiplaEscolha) newValue.getAlternativa()).get();
+				((MultiplaEscolha) pergunta.getAlternativa()).addAll(itens);
+			} else {
+				pergunta.setAlternativa(newValue.getAlternativa());
+			}
 			pergunta.setNome(newValue.getNome());
 			pergunta.setDescricao(newValue.getDescricao());
 			return (Optional<S>) Optional.ofNullable(repository.save(pergunta));

@@ -17,7 +17,7 @@ class Messages {
 		try {
 			props = new Properties();
 			props.load(new FileInputStream(
-					Messages.class.getClassLoader().getResource("config/tooltip.properties").toString()));
+					Messages.class.getClassLoader().getResource("config/messages_validation.properties").toString()));
 			defaultMessage = props.getProperty("defaultMessage");
 			notFoundMessage = props.getProperty("notFoundMessage");
 

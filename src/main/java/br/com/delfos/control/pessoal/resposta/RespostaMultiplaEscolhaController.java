@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaMultiplaEscolha;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.RadioButton;
@@ -86,6 +88,13 @@ public class RespostaMultiplaEscolhaController implements RespostaControllerImpl
 	@Override
 	public boolean isSelected() {
 		return this.groupItems.getSelectedToggle() != null;
+	}
+
+	@Override
+	public Resposta<?> getResposta() {
+		RespostaMultiplaEscolha resposta = new RespostaMultiplaEscolha();
+		resposta.setEscolha(getSelected());
+		return resposta;
 	}
 
 }

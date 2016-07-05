@@ -127,8 +127,6 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public Optional<Set<Pergunta<?>>> getPerguntas() {
-		// TODO: Apagar essa linha de impressão
-		this.perguntas.forEach(System.out::println);
 
 		return Optional.ofNullable(this.perguntas);
 	}

@@ -66,8 +66,10 @@ public class PerguntaPropertyUtil {
 	}
 
 	private static PerguntaProperty<MultiplaEscolha> createByMultiplaEscolha(Pergunta<?> pergunta) {
-		return new PerguntaProperty<MultiplaEscolha>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
+		PerguntaProperty<MultiplaEscolha> multiplaEscolha = new PerguntaProperty<MultiplaEscolha>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
 				TipoPergunta.MULTIPLA_ESCOLHA);
+		multiplaEscolha.setAlternativa(pergunta.getAlternativa());
+		return multiplaEscolha;
 
 	}
 

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaIntervalo;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
@@ -57,6 +59,13 @@ public class RespostaIntervaloController implements RespostaControllerImpl<Inter
 	@Override
 	public boolean isSelected() {
 		return slideValor.getValue() != -1.0;
+	}
+
+	@Override
+	public Resposta<?> getResposta() {
+		RespostaIntervalo resposta = new RespostaIntervalo();
+		resposta.setEscolha(getSelected());
+		return resposta;
 	}
 
 }

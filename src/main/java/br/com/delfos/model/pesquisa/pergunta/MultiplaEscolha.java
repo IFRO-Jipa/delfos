@@ -52,6 +52,10 @@ public class MultiplaEscolha extends Alternativa {
 		escolhas = new HashMap<String, Double>();
 	}
 
+	public Optional<Map<String, Double>> get() {
+		return Optional.ofNullable(escolhas);
+	}
+
 	public Set<String> getEscolhas() {
 		return this.escolhas.keySet();
 	}
@@ -82,6 +86,10 @@ public class MultiplaEscolha extends Alternativa {
 	@Override
 	public Resposta<?> createSimpleResposta() {
 		return new RespostaMultiplaEscolha();
+	}
+
+	public void clearEscolhas() {
+		this.escolhas.clear();
 	}
 
 }
