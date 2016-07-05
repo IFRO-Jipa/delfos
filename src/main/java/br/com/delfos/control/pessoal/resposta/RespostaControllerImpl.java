@@ -2,6 +2,7 @@ package br.com.delfos.control.pessoal.resposta;
 
 import java.util.Optional;
 
+import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
@@ -26,5 +27,5 @@ interface RespostaControllerImpl<T extends Alternativa, S> {
 
 	boolean isSelected();
 
-	Resposta<?> getResposta();
+	Resposta<?> getResposta(Questionario questionario);
 }

@@ -24,6 +24,15 @@ import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 @DiscriminatorColumn(name = "tipoResposta")
 public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> {
 
+	public Resposta() {
+		this.horaResposta = LocalDateTime.now();
+	}
+
+	public Resposta(Pessoa expert) {
+		this();
+		this.setExpert(Optional.ofNullable(expert));
+	}
+
 	@ManyToOne
 	private Pessoa expert;
 

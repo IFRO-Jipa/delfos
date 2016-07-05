@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.RespostaDAO;
+import br.com.delfos.except.pesquisa.resposta.QuestionarioRespondidoException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Alternativa;
@@ -62,14 +63,24 @@ public class RespostaController implements Initializable {
 	@FXML
 	private void handleBtnRegistrar(ActionEvent event) {
 		// SALVAR NO BANCO DE DADOS
-		Pessoa expert = Autenticador.getDonoDaConta();
+		try {
+			if (AlertBuilder
+					.confirmation("Você só poderá responder esse questionário uma única vez. Deseja enviar agora?")) {
+				Pessoa expert = Autenticador.getDonoDaConta();
 
-		controllers.forEach(controller -> {
-			Resposta<?> resposta = controller.getResposta();
-			resposta.setExpert(Optional.ofNullable(expert));
-			resposta.setQuestionario(this.questionario);
-			daoResposta.save(resposta);
-		});
+				controllers.forEach(controller -> {
+					Resposta<?> resposta = controller.getResposta(this.questionario);
+					resposta.setExpert(Optional.ofNullable(expert));
+					daoResposta.save(resposta);
+				});
+				AlertBuilder.information("Salvo com sucesso");
+				this.btnRegistrar.setDisable(true);
+				this.btnLimpar.setDisable(true);
+			}
+		} catch (QuestionarioRespondidoException ex) {
+			AlertBuilder.error("Não foi possível submeter o questionário pois já consta nos registros um envio com "
+					+ "suas credenciais para esse questionário.\nSe o erro persistir, entre em contato com o Administrador.");
+		}
 	}
 
 	@FXML
@@ -107,7 +118,6 @@ public class RespostaController implements Initializable {
 
 		optionalPerguntas.ifPresent(perguntas -> perguntas.forEach(pergunta -> {
 			TitledPane titledPane = createTitledPane(pergunta);
-			// panelPerguntas.getPanes().clear();
 			panelPerguntas.getPanes().add(titledPane);
 		}));
 	}
@@ -124,7 +134,6 @@ public class RespostaController implements Initializable {
 			FXMLLoader loader = LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
 			AnchorPane pane = loader.load();
 			RespostaControllerImpl<Alternativa, ?> controller = loader.getController();
-			// TODO: Passar a pergunta para o controlador.
 			controller.set(Optional.ofNullable(pergunta));
 			this.controllers.add(controller);
 			return pane;

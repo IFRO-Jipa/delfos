@@ -69,11 +69,36 @@ public class PesquisaDAO extends AbstractDAO<Pesquisa, Long, PesquisaRepository>
 		// TODO trazer apenas as que possuem questionários
 		if (pessoa.getTipo().contains(TipoPessoa.ESPECIALISTA)) {
 			List<Pesquisa> result = repository.findByEspecialista(pessoa.getId());
-			return result.stream().filter(pesquisa -> pesquisa.isValida() && !pesquisa.isEmptyQuestionario())
-					.collect(Collectors.toList());
+			return result.stream().filter(this::isValidAndNotEmpty).collect(Collectors.toList());
 		} else
 			throw new IllegalArgumentException(String.format(
 					"%s não possuí questionários para responder pois não é um especialista válido.", pessoa.getNome()));
 	}
 
+	private boolean isValidAndNotEmpty(Pesquisa pesquisa) {
+		return pesquisa.isValida() && !pesquisa.isEmptyQuestionario();
+	}
+
+	// private List<Pesquisa> isNotAnswered(List<Pesquisa> pesquisas) {
+	// if (pesquisas != null) {
+	// if (pesquisas.size() > 0) {
+	// List<Pesquisa> resultado = new ArrayList<>();
+	//
+	// for (Pesquisa pesquisa : pesquisas) {
+	// List<Questionario> questionarios = new ArrayList<>();
+	// pesquisa.getQuestionarios().forEach(questionario -> {
+	// if (!daoResposta.isAnswered(pesquisa, questionario,
+	// Autenticador.getDonoDaConta())) {
+	// questionarios.add(questionario);
+	// }
+	// });
+	// }
+	//
+	// // TODO: Continuação
+	// return null;
+	// } else
+	// return new ArrayList<>();
+	// } else
+	// return null;
+	// }
 }

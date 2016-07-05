@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.pergunta.Texto;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
@@ -58,9 +59,15 @@ public class RespostaTextoController implements RespostaControllerImpl<Texto, St
 	}
 
 	@Override
-	public Resposta<?> getResposta() {
+	public Resposta<?> getResposta(Questionario questionario) {
 		RespostaTexto resposta = new RespostaTexto();
-		resposta.setEscolha(getSelected());
+		if (this.getOption().isPresent()) {
+			resposta.setQuestionario(questionario);
+			resposta.setPergunta(this.getOption().get());
+			resposta.setEscolha(getSelected());
+		} else {
+			throw new RuntimeException("Não foi informado uma pergunta válida ou pertencente ao questionario.");
+		}
 		return resposta;
 	}
 
