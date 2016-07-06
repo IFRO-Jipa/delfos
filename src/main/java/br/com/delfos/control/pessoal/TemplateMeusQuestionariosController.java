@@ -11,20 +11,16 @@ import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.app.PrincipalApp;
-import br.com.delfos.control.pessoal.resposta.RespostaController;
+import br.com.delfos.app.RespostaApp;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
-import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertBuilder;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 @Controller
@@ -71,12 +67,17 @@ public final class TemplateMeusQuestionariosController implements Initializable 
 
 	private void abreTelaResposta(Questionario selectedItem) {
 		try {
-			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/resposta/RespostaView.fxml");
-			AnchorPane pane = loader.load();
-			RespostaController controller = loader.getController();
-			controller.set(Optional.ofNullable(selectedItem));
-
-			PrincipalApp.openWindow(pane, "Responder: " + selectedItem.getNome());
+			// FXMLLoader loader =
+			// LeitorDeFXML.getLoader("/fxml/resposta/RespostaView.fxml");
+			// AnchorPane pane = loader.load();
+			// RespostaController controller = loader.getController();
+			// controller.set(Optional.ofNullable(selectedItem));
+			//
+			// PrincipalApp.openWindow(pane, "Responder: " +
+			// selectedItem.getNome());
+			RespostaApp app = new RespostaApp();
+			app.setQuestionario(Optional.ofNullable(selectedItem));
+			app.showAndWait();
 		} catch (IOException e) {
 			AlertBuilder.error(e);
 		}

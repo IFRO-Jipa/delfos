@@ -7,7 +7,7 @@ import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 
-interface RespostaControllerImpl<T extends Alternativa, S> {
+public interface RespostaControllerImpl<T extends Alternativa, S> {
 
 	void setOption(Optional<Pergunta<T>> optionalAlternativa);
 

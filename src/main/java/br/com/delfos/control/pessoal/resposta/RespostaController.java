@@ -60,6 +60,12 @@ public class RespostaController implements Initializable {
 
 	private List<RespostaControllerImpl<?, ?>> controllers;
 
+	private List<Resposta<?>> respostas;
+
+	public RespostaController() {
+		this.respostas = new ArrayList<>();
+	}
+
 	@FXML
 	private void handleBtnRegistrar(ActionEvent event) {
 		// SALVAR NO BANCO DE DADOS
@@ -71,7 +77,7 @@ public class RespostaController implements Initializable {
 				controllers.forEach(controller -> {
 					Resposta<?> resposta = controller.getResposta(this.questionario);
 					resposta.setExpert(Optional.ofNullable(expert));
-					daoResposta.save(resposta);
+					daoResposta.save(resposta).ifPresent(persist -> respostas.add(persist));
 				});
 				AlertBuilder.information("Salvo com sucesso");
 				this.btnRegistrar.setDisable(true);
@@ -103,6 +109,8 @@ public class RespostaController implements Initializable {
 	}
 
 	public void set(Optional<Questionario> optionalQuestionario) {
+		optionalQuestionario
+				.orElseThrow(() -> new IllegalStateException("É necessário que o questionário seja informado."));
 		optionalQuestionario.ifPresent(questionario -> {
 			this.txtNomeQuestionario.setText(questionario.getNome());
 			this.txtDescricao.setText(questionario.getDescricao());
@@ -152,5 +160,9 @@ public class RespostaController implements Initializable {
 
 	public Optional<Questionario> get() {
 		return Optional.ofNullable(this.questionario);
+	}
+
+	public List<Resposta<?>> getRespostas() {
+		return respostas;
 	}
 }
