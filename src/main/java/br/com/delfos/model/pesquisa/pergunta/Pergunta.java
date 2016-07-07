@@ -94,7 +94,7 @@ public class Pergunta<T extends Alternativa> extends AbstractModel<Pergunta<T>> 
 		if (!(obj instanceof Pergunta)) {
 			return false;
 		}
-		Pergunta other = (Pergunta) obj;
+		Pergunta<?> other = (Pergunta<?>) obj;
 		if (alternativa == null) {
 			if (other.alternativa != null) {
 				return false;

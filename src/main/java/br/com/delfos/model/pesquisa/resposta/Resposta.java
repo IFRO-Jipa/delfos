@@ -105,7 +105,7 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 		if (!(obj instanceof Resposta)) {
 			return false;
 		}
-		Resposta other = (Resposta) obj;
+		Resposta<?> other = (Resposta<?>) obj;
 		if (expert == null) {
 			if (other.expert != null) {
 				return false;

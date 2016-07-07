@@ -22,7 +22,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-				
+
 			</plugin>
 
 			<plugin>
@@ -31,7 +31,7 @@
 				<version>8.4.0</version>
 				<configuration>
 					<vendor>IFRO</vendor>
-					<mainClass>br.com.delfos.Main</mainClass>
+					<mainClass>br.com.delfos.Inicializador</mainClass>
 					<appName>Delfos</appName>
 				</configuration>
 			</plugin>

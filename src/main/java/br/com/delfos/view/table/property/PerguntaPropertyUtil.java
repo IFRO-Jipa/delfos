@@ -47,11 +47,15 @@ public class PerguntaPropertyUtil {
 
 	private static PerguntaProperty<?> createByTextoParagrafo(Pergunta<?> pergunta) {
 		if (pergunta.getAlternativa() instanceof Texto) {
-			return new PerguntaProperty<Texto>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
+			PerguntaProperty<Texto> property = new PerguntaProperty<Texto>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
 					TipoPergunta.TEXTO);
+			property.setAlternativa(pergunta.getAlternativa());
+			return property;
 		} else if (pergunta.getAlternativa() instanceof Paragrafo) {
-			return new PerguntaProperty<Paragrafo>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
+			PerguntaProperty<Paragrafo> property = new PerguntaProperty<Paragrafo>(pergunta.getId(), pergunta.getNome(), pergunta.getDescricao(),
 					TipoPergunta.PARAGRAFO);
+			property.setAlternativa(pergunta.getAlternativa());
+			return property;
 		} else
 			return null;
 	}

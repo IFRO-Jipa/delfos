@@ -10,10 +10,12 @@ import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.control.generic.AbstractController;
+import br.com.delfos.dao.pesquisa.PerguntaDAO;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
@@ -90,6 +92,9 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	@FXML
 	private Label lblDuracao;
 
+	@Autowired
+	private PerguntaDAO daoPergunta;
+
 	private PerguntaController perguntaController;
 
 	private Questionario target;
@@ -150,6 +155,16 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		q.addPerguntas(Optional.ofNullable(new HashSet<>(perguntaController.getPerguntas())));
 
 		return q;
+	}
+
+	@Override
+	protected Optional<Questionario> salvar(Questionario value, Object controller) throws FXValidatorException {
+		if (value != null) {
+			value.getPerguntas().ifPresent(perguntas -> perguntas.forEach(pergunta -> {
+				daoPergunta.save(pergunta);
+			}));
+		}
+		return super.salvar(value, controller);
 	}
 
 	// pesquisa por codigo
@@ -227,6 +242,10 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 	private long getTotalDeDias(LocalDate item) {
 		return ChronoUnit.DAYS.between(QuestionarioController.this.dtInicio.getValue(), item);
+	}
+
+	public Questionario getTarget() {
+		return target;
 	}
 
 }

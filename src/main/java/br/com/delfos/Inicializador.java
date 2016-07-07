@@ -11,7 +11,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Inicializador extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -61,6 +61,9 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		if (args != null)
+			for (String arg : args)
+				System.out.println(arg.split("="));
 		launch(args);
 	}
 }

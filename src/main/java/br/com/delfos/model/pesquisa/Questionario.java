@@ -57,7 +57,8 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Type(type = "yes_no")
 	private boolean autenticavel;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.REMOVE }, orphanRemoval = true)
 	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
@@ -127,13 +128,34 @@ public class Questionario extends AbstractModel<Questionario> {
 	}
 
 	public Optional<Set<Pergunta<?>>> getPerguntas() {
-
-		return Optional.ofNullable(this.perguntas);
+		return Optional.ofNullable(new HashSet<>(this.perguntas));
 	}
 
-	public void addPergunta(Optional<Pergunta<? extends Alternativa>> pergunta) {
-		this.perguntas.add(pergunta.orElseThrow(
-				() -> new IllegalArgumentException(String.format("Pergunta inválida. Detalhe: %s", pergunta))));
+	public void addPergunta(Optional<Pergunta<? extends Alternativa>> optionalPergunta) {
+		Pergunta<? extends Alternativa> pergunta = optionalPergunta.orElseThrow(
+				() -> new IllegalArgumentException(String.format("Pergunta inválida. Detalhe: %s", optionalPergunta)));
+
+		// Optional<Pergunta<? extends Alternativa>> existente =
+		// this.perguntas.stream()
+		// .filter(pergExistente ->
+		// pergExistente.getId().equals(pergunta.getId())).findFirst();
+		//
+		// if (existente.isPresent()) {
+		// // // TODO: substituir valores, não substituir objeto da lista
+		// Pergunta<?> value = existente.get();
+		// value.setNome(value.getNome().equals(pergunta.getNome()) ?
+		// value.getNome() : pergunta.getNome());
+		// value.setDescricao(value.getDescricao().equals(pergunta.getDescricao())
+		// ? value.getDescricao()
+		// : pergunta.getDescricao());
+		//
+		//
+		// // Alternativa altValue = value.getAlternativa();
+		// // Alternativa altPergu = pergunta.getAlternativa();
+		// // return;
+		// }
+
+		this.perguntas.add(pergunta);
 	}
 
 	public void addPerguntas(Optional<Set<Pergunta<? extends Alternativa>>> perguntas) {
