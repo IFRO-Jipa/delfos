@@ -29,7 +29,7 @@ public class RespostaApp extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		RespostaApp.primaryStage = primaryStage;
 
-		FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/resposta/RespostaView.fxml");
+		FXMLLoader loader = LeitorDeFXML.getLoader("fxml/resposta/RespostaView.fxml");
 		AnchorPane pane = loader.load();
 		this.controller = loader.getController();
 		controller.set(questionario);

@@ -23,7 +23,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocation() {
-			return "/fxml/pergunta/ConfigTextoParagrafoView.fxml";
+			return "fxml/pergunta/ConfigTextoParagrafoView.fxml";
 		}
 
 		@Override
@@ -36,7 +36,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocationResposta() {
-			return "/fxml/resposta/TemplateTexto.fxml";
+			return "fxml/resposta/TemplateTexto.fxml";
 		}
 
 	},
@@ -48,7 +48,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocation() {
-			return "/fxml/pergunta/ConfigTextoParagrafoView.fxml";
+			return "fxml/pergunta/ConfigTextoParagrafoView.fxml";
 		}
 
 		@Override
@@ -61,7 +61,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocationResposta() {
-			return "/fxml/resposta/TemplateParagrafo.fxml";
+			return "fxml/resposta/TemplateParagrafo.fxml";
 		}
 
 	},
@@ -74,7 +74,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocation() {
-			return "/fxml/pergunta/ConfigMultiplaEscolhaView.fxml";
+			return "fxml/pergunta/ConfigMultiplaEscolhaView.fxml";
 		}
 
 		@Override
@@ -86,7 +86,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocationResposta() {
-			return "/fxml/resposta/TemplateMultiplaEscolha.fxml";
+			return "fxml/resposta/TemplateMultiplaEscolha.fxml";
 		}
 
 	},
@@ -99,7 +99,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocation() {
-			return "/fxml/pergunta/ConfigIntervaloView.fxml";
+			return "fxml/pergunta/ConfigIntervaloView.fxml";
 		}
 
 		@Override
@@ -111,7 +111,7 @@ public enum TipoPergunta implements Conversor {
 
 		@Override
 		public String getLocationResposta() {
-			return "/fxml/resposta/TemplateIntervalo.fxml";
+			return "fxml/resposta/TemplateIntervalo.fxml";
 		}
 
 	};

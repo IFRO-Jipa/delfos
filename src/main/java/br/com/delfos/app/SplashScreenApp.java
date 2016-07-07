@@ -12,13 +12,13 @@ import javafx.stage.WindowEvent;
 
 public class SplashScreenApp extends Preloader {
 
-	private static final String LOCATION = "/fxml/basic/SplashScreen.fxml";
+	private static final String LOCATION = "fxml/basic/SplashScreen.fxml";
 	private static Stage stage;
 
 	@Override
 	public synchronized void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(SplashScreenApp.class.getResource(LOCATION));
+		loader.setLocation(SplashScreenApp.class.getClassLoader().getResource(LOCATION));
 		AnchorPane pane = (AnchorPane) loader.load();
 
 		primaryStage.setScene(new Scene(pane));

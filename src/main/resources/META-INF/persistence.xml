@@ -17,7 +17,7 @@
 			<!-- CONEXÃO PARA LOCALHOST -->
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="root" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://192.168.2.103:3306/delfos" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" />
 
 
 			<!-- CONEXÃO PARA O LABORATÓRIO I -->

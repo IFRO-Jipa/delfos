@@ -122,7 +122,6 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		// excluir(txtCodigo.getText());
 		this.deleteIf(usuario -> usuario.getId() != null);
 		ScreenUtils.limpaCampos(rootPane);
 	}

@@ -124,7 +124,7 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void abreJanela(String view, String title) throws IOException {
-		AnchorPane load = (AnchorPane) LeitorDeFXML.load(String.format("/fxml/%s", view));
+		AnchorPane load = (AnchorPane) LeitorDeFXML.load(String.format("fxml/%s", view));
 
 		configTabPane(title, load);
 	}

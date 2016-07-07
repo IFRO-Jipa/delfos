@@ -49,9 +49,9 @@ public class SplashScreenController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Image img = new Image(SplashScreenController.class.getResourceAsStream("/imgs/logo-full.png"));
+		Image img = new Image(SplashScreenController.class.getClassLoader().getResourceAsStream("imgs/logo-full.png"));
 		imgLogo.setImage(img);
-		Image imgLoad = new Image(SplashScreenController.class.getResourceAsStream("/imgs/load.GIF"));
+		Image imgLoad = new Image(SplashScreenController.class.getClassLoader().getResourceAsStream("imgs/load.GIF"));
 		imgLoading.setImage(imgLoad);
 		longStart();
 

@@ -27,6 +27,10 @@ public class Inicializador extends Application {
 
 					@Override
 					protected ApplicationContext call() throws Exception {
+						System.out.println("A" + Inicializador.class.getClassLoader().getResource(""));
+						System.out.println("B" + Inicializador.class.getClassLoader().getResource("/"));
+						System.out.println("A" + Inicializador.class.getClassLoader().getResource("fxml"));
+						System.out.println("A" + Inicializador.class.getClassLoader().getResource("/fxml"));
 						ApplicationContext context = ContextFactory.getContext();
 						int max = context.getBeanDefinitionCount();
 						updateProgress(0, max);
@@ -64,6 +68,7 @@ public class Inicializador extends Application {
 		if (args != null)
 			for (String arg : args)
 				System.out.println(arg.split("="));
+		System.out.println(Inicializador.class.getClassLoader().getResource(""));
 		launch(args);
 	}
 }

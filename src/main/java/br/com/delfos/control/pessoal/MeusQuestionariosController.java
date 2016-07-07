@@ -67,8 +67,8 @@ public class MeusQuestionariosController implements Initializable {
 		try {
 			for (Pesquisa pesquisa : pesquisas) {
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(
-						MeusQuestionariosController.class.getResource("/fxml/conta/TemplateMeusQuestionarios.fxml"));
+				loader.setLocation(MeusQuestionariosController.class.getClassLoader()
+						.getResource("fxml/conta/TemplateMeusQuestionarios.fxml"));
 				AnchorPane borderPane = loader.load();
 				AnchorPane.setTopAnchor(borderPane, 0.0);
 				AnchorPane.setBottomAnchor(borderPane, 0.0);

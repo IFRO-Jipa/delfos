@@ -67,14 +67,6 @@ public final class TemplateMeusQuestionariosController implements Initializable 
 
 	private void abreTelaResposta(Questionario selectedItem) {
 		try {
-			// FXMLLoader loader =
-			// LeitorDeFXML.getLoader("/fxml/resposta/RespostaView.fxml");
-			// AnchorPane pane = loader.load();
-			// RespostaController controller = loader.getController();
-			// controller.set(Optional.ofNullable(selectedItem));
-			//
-			// PrincipalApp.openWindow(pane, "Responder: " +
-			// selectedItem.getNome());
 			RespostaApp app = new RespostaApp();
 			app.setQuestionario(Optional.ofNullable(selectedItem));
 			app.showAndWait();

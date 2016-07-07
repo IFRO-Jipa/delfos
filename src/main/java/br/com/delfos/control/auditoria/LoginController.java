@@ -80,7 +80,7 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Image img = new Image(LoginController.class.getResourceAsStream("/imgs/logo-full.png"));
+		Image img = new Image(LoginController.class.getClassLoader().getResourceAsStream("imgs/logo-full.png"));
 		imgView.setImage(img);
 		Autenticador.logout();
 		configuraComponentes();

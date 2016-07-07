@@ -226,7 +226,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	private void configTabPergunta() {
 		try {
 
-			FXMLLoader loader = LeitorDeFXML.getLoader("/fxml/pergunta/PerguntaView.fxml");
+			FXMLLoader loader = LeitorDeFXML.getLoader("fxml/pergunta/PerguntaView.fxml");
 
 			BorderPane load = (BorderPane) loader.load();
 			this.perguntaController = loader.getController();

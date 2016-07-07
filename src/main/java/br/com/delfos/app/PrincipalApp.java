@@ -18,7 +18,7 @@ public class PrincipalApp extends Application {
 
 	private static Optional<PrincipalController> controller;
 
-	private static final String LOCATION = "/fxml/basic/PrincipalView.fxml";
+	private static final String LOCATION = "fxml/basic/PrincipalView.fxml";
 
 	@Override
 	public void start(Stage stage) throws IOException {

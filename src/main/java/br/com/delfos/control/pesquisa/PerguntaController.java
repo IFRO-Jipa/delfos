@@ -130,7 +130,6 @@ public class PerguntaController implements Initializable {
 					FXMLLoader loader = LeitorDeFXML.getLoader(location);
 					AnchorPane load = (AnchorPane) loader.load();
 
-					// tipo de controladora para telas auxiliares.
 					EditDialog<Pergunta<?>> controller = loader.getController();
 					controller.setValue(converterProperty(property));
 
