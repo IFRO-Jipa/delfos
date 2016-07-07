@@ -39,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -135,7 +136,7 @@ public class PerguntaController implements Initializable {
 
 					Stage dialogStage = new Stage();
 					dialogStage.setScene(new Scene(load));
-					// dialogStage.initModality(Modality.APPLICATION_MODAL);
+					dialogStage.initModality(Modality.APPLICATION_MODAL);
 					dialogStage.initStyle(StageStyle.UTILITY);
 					controller.setDialogStage(dialogStage);
 					dialogStage.showAndWait();

@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import org.junit.Test;
 
-import br.com.delfos.model.generic.Upgrader;
+import br.com.delfos.model.generic.Upgradable;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.pergunta.Texto;
 
-public class TestaUpgrader implements Upgrader<Questionario> {
+public class TestaUpgrader implements Upgradable<Questionario> {
 
 	@Test
 	public void testaQuestionarios() {
@@ -41,7 +41,7 @@ public class TestaUpgrader implements Upgrader<Questionario> {
 		System.out.println("...");
 		System.out.println(questionarioComPerguntas.getPerguntas());
 
-		this.update(questionarioVazio, questionarioComPerguntas);
+		this.upgrade(questionarioVazio, questionarioComPerguntas);
 
 		System.out.println("--------------------------------------------");
 		System.out.println("Depois da verificação (vazio e com perguntas)");

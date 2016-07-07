@@ -126,4 +126,70 @@ public class Usuario extends AbstractModel<Usuario> {
 		        + ", perfilAcesso=" + perfilAcesso + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((perfilAcesso == null) ? 0 : perfilAcesso.hashCode());
+		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
+		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof Usuario)) {
+			return false;
+		}
+		Usuario other = (Usuario) obj;
+		if (descricao == null) {
+			if (other.descricao != null) {
+				return false;
+			}
+		} else if (!descricao.equals(other.descricao)) {
+			return false;
+		}
+		if (login == null) {
+			if (other.login != null) {
+				return false;
+			}
+		} else if (!login.equals(other.login)) {
+			return false;
+		}
+		if (perfilAcesso == null) {
+			if (other.perfilAcesso != null) {
+				return false;
+			}
+		} else if (!perfilAcesso.equals(other.perfilAcesso)) {
+			return false;
+		}
+		if (pessoa == null) {
+			if (other.pessoa != null) {
+				return false;
+			}
+		} else if (!pessoa.equals(other.pessoa)) {
+			return false;
+		}
+		if (senha == null) {
+			if (other.senha != null) {
+				return false;
+			}
+		} else if (!senha.equals(other.senha)) {
+			return false;
+		}
+		if (status != other.status) {
+			return false;
+		}
+		return true;
+	}
+
 }

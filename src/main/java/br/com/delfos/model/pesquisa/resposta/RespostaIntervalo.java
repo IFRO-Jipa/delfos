@@ -34,4 +34,35 @@ public class RespostaIntervalo extends Resposta<Intervalo> implements RespostaIm
 
 		return escolha * (intervalos / 100.0);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((escolha == null) ? 0 : escolha.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof RespostaIntervalo)) {
+			return false;
+		}
+		RespostaIntervalo other = (RespostaIntervalo) obj;
+		if (escolha == null) {
+			if (other.escolha != null) {
+				return false;
+			}
+		} else if (!escolha.equals(other.escolha)) {
+			return false;
+		}
+		return true;
+	}
+
 }

@@ -73,6 +73,11 @@ public class Intervalo extends Alternativa {
 	}
 
 	@Override
+	public Resposta<?> createSimpleResposta() {
+		return new RespostaIntervalo();
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
@@ -84,25 +89,26 @@ public class Intervalo extends Alternativa {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Intervalo)) {
 			return false;
+		}
 		Intervalo other = (Intervalo) obj;
-		if (intervalo != other.intervalo)
+		if (intervalo != other.intervalo) {
 			return false;
-		if (valorFinal != other.valorFinal)
+		}
+		if (valorFinal != other.valorFinal) {
 			return false;
-		if (valorInicial != other.valorInicial)
+		}
+		if (valorInicial != other.valorInicial) {
 			return false;
+		}
 		return true;
-	}
-
-	@Override
-	public Resposta<?> createSimpleResposta() {
-		return new RespostaIntervalo();
 	}
 
 }

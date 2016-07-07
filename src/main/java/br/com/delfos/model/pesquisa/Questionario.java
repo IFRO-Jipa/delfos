@@ -57,7 +57,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Type(type = "yes_no")
 	private boolean autenticavel;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.PERSIST }, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	private Set<Pergunta<?>> perguntas;
 
 	public String getNome() {
@@ -157,7 +157,7 @@ public class Questionario extends AbstractModel<Questionario> {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + (autenticavel ? 1231 : 1237);
 		result = prime * result + ((dataFinalizacao == null) ? 0 : dataFinalizacao.hashCode());
 		result = prime * result + ((dataInicio == null) ? 0 : dataInicio.hashCode());
@@ -171,47 +171,64 @@ public class Questionario extends AbstractModel<Questionario> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Questionario)) {
 			return false;
+		}
 		Questionario other = (Questionario) obj;
-		if (autenticavel != other.autenticavel)
+		if (autenticavel != other.autenticavel) {
 			return false;
+		}
 		if (dataFinalizacao == null) {
-			if (other.dataFinalizacao != null)
+			if (other.dataFinalizacao != null) {
 				return false;
-		} else if (!dataFinalizacao.equals(other.dataFinalizacao))
+			}
+		} else if (!dataFinalizacao.equals(other.dataFinalizacao)) {
 			return false;
+		}
 		if (dataInicio == null) {
-			if (other.dataInicio != null)
+			if (other.dataInicio != null) {
 				return false;
-		} else if (!dataInicio.equals(other.dataInicio))
+			}
+		} else if (!dataInicio.equals(other.dataInicio)) {
 			return false;
+		}
 		if (descricao == null) {
-			if (other.descricao != null)
+			if (other.descricao != null) {
 				return false;
-		} else if (!descricao.equals(other.descricao))
+			}
+		} else if (!descricao.equals(other.descricao)) {
 			return false;
+		}
 		if (nome == null) {
-			if (other.nome != null)
+			if (other.nome != null) {
 				return false;
-		} else if (!nome.equals(other.nome))
+			}
+		} else if (!nome.equals(other.nome)) {
 			return false;
+		}
 		if (perguntas == null) {
-			if (other.perguntas != null)
+			if (other.perguntas != null) {
 				return false;
-		} else if (!perguntas.equals(other.perguntas))
+			}
+		} else if (!perguntas.equals(other.perguntas)) {
 			return false;
-		if (status != other.status)
+		}
+		if (status != other.status) {
 			return false;
+		}
 		if (vencimento == null) {
-			if (other.vencimento != null)
+			if (other.vencimento != null) {
 				return false;
-		} else if (!vencimento.equals(other.vencimento))
+			}
+		} else if (!vencimento.equals(other.vencimento)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -83,4 +83,58 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 		return horaResposta;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((expert == null) ? 0 : expert.hashCode());
+		result = prime * result + ((horaResposta == null) ? 0 : horaResposta.hashCode());
+		result = prime * result + ((pergunta == null) ? 0 : pergunta.hashCode());
+		result = prime * result + ((questionario == null) ? 0 : questionario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof Resposta)) {
+			return false;
+		}
+		Resposta other = (Resposta) obj;
+		if (expert == null) {
+			if (other.expert != null) {
+				return false;
+			}
+		} else if (!expert.equals(other.expert)) {
+			return false;
+		}
+		if (horaResposta == null) {
+			if (other.horaResposta != null) {
+				return false;
+			}
+		} else if (!horaResposta.equals(other.horaResposta)) {
+			return false;
+		}
+		if (pergunta == null) {
+			if (other.pergunta != null) {
+				return false;
+			}
+		} else if (!pergunta.equals(other.pergunta)) {
+			return false;
+		}
+		if (questionario == null) {
+			if (other.questionario != null) {
+				return false;
+			}
+		} else if (!questionario.equals(other.questionario)) {
+			return false;
+		}
+		return true;
+	}
+
 }

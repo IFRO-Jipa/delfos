@@ -92,6 +92,8 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 	private PerguntaController perguntaController;
 
+	private Questionario target;
+
 	// método que libera o campo data de vencimento e muda a cor dele
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
 		@Override
@@ -122,14 +124,15 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
-		if (!txtCod.getText().isEmpty()) {
-			try {
-				this.salvar(toValue(), this).ifPresent(x -> AlertBuilder.information("Todas as alterações foram salvas."));;
-			} catch (FXValidatorException e) {
-				AlertBuilder.error(e);
-			}
+		try {
+			this.salvar(toValue(), this).ifPresent(x -> {
+				this.posiciona(Optional.ofNullable(x));
+				AlertBuilder.information("Todas as alterações foram salvas.");
+				QuestionarioApp.close();
+			});
+		} catch (FXValidatorException e) {
+			AlertBuilder.error(e);
 		}
-		QuestionarioApp.close();
 	}
 
 	// monta o objeto do questionario que está na tela para ser salvo
@@ -169,6 +172,8 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 			this.cbAutenticavel.setSelected(quest.isAutenticavel());
 
 			this.perguntaController.setPerguntas(quest.getPerguntas());
+
+			this.target = quest;
 		});
 	}
 

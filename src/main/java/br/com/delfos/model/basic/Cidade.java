@@ -40,7 +40,6 @@ public class Cidade extends AbstractModel<Cidade> {
 		this.nome = nome;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -56,6 +55,44 @@ public class Cidade extends AbstractModel<Cidade> {
 	@Override
 	public String toString() {
 		return String.format("%s - %s", this.nome, this.estado.getUf());
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof Cidade)) {
+			return false;
+		}
+		Cidade other = (Cidade) obj;
+		if (estado == null) {
+			if (other.estado != null) {
+				return false;
+			}
+		} else if (!estado.equals(other.estado)) {
+			return false;
+		}
+		if (nome == null) {
+			if (other.nome != null) {
+				return false;
+			}
+		} else if (!nome.equals(other.nome)) {
+			return false;
+		}
+		return true;
 	}
 
 }

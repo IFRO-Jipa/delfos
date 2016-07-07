@@ -100,7 +100,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 
 			this.value.getAlternativa().clearEscolhas();
 			this.value.getAlternativa().addAll(Optional.ofNullable(this.itens));
-			
+
 			this.okCliked = true;
 
 			this.dialogStage.close();
@@ -124,12 +124,17 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.txtNome.setText(value.getNome());
 		this.txtDescricao.setText(value.getDescricao());
 
-		tbAlternativas.getItems().clear();
+		limpaTableView();
 
 		MultiplaEscolha alternativa = value.getAlternativa();
 		alternativa.get().ifPresent(values -> this.itens.putAll(values));
 
 		populaTableView();
+	}
+
+	private void limpaTableView() {
+		tbAlternativas.getItems().clear();
+		this.itens.clear();
 	}
 
 	@Override
@@ -167,7 +172,12 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		MenuItem menuRemover = new MenuItem("Remover");
 		menuRemover.setOnAction(event -> {
 			if (tbAlternativas.getSelectionModel().getSelectedIndex() >= 0) {
-				tbAlternativas.getItems().remove(tbAlternativas.getSelectionModel().getSelectedIndex());
+				if (this.itens.remove(tbAlternativas.getSelectionModel().getSelectedItem().getKey()) != null) {
+					tbAlternativas.getItems().remove(tbAlternativas.getSelectionModel().getSelectedIndex());
+				} else {
+					AlertBuilder.error(
+							"Falha ao remover o item: Parece que ele não estava presente na lista [Unknown value for this item].");
+				}
 			}
 		});
 
@@ -175,6 +185,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		menuRemoverTodos.setOnAction(event -> {
 			if (AlertBuilder.confirmation("Deseja realmente excluir todas as perguntas?")) {
 				tbAlternativas.getItems().clear();
+				this.itens.clear();
 			}
 		});
 

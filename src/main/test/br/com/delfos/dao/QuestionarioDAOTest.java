@@ -38,6 +38,17 @@ public class QuestionarioDAOTest {
 	@Autowired
 	private PessoaDAO daoPessoa;
 
+	@Test
+	public void modificaInformacoesDasPerguntas() {
+		Questionario questionario = daoQuestionario.findOne(3L);
+		questionario.getPerguntas()
+				.ifPresent(perguntas -> perguntas.forEach(pergunta -> pergunta.setDescricao("Nova descrição modificada")));
+
+		System.out.println(questionario.getPerguntas().get());
+
+		daoQuestionario.save(questionario).ifPresent(persisted -> System.out.println(persisted.getPerguntas().get()));
+	}
+
 	public void modificaInformacoesDoQuestionario() {
 		Questionario questionario = daoQuestionario.findOne(71L);
 		questionario.setNome("Novo nome para o questionário");
@@ -98,7 +109,6 @@ public class QuestionarioDAOTest {
 		return questionario;
 	}
 
-	@Test
 	public void buscaQuestionarioDasPesquisas() {
 		List<Pesquisa> pesquisas = daoPesquisa.findAll();
 

@@ -2,7 +2,7 @@ package br.com.delfos.model.generic;
 
 import java.lang.reflect.Field;
 
-public interface Upgrader<T> {
+public interface Upgradable<T> {
 
 	/**
 	 * Método responsável por atualizar um objeto antigo para novas informações
@@ -19,7 +19,7 @@ public interface Upgrader<T> {
 	 *            - Objeto que possui as informações novas. Geralmente é detach
 	 *            pelo JPA
 	 */
-	default void update(T oldValue, T newValue) {
+	default void upgrade(T oldValue, T newValue) {
 		try {
 			Field[] oldFields = oldValue.getClass().getDeclaredFields();
 			Class<? extends Object> newClass = newValue.getClass();

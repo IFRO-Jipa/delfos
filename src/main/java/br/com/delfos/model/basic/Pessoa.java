@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,9 +13,9 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.br.CPF;
 
-import br.com.delfos.converter.date.LocalDatePersistenceConverter;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.generic.AbstractModel;
 
@@ -27,7 +27,7 @@ import br.com.delfos.model.generic.AbstractModel;
  *
  * @author Leonardo Braz
  * @version 1.0
- * @since 1.5
+ * @since 1.7
  *
  */
 @Entity
@@ -36,9 +36,10 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	private String nome;
 	private String apelido;
 
-	@Convert(converter = LocalDatePersistenceConverter.class)
 	private LocalDate dataNascimento;
 	private String descricao;
+
+	@Email
 	private String email;
 
 	@NotNull(message = "É necessário informar o tipo de pessoa.")
@@ -49,14 +50,13 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	@NotNull
 	@CPF
 	private String cpf;
+
 	private String rg;
 
-	// TODO: arrumar problema com o cascade
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+	@Embedded
 	private Endereco endereco;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH }, orphanRemoval = true, optional = true)
+	@OneToOne(cascade = { CascadeType.REFRESH }, orphanRemoval = true, optional = true)
 	private Usuario usuario;
 
 	public Pessoa() {
@@ -165,6 +165,108 @@ public class Pessoa extends AbstractModel<Pessoa> {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((apelido == null) ? 0 : apelido.hashCode());
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
+		result = prime * result + ((tipos == null) ? 0 : tipos.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof Pessoa)) {
+			return false;
+		}
+		Pessoa other = (Pessoa) obj;
+		if (apelido == null) {
+			if (other.apelido != null) {
+				return false;
+			}
+		} else if (!apelido.equals(other.apelido)) {
+			return false;
+		}
+		if (cpf == null) {
+			if (other.cpf != null) {
+				return false;
+			}
+		} else if (!cpf.equals(other.cpf)) {
+			return false;
+		}
+		if (dataNascimento == null) {
+			if (other.dataNascimento != null) {
+				return false;
+			}
+		} else if (!dataNascimento.equals(other.dataNascimento)) {
+			return false;
+		}
+		if (descricao == null) {
+			if (other.descricao != null) {
+				return false;
+			}
+		} else if (!descricao.equals(other.descricao)) {
+			return false;
+		}
+		if (email == null) {
+			if (other.email != null) {
+				return false;
+			}
+		} else if (!email.equals(other.email)) {
+			return false;
+		}
+		if (endereco == null) {
+			if (other.endereco != null) {
+				return false;
+			}
+		} else if (!endereco.equals(other.endereco)) {
+			return false;
+		}
+		if (nome == null) {
+			if (other.nome != null) {
+				return false;
+			}
+		} else if (!nome.equals(other.nome)) {
+			return false;
+		}
+		if (rg == null) {
+			if (other.rg != null) {
+				return false;
+			}
+		} else if (!rg.equals(other.rg)) {
+			return false;
+		}
+		if (tipos == null) {
+			if (other.tipos != null) {
+				return false;
+			}
+		} else if (!tipos.equals(other.tipos)) {
+			return false;
+		}
+		if (usuario == null) {
+			if (other.usuario != null) {
+				return false;
+			}
+		} else if (!usuario.equals(other.usuario)) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -2,29 +2,19 @@ package br.com.delfos.model.pesquisa.pergunta;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
 
+import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_alternativa")
-public abstract class Alternativa {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id = null;
+public abstract class Alternativa extends AbstractModel<Alternativa> {
 
 	public abstract Resposta<?> createSimpleResposta();
-
-	public Long getId() {
-		return id;
-	}
 
 	public Alternativa(TipoPergunta tipo) {
 		this.tipo = tipo;
@@ -33,37 +23,34 @@ public abstract class Alternativa {
 	@Transient
 	private TipoPergunta tipo;
 
+	public TipoPergunta getTipo() {
+		return tipo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Alternativa)) {
 			return false;
+		}
 		Alternativa other = (Alternativa) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (tipo != other.tipo) {
 			return false;
+		}
 		return true;
-	}
-
-	public TipoPergunta getTipo() {
-		return tipo;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 }

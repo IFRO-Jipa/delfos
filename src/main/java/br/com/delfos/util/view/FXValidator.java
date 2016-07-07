@@ -17,13 +17,14 @@ import javafx.scene.control.TextField;
 
 /**
  * <p>
- * Classe responsável por realizar validação automática de campos (<code>Control</code> do JavaFX,
- * tais como <code>TextField</code>, <code>CheckBox</code>, <code>TextArea</code>, etc), afim de
- * descobrir se o usuário informou todas as informações necessárias.
+ * Classe responsável por realizar validação automática de campos
+ * (<code>Control</code> do JavaFX, tais como <code>TextField</code>,
+ * <code>CheckBox</code>, <code>TextArea</code>, etc), afim de descobrir se o
+ * usuário informou todas as informações necessárias.
  * 
  * <p>
- * Para definir que um campo tem seu preenchimento obrigatório, adicione a anotação @NotNull acima
- * do elemento que deseja validar.
+ * Para definir que um campo tem seu preenchimento obrigatório, adicione a
+ * anotação @NotNull acima do elemento que deseja validar.
  * 
  * 
  * <p>
@@ -53,13 +54,13 @@ public class FXValidator {
 
 	/**
 	 * <p>
-	 * Esse método faz a verificação dos campos nulos de uma determinada classe (geralmente é um
-	 * Controller para um FXML). Sua validação será feita a partir dos atributos da classe passada
-	 * por parâmetro.
+	 * Esse método faz a verificação dos campos nulos de uma determinada classe
+	 * (geralmente é um Controller para um FXML). Sua validação será feita a
+	 * partir dos atributos da classe passada por parâmetro.
 	 * <p>
-	 * Caso o atributo marcado (lembrando que seja um tipo de Control visual do JavaFX), será feita
-	 * a verificação para seu determinado tipo, afim de saber se foi informado ou não algum valor
-	 * pelo usuário
+	 * Caso o atributo marcado (lembrando que seja um tipo de Control visual do
+	 * JavaFX), será feita a verificação para seu determinado tipo, afim de
+	 * saber se foi informado ou não algum valor pelo usuário
 	 * 
 	 * <p>
 	 * <strong>Exemplo</strong>
@@ -69,24 +70,26 @@ public class FXValidator {
 	 * <pre>
 	 * public class ExampleController {
 	 * 
-	 *     &#64;FXML
-	 *     &#64;NotNull
-	 *     private TextField textField;
+	 * 	&#64;FXML
+	 * 	&#64;NotNull
+	 * 	private TextField textField;
 	 * 
-	 *     &#64;FXML
-	 *     private TextArea textArea;
+	 * 	&#64;FXML
+	 * 	private TextArea textArea;
 	 * 
-	 *     &#64;FXML
-	 *     &#64;NotNull
-	 *     private ComboBox<?> comboBox;
+	 * 	&#64;FXML
+	 * 	&#64;NotNull
+	 * 	private ComboBox<?> comboBox;
 	 * 
-	 *     public void action() {
-	 *         if (ValidadorDeCampos.validateAll(this)) {
-	 *             // vai verificar se o textField possui texto e se foi selecionado algum
-	 *             // valor no comboBox. Será deixado de lado o textArea, já que não foi
-	 *             // anotado como NotNull
-	 *         }
-	 *     }
+	 * 	public void action() {
+	 * 		if (ValidadorDeCampos.validateAll(this)) {
+	 * 			// vai verificar se o textField possui texto e se foi selecionado
+	 * 			// algum
+	 * 			// valor no comboBox. Será deixado de lado o textArea, já que não
+	 * 			// foi
+	 * 			// anotado como NotNull
+	 * 		}
+	 * 	}
 	 * 
 	 * }
 	 * </pre>
@@ -121,10 +124,13 @@ public class FXValidator {
 
 		} catch (SecurityException e) {
 			AlertBuilder.error(e);
+			return false;
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			AlertBuilder.error(e);
+			return false;
 		} catch (FXValidatorException e) {
 			AlertBuilder.error(e.getMessage());
+			return false;
 		}
 		return valid;
 	}
@@ -172,7 +178,7 @@ public class FXValidator {
 	}
 
 	private static boolean valida(ComboBox<?> obj) throws FXValidatorException {
-		if (obj.getSelectionModel().isEmpty())
+		if (obj.getValue() == null)
 			lancaException(obj);
 		return true;
 	}
@@ -201,7 +207,7 @@ public class FXValidator {
 		} else {
 			try {
 				return String.format(Messages.getDefaultMessage(),
-				        component.getTooltip() != null ? component.getTooltip().getText() : component.getId());
+						component.getTooltip() != null ? component.getTooltip().getText() : component.getId());
 			} catch (RuntimeException ex) {
 				return String.format(Messages.getDefaultMessage(), Messages.semEntradaDeTextoPara(component));
 			}

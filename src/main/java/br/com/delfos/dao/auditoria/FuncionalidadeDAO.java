@@ -1,5 +1,6 @@
 package br.com.delfos.dao.auditoria;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,11 @@ public class FuncionalidadeDAO extends AbstractDAO<Funcionalidade, Long, Funcion
 
 	public Set<Funcionalidade> findByPreRequisito(Funcionalidade preRequisito) {
 		return repository.findByPreRequisito(preRequisito);
+	}
+	
+	@Override
+	public <S extends Funcionalidade> Optional<S> save(S newValue) {
+		// TODO Auto-generated method stub
+		return super.save(newValue);
 	}
 }

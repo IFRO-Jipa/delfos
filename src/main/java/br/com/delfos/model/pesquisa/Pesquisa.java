@@ -33,7 +33,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 
 	@NotNull
 	private String nome;
-	
+
 	@Lob
 	private String descricao;
 	private int limite = 0;
@@ -50,8 +50,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
-	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.DETACH })
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
 	private Set<Questionario> questionarios;
 
 	private LocalDate dataInicio;
@@ -253,7 +252,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((dataFinalizada == null) ? 0 : dataFinalizada.hashCode());
 		result = prime * result + ((dataInicio == null) ? 0 : dataInicio.hashCode());
 		result = prime * result + ((dataVencimento == null) ? 0 : dataVencimento.hashCode());
@@ -272,7 +271,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
+		if (!super.equals(obj)) {
 			return false;
 		}
 		if (!(obj instanceof Pesquisa)) {
@@ -343,6 +342,5 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		}
 		return true;
 	}
-	
-	
+
 }

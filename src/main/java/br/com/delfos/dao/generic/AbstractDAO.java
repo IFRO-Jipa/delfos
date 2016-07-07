@@ -12,8 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import br.com.delfos.model.generic.Identificator;
-import br.com.delfos.model.generic.Upgrader;
-import br.com.delfos.view.AlertBuilder;
 
 @SuppressWarnings("rawtypes")
 @NoRepositoryBean
@@ -63,25 +61,28 @@ public abstract class AbstractDAO<Type extends Identificator, ID extends Seriali
 
 	@SuppressWarnings("unchecked")
 	public <S extends Type> Optional<S> save(S newValue) {
-		Optional<S> result = Optional.empty();
+		// Optional<S> result = Optional.empty();
+		//
+		// try {
+		// if (newValue.getId() == null) {
+		// // cria novo registro
+		// result = Optional.ofNullable((S) repository.save(newValue));
+		// } else {
+		// // // atualiza registro, modificando os valores necessários para
+		// // // atualização
+		// // S value = (S) this.findOne(newValue.getId());
+		// // ((Upgradable<S>) value).upgrade(value, newValue);
+		// // result = Optional.ofNullable((S) repository.save(value));
+		//
+		// }
+		// } catch (RuntimeException ex) {
+		// ex.printStackTrace();
+		// AlertBuilder.error(ex);
+		// }
+		//
+		// return result;
 
-		try {
-			if (newValue.getId() == null) {
-				// cria novo registro
-				result = Optional.ofNullable((S) repository.save(newValue));
-			} else {
-				// atualiza registro, modificando os valores necessários para
-				// atualização
-				S value = (S) this.findOne(newValue.getId());
-				((Upgrader<S>) value).update(value, newValue);
-				result = Optional.ofNullable((S) repository.save(value));
-			}
-		} catch (RuntimeException ex) {
-			ex.printStackTrace();
-			AlertBuilder.error(ex);
-		}
-
-		return result;
+		return Optional.ofNullable((S) repository.save(newValue));
 	}
 
 	@SuppressWarnings("unchecked")

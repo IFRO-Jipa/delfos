@@ -39,7 +39,7 @@ public class Funcionalidade extends AbstractModel<Funcionalidade> {
 	}
 
 	public Funcionalidade(Long idFuncionalidade, String nome, String chave, String descricao,
-	        Funcionalidade preRequisito) {
+			Funcionalidade preRequisito) {
 		super(idFuncionalidade);
 		this.nome = nome;
 		this.chave = chave;
@@ -80,12 +80,16 @@ public class Funcionalidade extends AbstractModel<Funcionalidade> {
 	}
 
 	@Override
+	public String toString() {
+		return "Funcionalidade [id=" + id + ", nome=" + nome + ", chave=" + chave + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((chave == null) ? 0 : chave.hashCode());
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((preRequisito == null) ? 0 : preRequisito.hashCode());
 		return result;
@@ -93,43 +97,45 @@ public class Funcionalidade extends AbstractModel<Funcionalidade> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Funcionalidade)) {
 			return false;
+		}
 		Funcionalidade other = (Funcionalidade) obj;
 		if (chave == null) {
-			if (other.chave != null)
+			if (other.chave != null) {
 				return false;
-		} else if (!chave.equals(other.chave))
+			}
+		} else if (!chave.equals(other.chave)) {
 			return false;
+		}
 		if (descricao == null) {
-			if (other.descricao != null)
+			if (other.descricao != null) {
 				return false;
-		} else if (!descricao.equals(other.descricao))
+			}
+		} else if (!descricao.equals(other.descricao)) {
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
+		}
 		if (nome == null) {
-			if (other.nome != null)
+			if (other.nome != null) {
 				return false;
-		} else if (!nome.equals(other.nome))
+			}
+		} else if (!nome.equals(other.nome)) {
 			return false;
+		}
 		if (preRequisito == null) {
-			if (other.preRequisito != null)
+			if (other.preRequisito != null) {
 				return false;
-		} else if (!preRequisito.equals(other.preRequisito))
+			}
+		} else if (!preRequisito.equals(other.preRequisito)) {
 			return false;
+		}
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Funcionalidade [id=" + id + ", nome=" + nome + ", chave=" + chave + "]";
-	}
 }

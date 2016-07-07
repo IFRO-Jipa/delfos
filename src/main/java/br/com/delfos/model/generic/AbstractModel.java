@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import br.com.delfos.view.table.TableColumnConfig;
 
 @MappedSuperclass
-public abstract class AbstractModel<T> implements Identificator, Upgrader<T> {
+public abstract class AbstractModel<T> implements Identificator, Upgradable<T> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,36 @@ public abstract class AbstractModel<T> implements Identificator, Upgrader<T> {
 
 	public AbstractModel() {
 
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof AbstractModel)) {
+			return false;
+		}
+		AbstractModel<?> other = (AbstractModel<?>) obj;
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
+			return false;
+		}
+		return true;
 	}
 
 }
