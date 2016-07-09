@@ -56,7 +56,8 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	@Embedded
 	private Endereco endereco;
 
-	@OneToOne(cascade = { CascadeType.REFRESH }, orphanRemoval = true, optional = true)
+	@OneToOne(cascade = { CascadeType.REFRESH,
+			CascadeType.REMOVE }, orphanRemoval = true, optional = true, mappedBy = "pessoa")
 	private Usuario usuario;
 
 	public Pessoa() {
@@ -180,7 +181,6 @@ public class Pessoa extends AbstractModel<Pessoa> {
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
 		result = prime * result + ((tipos == null) ? 0 : tipos.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 

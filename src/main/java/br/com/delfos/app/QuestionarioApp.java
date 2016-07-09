@@ -27,7 +27,7 @@ public class QuestionarioApp extends Application {
 		AnchorPane pane = loader.load();
 
 		configStage(primaryStage, pane);
-		
+
 		QuestionarioApp.primaryStage = primaryStage;
 		QuestionarioApp.controller = loader.getController();
 

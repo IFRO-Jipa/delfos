@@ -56,8 +56,8 @@ public class AlertBuilder {
 	private static void error(String msg, Exception ex, boolean expandable) {
 		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Erro encontrado");
-		alert.setHeaderText(msg == null ? ex.getMessage() : msg);
-		alert.setContentText("Falha localizada");
+		alert.setContentText(msg == null ? ex.getMessage() : msg);
+		alert.setHeaderText("Ocorreu uma falha inesperada.");
 
 		if (expandable) {
 			// Create expandable Exception.

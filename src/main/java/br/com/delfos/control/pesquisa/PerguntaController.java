@@ -77,11 +77,11 @@ public class PerguntaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		initTablePergunta();
+		initialize();
 		this.cbTipoPergunta.setItems(tiposDePergunta);
 	}
 
-	private void initTablePergunta() {
+	private void initialize() {
 
 		initColumnNome();
 		initColumnTipoPergunta();
@@ -273,6 +273,12 @@ public class PerguntaController implements Initializable {
 			}
 
 		};
+	}
+
+	public void clear() {
+		this.dadosTabela.clear();
+		this.txtNomePergunta.clear();
+		this.cbTipoPergunta.setValue(null);
 	}
 
 }

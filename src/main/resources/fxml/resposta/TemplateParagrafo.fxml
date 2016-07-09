@@ -7,21 +7,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="185.0" prefWidth="472.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
-	fx:controller="br.com.delfos.control.pessoal.resposta.RespostaParagrafoController">
+<AnchorPane prefHeight="185.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pessoal.resposta.RespostaParagrafoController">
 	<children>
-		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Nome da Pergunta">
+		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome da Pergunta">
 			<font>
 				<Font name="System Bold" size="17.0" />
 			</font>
 		</Text>
-		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0"
-			strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
-		<TextArea fx:id="txtMensagem" layoutX="14.0" layoutY="59.0"
-			prefHeight="110.0" prefWidth="445.0" promptText="deixe sua mensagem aqui"
-			wrapText="true" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0"
-			AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="59.0" />
+		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
+      <TextArea fx:id="txtMensagem" layoutX="14.0" layoutY="60.0" prefHeight="114.0" prefWidth="449.0" promptText="deixe sua mensagem aqui" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="60.0" />
 	</children>
 </AnchorPane>

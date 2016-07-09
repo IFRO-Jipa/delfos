@@ -11,6 +11,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.app.RespostaApp;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.RespostaDAO;
 import br.com.delfos.except.pesquisa.resposta.QuestionarioRespondidoException;
@@ -27,10 +28,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
 @Controller
 public class RespostaController implements Initializable {
@@ -39,13 +40,13 @@ public class RespostaController implements Initializable {
 	private RespostaDAO daoResposta;
 
 	@FXML
-	private Text txtNomeQuestionario;
+	private Label txtNomeQuestionario;
 
 	@FXML
 	private ScrollPane scrollPerguntas;
 
 	@FXML
-	private Text txtDescricao;
+	private Label txtDescricao;
 
 	@FXML
 	private Button btnRegistrar;
@@ -68,25 +69,53 @@ public class RespostaController implements Initializable {
 
 	@FXML
 	private void handleBtnRegistrar(ActionEvent event) {
-		// SALVAR NO BANCO DE DADOS
 		try {
-			if (AlertBuilder
-					.confirmation("Você só poderá responder esse questionário uma única vez. Deseja enviar agora?")) {
-				Pessoa expert = Autenticador.getDonoDaConta();
+			if (isRespostasPreenchidas()) {
+				if (AlertBuilder.confirmation(
+						"Você só poderá responder esse questionário uma única vez. Deseja enviar agora?")) {
 
-				controllers.forEach(controller -> {
-					Resposta<?> resposta = controller.getResposta(this.questionario);
-					resposta.setExpert(Optional.ofNullable(expert));
-					daoResposta.save(resposta).ifPresent(persist -> respostas.add(persist));
-				});
-				AlertBuilder.information("Salvo com sucesso");
-				this.btnRegistrar.setDisable(true);
-				this.btnLimpar.setDisable(true);
+					List<Resposta<?>> respostas = montaRespostas();
+					if (!respostas.isEmpty()) {
+						List<Resposta<?>> itensSalvos = daoResposta.save(respostas);
+						if (itensSalvos != null && !itensSalvos.isEmpty()) {
+							this.respostas = itensSalvos;
+							AlertBuilder.information("Registrado com sucesso.");
+							RespostaApp.close();
+						}
+					}
+
+					this.btnRegistrar.setDisable(true);
+					this.btnLimpar.setDisable(true);
+				}
 			}
 		} catch (QuestionarioRespondidoException ex) {
 			AlertBuilder.error("Não foi possível submeter o questionário pois já consta nos registros um envio com "
 					+ "suas credenciais para esse questionário.\nSe o erro persistir, entre em contato com o Administrador.");
 		}
+	}
+
+	private List<Resposta<?>> montaRespostas() {
+		List<Resposta<?>> respostas = new ArrayList<>();
+		Optional<Pessoa> expert = Optional.ofNullable(Autenticador.getDonoDaConta());
+
+		controllers.forEach(controller -> {
+			Resposta<?> resposta = controller.getResposta(this.questionario);
+			resposta.setExpert(expert);
+			respostas.add(resposta);
+		});
+
+		return respostas;
+	}
+
+	private boolean isRespostasPreenchidas() {
+		for (RespostaControllerImpl<?, ?> controller : this.controllers) {
+			if (!controller.isSelected()) {
+				AlertBuilder.warning("Responda todas as perguntas antes de prosseguir.");
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	@FXML

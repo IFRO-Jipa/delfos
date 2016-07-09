@@ -34,7 +34,7 @@ public class Usuario extends AbstractModel<Usuario> {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PerfilAcesso perfilAcesso;
 
-	@OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Pessoa pessoa;
 
 	@Enumerated(EnumType.STRING)

@@ -10,12 +10,10 @@ import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.control.generic.AbstractController;
-import br.com.delfos.dao.pesquisa.PerguntaDAO;
 import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
@@ -92,8 +90,6 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	@FXML
 	private Label lblDuracao;
 
-	@Autowired
-	private PerguntaDAO daoPergunta;
 
 	private PerguntaController perguntaController;
 
@@ -120,6 +116,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	private void handleButtonNovo(ActionEvent event) {
 		ScreenUtils.limpaCampos(this.rootPane);
 		this.dtInicio.setValue(LocalDate.now());
+		this.perguntaController.clear();
 	}
 
 	@FXML
@@ -157,16 +154,6 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		return q;
 	}
 
-	@Override
-	protected Optional<Questionario> salvar(Questionario value, Object controller) throws FXValidatorException {
-		if (value != null) {
-			value.getPerguntas().ifPresent(perguntas -> perguntas.forEach(pergunta -> {
-				daoPergunta.save(pergunta);
-			}));
-		}
-		return super.salvar(value, controller);
-	}
-
 	// pesquisa por codigo
 	@FXML
 	private void pesquisa() {
@@ -175,6 +162,10 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 	public void init(Optional<Questionario> questionario) {
 		this.posiciona(questionario);
+	}
+
+	public void clear() {
+		this.handleButtonNovo(null);
 	}
 
 	protected void posiciona(Optional<Questionario> value) {
@@ -211,16 +202,17 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		this.dtVencimento.setDayCellFactory(this.factoryDeVencimento);
 		this.btnNovo.setText("Limpar");
 
-		this.reset();
-
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
 		this.configTabPergunta();
+
+		this.reset();
 
 	}
 
 	private void reset() {
 		ScreenUtils.limpaCampos(rootPane);
 		this.dtInicio.setValue(LocalDate.now());
+		perguntaController.clear();
 	}
 
 	private void configTabPergunta() {

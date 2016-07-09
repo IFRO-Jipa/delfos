@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="303.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pessoal.TemplateMeusQuestionariosController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pessoal.TemplateMeusQuestionariosController">
 	<children>
 		<Text fx:id="txtNomePesquisa" layoutX="18.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome da Pesquisa" wrappingWidth="509.54296875" AnchorPane.leftAnchor="18.0">
 			<font>
 				<Font size="22.0" />
 			</font>
 		</Text>
-		<Text layoutX="18.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Responsaveis:" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="51.0">
+		<Text layoutX="18.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Responsáveis:" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="51.0">
 			<font>
 				<Font name="System Bold" size="13.0" />
 			</font>
 		</Text>
-		<Text fx:id="txtResponsaveis" layoutX="134.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-		<Text layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questionarios: " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="87.93310546875">
+		<Text fx:id="txtResponsaveis" layoutX="138.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.bottomAnchor="237.0" AnchorPane.leftAnchor="138.0" AnchorPane.topAnchor="51.0" />
+		<Text layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questionários " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="87.93310546875">
 			<font>
 				<Font name="System Bold" size="13.0" />
 			</font>
@@ -28,11 +29,21 @@
 		<Text fx:id="txtVencimento" layoutX="534.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00/00/8888" AnchorPane.rightAnchor="26.072265625" AnchorPane.topAnchor="41.93310546875" />
 		<BorderPane layoutX="16.0" layoutY="107.0" prefHeight="183.0" prefWidth="609.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="107.0">
 			<top>
-				<TextField fx:id="txtFiltro" BorderPane.alignment="CENTER" />
+				<TextField fx:id="txtFiltro" promptText="pesquise a partir do nome do questionário" BorderPane.alignment="CENTER" />
 			</top>
 			<center>
 				<ListView fx:id="listViewQuestionarios" prefHeight="157.0" prefWidth="612.0" BorderPane.alignment="CENTER" />
 			</center>
+         <bottom>
+            <Text fx:id="txtSituacaoQuestionario" strokeType="OUTSIDE" strokeWidth="0.0" text="Situação:" BorderPane.alignment="TOP_LEFT" />
+         </bottom>
 		</BorderPane>
+      <Group layoutX="139.0" layoutY="-1.0" AnchorPane.bottomAnchor="198.0" AnchorPane.rightAnchor="10.76611328125" AnchorPane.topAnchor="86.0">
+         <children>
+            <RadioButton fx:id="rbOrdenacaoNome" layoutX="331.0" layoutY="87.0" mnemonicParsing="false" text="Nome" />
+            <RadioButton fx:id="rbOrdenacaoSituacao" layoutX="405.0" layoutY="87.0" mnemonicParsing="false" text="Situação" />
+         </children>
+      </Group>
+      <Text layoutX="377.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ordenar por:" AnchorPane.bottomAnchor="200.0" AnchorPane.rightAnchor="174.56005859375" AnchorPane.topAnchor="88.0" />
 	</children>
 </AnchorPane>

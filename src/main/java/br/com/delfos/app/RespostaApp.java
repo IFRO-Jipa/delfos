@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class RespostaApp extends Application {
 
@@ -37,7 +36,6 @@ public class RespostaApp extends Application {
 		primaryStage.setTitle("Responder: " + questionario.get().getNome());
 		primaryStage.setScene(new Scene(pane));
 		primaryStage.showAndWait();
-
 	}
 
 	public void setQuestionario(Optional<Questionario> questionario) {
@@ -65,7 +63,7 @@ public class RespostaApp extends Application {
 		} else {
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initStyle(StageStyle.UTILITY);
+			// stage.initStyle(StageStyle.UTILITY);
 			return stage;
 		}
 	}

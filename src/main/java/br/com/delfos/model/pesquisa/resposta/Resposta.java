@@ -83,6 +83,10 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 		return horaResposta;
 	}
 
+	public Questionario getQuestionario() {
+		return questionario;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
