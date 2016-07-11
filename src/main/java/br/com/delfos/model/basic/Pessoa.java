@@ -259,13 +259,6 @@ public class Pessoa extends AbstractModel<Pessoa> {
 		} else if (!tipos.equals(other.tipos)) {
 			return false;
 		}
-		if (usuario == null) {
-			if (other.usuario != null) {
-				return false;
-			}
-		} else if (!usuario.equals(other.usuario)) {
-			return false;
-		}
 		return true;
 	}
 

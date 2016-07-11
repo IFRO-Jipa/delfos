@@ -4,12 +4,15 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class TableViewFactory<Type> {
+
+	private ChangeListener<? super Type> listener;
 
 	public TableView<Type> criaTableView(List<Type> itens) {
 		Class<? extends Object> type = itens.get(0).getClass();
@@ -20,8 +23,13 @@ public class TableViewFactory<Type> {
 		tabela.setItems(FXCollections.observableArrayList(itens));
 
 		tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+		tabela.getSelectionModel().selectedItemProperty().addListener(listener);
+		
 		return tabela;
+	}
+	
+	public void setListenerSelectedItem(ChangeListener<? super Type> listener) {
+		this.listener = listener;
 	}
 
 	private List<TableColumn<Type, ?>> configuraOrdem(List<TableColumn<Type, ?>> columns) {
@@ -54,9 +62,9 @@ public class TableViewFactory<Type> {
 		for (Field f : fields) {
 			if (f.isAnnotationPresent(br.com.delfos.view.table.TableColumnConfig.class)) {
 
-				br.com.delfos.view.table.TableColumnConfig annotation = f.getAnnotation(br.com.delfos.view.table.TableColumnConfig.class);
-				TableColumn<Type, ?> tableColumn = criaColuna(f.getType(), annotation.alias(),
-				        annotation.name());
+				br.com.delfos.view.table.TableColumnConfig annotation = f
+						.getAnnotation(br.com.delfos.view.table.TableColumnConfig.class);
+				TableColumn<Type, ?> tableColumn = criaColuna(f.getType(), annotation.alias(), annotation.name());
 
 				columns.add(tableColumn);
 			}

@@ -198,10 +198,17 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	private boolean verificaTipo(Collection<Pessoa> especialistas, TipoPessoa tipo) {
 		boolean resultado = true;
 		for (Pessoa pessoa : especialistas) {
-			System.out.printf("Pessoa: %s Tipo %s", pessoa.getNome(), pessoa.getTipo());
 			resultado = pessoa.getTipo().contains(tipo);
 		}
 		return resultado;
+	}
+
+	public boolean containsPesquisador(Pessoa pesquisador) {
+		if (pesquisador.isPesquisador()) {
+			return this.pesquisadores.stream().filter(p -> p.getId().equals(pesquisador.getId())).findFirst()
+					.isPresent();
+		} else
+			return false;
 	}
 
 	public void clearPesquisadores() {

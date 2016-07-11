@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.*?>
+<?import org.controlsfx.control.textfield.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="67.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <ComboBox fx:id="cbFiltro" layoutX="14.0" layoutY="29.0" prefHeight="25.0" prefWidth="148.0" promptText="filtro" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="29.0" />
+            <Text layoutX="14.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtrar pelo" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.93310546875" />
+            <TextField fx:id="txtFiltro" layoutX="165.0" layoutY="29.0" prefHeight="25.0" prefWidth="252.0" promptText="digite o valor para filtrar" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="29.0" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.668" orientation="VERTICAL" prefHeight="221.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <ListView fx:id="listViewItens" layoutX="247.0" layoutY="-7.0" prefHeight="156.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TextArea fx:id="txtDescricao" editable="false" layoutX="179.0" layoutY="61.0" prefHeight="167.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>
