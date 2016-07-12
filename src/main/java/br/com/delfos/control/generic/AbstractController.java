@@ -12,7 +12,7 @@ import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.util.Regex;
 import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.util.view.TextFieldFormatter;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
@@ -51,16 +51,16 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		try {
 			getValue().ifPresent(value -> {
 				if (predicate.test(value)) {
-					if (AlertBuilder.confirmation(AlertBuilder.ALERT_CONFIRM_EXCLUSAO)) {
+					if (AlertAdapter.confirmation(AlertAdapter.ALERT_CONFIRM_EXCLUSAO)) {
 						dao.delete(value.getId());
-						AlertBuilder.information("Excluído com sucesso");
+						AlertAdapter.information("Excluído com sucesso");
 					}
 				} else {
-					AlertBuilder.warning("Selecione um registro para excluir.");
+					AlertAdapter.warning("Selecione um registro para excluir.");
 				}
 			});
 		} catch (DataIntegrityViolationException e) {
-			AlertBuilder
+			AlertAdapter
 					.error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
 		}
 	}
@@ -84,7 +84,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 				this.posiciona(value);
 				return value;
 			} else {
-				AlertBuilder.warning("Nenhum registro foi encontrado.");
+				AlertAdapter.warning("Nenhum registro foi encontrado.");
 			}
 
 		}

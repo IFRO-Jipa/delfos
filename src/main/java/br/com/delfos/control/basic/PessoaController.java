@@ -21,7 +21,7 @@ import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoLogradouro;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.util.ContextFactory;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -190,11 +190,11 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 			retorno.ifPresent(pessoa -> {
 				txtCodigo.setText(String.valueOf(pessoa.getId()));
-				AlertBuilder.information("Salvo com sucesso.");
+				AlertAdapter.information("Salvo com sucesso.");
 			});
 
 		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 
 	}

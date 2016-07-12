@@ -1,10 +1,14 @@
 package br.com.delfos.fxml;
 
+import java.util.stream.Collectors;
+
 import org.controlsfx.control.spreadsheet.GridBase;
 import org.controlsfx.control.spreadsheet.SpreadsheetCell;
 import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
 
+import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +23,14 @@ public class SpreadsheetViewTest extends Application {
 	}
 
 	private SpreadsheetView spreadsheet;
+
+	private Questionario questionario;
+
+	public void setQuestionario(Questionario questionario) {
+		if (questionario == null)
+			throw new IllegalStateException("Questionário inválido.");
+		this.questionario = questionario;
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -35,8 +47,9 @@ public class SpreadsheetViewTest extends Application {
 	}
 
 	private SpreadsheetView getSpreadsheet() {
-		int rowCount = 15;
-		int columnCount = 10;
+		int rowCount = this.questionario.getPerguntas().get().size();
+		int columnCount = this.questionario.getPerguntas().get().stream()
+				.filter(p -> p.getAlternativa() instanceof MultiplaEscolha).collect(Collectors.toList()).size();
 		GridBase grid = new GridBase(rowCount, columnCount);
 
 		ObservableList<ObservableList<SpreadsheetCell>> rows = FXCollections.observableArrayList();

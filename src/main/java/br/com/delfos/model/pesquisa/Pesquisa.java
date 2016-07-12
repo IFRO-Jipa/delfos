@@ -50,7 +50,7 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	@CollectionTable(name = "pesquisa_especialistas")
 	private Set<Pessoa> especialistas;
 
-	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Questionario> questionarios;
 
 	private LocalDate dataInicio;

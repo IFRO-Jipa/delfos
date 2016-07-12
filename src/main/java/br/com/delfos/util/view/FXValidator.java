@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import javax.validation.constraints.NotNull;
 
 import br.com.delfos.except.view.FXValidatorException;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -123,13 +123,13 @@ public class FXValidator {
 			}
 
 		} catch (SecurityException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 			return false;
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 			return false;
 		} catch (FXValidatorException e) {
-			AlertBuilder.error(e.getMessage());
+			AlertAdapter.error(e.getMessage());
 			return false;
 		}
 		return valid;

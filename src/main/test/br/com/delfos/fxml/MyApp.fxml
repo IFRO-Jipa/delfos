@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="485.0" prefWidth="661.0"
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+	fx:controller="br.com.delfos.fxml.MyApp">
+	<children>
+		<Button fx:id="btnClick" layoutX="216.0" layoutY="207.0"
+			mnemonicParsing="false" onAction="#handleClick" prefHeight="71.0"
+			prefWidth="229.0" text="Click" AnchorPane.bottomAnchor="207.0"
+			AnchorPane.leftAnchor="216.0" AnchorPane.rightAnchor="216.0"
+			AnchorPane.topAnchor="207.0" />
+	</children>
+</AnchorPane>

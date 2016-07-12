@@ -17,7 +17,7 @@ import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.pergunta.TipoPergunta;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.util.view.FXValidator;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.table.factory.ComboBoxCellFactory;
 import br.com.delfos.view.table.factory.TextFieldCellFactory;
 import br.com.delfos.view.table.property.PerguntaProperty;
@@ -110,7 +110,7 @@ public class PerguntaController implements Initializable {
 
 		MenuItem menuRemoverTodos = new MenuItem("Remover Todos");
 		menuRemoverTodos.setOnAction(event -> {
-			if (AlertBuilder.confirmation("Deseja realmente excluir todas as perguntas?")) {
+			if (AlertAdapter.confirmation("Deseja realmente excluir todas as perguntas?")) {
 				tbPerguntas.getItems().clear();
 			}
 		});

@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContext;
 import br.com.delfos.app.LoginApp;
 import br.com.delfos.app.SplashScreenApp;
 import br.com.delfos.util.ContextFactory;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.application.Application;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -47,14 +47,14 @@ public class Inicializador extends Application {
 				new SplashScreenApp().start();
 
 			} catch (Exception e) {
-				AlertBuilder.error(e);
+				AlertAdapter.error(e);
 			}
 		});
 		service.setOnSucceeded(evt -> {
 			try {
 				new LoginApp().start(primaryStage);
 			} catch (Exception e) {
-				AlertBuilder.error(e);
+				AlertAdapter.error(e);
 			}
 		});
 

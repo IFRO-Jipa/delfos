@@ -17,7 +17,7 @@ import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -137,7 +137,7 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			});
 
 		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 

@@ -27,7 +27,7 @@ import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.TableCellFactory;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
@@ -211,7 +211,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 				this.listViewQuestionario.getItems().add(questionario);
 			});
 		} catch (IOException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 
@@ -225,12 +225,12 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			result.ifPresent(pesquisa -> {
 				txtCodigo.setText(String.valueOf(pesquisa.getId()));
-				AlertBuilder.information("Salvo com sucesso.");
+				AlertAdapter.information("Salvo com sucesso.");
 				setStatus(pesquisa);
 			});
 
 		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 
@@ -253,7 +253,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			return p;
 		} catch (LimiteDeEspecialistasAtingidoException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 			return null;
 		}
 	}
@@ -281,16 +281,16 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		String mensagem = "Se você finalizar essa pesquisa, ela não poderá ser utilizada novamente e \nnão "
 				+ "estará disponível para interação entre os especialistas, \nsendo necessária a criação de uma nova. "
 				+ "\n\nDeseja realmente finalizar?";
-		if (AlertBuilder.confirmation(mensagem)) {
+		if (AlertAdapter.confirmation(mensagem)) {
 			try {
 				Pesquisa pesquisa = toValue();
 				pesquisa.finaliza();
 				this.salvar(pesquisa, this).ifPresent(optional -> {
 					verificaSituacao(pesquisa);
-					AlertBuilder.information("Finalizada com sucesso");
+					AlertAdapter.information("Finalizada com sucesso");
 				});
 			} catch (FXValidatorException e) {
-				AlertBuilder.error(e);
+				AlertAdapter.error(e);
 			}
 		}
 	}
@@ -426,11 +426,11 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 				btnSalvar.setDisable(true);
 				try {
 					this.salvar(toValue(), this)
-							.ifPresent(optional -> AlertBuilder.warning(
+							.ifPresent(optional -> AlertAdapter.warning(
 									"Por conta da pesquisa estar vencida, ela será finalizada automaticamente. "
 											+ "As alterações realizadas nela não serão refletidas."));
 				} catch (FXValidatorException e) {
-					AlertBuilder.error(e);
+					AlertAdapter.error(e);
 				}
 			}
 

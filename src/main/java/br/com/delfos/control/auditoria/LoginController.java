@@ -14,7 +14,7 @@ import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.except.auditoria.UserNotAuthenticatedException;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.util.view.FXValidator;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,9 +53,9 @@ public class LoginController implements Initializable {
 		try {
 			autenticaUsuario();
 		} catch (UserNotAuthenticatedException | IOException | FXValidatorException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		} catch (RuntimeException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 

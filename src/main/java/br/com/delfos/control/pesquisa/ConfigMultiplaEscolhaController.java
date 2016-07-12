@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.control.dialog.EditDialog;
 import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -88,7 +88,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 			this.itens.put(item, valor);
 			this.initTableView();
 		} else {
-			AlertBuilder.error("Preencha os campos corretamente para prosseguir.");
+			AlertAdapter.error("Preencha os campos corretamente para prosseguir.");
 		}
 	}
 
@@ -175,7 +175,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 				if (this.itens.remove(tbAlternativas.getSelectionModel().getSelectedItem().getKey()) != null) {
 					tbAlternativas.getItems().remove(tbAlternativas.getSelectionModel().getSelectedIndex());
 				} else {
-					AlertBuilder.error(
+					AlertAdapter.error(
 							"Falha ao remover o item: Parece que ele não estava presente na lista [Unknown value for this item].");
 				}
 			}
@@ -183,7 +183,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 
 		MenuItem menuRemoverTodos = new MenuItem("Remover Todos");
 		menuRemoverTodos.setOnAction(event -> {
-			if (AlertBuilder.confirmation("Deseja realmente excluir todas as perguntas?")) {
+			if (AlertAdapter.confirmation("Deseja realmente excluir todas as perguntas?")) {
 				tbAlternativas.getItems().clear();
 				this.itens.clear();
 			}

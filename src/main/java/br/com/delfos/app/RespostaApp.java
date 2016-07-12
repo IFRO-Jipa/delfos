@@ -8,7 +8,7 @@ import br.com.delfos.control.pessoal.resposta.RespostaController;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.util.LeitorDeFXML;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -52,7 +52,7 @@ public class RespostaApp extends Application {
 
 			return controller.getRespostas();
 		} catch (IllegalStateException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 			return null;
 		}
 	}

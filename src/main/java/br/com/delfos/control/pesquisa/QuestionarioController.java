@@ -18,7 +18,7 @@ import br.com.delfos.dao.pesquisa.QuestionarioDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -129,11 +129,11 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		try {
 			this.salvar(toValue(), this).ifPresent(x -> {
 				this.posiciona(Optional.ofNullable(x));
-				AlertBuilder.information("Todas as alterações foram salvas.");
+				AlertAdapter.information("Todas as alterações foram salvas.");
 				QuestionarioApp.close();
 			});
 		} catch (FXValidatorException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 

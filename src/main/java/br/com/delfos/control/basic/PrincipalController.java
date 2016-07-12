@@ -14,7 +14,7 @@ import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.util.LeitorDeFXML;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ManipuladorDeMenus;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -78,9 +78,9 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void acaoParaLogout(ActionEvent event) {
-		if (AlertBuilder.confirmation("Deseja realmente deslogar?")) {
+		if (AlertAdapter.confirmation("Deseja realmente deslogar?")) {
 			PrincipalApp.getStage().hide();
-			AlertBuilder.information("teste");
+			AlertAdapter.information("teste");
 			PrincipalApp.getStage().show();
 		}
 	}
@@ -109,7 +109,7 @@ public class PrincipalController implements Initializable {
 
 					abreJanela(props[1], value.getText());
 				} catch (IOException e1) {
-					AlertBuilder.error(e1);
+					AlertAdapter.error(e1);
 				}
 			});
 		}

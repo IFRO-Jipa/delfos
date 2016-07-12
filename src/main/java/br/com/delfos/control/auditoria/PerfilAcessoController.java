@@ -18,7 +18,7 @@ import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.model.auditoria.PerfilAcesso;
 import br.com.delfos.util.TableCellFactory;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
@@ -107,7 +107,7 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 			        txtCodigo.setText(String.valueOf(valor.getId()));
 		        });
 			} catch (FXValidatorException e) {
-				AlertBuilder.error(e);
+				AlertAdapter.error(e);
 			}
 		});
 	}

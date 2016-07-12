@@ -9,12 +9,14 @@ public class LeitorDeFXML {
 	 * Responsável por gerenciar as dependências inseridas nos controllers para
 	 * o JavaFX
 	 * 
+	 * @param <T>
+	 * 
 	 * @param url
 	 *            - Local do arquivo FXML
 	 * @return
 	 * @throws IOException
 	 */
-	public synchronized static Object load(String url) throws IOException {
+	public synchronized static <T> T load(String url) throws IOException {
 		return LeitorDeFXML.getLoader(url).load();
 	}
 

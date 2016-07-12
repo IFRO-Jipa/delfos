@@ -1,6 +1,6 @@
 package br.com.delfos.app;
 
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +36,7 @@ public class SplashScreenApp extends Preloader {
 			try {
 				new LoginApp().start(stage);
 			} catch (Exception e) {
-				AlertBuilder.error(e);
+				AlertAdapter.error(e);
 			}
 		};
 	}

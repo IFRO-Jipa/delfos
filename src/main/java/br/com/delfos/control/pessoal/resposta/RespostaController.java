@@ -21,7 +21,7 @@ import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.util.LeitorDeFXML;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,7 +71,7 @@ public class RespostaController implements Initializable {
 	private void handleBtnRegistrar(ActionEvent event) {
 		try {
 			if (isRespostasPreenchidas()) {
-				if (AlertBuilder.confirmation(
+				if (AlertAdapter.confirmation(
 						"Você só poderá responder esse questionário uma única vez. Deseja enviar agora?")) {
 
 					List<Resposta<?>> respostas = montaRespostas();
@@ -79,7 +79,7 @@ public class RespostaController implements Initializable {
 						List<Resposta<?>> itensSalvos = daoResposta.save(respostas);
 						if (itensSalvos != null && !itensSalvos.isEmpty()) {
 							this.respostas = itensSalvos;
-							AlertBuilder.information("Registrado com sucesso.");
+							AlertAdapter.information("Registrado com sucesso.");
 							RespostaApp.close();
 						}
 					}
@@ -89,7 +89,7 @@ public class RespostaController implements Initializable {
 				}
 			}
 		} catch (QuestionarioRespondidoException ex) {
-			AlertBuilder.error("Não foi possível submeter o questionário pois já consta nos registros um envio com "
+			AlertAdapter.error("Não foi possível submeter o questionário pois já consta nos registros um envio com "
 					+ "suas credenciais para esse questionário.\nSe o erro persistir, entre em contato com o Administrador.");
 		}
 	}
@@ -110,7 +110,7 @@ public class RespostaController implements Initializable {
 	private boolean isRespostasPreenchidas() {
 		for (RespostaControllerImpl<?, ?> controller : this.controllers) {
 			if (!controller.isSelected()) {
-				AlertBuilder.warning("Responda todas as perguntas antes de prosseguir.");
+				AlertAdapter.warning("Responda todas as perguntas antes de prosseguir.");
 				return false;
 			}
 		}
@@ -120,7 +120,7 @@ public class RespostaController implements Initializable {
 
 	@FXML
 	private void handleButtonLimpar(ActionEvent event) {
-		if (AlertBuilder.confirmation("Todo o trabalho será perdido. Deseja continuar?")) {
+		if (AlertAdapter.confirmation("Todo o trabalho será perdido. Deseja continuar?")) {
 			controllers.forEach(RespostaControllerImpl::clearSelected);
 		}
 	}

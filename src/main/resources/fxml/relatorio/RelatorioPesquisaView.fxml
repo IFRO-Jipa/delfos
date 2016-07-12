@@ -7,32 +7,42 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane fx:id="splitPane" dividerPositions="0.31909547738693467" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-         <children>
-            <BarChart fx:id="barChartPesquisa" layoutX="74.0" layoutY="-114.0" prefHeight="195.0" prefWidth="598.0" title="Nome da pesquisa" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </BarChart>
-         </children></AnchorPane>
-      <TabPane>
-         <tabs>
-            <Tab fx:id="tabKc" closable="false" text="Coeficiênte de Competência (Kc)">
-               <content>
-                  <ScrollPane fx:id="scrollPane" prefViewportHeight="332.0" prefViewportWidth="717.0" />
-               </content>
-            </Tab>
-            <Tab fx:id="tabKa" closable="false" text="Coeficiente de Argumentação (Ka)">
-               <content>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-  </items>
+<SplitPane fx:controller="br.com.delfos.control.relatorio.RelatorioPesquisaController"
+	fx:id="splitPane" dividerPositions="0.31909547738693467" maxHeight="-Infinity"
+	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+	orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<items>
+		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0"
+			prefWidth="160.0">
+			<children>
+				<BarChart fx:id="barChartPesquisa" layoutX="74.0" layoutY="-114.0"
+					prefHeight="195.0" prefWidth="598.0" title="Nome da pesquisa"
+					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<xAxis>
+						<CategoryAxis side="BOTTOM" />
+					</xAxis>
+					<yAxis>
+						<NumberAxis side="LEFT" />
+					</yAxis>
+				</BarChart>
+			</children>
+		</AnchorPane>
+		<TabPane>
+			<tabs>
+				<Tab fx:id="tabKc" closable="false" text="Coeficiênte de Competência (Kc)">
+					<content>
+						<ScrollPane fx:id="scrollPane" prefViewportHeight="332.0"
+							prefViewportWidth="717.0" />
+					</content>
+				</Tab>
+				<Tab fx:id="tabKa" closable="false" text="Coeficiente de Argumentação (Ka)">
+					<content>
+						<ScrollPane prefHeight="200.0" prefWidth="200.0" />
+					</content>
+				</Tab>
+			</tabs>
+		</TabPane>
+	</items>
 </SplitPane>

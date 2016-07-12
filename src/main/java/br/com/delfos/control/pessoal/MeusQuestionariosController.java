@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.model.pesquisa.Pesquisa;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,7 +86,7 @@ public class MeusQuestionariosController implements Initializable {
 				panes.add(panel);
 			}
 		} catch (IOException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 
 		return panes;

@@ -21,7 +21,7 @@ import javafx.scene.layout.Priority;
  * @author Leonardo Braz
  *
  */
-public class AlertBuilder {
+public class AlertAdapter {
 
 	private static Alert alert;
 

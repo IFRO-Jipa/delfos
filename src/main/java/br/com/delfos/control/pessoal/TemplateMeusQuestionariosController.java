@@ -25,7 +25,7 @@ import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.model.pesquisa.resposta.RespostaQuestionario;
 import br.com.delfos.util.ContextFactory;
 import br.com.delfos.util.TableCellFactory;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -75,11 +75,18 @@ public class TemplateMeusQuestionariosController implements Initializable {
 
 	private SortedList<Questionario> ordenador;
 
+	private Pesquisa pesquisa;
+
 	public synchronized void set(final Pesquisa pesquisa) {
+		this.pesquisa = pesquisa;
 		this.txtNomePesquisa.setText(pesquisa.getNome());
 		this.txtResponsaveis.setText(criaStringComVirgulaEPonto(pesquisa.getPesquisadores()));
 		this.txtVencimento.setText(pesquisa.getDataVencimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
+		updateCache(pesquisa);
+	}
+
+	private void updateCache(final Pesquisa pesquisa) {
 		this.questionarios = getObservableList(pesquisa.getQuestionarios());
 
 		this.listViewQuestionarios.setItems(getSortedItems());
@@ -149,7 +156,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 	}
 
 	private void showPopup() {
-		AlertBuilder.information("Você já respondeu esse questionário e não é possível editá-lo!");
+		AlertAdapter.information("Você já respondeu esse questionário e não é possível editá-lo!");
 	}
 
 	private boolean questionarioRespondido(Questionario q) {
@@ -222,20 +229,17 @@ public class TemplateMeusQuestionariosController implements Initializable {
 				RespostaApp app = new RespostaApp();
 				app.setQuestionario(Optional.ofNullable(selectedItem));
 				try {
-					List<RespostaQuestionario> respostas = app.showAndWait().stream()
-							.filter(resposta -> resposta instanceof RespostaQuestionario)
+					app.showAndWait().stream().filter(resposta -> resposta instanceof RespostaQuestionario)
 							.map(resposta -> (RespostaQuestionario) resposta).collect(Collectors.toList());
 
-					this.respostaQuestionarios.addAll(respostas);
-
-					this.listViewQuestionarios.setItems(getSortedItems());
+					this.updateCache(pesquisa);
 				} catch (NullPointerException e) {
 					// nada a fazer, só será lançado caso não tenha retornado
 					// nenhuma resposta.
 				}
 
 			} catch (IOException e) {
-				AlertBuilder.error(e);
+				AlertAdapter.error(e);
 			}
 		} else {
 			showPopup();

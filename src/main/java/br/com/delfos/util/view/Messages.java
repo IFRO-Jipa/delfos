@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
 
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.scene.control.Control;
 
 class Messages {
@@ -30,7 +30,7 @@ class Messages {
 			notFoundMessage = props.getProperty("notFoundMessage");
 
 		} catch (IOException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 

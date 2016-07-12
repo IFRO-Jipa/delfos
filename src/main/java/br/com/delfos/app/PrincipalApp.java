@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import br.com.delfos.control.basic.PrincipalController;
 import br.com.delfos.util.LeitorDeFXML;
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -45,7 +45,7 @@ public class PrincipalApp extends Application {
 	}
 
 	public static void destroy() {
-		if (AlertBuilder.confirmation(AlertBuilder.ALERT_CONFIRM_EXIT)) {
+		if (AlertAdapter.confirmation(AlertAdapter.ALERT_CONFIRM_EXIT)) {
 			System.exit(0);
 		}
 	}
@@ -61,9 +61,9 @@ public class PrincipalApp extends Application {
 
 			controller.openWindow(pane, title);
 		} catch (IllegalArgumentException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		} catch (IOException e) {
-			AlertBuilder.error(e);
+			AlertAdapter.error(e);
 		}
 	}
 

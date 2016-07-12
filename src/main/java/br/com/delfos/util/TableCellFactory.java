@@ -3,7 +3,7 @@ package br.com.delfos.util;
 import java.util.Optional;
 import java.util.function.Function;
 
-import br.com.delfos.view.AlertBuilder;
+import br.com.delfos.view.AlertAdapter;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -66,7 +66,7 @@ public class TableCellFactory<T> {
 		MenuItem menuRemoveOnly = new MenuItem();
 		menuRemoveOnly.setText("Remover");
 		menuRemoveOnly.setOnAction(action -> {
-			if (AlertBuilder.confirmation("Esta ação não pode ser desfeita. Você tem certeza?")) {
+			if (AlertAdapter.confirmation("Esta ação não pode ser desfeita. Você tem certeza?")) {
 				listView.getItems().remove(cell.getItem());
 			}
 		});
@@ -74,7 +74,7 @@ public class TableCellFactory<T> {
 		MenuItem menuRemoveAll = new MenuItem();
 		menuRemoveAll.setText("Remover todos");
 		menuRemoveAll.setOnAction(action -> {
-			if (AlertBuilder.confirmation("Remover todas as informações contidas na lista?")) {
+			if (AlertAdapter.confirmation("Remover todas as informações contidas na lista?")) {
 				listView.getItems().clear();
 			}
 		});
