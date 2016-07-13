@@ -124,7 +124,7 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void abreJanela(String view, String title) throws IOException {
-		AnchorPane load = (AnchorPane) LeitorDeFXML.load(String.format("fxml/%s", view));
+		Pane load = LeitorDeFXML.load(String.format("fxml/%s", view));
 
 		configTabPane(title, load);
 	}
@@ -133,7 +133,7 @@ public class PrincipalController implements Initializable {
 		configTabPane(title, pane);
 	}
 
-	private void configTabPane(String title, AnchorPane load) {
+	private void configTabPane(String title, Pane load) {
 		Tab tab = new Tab(title);
 		tab.setContent(load);
 

@@ -2,14 +2,15 @@ package br.com.delfos.control.search;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 import javafx.collections.ObservableList;
 
-public interface Searchable<T> {
-	void setComparators(Map<String, Function<T, String>> comparators);
+interface SearchableImpl<T> {
+	void setComparators(Map<String, BiPredicate<T, String>> comparators);
 
-	Map<String, Function<T, String>> getComparators();
+	Map<String, BiPredicate<T, String>> getComparators();
 
 	Optional<T> getSelected();
 
@@ -21,6 +22,6 @@ public interface Searchable<T> {
 
 	void setText(Function<T, String> text);
 
-	void addComparing(String key, Function<T, String> comparation);
+	void addComparing(String key, BiPredicate<T, String> comparation);
 
 }

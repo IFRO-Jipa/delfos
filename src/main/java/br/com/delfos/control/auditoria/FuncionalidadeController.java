@@ -1,6 +1,7 @@
 package br.com.delfos.control.auditoria;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -14,14 +15,14 @@ import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.dao.auditoria.FuncionalidadeDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.auditoria.Funcionalidade;
+import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertAdapter;
-import br.com.delfos.view.manipulador.ScreenUtils;
-import br.com.delfos.view.table.TableViewFactory;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -36,7 +37,7 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 	private AnchorPane rootPane;
 
 	@FXML
-	private TableView<Funcionalidade> tbRegistros;
+	private ListView<Funcionalidade> tbRegistros;
 
 	@FXML
 	@NotNull
@@ -75,16 +76,24 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ScreenUtils.limpaCampos(rootPane);
+		limpa();
+	}
+
+	private void limpa() {
+		this.txtCodigo.setText("");
+		this.txtNome.setText("");
+		this.txtDescricao.setText("");
+		this.txtChave.setText("");
+		this.cbPreRequisito.setValue(null);
 	}
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
 		this.deleteIf(func -> func.getId() != null);
 
-		removeDaTabela(tbRegistros, v -> v.getId() == Long.parseLong(txtCodigo.getText()));
+		this.tbRegistros.getItems().removeIf(f -> f.getId().equals(Long.parseLong(txtCodigo.getText())));
 
-		ScreenUtils.limpaCampos(rootPane);
+		limpa();
 	}
 
 	@FXML
@@ -95,6 +104,7 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 			retorno.ifPresent(funcionalidadeNova -> {
 				txtCodigo.setText(String.valueOf(funcionalidadeNova.getId()));
 				tbRegistros.getItems().add(funcionalidadeNova);
+				tbRegistros.getItems().sort(Comparator.comparing(Funcionalidade::getNome));
 			});
 
 		} catch (FXValidatorException e) {
@@ -104,14 +114,18 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tbRegistros.getColumns().clear();
 		tbRegistros.getItems().clear();
 		this.populaTabela(dao.findAll());
 
 		tbRegistros.getSelectionModel().selectedItemProperty()
-		        .addListener((observable, oldValue, newValue) -> atualizaCampos(newValue));
+				.addListener((observable, oldValue, newValue) -> atualizaCampos(newValue));
 
 		cbPreRequisito.setItems(tbRegistros.getItems());
+
+		this.tbRegistros.setCellFactory(new TableCellFactory<Funcionalidade>(this.tbRegistros).getCellFactory(f -> {
+			return String.format("%s (%s)", f.getNome(), f.getChave());
+		}));
+
 		cbPreRequisito.setConverter(new StringConverter<Funcionalidade>() {
 
 			@Override
@@ -124,6 +138,9 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 				return object.getNome();
 			}
 		});
+
+		this.tbRegistros.getItems().sort(Comparator.comparing(Funcionalidade::getNome));
+
 	}
 
 	@Override
@@ -155,7 +172,7 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 
 	private void atualizaRegistroNaTabela(Funcionalidade funcionalidade) {
 		Optional<Funcionalidade> optional = tbRegistros.getItems().stream()
-		        .filter(f -> f.getId().equals(funcionalidade.getId())).findFirst();
+				.filter(f -> f.getId().equals(funcionalidade.getId())).findFirst();
 
 		optional.ifPresent(value -> {
 			int index = tbRegistros.getItems().indexOf(value);
@@ -164,10 +181,8 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 	}
 
 	private void populaTabela(List<Funcionalidade> funcionalidades) {
-		TableView<Funcionalidade> temp = new TableViewFactory<Funcionalidade>().criaTableView(funcionalidades);
 
-		tbRegistros.getColumns().addAll(temp.getColumns());
-		tbRegistros.setItems(temp.getItems());
+		tbRegistros.setItems(FXCollections.observableArrayList(funcionalidades));
 
 	}
 

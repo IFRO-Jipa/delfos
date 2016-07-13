@@ -33,21 +33,11 @@
 		<Button fx:id="btnPesquisar" layoutX="62.0" layoutY="31.0"
 			mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0"
 			prefWidth="19.0" text="..." />
-		<TableView fx:id="tbRegistros" layoutX="14.0" layoutY="202.0"
+		<ListView fx:id="tbRegistros" layoutX="14.0" layoutY="202.0"
 			prefHeight="166.0" prefWidth="544.0" AnchorPane.bottomAnchor="55.0"
 			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0"
 			AnchorPane.topAnchor="202.0">
-			<columns>
-				<TableColumn fx:id="tcId" prefWidth="75.0" text="ID" />
-				<TableColumn fx:id="tcFuncionalidade" prefWidth="447.0"
-					text="Funcionalidade" />
-				<TableColumn fx:id="tcChave" prefWidth="117.0"
-					resizable="false" text="Chave" />
-			</columns>
-			<columnResizePolicy>
-				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-			</columnResizePolicy>
-		</TableView>
+		</ListView>
 		<Text layoutX="14.0" layoutY="198.0" strokeType="OUTSIDE"
 			strokeWidth="0.0" text="Registros" AnchorPane.leftAnchor="14.0" />
 		<Group layoutX="-20.0" layoutY="-8.0" AnchorPane.bottomAnchor="7.0"

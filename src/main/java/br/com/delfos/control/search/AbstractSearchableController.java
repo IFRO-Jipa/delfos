@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import br.com.delfos.model.generic.AbstractModel;
@@ -19,7 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class AbstractSearchableController<T extends AbstractModel<T>> implements Searchable<T>, Initializable {
+class AbstractSearchableController<T extends AbstractModel<T>> implements SearchableImpl<T>, Initializable {
 
 	@FXML
 	private ComboBox<String> cbFiltro;
@@ -33,7 +35,7 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 	@FXML
 	private ListView<T> listViewItens;
 
-	private Map<String, Function<T, String>> comparators;
+	private Map<String, BiPredicate<T, String>> comparators;
 
 	private T selectedItem;
 
@@ -43,7 +45,15 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 
 	private Function<T, String> functionText;
 
-	public AbstractSearchableController(ObservableList<T> itens, Map<String, Function<T, String>> comparators) {
+	private boolean closeAfterDoubleClick = true;
+
+	private Optional<Consumer<T>> consumerPersonalizadoDoubleClick;
+
+	/*
+	 * Personalização dos estados da funcionalidade
+	 */
+
+	public AbstractSearchableController(ObservableList<T> itens, Map<String, BiPredicate<T, String>> comparators) {
 		initComparators();
 		setComparators(comparators);
 		setTarget(new FilteredList<>(itens));
@@ -52,7 +62,9 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 	private void initComparators() {
 		if (this.comparators == null)
 			this.comparators = new HashMap<>();
-		comparators.put("ID", obj -> obj.getId().toString());
+		comparators.put("ID", (obj, filtro) -> {
+			return obj.getId().toString().contains(filtro);
+		});
 	}
 
 	public AbstractSearchableController(ObservableList<T> itens) {
@@ -60,13 +72,17 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 		setTarget(itens);
 	}
 
+	public void setConsumerPersonalizadoDoubleClick(Consumer<T> consumerPersonalizadoDoubleClick) {
+		this.consumerPersonalizadoDoubleClick = Optional.ofNullable(consumerPersonalizadoDoubleClick);
+	}
+
 	@Override
-	public void setComparators(Map<String, Function<T, String>> comparators) {
+	public void setComparators(Map<String, BiPredicate<T, String>> comparators) {
 		this.comparators = comparators;
 	}
 
 	@Override
-	public Map<String, Function<T, String>> getComparators() {
+	public Map<String, BiPredicate<T, String>> getComparators() {
 		return this.comparators;
 	}
 
@@ -86,7 +102,7 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 
 	@Override
 	public void search() {
-
+		// TODO retirar da implementação
 	}
 
 	@Override
@@ -96,19 +112,26 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 
 	@Override
 	public void setText(Function<T, String> text) {
-		// listViewCellFactory = new TableCellFactory<T>(listViewItens).getCellFactory(text);
 		this.functionText = text;
 	}
 
-	private void configureComboBox() {
-		this.cbFiltro.setItems(FXCollections.observableArrayList(this.comparators.keySet()));
+	public void setOnCloseAfterDoubleClick(boolean status) {
+		this.closeAfterDoubleClick = status;
 	}
+
+	/*
+	 * Configuração a partir das configurações fornecidas
+	 */
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.configureFilter();
 		this.configureListView();
 		this.configureComboBox();
+	}
+
+	private void configureComboBox() {
+		this.cbFiltro.setItems(FXCollections.observableArrayList(this.comparators.keySet()));
 	}
 
 	private void configureListView() {
@@ -119,6 +142,33 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 		});
 
 		this.listViewItens.setItems(itens);
+
+		this.configDoubleClickListView();
+	}
+
+	private void configDoubleClickListView() {
+		this.listViewItens.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) {
+				T selectedItem = this.listViewItens.getSelectionModel().getSelectedItem();
+				if (consumerPersonalizadoDoubleClick.isPresent()) {
+					// executa o código personalizado
+					Consumer<T> consumer = this.consumerPersonalizadoDoubleClick.get();
+
+					consumer.accept(selectedItem);
+				} else {
+					// marca o item selecionado e diz que a tela deve ser fechada
+					this.selectedItem = selectedItem;
+					this.closeAfterDoubleClick = true;
+				}
+				fechaTela();
+			}
+		});
+	}
+
+	private void fechaTela() {
+		if (closeAfterDoubleClick) {
+			br.com.delfos.control.search.AbstractSearchable.close();
+		}
 	}
 
 	private void configureFilter() {
@@ -131,7 +181,7 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 				String key = this.cbFiltro.getValue();
 
 				if (key != null && !key.isEmpty() && this.comparators.containsKey(key))
-					return this.compare(obj, newValue, this.comparators.get(key));
+					return this.comparators.get(key).test(obj, newValue);
 				else if (!this.comparators.containsKey(key)) {
 					return true;
 				}
@@ -142,17 +192,8 @@ public class AbstractSearchableController<T extends AbstractModel<T>> implements
 	}
 
 	@Override
-	public void addComparing(String key, Function<T, String> comparation) {
+	public void addComparing(String key, BiPredicate<T, String> comparation) {
 		this.comparators.put(key, comparation);
-	}
-
-	public boolean compare(T obj, String filter, Function<T, String> function) {
-		System.out.println("1 - " + filter.toLowerCase());
-		System.out.println("2 - " + function.apply(obj).toLowerCase());
-		System.out.println("3 - " + filter.toLowerCase().contains(function.apply(obj).toLowerCase()));
-		System.out.println("4 - " + function.apply(obj).toLowerCase().contains(filter.toLowerCase()));
-		System.out.println(" -------------------------- ");
-		return function.apply(obj).toLowerCase().contains(filter.toLowerCase());
 	}
 
 }

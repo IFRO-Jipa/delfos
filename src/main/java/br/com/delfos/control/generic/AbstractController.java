@@ -14,12 +14,11 @@ import br.com.delfos.util.view.FXValidator;
 import br.com.delfos.util.view.TextFieldFormatter;
 import br.com.delfos.view.AlertAdapter;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.util.converter.IntegerStringConverter;
 
 public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>>
-		implements Initializable {
+										implements Initializable {
 
 	@Autowired
 	private DataAcessObject dao;
@@ -93,7 +92,4 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 
 	}
 
-	protected boolean removeDaTabela(TableView<Type> tableView, Predicate<Type> predicate) {
-		return tableView.getItems().removeIf(predicate);
-	}
 }
