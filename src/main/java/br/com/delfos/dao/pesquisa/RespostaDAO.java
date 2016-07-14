@@ -1,9 +1,16 @@
 package br.com.delfos.dao.pesquisa;
 
+import java.time.Month;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +25,9 @@ import br.com.delfos.repository.pesquisa.RespostaRepository;
 
 @Repository
 public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaRepository> {
+
+	@PersistenceContext(unitName = "mysqlDataSource")
+	private EntityManager em;
 
 	@Override
 	public <S extends Resposta<?>> Optional<S> save(S newValue) {
@@ -66,5 +76,37 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 		}
 
 		return saved;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map<Questionario, Map<Month, Number>> getRespostasAgrupadosPelaData(Pesquisa p) {
+		Map<Questionario, Map<Month, Number>> resultado = new HashMap<>();
+
+		String SQL = "select extract(MONTH from horaResposta) as mes, count(*) as qtd from "
+				+ "Resposta where Questionario_id = ?1 group by extract(MONTH from horaResposta) ;";
+
+		p.getQuestionarios().forEach(questionario -> {
+			Map<Month, Number> estatistica = populaComMeses();
+			Query query = em.createNativeQuery(SQL);
+			query.setParameter(1, questionario.getId());
+			List<Object[]> mesQuantidade = query.getResultList();
+			if (!mesQuantidade.isEmpty()) {
+				int mes = (int) mesQuantidade.get(0)[0];
+				Number qtd = (Number) mesQuantidade.get(0)[1];
+				estatistica.put(Month.of(mes), qtd);
+			}
+
+			resultado.put(questionario, estatistica);
+		});
+
+		return resultado;
+	}
+
+	private Map<Month, Number> populaComMeses() {
+		Map<Month, Number> resultado = new HashMap<>();
+
+		for (Month m : Month.values())
+			resultado.put(m, 0);
+		return resultado;
 	}
 }

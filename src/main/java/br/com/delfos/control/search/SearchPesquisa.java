@@ -61,7 +61,7 @@ public class SearchPesquisa {
 
 	private String formataNome(Pesquisa p) {
 		return String.format(
-				"%d - %s%nDescrição: %s%nPesquisadores: %s%sEspecialistas%s%nData de Início:%s%nVencimento: %s",
+				"%d-%s\nDescrição:%s\nPesquisadores: %s\nEspecialistas:%s\nData de Início: %s\nVencimento: %s",
 				p.getId(), p.getNome(), p.getDescricao(),
 				p.getPesquisadores().toString().replace("[", "").replace("]", ""),
 				p.getEspecialistas().toString().replace("[", "").replace("]", ""),

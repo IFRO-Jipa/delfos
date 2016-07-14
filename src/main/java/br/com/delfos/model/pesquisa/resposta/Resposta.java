@@ -28,6 +28,11 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 		this.horaResposta = LocalDateTime.now();
 	}
 
+	// TODO retirar
+	public void setHoraResposta(LocalDateTime horaResposta) {
+		this.horaResposta = horaResposta;
+	}
+
 	public Resposta(Pessoa expert) {
 		this();
 		this.setExpert(Optional.ofNullable(expert));
@@ -139,6 +144,11 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "\nResposta [horaResposta=" + horaResposta.toLocalDate() + "]";
 	}
 
 }

@@ -6,21 +6,25 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <AnchorPane prefHeight="128.0" prefWidth="648.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text layoutX="23.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minhas Pesquisas" wrappingWidth="593.52734375" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="14.15234375">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Text>
-            <Label layoutX="23.0" layoutY="66.0" prefHeight="55.0" prefWidth="617.0" text="Aqui você encontra todas as pesquisas disponíveis para monitoramento. Selecione a desejada e dê um clique duplo." wrapText="true" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="66.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </top>
-</BorderPane>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.relatorio.MinhasPesquisasController">
+   <children>
+      <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="655.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      	<top>
+      		<AnchorPane prefHeight="128.0" prefWidth="648.0" BorderPane.alignment="CENTER">
+      			<children>
+      				<Text layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minhas Pesquisas" wrappingWidth="593.52734375" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.15234375">
+      					<font>
+      						<Font name="System Bold" size="36.0" />
+      					</font>
+      				</Text>
+      				<Label layoutX="14.0" layoutY="62.0" prefHeight="55.0" prefWidth="617.0" text="Aqui você encontra todas as pesquisas disponíveis para monitoramento. Selecione a desejada e dê um clique duplo." wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="62.0">
+      					<font>
+      						<Font size="18.0" />
+      					</font>
+      				</Label>
+      			</children>
+      		</AnchorPane>
+      	</top>
+      </BorderPane>
+   </children>
+</AnchorPane>

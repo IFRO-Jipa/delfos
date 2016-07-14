@@ -11,6 +11,7 @@ import br.com.delfos.control.search.SearchPesquisa;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 @Controller
@@ -32,7 +33,14 @@ public class MinhasPesquisasController implements Initializable {
 				daoPesquisa.findByPesquisador(Autenticador.getDonoDaConta()));
 
 		searchPesquisa.setOnCloseAfterDoubleClick(false).setConsumerPersonalizadoDoubleClick(pesquisa -> {
+			// Abrir a tela do relatório aqui
 			System.out.println("Pesquisa selecionada: " + pesquisa.getNome());
-		}).getPanel().ifPresent(panel -> this.rootPane.setCenter(panel));
+		}).getPanel().ifPresent(panel -> {
+			AnchorPane.setLeftAnchor(panel, 0.0);
+			AnchorPane.setRightAnchor(panel, 0.0);
+			AnchorPane.setBottomAnchor(panel, 0.0);
+			AnchorPane.setTopAnchor(panel, 0.0);
+			this.rootPane.setCenter(new AnchorPane(panel));
+		});
 	}
 }
