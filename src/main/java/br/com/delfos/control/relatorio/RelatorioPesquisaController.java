@@ -38,7 +38,7 @@ public class RelatorioPesquisaController implements Initializable {
 	@Autowired
 	private RespostaDAO daoResposta;
 
-	private Map<Questionario, Map<Month, Number>> frequenciaMensal;
+	private Optional<Map<Questionario, Map<Month, Number>>> frequenciaMensal;
 
 	private Optional<Pesquisa> pesquisa;
 
@@ -50,14 +50,18 @@ public class RelatorioPesquisaController implements Initializable {
 		this.pesquisa = pesquisa;
 
 		pesquisa.ifPresent(value -> {
-			this.frequenciaMensal = daoResposta.getRespostasAgrupadosPelaData(value);
-			this.lineChartPesquisa.setTitle(value.getNome() + "\nFrequência de respostas");
-			populaLineChart();
+
+			populaLineChart(value);
 		});
 	}
 
-	private void populaLineChart() {
-		// TODO Implementar
+	private void populaLineChart(Pesquisa value) {
+		this.frequenciaMensal = Optional.ofNullable(daoResposta.getRespostasAgrupadosPelaData(value));
+		this.lineChartPesquisa.setTitle(value.getNome() + "\nFrequência de respostas");
+
+		Map<Questionario, Map<Month, Number>> frequencia = frequenciaMensal.orElseThrow(
+				() -> new IllegalStateException("Não foi informada as frequências para popular o gráfico"));
+
 	}
 
 }
