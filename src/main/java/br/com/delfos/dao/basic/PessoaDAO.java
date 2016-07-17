@@ -1,5 +1,6 @@
 package br.com.delfos.dao.basic;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,10 @@ public class PessoaDAO extends AbstractDAO<Pessoa, Long, PessoaRepository> {
 
 	public Set<Pessoa> findByTipo(TipoPessoa tipo) {
 		return repository.findByTipo(tipo);
+	}
+
+	public List<Pessoa> findByUsuarioIsNull() {
+		return repository.findByUsuarioIsNull();
 	}
 
 }

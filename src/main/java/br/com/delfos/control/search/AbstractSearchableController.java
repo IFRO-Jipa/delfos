@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 import br.com.delfos.model.generic.AbstractModel;
 import br.com.delfos.util.TableCellFactory;
+import br.com.delfos.view.AlertAdapter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -47,7 +48,7 @@ class AbstractSearchableController<T extends AbstractModel<T>> implements Search
 
 	private boolean closeAfterDoubleClick = true;
 
-	private Optional<Consumer<T>> consumerPersonalizadoDoubleClick;
+	private Optional<Consumer<T>> consumerPersonalizadoDoubleClick = Optional.empty();
 
 	/*
 	 * Personalização dos estados da funcionalidade
@@ -78,7 +79,11 @@ class AbstractSearchableController<T extends AbstractModel<T>> implements Search
 
 	@Override
 	public void setComparators(Map<String, BiPredicate<T, String>> comparators) {
-		this.comparators = comparators;
+		this.comparators.putAll(comparators);
+	}
+
+	public void resetComparators(Map<String, BiPredicate<T, String>> newValues) {
+		this.comparators = newValues;
 	}
 
 	@Override
@@ -178,14 +183,21 @@ class AbstractSearchableController<T extends AbstractModel<T>> implements Search
 					return true;
 				}
 
-				String key = this.cbFiltro.getValue();
+				if (!this.cbFiltro.getSelectionModel().isEmpty()) {
 
-				if (key != null && !key.isEmpty() && this.comparators.containsKey(key))
-					return this.comparators.get(key).test(obj, newValue);
-				else if (!this.comparators.containsKey(key)) {
+					String key = this.cbFiltro.getValue();
+
+					if (key != null && !key.isEmpty() && this.comparators.containsKey(key))
+						return this.comparators.get(key).test(obj, newValue);
+					else if (!this.comparators.containsKey(key)) {
+						return true;
+					}
+				} else {
+					this.txtFiltro.clear();
+					cbFiltro.requestFocus();
+					AlertAdapter.warning("Informe o filtro antes.");
 					return true;
 				}
-
 				return false;
 			});
 		});

@@ -129,7 +129,7 @@ public class PrincipalController implements Initializable {
 		configTabPane(title, load);
 	}
 
-	private void abreJanela(AnchorPane pane, String title) {
+	private void abreJanela(Pane pane, String title) {
 		configTabPane(title, pane);
 	}
 
@@ -175,7 +175,7 @@ public class PrincipalController implements Initializable {
 		this.abreJanela(properties[1], item.getText());
 	}
 
-	public void openWindow(AnchorPane pane, String title) {
+	public void openWindow(Pane pane, String title) {
 		this.abreJanela(pane, title);
 	}
 

@@ -46,9 +46,13 @@ public class MeusQuestionariosController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		configCache();
-		configScroll();
-		mostraPesquisas();
+		try {
+			configCache();
+			configScroll();
+			mostraPesquisas();
+		} catch (RuntimeException runtime) {
+			AlertAdapter.error(runtime);
+		}
 	}
 
 	private void configScroll() {

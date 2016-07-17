@@ -92,4 +92,8 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 
 	}
 
+	protected DataAcessObject getDao() {
+		return dao;
+	}
+
 }

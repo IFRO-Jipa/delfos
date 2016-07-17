@@ -56,8 +56,8 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	@Embedded
 	private Endereco endereco;
 
-	@OneToOne(cascade = { CascadeType.REFRESH,
-			CascadeType.REMOVE }, orphanRemoval = true, optional = true, mappedBy = "pessoa")
+	@OneToOne(	cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, orphanRemoval = true, optional = true,
+				mappedBy = "pessoa")
 	private Usuario usuario;
 
 	public Pessoa() {
@@ -260,6 +260,11 @@ public class Pessoa extends AbstractModel<Pessoa> {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return id + " - " + nome;
 	}
 
 }

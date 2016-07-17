@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.delfos.app.QuestionarioApp;
 import br.com.delfos.control.generic.AbstractController;
+import br.com.delfos.control.search.SearchPesquisa;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.pesquisa.PesquisaDAO;
 import br.com.delfos.except.pesquisa.LimiteDeEspecialistasAtingidoException;
@@ -238,7 +239,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	protected Pesquisa toValue() {
 		try {
 			Pesquisa p = new Pesquisa();
-			
+
 			p.setId(txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText()));
 
 			p.setNome(txtNome.getText());
@@ -247,9 +248,12 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			p.setDataInicio(datePesquisa.getValue());
 			p.setDataVencimento(dateVencimento.getValue());
-			p.addEspecialistas(listViewEspecialista.getItems().isEmpty() ? null : new HashSet<>(listViewEspecialista.getItems()));
-			p.addPesquisadores(listViewPesquisador.getItems().isEmpty() ? null :  new HashSet<>(listViewPesquisador .getItems()));
-			p.addQuestionarios(listViewQuestionario.getItems().isEmpty() ? null : new HashSet<>(listViewQuestionario.getItems()));
+			p.addEspecialistas(
+					listViewEspecialista.getItems().isEmpty() ? null : new HashSet<>(listViewEspecialista.getItems()));
+			p.addPesquisadores(
+					listViewPesquisador.getItems().isEmpty() ? null : new HashSet<>(listViewPesquisador.getItems()));
+			p.addQuestionarios(
+					listViewQuestionario.getItems().isEmpty() ? null : new HashSet<>(listViewQuestionario.getItems()));
 
 			return p;
 		} catch (LimiteDeEspecialistasAtingidoException e) {
@@ -377,11 +381,8 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	// Pesquisa por códigos
 	@FXML
 	private void pesquisar() {
-		pesquisaPorCodigo().ifPresent(pesquisa -> {
-			verificaSituacao(pesquisa);
-			setStatus(pesquisa);
-		});
-		;
+		SearchPesquisa search = new SearchPesquisa(this.getDao().findAll());
+		this.posiciona(search.showAndWait());
 	}
 
 	@Override

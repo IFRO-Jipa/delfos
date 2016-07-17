@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="br.com.delfos.control.relatorio.TemplateResumoKaController">
+	fx:controller="br.com.delfos.control.relatorio.TemplateResumoKcController">
 	<children>
 		<SplitPane dividerPositions="0.3681948424068768" maxHeight="-Infinity"
 			maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"

@@ -1,6 +1,8 @@
 package br.com.delfos.fxml;
 
 import java.text.ParseException;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,6 +10,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
@@ -29,15 +32,15 @@ public class ToolTipOnLineChart extends Application {
 		series.getData().add(new XYChart.Data<>("Jan", 23));
 		series.getData().add(new XYChart.Data<>("Fev", 14));
 		series.getData().add(new XYChart.Data<>("Mar", 15));
-		series.getData().add(new XYChart.Data<>("Apr", 24));
-		series.getData().add(new XYChart.Data<>("May", 34));
+		series.getData().add(new XYChart.Data<>("Abr", 24));
+		series.getData().add(new XYChart.Data<>("Mai", 34));
 		series.getData().add(new XYChart.Data<>("Jun", 36));
 		series.getData().add(new XYChart.Data<>("Jul", 22));
-		series.getData().add(new XYChart.Data<>("Aug", 45));
-		series.getData().add(new XYChart.Data<>("Sep", 43));
-		series.getData().add(new XYChart.Data<>("Oct", 17));
+		series.getData().add(new XYChart.Data<>("Ago", 45));
+		series.getData().add(new XYChart.Data<>("Set", 43));
+		series.getData().add(new XYChart.Data<>("Out", 17));
 		series.getData().add(new XYChart.Data<>("Nov", 29));
-		series.getData().add(new XYChart.Data<>("Dec", 25));
+		series.getData().add(new XYChart.Data<>("Dez", 25));
 
 		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
 		series2.setName("Events this Year3");
@@ -77,18 +80,21 @@ public class ToolTipOnLineChart extends Application {
 		stage.setScene(scene);
 		stage.show();
 
-		addTooltip(lineChart);
+		addTooltip(lineChart, d -> d.getXValue().toString() + "\n" + "Número de participações: " + d.getYValue());
 	}
 
 	/**
 	 * Browsing through the Data and applying ToolTip
 	 * as well as the class on hover
 	 */
-	private void addTooltip(final LineChart<String, Number> lineChart) {
+	private void addTooltip(final LineChart<String, Number> lineChart,
+			Function<Data<String, Number>, String> consumidor) {
 		for (XYChart.Series<String, Number> s : lineChart.getData()) {
 			for (XYChart.Data<String, Number> d : s.getData()) {
 				Tooltip.install(d.getNode(),
-						new Tooltip(d.getXValue().toString() + "\n" + "Number Of Events : " + d.getYValue()));
+						// new Tooltip(d.getXValue().toString() + "\n" + "Number Of Events : " +
+						// d.getYValue()));
+						new Tooltip(consumidor.apply(d)));
 
 				// Adding class on hover
 				d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));

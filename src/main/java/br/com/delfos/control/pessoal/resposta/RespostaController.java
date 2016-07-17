@@ -3,6 +3,7 @@ package br.com.delfos.control.pessoal.resposta;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -20,7 +21,6 @@ import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
-import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertAdapter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -152,11 +152,15 @@ public class RespostaController implements Initializable {
 
 	private void createPanels(Optional<Set<Pergunta<?>>> optionalPerguntas) {
 		panelPerguntas.getPanes().clear();
+		System.out.println("RespostaController.createPanels()");
+		optionalPerguntas.ifPresent(
+				perguntas -> perguntas.stream().sorted(Comparator.comparing(Pergunta::getId)).forEach(pergunta -> {
 
-		optionalPerguntas.ifPresent(perguntas -> perguntas.forEach(pergunta -> {
-			TitledPane titledPane = createTitledPane(pergunta);
-			panelPerguntas.getPanes().add(titledPane);
-		}));
+					System.out.printf("Pergunta: %4d - %10s [Alternativa: %20s]\n", pergunta.getId().intValue(),
+							pergunta.getNome(), pergunta.getAlternativa());
+					TitledPane titledPane = createTitledPane(pergunta);
+					panelPerguntas.getPanes().add(titledPane);
+				}));
 	}
 
 	private TitledPane createTitledPane(Pergunta<?> pergunta) {
@@ -168,7 +172,10 @@ public class RespostaController implements Initializable {
 
 	private AnchorPane createPane(Pergunta<?> pergunta) {
 		try {
-			FXMLLoader loader = LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
+			// FXMLLoader loader = LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+					RespostaController.class.getClassLoader().getResource(pergunta.getTipo().getLocationResposta()));
 			AnchorPane pane = loader.load();
 			RespostaControllerImpl<Alternativa, ?> controller = loader.getController();
 			controller.set(Optional.ofNullable(pergunta));

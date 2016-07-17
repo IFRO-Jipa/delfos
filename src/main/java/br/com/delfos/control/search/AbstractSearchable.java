@@ -127,13 +127,13 @@ public class AbstractSearchable<T extends AbstractModel<T>> {
 
 		@Override
 		public void start(Stage primaryStage) throws Exception {
+			AbstractSearchable.stage = primaryStage;
 			BorderPane pane = getPanel();
 
 			primaryStage.setScene(new Scene(pane));
 			primaryStage.setTitle("Selecione um registro");
 			primaryStage.showAndWait();
 
-			AbstractSearchable.stage = primaryStage;
 		}
 
 	}

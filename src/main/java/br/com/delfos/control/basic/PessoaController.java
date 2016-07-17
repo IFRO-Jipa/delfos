@@ -1,5 +1,6 @@
 package br.com.delfos.control.basic;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.control.auditoria.UsuarioController;
 import br.com.delfos.control.generic.AbstractController;
+import br.com.delfos.control.search.SearchPessoa;
 import br.com.delfos.dao.basic.CidadeDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.basic.TipoLogradouroDAO;
@@ -21,10 +24,12 @@ import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoLogradouro;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.util.ContextFactory;
+import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -32,6 +37,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -118,6 +124,9 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	private AnchorPane anchorPane;
 
 	@FXML
+	private CheckBox cbAcessoSistema;
+
+	@FXML
 	@NotNull
 	private TextField txtEmail;
 
@@ -125,8 +134,15 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	private TextField txtCep;
 
 	@FXML
+	private Tab tbUsuario;
+
+	private UsuarioController usuarioController;
+
+	@FXML
 	private void handleButtonPesquisaCodigo(ActionEvent event) {
-		pesquisaPorCodigo();
+		// pesquisaPorCodigo();
+		SearchPessoa search = new SearchPessoa(this.getDao().findAll());
+		this.posiciona(search.showAndWait());
 	}
 
 	@Override
@@ -149,7 +165,14 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 			txtBairro.setText(pessoa.getEndereco().getBairro());
 			txtDescricaoEndereco.setText(pessoa.getEndereco().getDescricao());
 			txtCep.setText(pessoa.getEndereco().getCep());
+
+			configPermissaoCriaUsuario(pessoa);
 		});
+	}
+
+	private void configPermissaoCriaUsuario(Pessoa pessoa) {
+		// this.cbAcessoSistema.setSelected(pessoa != null && pessoa.getUsuario() == null);
+		this.cbAcessoSistema.setDisable(pessoa == null || pessoa.getUsuario() != null);
 	}
 
 	private void posicionaTipoDePessoa(Pessoa pessoa) {
@@ -158,21 +181,19 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 				cbEspecialista.setSelected(true);
 			if (tipo.equals(TipoPessoa.PESQUISADOR))
 				cbPesquisador.setSelected(true);
-		});
-		;
+		});;
 	}
 
 	@FXML
 	private void handleButtonPesquisaCpf(ActionEvent event) {
-		// TODO: Implementar a busca personalizada pelo cpf
-		// TODO: Se possível, fazer algo genérico que se adeque para todos os
-		// tipos de consultas que
-		// eu queira fazer.
+		SearchPessoa search = new SearchPessoa(this.getDao().findAll());
+		this.posiciona(search.showAndWait());
 	}
 
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ScreenUtils.limpaCampos(anchorPane);
+		configPermissaoCriaUsuario(null);
 	}
 
 	@FXML
@@ -180,6 +201,8 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 		this.deleteIf(pessoa -> pessoa.getId() != null);
 
 		ScreenUtils.limpaCampos(anchorPane);
+
+		configPermissaoCriaUsuario(null);
 	}
 
 	@FXML
@@ -190,7 +213,15 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 			retorno.ifPresent(pessoa -> {
 				txtCodigo.setText(String.valueOf(pessoa.getId()));
-				AlertAdapter.information("Salvo com sucesso.");
+				if (cbAcessoSistema.isSelected()) {
+					this.usuarioController.setResponsavel(pessoa);
+					this.usuarioController.salvar().ifPresent(usuario -> {
+						configPermissaoCriaUsuario(null);
+						AlertAdapter.information("Pessoa e usuário criados com sucesso.");
+					});
+
+				} else
+					AlertAdapter.information("Salvo com sucesso.");
 			});
 
 		} catch (FXValidatorException e) {
@@ -244,6 +275,26 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		txtCodigo.setEditable(false);
 		preencheComboBox();
+		this.cbAcessoSistema.setOnAction(event -> {
+			this.tbUsuario.setDisable(!this.cbAcessoSistema.isSelected());
+		});
+		configTabUsuario();
+
+		this.cbAcessoSistema.setTooltip(
+				new Tooltip("Para essa pessoa acessar o sistema, basta informar o CPF para o usuário e senha."));
+	}
+
+	private void configTabUsuario() {
+		try {
+			FXMLLoader loader = LeitorDeFXML.getLoader("fxml/auditoria/UsuarioView.fxml");
+			this.tbUsuario.setContent(loader.load());
+			this.usuarioController = loader.getController();
+			this.usuarioController.setGenerateCredentials(true);
+			this.usuarioController.setVisibleButtons(false);
+			this.usuarioController.setVisibleTxtDescricao(false);
+		} catch (IOException e) {
+			AlertAdapter.error(e);
+		}
 	}
 
 	private void preencheComboBox() {

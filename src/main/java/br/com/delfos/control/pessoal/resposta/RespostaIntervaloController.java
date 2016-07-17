@@ -2,8 +2,6 @@ package br.com.delfos.control.pessoal.resposta;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Controller;
-
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
@@ -13,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 
-@Controller
 public class RespostaIntervaloController implements RespostaControllerImpl<Intervalo, Integer> {
 	@FXML
 	private Text txtNome;

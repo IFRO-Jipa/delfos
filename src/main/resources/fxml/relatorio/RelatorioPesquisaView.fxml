@@ -7,33 +7,80 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane fx:id="splitPane" dividerPositions="0.31909547738693467" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.relatorio.RelatorioPesquisaController">
-	<items>
-		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-         <children>
-            <LineChart fx:id="lineChartPesquisa" layoutX="-44.0" layoutY="-130.0" prefHeight="124.0" prefWidth="598.0" title="Nome da Pesquisa" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </LineChart>
-         </children>
-		</AnchorPane>
-		<TabPane>
-			<tabs>
-				<Tab fx:id="tabKc" closable="false" text="Coeficiênte de Competência (Kc)">
-					<content>
-						<ScrollPane fx:id="scrollPane" prefViewportHeight="332.0" prefViewportWidth="717.0" />
-					</content>
-				</Tab>
-				<Tab fx:id="tabKa" closable="false" text="Coeficiente de Argumentação (Ka)">
-					<content>
-						<ScrollPane prefHeight="200.0" prefWidth="200.0" />
-					</content>
-				</Tab>
-			</tabs>
-		</TabPane>
-	</items>
-</SplitPane>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.relatorio.RelatorioPesquisaController">
+	<children>
+		<SplitPane fx:id="splitPane" dividerPositions="0.31909547738693467" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<items>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+					<children>
+						<LineChart fx:id="lineChartPesquisa" alternativeColumnFillVisible="true" layoutX="-44.0" layoutY="-130.0" legendSide="RIGHT" prefHeight="124.0" prefWidth="598.0" title="Nome da Pesquisa" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<xAxis>
+								<CategoryAxis side="BOTTOM" />
+							</xAxis>
+							<yAxis>
+								<NumberAxis label="quantidade" side="LEFT" />
+							</yAxis>
+						</LineChart>
+					</children>
+				</AnchorPane>
+				<TabPane>
+					<tabs>
+						<Tab fx:id="tabKc" closable="false" text="Coeficiênte de Competência (Kc)">
+                     <content>
+                        <ScrollPane fx:id="scrollPaneKc" prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <Accordion fx:id="accordionKc">
+                                <panes>
+                                  <TitledPane animated="false" text="untitled 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" text="untitled 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" text="untitled 3">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </content>
+                        </ScrollPane>
+                     </content></Tab>
+						<Tab fx:id="tabKa" closable="false" text="Coeficiente de Argumentação (Ka)">
+                     <content>
+                        <ScrollPane fx:id="scrollPaneKa" prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <Accordion fx:id="accordionKa">
+                                <panes>
+                                  <TitledPane animated="false" text="untitled 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" text="untitled 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" text="untitled 3">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </content>
+                        </ScrollPane>
+                     </content>
+						</Tab>
+					</tabs>
+				</TabPane>
+			</items>
+		</SplitPane>
+	</children>
+</AnchorPane>

@@ -122,8 +122,8 @@ public class Usuario extends AbstractModel<Usuario> {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", descricao=" + descricao
-		        + ", perfilAcesso=" + perfilAcesso + "]";
+		return "Usuario [id=" + id + ", login=" + login + ", descricao=" + descricao + ", perfilAcesso=" + perfilAcesso
+				+ "]";
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class PrincipalApp extends Application {
@@ -54,7 +55,7 @@ public class PrincipalApp extends Application {
 		return controller;
 	}
 
-	public static void openWindow(AnchorPane pane, String title) {
+	public static void openWindow(Pane pane, String title) {
 		try {
 			PrincipalController controller = PrincipalApp.getController().orElseThrow(
 					() -> new IllegalArgumentException("PrincipalController não foi instanciado adequadamente."));

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.generic.AbstractController;
+import br.com.delfos.control.search.SearchPessoa;
+import br.com.delfos.control.search.SearchUsuario;
 import br.com.delfos.dao.auditoria.PerfilAcessoDAO;
 import br.com.delfos.dao.auditoria.UsuarioDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
@@ -19,6 +21,8 @@ import br.com.delfos.model.auditoria.Usuario;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +40,6 @@ import javafx.util.StringConverter;
 public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 
 	@FXML
-	@NotNull
 	private PasswordField txtSenha;
 
 	@FXML
@@ -63,14 +66,12 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 	private ComboBox<PerfilAcesso> comboPerfilAcesso;
 
 	@FXML
-	@NotNull
 	private TextField txtLogin;
 
 	@FXML
 	private Button btnPesquisaResponsavel;
 
 	@FXML
-	@NotNull
 	private PasswordField txtConfirmaSenha;
 
 	@FXML
@@ -81,20 +82,23 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 	private Button btnExcluir;
 
 	@FXML
+	private CheckBox cbGeraCredenciais;
+
+	@FXML
 	private Button btnNovo;
 
-	private Pessoa responsavel;
+	private Optional<Pessoa> responsavel;
 
 	@Autowired
-	private PerfilAcessoDAO perfilDAO;
+	private PerfilAcessoDAO daoPerfilAcesso;
 
-	@SuppressWarnings("unused")
 	@Autowired
-	private PessoaDAO pessoaDAO;
+	private PessoaDAO daoPessoa;
 
 	@FXML
 	private void handleButtonPesquisaCodigo(ActionEvent event) {
-		pesquisaPorCodigo();
+		SearchUsuario search = new SearchUsuario(this.getDao().findAll());
+		this.posiciona(search.showAndWait());
 	}
 
 	@Override
@@ -103,15 +107,26 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			txtCodigo.setText(usuario.getId() == null ? null : String.valueOf(usuario.getId()));
 			txtDescricao.setText(usuario.getDescricao() == null ? null : usuario.getDescricao());
 			txtLogin.setText(usuario.getLogin());
-			txtNomeResponsavel.setText(usuario.getPessoa().getNome());
+			// txtNomeResponsavel.setText(usuario.getPessoa().getNome());
 			comboPerfilAcesso.setValue(usuario.getPerfilAcesso());
 			cbStatus.setSelected(usuario.isAtivo());
+
+			this.setResponsavel(usuario.getPessoa());
 		});
+	}
+
+	public void setResponsavel(Pessoa pessoa) {
+		this.responsavel = Optional.ofNullable(pessoa);
+
+		this.responsavel.ifPresent(value -> txtNomeResponsavel.setText(value.getNome()));
 	}
 
 	@FXML
 	private void handleButtonPesquisaResponsavel(ActionEvent event) {
-		// TODO: Implementar a pesquisa personalizável.
+		SearchPessoa search = new SearchPessoa(this.daoPessoa.findByUsuarioIsNull());
+		search.showAndWait().ifPresent(pessoa -> {
+			this.setResponsavel(pessoa);
+		});
 	}
 
 	@FXML
@@ -133,7 +148,7 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 
 			optional.ifPresent(usuario -> {
 				txtCodigo.setText(String.valueOf(usuario.getId()));
-
+				AlertAdapter.information("Salvo com sucesso");
 			});
 
 		} catch (FXValidatorException e) {
@@ -141,28 +156,58 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 		}
 	}
 
+	public Optional<Usuario> salvar() {
+		try {
+			return this.salvar(toValue(), this);
+		} catch (FXValidatorException e) {
+			AlertAdapter.error(e);
+			return Optional.empty();
+		}
+	}
+
 	@Override
 	protected Usuario toValue() {
-		Usuario u = new Usuario();
-		u.setId(txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText()));
-		u.setPessoa(responsavel);
-		u.setPerfilAcesso(comboPerfilAcesso.getValue());
-		u.setLogin(txtLogin.getText());
-		if (txtSenha.getText().equals(txtConfirmaSenha.getText())) {
-			u.setSenha(txtSenha.getText());
-		} else {
-			txtSenha.clear();
-			txtConfirmaSenha.clear();
-			txtSenha.requestFocus();
-			throw new IllegalArgumentException("As senhas informadas não coincidem.");
+		try {
+			Usuario u = new Usuario();
+			u.setId(txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText()));
+			u.setPessoa(this.getResponsavel());
+			u.setPerfilAcesso(comboPerfilAcesso.getValue());
+			if (cbGeraCredenciais.isSelected()) {
+				String cpf = u.getPessoa().getCpf().replace(".", "").replace("-", "");
+				u.setLogin(cpf);
+				u.setSenha(cpf);
+			} else {
+				if (!txtLogin.getText().isEmpty() || !txtConfirmaSenha.getText().isEmpty()
+						|| !txtSenha.getText().isEmpty()) {
+					throw new IllegalStateException("É necessário informar o login e senha do usuário.");
+				}
+				u.setLogin(txtLogin.getText());
+				if (txtSenha.getText().equals(txtConfirmaSenha.getText())) {
+					u.setSenha(txtSenha.getText());
+				} else {
+					txtSenha.clear();
+					txtConfirmaSenha.clear();
+					txtSenha.requestFocus();
+					throw new IllegalArgumentException("As senhas informadas não coincidem.");
+				}
+			}
+			u.setStatus(cbStatus.isSelected());
+			return u;
+		} catch (RuntimeException runtime) {
+			AlertAdapter.error(runtime);
+			return null;
 		}
-		u.setStatus(cbStatus.isSelected());
-		return u;
+
+	}
+
+	private Pessoa getResponsavel() {
+		return this.responsavel
+				.orElseThrow(() -> new IllegalStateException("Não foi informado o responsável por essa conta."));
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ObservableList<PerfilAcesso> perfis = FXCollections.observableArrayList(perfilDAO.findAll());
+		ObservableList<PerfilAcesso> perfis = FXCollections.observableArrayList(daoPerfilAcesso.findAll());
 		comboPerfilAcesso.setConverter(new StringConverter<PerfilAcesso>() {
 
 			@Override
@@ -176,6 +221,41 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			}
 		});
 		comboPerfilAcesso.setItems(perfis);
+
+		cbGeraCredenciais.selectedProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+			disableCredenciais(newValue);
+		});
+
+		this.txtCodigo.setDisable(true);
+	}
+
+	public void setGenerateCredentials(boolean flag) {
+		this.cbGeraCredenciais.setSelected(flag);
+	}
+
+	public void setVisibleButtons(boolean flag) {
+		this.btnExcluir.setVisible(flag);
+		this.btnNovo.setVisible(flag);
+		this.btnSalvar.setVisible(flag);
+		this.btnPesquisaResponsavel.disableProperty().bind(new BooleanBinding() {
+
+			@Override
+			protected boolean computeValue() {
+				return !flag;
+			}
+		});
+
+	}
+
+	private void disableCredenciais(boolean value) {
+		txtLogin.setDisable(value);
+		txtSenha.setDisable(value);
+		txtConfirmaSenha.setDisable(value);
+
+	}
+
+	public void setVisibleTxtDescricao(boolean flag) {
+		this.txtDescricao.setVisible(flag);
 	}
 
 }

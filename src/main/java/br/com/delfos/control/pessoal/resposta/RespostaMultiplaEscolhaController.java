@@ -2,8 +2,6 @@ package br.com.delfos.control.pessoal.resposta;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Controller;
-
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
@@ -17,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-@Controller
 public class RespostaMultiplaEscolhaController implements RespostaControllerImpl<MultiplaEscolha, String> {
 
 	@FXML

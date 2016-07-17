@@ -15,6 +15,6 @@
 			</font>
 		</Text>
 		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
-      <TextArea fx:id="txtMensagem" layoutX="14.0" layoutY="60.0" prefHeight="114.0" prefWidth="449.0" promptText="deixe sua mensagem aqui" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="60.0" />
+      <TextArea fx:id="txtMensagem" layoutX="7.0" layoutY="60.0" prefHeight="119.0" prefWidth="459.0" promptText="deixe sua mensagem aqui" wrapText="true" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="60.0" />
 	</children>
 </AnchorPane>

@@ -14,6 +14,18 @@ import br.com.delfos.repository.auditoria.UsuarioRepository;
 @Repository
 public class UsuarioDAO extends AbstractDAO<Usuario, Long, UsuarioRepository> {
 
+	@Override
+	public <S extends Usuario> Optional<S> save(S newValue) {
+		newValue.setSenha(getSenhaCriptografada(newValue.getLogin(), newValue.getSenha()));
+		return super.save(newValue);
+	}
+
+	@Override
+	public <S extends Usuario> S saveAndFlush(S newValue) {
+		newValue.setSenha(getSenhaCriptografada(newValue.getLogin(), newValue.getSenha()));
+		return super.saveAndFlush(newValue);
+	}
+
 	private Optional<Usuario> findByLoginAndSenha(String login, String senha) {
 		String senhaCriptografada = getSenhaCriptografada(login, senha);
 		return repository.findByLoginAndSenha(login, senhaCriptografada);

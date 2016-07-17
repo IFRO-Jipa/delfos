@@ -2,8 +2,6 @@ package br.com.delfos.control.pessoal.resposta;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Controller;
-
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
@@ -13,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
-@Controller
 public class RespostaParagrafoController implements RespostaControllerImpl<Paragrafo, String> {
 
 	@FXML
@@ -66,7 +63,7 @@ public class RespostaParagrafoController implements RespostaControllerImpl<Parag
 			resposta.setEscolha(getSelected());
 			return resposta;
 		} else {
-			throw new RuntimeException("Não foi informado uma pergunta válida ou pertencente ao questionario.");
+			throw new IllegalStateException("Não foi informado uma pergunta válida ou pertencente ao questionario.");
 		}
 	}
 

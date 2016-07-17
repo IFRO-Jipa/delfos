@@ -19,7 +19,11 @@ import br.com.delfos.except.pesquisa.resposta.QuestionarioRespondidoException;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
+import br.com.delfos.model.pesquisa.pergunta.Intervalo;
+import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
+import br.com.delfos.model.pesquisa.resposta.RespostaIntervalo;
+import br.com.delfos.model.pesquisa.resposta.RespostaMultiplaEscolha;
 import br.com.delfos.model.pesquisa.resposta.RespostaQuestionario;
 import br.com.delfos.repository.pesquisa.RespostaRepository;
 
@@ -28,6 +32,26 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 
 	@PersistenceContext(unitName = "mysqlDataSource")
 	private EntityManager em;
+
+	public Set<Resposta<?>> findByPergunta(Pergunta<?> pergunta) {
+		return repository.findByPergunta(pergunta);
+	}
+
+	public Set<RespostaMultiplaEscolha> findByPerguntaMultiplaEscolha(Pergunta<?> pergunta) {
+		return repository.findByPerguntaMultiplaEscolha(pergunta);
+	}
+
+	public Set<RespostaIntervalo> findByPerguntaIntervalo(Pergunta<Intervalo> pergunta) {
+		return repository.findByPerguntaIntervalo(pergunta);
+	}
+
+	public Set<Resposta<?>> findByQuestionarioAndTipoIntervalo(Questionario q) {
+		return repository.findByQuestionarioAndTipoIntervalo(q);
+	}
+
+	public Set<Resposta<?>> findByQuestionarioAndTipoMultiplaEscolha(Questionario q) {
+		return repository.findByQuestionarioAndTipoMultiplaEscolha(q);
+	}
 
 	@Override
 	public <S extends Resposta<?>> Optional<S> save(S newValue) {
@@ -65,7 +89,7 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S extends Resposta<?>> List<S> save(Iterable<S> entities) {
+	public synchronized <S extends Resposta<?>> List<S> save(Iterable<S> entities) {
 		List<S> saved = repository.save(entities);
 
 		if (!saved.isEmpty()) {
@@ -82,13 +106,12 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 	public Map<Questionario, Map<Month, Number>> getRespostasAgrupadosPelaData(Pesquisa p) {
 		Map<Questionario, Map<Month, Number>> resultado = new HashMap<>();
 
-		String SQL = "select extract(MONTH from horaResposta) as mes, count(*) as qtd from "
-				+ "Resposta where Questionario_id = ?1 group by extract(MONTH from horaResposta) ;";
-
+		String SQL = "select month(r.horaResposta) as mes, count(r.id) from Resposta r where "
+				+ "r.questionario.id = :idquestionario and type(r) = RespostaQuestionario group by year(r.horaResposta), month(r.horaResposta)";
 		p.getQuestionarios().forEach(questionario -> {
 			Map<Month, Number> estatistica = populaComMeses();
-			Query query = em.createNativeQuery(SQL);
-			query.setParameter(1, questionario.getId());
+			Query query = em.createQuery(SQL);
+			query.setParameter("idquestionario", questionario.getId());
 			List<Object[]> mesQuantidade = query.getResultList();
 			if (!mesQuantidade.isEmpty()) {
 				int mes = (int) mesQuantidade.get(0)[0];
@@ -109,4 +132,10 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 			resultado.put(m, 0);
 		return resultado;
 	}
+
+	public boolean existeRespostaParaOQuestionario(Questionario questionario) {
+		// TODO Auto-generated method stub
+		return repository.existeRespostaParaOQuestionario(questionario);
+	}
+
 }
