@@ -12,9 +12,9 @@
 		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
 		<TextField fx:id="txtNome" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="317.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="121.0" AnchorPane.topAnchor="31.0" />
 		<Text layoutX="348.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Pergunta" AnchorPane.rightAnchor="12.81640625" />
-		<Text fx:id="lblTipo" layoutX="347.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="..." wrappingWidth="91.18359375" AnchorPane.rightAnchor="13.81640625" />
+		<Text fx:id="lblTipo" layoutX="347.91796875" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Multipla Escolha" wrappingWidth="91.18359375" AnchorPane.rightAnchor="12.8984375" />
 		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-		<TextArea wrapText="true" fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="57.0" prefWidth="425.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
+		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="57.0" prefWidth="425.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
 		<TabPane layoutX="14.0" layoutY="144.0" prefHeight="164.0" prefWidth="425.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="144.0">
 			<tabs>
 				<Tab text="Alternativas">
@@ -58,5 +58,6 @@
 			</tabs>
 		</TabPane>
 		<Button fx:id="btnSalvar" layoutX="357.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="25.0" prefWidth="82.0" text="Salvar" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="13.0" />
+      <Label layoutX="53.0" layoutY="14.0" text="*" textFill="RED" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="14.0" />
 	</children>
 </AnchorPane>

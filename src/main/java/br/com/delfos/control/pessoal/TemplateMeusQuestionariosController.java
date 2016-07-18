@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sun.javafx.binding.BindingHelperObserver;
-
 import br.com.delfos.app.RespostaApp;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.RespostaDAO;

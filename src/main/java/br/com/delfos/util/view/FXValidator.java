@@ -203,13 +203,16 @@ public class FXValidator {
 	private static String getMessage(Control component) {
 		String key = String.format("%s.%s", controller.getClass().getName(), component.getId());
 		if (Messages.isMessagePresent(key)) {
-			return String.format("%s%s", Messages.getDefaultMessage(), Messages.getMessage(key).get());
+			return String.format(Messages.getDefaultMessage(), Messages.getMessage(key).get()).replace("\"", "");
 		} else {
 			try {
-				return String.format(Messages.getDefaultMessage(),
-						component.getTooltip() != null ? component.getTooltip().getText() : component.getId());
+				return String
+						.format(Messages.getDefaultMessage(),
+								component.getTooltip() != null ? component.getTooltip().getText() : component.getId())
+						.replace("\"", "");
 			} catch (RuntimeException ex) {
-				return String.format(Messages.getDefaultMessage(), Messages.semEntradaDeTextoPara(component));
+				return String.format(Messages.getDefaultMessage(), Messages.semEntradaDeTextoPara(component))
+						.replace("\"", "");
 			}
 		}
 	}

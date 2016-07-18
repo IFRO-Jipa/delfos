@@ -193,7 +193,8 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
 		ScreenUtils.limpaCampos(anchorPane);
-		configPermissaoCriaUsuario(null);
+		// configPermissaoCriaUsuario(null);
+		this.cbAcessoSistema.setDisable(false);
 	}
 
 	@FXML
