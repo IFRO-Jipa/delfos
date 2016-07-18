@@ -76,7 +76,6 @@ public class RelatorioPesquisaController implements Initializable {
 	@SuppressWarnings("unused")
 	private Optional<Pesquisa> pesquisa;
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		configWidthAccordionInheritedScrollPane(scrollPaneKa, accordionKa);

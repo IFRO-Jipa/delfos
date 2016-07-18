@@ -264,7 +264,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 
 	@Override
 	public String toString() {
-		return id + " - " + nome;
+		return nome;
 	}
 
 }

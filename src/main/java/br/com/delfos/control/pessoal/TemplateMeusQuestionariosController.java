@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sun.javafx.binding.BindingHelperObserver;
+
 import br.com.delfos.app.RespostaApp;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.dao.pesquisa.RespostaDAO;
@@ -127,7 +129,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 		});
 
 		this.ordenador = new SortedList<>(filtroDeRegistros);
-		ordenador.setComparator(Comparator.comparing(Questionario::getNome));
+		// ordenador.setComparator(Comparator.comparing(Questionario::getNome));
 
 		return ordenador;
 	}
@@ -176,7 +178,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 
 	private void setOnChangeToListView() {
 		listViewQuestionarios.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-			Optional<Resposta<?>> possivelResposta = this.respostaQuestionarios.stream()
+			Optional<RespostaQuestionario> possivelResposta = this.respostaQuestionarios.stream()
 					.filter(resposta -> resposta.getQuestionario().equals(newValue))
 					.collect(Collectors.minBy(Comparator.comparing(Resposta::getHoraResposta)));
 
@@ -229,10 +231,16 @@ public class TemplateMeusQuestionariosController implements Initializable {
 				RespostaApp app = new RespostaApp();
 				app.setQuestionario(Optional.ofNullable(selectedItem));
 				try {
-					app.showAndWait().stream().filter(resposta -> resposta instanceof RespostaQuestionario)
+					List<RespostaQuestionario> respostasRetornadas = app.showAndWait().stream()
+							.filter(resposta -> resposta instanceof RespostaQuestionario)
 							.map(resposta -> (RespostaQuestionario) resposta).collect(Collectors.toList());
 
-					this.updateCache(pesquisa);
+					this.respostaQuestionarios.addAll(respostasRetornadas);
+
+					// this.updateCache(pesquisa);
+
+					this.refresh();
+
 				} catch (NullPointerException e) {
 					// nada a fazer, só será lançado caso não tenha retornado
 					// nenhuma resposta.
@@ -244,6 +252,12 @@ public class TemplateMeusQuestionariosController implements Initializable {
 		} else {
 			showPopup();
 		}
+	}
+
+	private void refresh() {
+		ObservableList<Questionario> items = this.listViewQuestionarios.getItems();
+		this.listViewQuestionarios.setItems(null);
+		this.listViewQuestionarios.setItems(items);
 	}
 
 }

@@ -65,23 +65,32 @@ public class PrincipalController implements Initializable {
 
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 
-		menusParaOMenuBar.add(menuLogout());
+		// menusParaOMenuBar.add(menuLogout());
 
 		menuBar.getMenus().addAll(menusParaOMenuBar);
 		configuraMenuBar(menuBar.getMenus());
+
+		menuBar.getMenus().add(menuLogout());
 	}
 
 	private Menu menuLogout() {
-		Menu menu = new Menu("Logout");
-		menu.setOnAction(action -> acaoParaLogout(action));
+		Menu menu = new Menu("Credenciais");
+		menu.setId("menuUsuario");
+
+		MenuItem item = new MenuItem("Desconectar");
+		item.setOnAction(evt -> acaoParaLogout(evt));
+		menu.getItems().add(item);
+
 		return menu;
 	}
 
 	private void acaoParaLogout(ActionEvent event) {
 		if (AlertAdapter.confirmation("Deseja realmente deslogar?")) {
-			PrincipalApp.getStage().hide();
-			AlertAdapter.information("teste");
-			PrincipalApp.getStage().show();
+			try {
+				PrincipalApp.logout();
+			} catch (Exception e) {
+				AlertAdapter.error(e);
+			}
 		}
 	}
 

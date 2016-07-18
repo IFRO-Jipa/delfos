@@ -56,7 +56,7 @@ public class MinhasPesquisasController implements Initializable {
 				this.rootPane.setCenter(new AnchorPane(panel));
 			});
 		} else {
-			throw new IllegalStateException("Desculpe, parece que você não é um pesquisador para ver suas pesquisas.");
+			throw new IllegalStateException("Desculpe, para ver suas pesquisas você precisa ser um pesquisador.");
 		}
 	}
 }

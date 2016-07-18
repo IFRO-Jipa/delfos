@@ -20,9 +20,13 @@ public class LoginApp extends Application {
 		pane.getStylesheets().add(LoginApp.class.getClassLoader().getResource("css/Login.css").toString());
 
 		stage.setScene(new Scene(pane));
-		// stage.initStyle(StageStyle.UTILITY);
+		
 		stage.setTitle("Delfos - Autenticação de Usuário");
 		stage.setResizable(false);
+		stage.setFullScreen(false);
+		stage.setMaximized(false);
+		stage.centerOnScreen();
+
 		SplashScreenApp.close();
 		stage.show();
 		stage.setOnCloseRequest(event -> System.exit(0));

@@ -3,6 +3,7 @@ package br.com.delfos.app;
 import java.io.IOException;
 import java.util.Optional;
 
+import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.control.basic.PrincipalController;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertAdapter;
@@ -43,6 +44,12 @@ public class PrincipalApp extends Application {
 
 	public static Stage getStage() {
 		return stage;
+	}
+	
+	public static void logout() throws Exception {
+		stage.hide();
+		Autenticador.logout();
+		new LoginApp().start(stage);
 	}
 
 	public static void destroy() {

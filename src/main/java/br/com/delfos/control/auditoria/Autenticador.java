@@ -34,6 +34,7 @@ public class Autenticador {
 	}
 
 	public static Usuario getUsuarioAutenticado() {
+		System.out.println(usuario.get());
 		return usuario.get();
 	}
 
@@ -42,7 +43,7 @@ public class Autenticador {
 	}
 
 	public static Pessoa getDonoDaConta() {
-		return usuario.get().getPessoa();
+		return getUsuarioAutenticado().getPessoa();
 	}
 
 	public static void logout() {

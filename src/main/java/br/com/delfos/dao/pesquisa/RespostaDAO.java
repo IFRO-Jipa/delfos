@@ -134,7 +134,6 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 	}
 
 	public boolean existeRespostaParaOQuestionario(Questionario questionario) {
-		// TODO Auto-generated method stub
 		return repository.existeRespostaParaOQuestionario(questionario);
 	}
 

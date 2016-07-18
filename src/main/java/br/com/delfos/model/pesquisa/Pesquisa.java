@@ -273,6 +273,10 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 		return result;
 	}
 
+	public String getNomePesquisadores() {
+		return pesquisadores.toString();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
