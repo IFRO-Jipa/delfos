@@ -22,6 +22,7 @@ import javafx.scene.chart.XYChart.Series;
 @Controller
 public class TemplateResumoKcController {
 
+	
 	@FXML
 	private BarChart<String, Number> barChart;
 
@@ -33,32 +34,38 @@ public class TemplateResumoKcController {
 
 	private Optional<Pergunta<Intervalo>> pergunta;
 
-	public void set(Pergunta<Intervalo> value) {
+	private Optional<Set<RespostaIntervalo>> respostasIntervalo;
+
+	public Optional<Set<RespostaIntervalo>> set(Pergunta<Intervalo> value) {
 		this.pergunta = Optional.ofNullable(value);
 
 		this.pergunta.ifPresent(pergunta -> {
-			Set<RespostaIntervalo> respostas = daoResposta.findByPerguntaIntervalo(pergunta);
+			respostasIntervalo = Optional.ofNullable(daoResposta.findByPerguntaIntervalo(pergunta));
 
-			respostas.forEach(resposta -> {
-				Intervalo alternativa = resposta.getPergunta().getAlternativa();
+			respostasIntervalo.ifPresent(respostas -> {
+				respostas.forEach(resposta -> {
+					Intervalo alternativa = resposta.getPergunta().getAlternativa();
 
-				int inicio = alternativa.getValorInicial();
-				int vFinal = alternativa.getValorFinal();
-				int incremento = alternativa.getIncremento();
+					int inicio = alternativa.getValorInicial();
+					int vFinal = alternativa.getValorFinal();
+					int incremento = alternativa.getIncremento();
 
-				for (int i = 0; i < alternativa.getIntervalos() && inicio <= vFinal; i++, inicio += incremento) {
-					Integer escolha = Integer.valueOf(i);
-					long qtd = respostas.stream().filter(x -> x.getEscolha().equals(escolha))
-							.mapToLong(RespostaIntervalo::getId).count();
+					for (int i = 0; i < alternativa.getIntervalos() && inicio <= vFinal; i++, inicio += incremento) {
+						Integer escolha = Integer.valueOf(i);
+						long qtd = respostas.stream().filter(x -> x.getEscolha().equals(escolha))
+								.mapToLong(RespostaIntervalo::getId).count();
 
-					addDataPieChart(escolha, qtd);
-					addDataBarChart(escolha, qtd);
-				}
+						addDataPieChart(escolha, qtd);
+						addDataBarChart(escolha, qtd);
+					}
 
+				});
 			});
 
 		});
 		configPieChart();
+
+		return respostasIntervalo;
 	}
 
 	private void configPieChart() {

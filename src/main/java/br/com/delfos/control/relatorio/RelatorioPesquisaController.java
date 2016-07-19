@@ -20,7 +20,9 @@ import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
 import br.com.delfos.model.pesquisa.pergunta.MultiplaEscolha;
+import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.Texto;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.graph.LineChartUtil;
 import javafx.beans.value.ChangeListener;
@@ -47,6 +49,12 @@ public class RelatorioPesquisaController implements Initializable {
 	private LineChart<String, Integer> lineChartPesquisa;
 
 	@FXML
+	private ScrollPane scrollTabTexto;
+
+	@FXML
+	private Accordion accordionTexto;
+
+	@FXML
 	private ScrollPane scrollPaneKa;
 
 	@FXML
@@ -67,6 +75,9 @@ public class RelatorioPesquisaController implements Initializable {
 	@FXML
 	private Tab tabKc;
 
+	@FXML
+	private Tab tabTexto;
+
 	@Autowired
 	private RespostaDAO daoResposta;
 
@@ -80,6 +91,7 @@ public class RelatorioPesquisaController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		configWidthAccordionInheritedScrollPane(scrollPaneKa, accordionKa);
 		configWidthAccordionInheritedScrollPane(scrollPaneKc, accordionKc);
+		configWidthAccordionInheritedScrollPane(scrollTabTexto, accordionTexto);
 	}
 
 	private void configWidthAccordionInheritedScrollPane(ScrollPane pane, Accordion accordion) {
@@ -95,7 +107,53 @@ public class RelatorioPesquisaController implements Initializable {
 			populaLineChart(value);
 			openContextKa(value);
 			openContextKc(value);
+			openContextTexto(value);
 		});
+	}
+
+	private void openContextTexto(Pesquisa value) {
+		this.accordionTexto.getPanes().clear();
+
+		value.getQuestionarios().forEach(questionario -> {
+			TabPane tabPerguntas = new TabPane();
+
+			questionario.getPerguntas().ifPresent(perguntas -> {
+				perguntas.stream()
+						.filter(p -> p.getAlternativa() instanceof Texto || p.getAlternativa() instanceof Paragrafo)
+						.collect(Collectors.toList()).forEach(pergunta -> {
+							// perguntas de multipla escolha aqui
+							Tab tab = new Tab(pergunta.getNome());
+							tab.setClosable(false);
+							try {
+								FXMLLoader loader = LeitorDeFXML.getLoader("fxml/relatorio/texto/ResumoTexto.fxml");
+								AnchorPane pane = loader.load();
+								ResumoTextoController controller = loader.getController();
+								if (pergunta.getAlternativa() instanceof Texto) {
+									controller.setTexto((Pergunta<Texto>) pergunta);
+								} else {
+									controller.setParagrafo((Pergunta<Paragrafo>) pergunta);
+								}
+								// controller.set((Pergunta<Intervalo>) pergunta);
+								tab.setContent(pane);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							tabPerguntas.getTabs().add(tab);
+						});;
+			});
+
+			if (tabPerguntas.getTabs().size() > 0) {
+				TitledPane panel = new TitledPane();
+				panel.setText("Nome do questionário: " + questionario.getNome());
+				panel.setContent(tabPerguntas);
+				panel.setAlignment(Pos.TOP_LEFT);
+				this.accordionTexto.getPanes().add(panel);
+			}
+
+		});
+
+		if (!this.accordionTexto.getPanes().isEmpty())
+			this.accordionTexto.setExpandedPane(this.accordionTexto.getPanes().get(0));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,16 +182,18 @@ public class RelatorioPesquisaController implements Initializable {
 						});;
 			});
 
-			TitledPane panel = new TitledPane();
-			panel.setText("Nome do questionário: " + questionario.getNome());
-			panel.setContent(tabPerguntas);
-			panel.setAlignment(Pos.TOP_LEFT);
-			this.accordionKc.getPanes().add(panel);
+			if (tabPerguntas.getTabs().size() > 0) {
+				TitledPane panel = new TitledPane();
+				panel.setText("Nome do questionário: " + questionario.getNome());
+				panel.setContent(tabPerguntas);
+				panel.setAlignment(Pos.TOP_LEFT);
+				this.accordionKc.getPanes().add(panel);
+			}
 
 		});
 
-		if (!this.accordionKa.getPanes().isEmpty())
-			this.accordionKa.setExpandedPane(this.accordionKa.getPanes().get(0));
+		if (!this.accordionKc.getPanes().isEmpty())
+			this.accordionKc.setExpandedPane(this.accordionKc.getPanes().get(0));
 
 	}
 

@@ -8,11 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
+import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.Texto;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.model.pesquisa.resposta.RespostaIntervalo;
 import br.com.delfos.model.pesquisa.resposta.RespostaMultiplaEscolha;
+import br.com.delfos.model.pesquisa.resposta.RespostaParagrafo;
 import br.com.delfos.model.pesquisa.resposta.RespostaQuestionario;
+import br.com.delfos.model.pesquisa.resposta.RespostaTexto;
 
 public interface RespostaRepository extends JpaRepository<Resposta<?>, Long> {
 	Set<Resposta<?>> findByPergunta(Pergunta<?> pergunta);
@@ -22,6 +26,12 @@ public interface RespostaRepository extends JpaRepository<Resposta<?>, Long> {
 
 	@Query("select r from Resposta r where r.pergunta = ?1 and type(r) = RespostaIntervalo")
 	Set<RespostaIntervalo> findByPerguntaIntervalo(Pergunta<Intervalo> pergunta);
+
+	@Query("select r from Resposta r where r.pergunta = ?1 and type(r) = RespostaTexto")
+	Set<RespostaTexto> findByPerguntaTexto(Pergunta<Texto> pergunta);
+
+	@Query("select r from Resposta r where r.pergunta = ?1 and type(r) = RespostaParagrafo")
+	Set<RespostaParagrafo> findByPerguntaParagrafo(Pergunta<Paragrafo> pergunta);
 
 	@Query("select r from Resposta r where r.questionario = ?1 and expert = ?2 and type(r) = RespostaQuestionario")
 	Set<RespostaQuestionario> findByQuestionarioAndExpert(Questionario questionario, Pessoa expert);

@@ -20,11 +20,15 @@ import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
+import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
+import br.com.delfos.model.pesquisa.pergunta.Texto;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.model.pesquisa.resposta.RespostaIntervalo;
 import br.com.delfos.model.pesquisa.resposta.RespostaMultiplaEscolha;
+import br.com.delfos.model.pesquisa.resposta.RespostaParagrafo;
 import br.com.delfos.model.pesquisa.resposta.RespostaQuestionario;
+import br.com.delfos.model.pesquisa.resposta.RespostaTexto;
 import br.com.delfos.repository.pesquisa.RespostaRepository;
 
 @Repository
@@ -32,6 +36,14 @@ public class RespostaDAO extends AbstractDAO<Resposta<?>, Long, RespostaReposito
 
 	@PersistenceContext(unitName = "mysqlDataSource")
 	private EntityManager em;
+	
+	public Set<RespostaTexto> findByPerguntaTexto(Pergunta<Texto> pergunta) {
+		return repository.findByPerguntaTexto(pergunta);
+	}
+
+	public Set<RespostaParagrafo> findByPerguntaParagrafo(Pergunta<Paragrafo> pergunta) {
+		return repository.findByPerguntaParagrafo(pergunta);
+	}
 
 	public Set<Resposta<?>> findByPergunta(Pergunta<?> pergunta) {
 		return repository.findByPergunta(pergunta);

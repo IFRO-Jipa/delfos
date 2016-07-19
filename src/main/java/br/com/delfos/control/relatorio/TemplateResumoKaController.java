@@ -36,23 +36,30 @@ public class TemplateResumoKaController implements Initializable {
 
 	private Optional<Pergunta<MultiplaEscolha>> pergunta;
 
-	public void set(Pergunta<MultiplaEscolha> value) {
+	private Optional<Set<RespostaMultiplaEscolha>> respostasMultiplaEscolha;
+
+	public Optional<Set<RespostaMultiplaEscolha>> set(Pergunta<MultiplaEscolha> value) {
 		this.pergunta = Optional.ofNullable(value);
 
 		this.pergunta.ifPresent(pergunta -> {
-			Set<RespostaMultiplaEscolha> respostas = daoResposta.findByPerguntaMultiplaEscolha(pergunta);
+			respostasMultiplaEscolha = Optional.ofNullable(daoResposta.findByPerguntaMultiplaEscolha(pergunta));
 
-			pergunta.getAlternativa().getEscolhas().forEach(item -> {
-				long quantidade = respostas.stream().filter(resposta -> resposta.getEscolha().equals(item))
-						.mapToLong(RespostaMultiplaEscolha::getId).count();
+			this.respostasMultiplaEscolha.ifPresent(respostas -> {
 
-				addDataPieChart(item, quantidade);
-				addDataBarChart(item, quantidade);
+				pergunta.getAlternativa().getEscolhas().forEach(item -> {
+					long quantidade = respostas.stream().filter(resposta -> resposta.getEscolha().equals(item))
+							.mapToLong(RespostaMultiplaEscolha::getId).count();
+
+					addDataPieChart(item, quantidade);
+					addDataBarChart(item, quantidade);
+				});
 			});
 
 		});
 
 		configPieChart();
+
+		return respostasMultiplaEscolha;
 	}
 
 	private void configPieChart() {
