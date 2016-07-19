@@ -75,6 +75,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 
 	private SortedList<Questionario> ordenador;
 
+	@SuppressWarnings("unused")
 	private Pesquisa pesquisa;
 
 	public synchronized void set(final Pesquisa pesquisa) {

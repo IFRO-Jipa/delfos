@@ -34,8 +34,8 @@ public class AlertAdapter {
 	public static void warning(String mensagem) {
 		alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Aviso do sistema");
-		alert.setHeaderText("Aviso importante");
-		alert.setContentText(mensagem);
+		alert.setContentText("Aviso importante");
+		alert.setHeaderText(mensagem);
 		beep();
 
 		alert.showAndWait();

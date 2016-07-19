@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:controller="br.com.delfos.control.basic.MudarSenhaController"
+	prefHeight="218.0" prefWidth="305.0" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/8">
+	<children>
+		<Text layoutX="10.0" layoutY="34.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Redefinir Senha">
+			<font>
+				<Font size="22.0" />
+			</font>
+		</Text>
+		<Text layoutX="10.0" layoutY="53.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Você está logado com o usuário: "
+			AnchorPane.leftAnchor="10.0" />
+		<Text fx:id="txtNomeUsuario" layoutX="186.0" layoutY="53.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" text="nomeusuario"
+			AnchorPane.leftAnchor="186.0" />
+		<PasswordField fx:id="txtSenhaAntiga" layoutX="9.0"
+			layoutY="70.0" prefHeight="25.0" prefWidth="284.0" promptText="informe sua senha antiga"
+			AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="12.0" />
+		<PasswordField fx:id="txtNovaSenha" layoutX="10.0"
+			layoutY="111.0" prefHeight="25.0" prefWidth="284.0" promptText="informe sua nova senha"
+			AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="12.0" />
+		<PasswordField fx:id="txtConfirmaSenha" layoutX="10.0"
+			layoutY="142.0" prefHeight="25.0" prefWidth="284.0" promptText="confirme sua nova senha"
+			AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="12.0" />
+		<Button fx:id="btnSalvar" layoutX="239.0" layoutY="183.0"
+			mnemonicParsing="false" onAction="#handleButtonAplicar" prefHeight="29.0"
+			prefWidth="69.0" text="Aplicar" AnchorPane.bottomAnchor="10.0"
+			AnchorPane.rightAnchor="14.0" />
+	</children>
+</AnchorPane>

@@ -1,5 +1,8 @@
 package br.com.delfos.control.relatorio;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,14 +18,13 @@ import br.com.delfos.view.graph.PieChartUtil;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
 @Controller
 public class TemplateResumoKcController {
 
-	
 	@FXML
 	private BarChart<String, Number> barChart;
 
@@ -50,14 +52,23 @@ public class TemplateResumoKcController {
 					int vFinal = alternativa.getValorFinal();
 					int incremento = alternativa.getIncremento();
 
+					Map<Integer, Long> escolhas = new HashMap<>();
+
 					for (int i = 0; i < alternativa.getIntervalos() && inicio <= vFinal; i++, inicio += incremento) {
 						Integer escolha = Integer.valueOf(i);
 						long qtd = respostas.stream().filter(x -> x.getEscolha().equals(escolha))
 								.mapToLong(RespostaIntervalo::getId).count();
 
-						addDataPieChart(escolha, qtd);
-						addDataBarChart(escolha, qtd);
+						// addDataPieChart(escolha, qtd);
+						// addDataBarChart(escolha, qtd);
+						escolhas.put(escolha, qtd);
 					}
+
+					// escolhas.keySet().stream().sorted(Comparator.com)
+					escolhas.keySet().stream().sorted(Comparator.comparingInt(t -> t)).forEach(item -> {
+						addDataPieChart(item, escolhas.get(item));
+						addDataBarChart(item, escolhas.get(item));
+					});;
 
 				});
 			});

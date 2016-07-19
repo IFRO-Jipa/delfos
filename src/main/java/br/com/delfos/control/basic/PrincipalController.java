@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 
+import br.com.delfos.app.MudarSenhaApp;
 import br.com.delfos.app.PrincipalApp;
 import br.com.delfos.control.auditoria.Autenticador;
 import br.com.delfos.model.auditoria.Funcionalidade;
@@ -28,6 +29,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 @Controller
 public class PrincipalController implements Initializable {
@@ -65,8 +68,6 @@ public class PrincipalController implements Initializable {
 
 		List<Menu> menusParaOMenuBar = new ManipuladorDeMenus(permissoes).create().getMenus();
 
-		// menusParaOMenuBar.add(menuLogout());
-
 		menuBar.getMenus().addAll(menusParaOMenuBar);
 		configuraMenuBar(menuBar.getMenus());
 
@@ -74,18 +75,36 @@ public class PrincipalController implements Initializable {
 	}
 
 	private Menu menuLogout() {
-		Menu menu = new Menu("Credenciais");
+		Menu menu = new Menu("Sessão");
 		menu.setId("menuUsuario");
 
-		MenuItem item = new MenuItem("Desconectar");
-		item.setOnAction(evt -> acaoParaLogout(evt));
-		menu.getItems().add(item);
+		menu.getItems().add(criaMenuEncerrarSessao());
+		menu.getItems().add(criaMenuMudarSenha());
 
 		return menu;
 	}
 
+	private MenuItem criaMenuEncerrarSessao() {
+		MenuItem item = new MenuItem("Encerrar sessão");
+		item.setOnAction(evt -> acaoParaLogout(evt));
+		return item;
+	}
+
+	private MenuItem criaMenuMudarSenha() {
+		MenuItem item = new MenuItem("Redefinir senha");
+		item.setOnAction(evento -> {
+			try {
+				new MudarSenhaApp().start(new Stage(StageStyle.UTILITY));
+			} catch (Exception e) {
+				AlertAdapter.error(e);
+			}
+		});
+
+		return item;
+	}
+
 	private void acaoParaLogout(ActionEvent event) {
-		if (AlertAdapter.confirmation("Deseja realmente deslogar?")) {
+		if (AlertAdapter.confirmation("Deseja encerrar a sessão?")) {
 			try {
 				PrincipalApp.logout();
 			} catch (Exception e) {

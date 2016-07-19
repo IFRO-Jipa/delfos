@@ -46,6 +46,8 @@ public class ResumoTextoController implements Initializable {
 	private Optional<Set<RespostaParagrafo>> respostasParagrafo;
 
 	public Optional<Set<RespostaTexto>> setTexto(Pergunta<Texto> value) {
+		resetCaches();
+
 		this.perguntaTexto = Optional.ofNullable(value);
 
 		this.perguntaTexto.ifPresent(pergunta -> {
@@ -69,7 +71,16 @@ public class ResumoTextoController implements Initializable {
 		return respostasTexto;
 	}
 
+	private void resetCaches() {
+		this.perguntaParagrafo = Optional.empty();
+		this.perguntaTexto = Optional.empty();
+		this.respostasParagrafo = Optional.empty();
+		this.respostasTexto = Optional.empty();
+	}
+
 	public Optional<Set<RespostaParagrafo>> setParagrafo(Pergunta<Paragrafo> value) {
+		resetCaches();
+
 		this.perguntaParagrafo = Optional.ofNullable(value);
 
 		// TODO corrigir
@@ -81,6 +92,12 @@ public class ResumoTextoController implements Initializable {
 					try {
 						FXMLLoader loader = LeitorDeFXML.getLoader("fxml/relatorio/texto/TemplateResumoTexto.fxml");
 						AnchorPane pane = loader.load();
+						AnchorPane.setRightAnchor(pane, 0.0);
+						AnchorPane.setBottomAnchor(pane, 0.0);
+
+						pane.setPrefWidth(700);
+						pane.setPrefHeight(300);
+
 						TemplateResumoTextoController controller = loader.getController();
 						controller.set(resposta);
 						boxTextos.getChildren().add(pane);

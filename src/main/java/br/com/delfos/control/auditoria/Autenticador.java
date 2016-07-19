@@ -34,7 +34,6 @@ public class Autenticador {
 	}
 
 	public static Usuario getUsuarioAutenticado() {
-		System.out.println(usuario.get());
 		return usuario.get();
 	}
 
