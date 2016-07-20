@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -142,25 +144,30 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
+		this.invokeListSelector("Selecione os Especialistas", filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA),
+				listViewEspecialista, p -> p.getNome());
+	}
 
-		try {
-			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Especialistas",
-					filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA));
-
-			seletor.textFormat(pessoa -> pessoa.getNome());
-
-			Optional<List<Pessoa>> target = seletor.showAndWait();
-			target.ifPresent(result -> {
-				listViewEspecialista.getItems().addAll(result);
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private <T> void invokeListSelector(String title, List<T> values, ListView<T> target,
+			Function<T, String> textFormat) {
+		ListSelection<T> selector = new ListSelection<>(title, values);
+		selector.textFormat(textFormat);
+		// TODO: Mostrar adequadamente os que estão selecionados e os que estão disponíveis.
+		Optional<List<T>> optionalSelected = selector.showAndWait();
+		optionalSelected.ifPresent(selected -> {
+			try {
+				target.getItems().addAll(selected);
+				this.salvar(toValue(), this).ifPresent(persisted -> {
+					System.out.printf("Atualizações para a lista %s foram salvas.\n", title);
+				});
+			} catch (FXValidatorException e) {
+				AlertAdapter.error(e);
+			}
+		});
 
 	}
 
 	private List<Pessoa> filtraPessoasParaSelecao(TipoPessoa tipo) {
-		List<Pessoa> filtro = new ArrayList<>();
 
 		// cria referência na memória para os objetos criados
 		List<Pessoa> cache = tipo.equals(TipoPessoa.ESPECIALISTA) ? especialistas : pesquisadores;
@@ -169,35 +176,18 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		boolean listaVazia = cache.isEmpty();
 
 		if (listaVazia) {
-			filtro.addAll(cache);
+			return cache;
 		} else {
-			cache.forEach(pessoa -> {
-				if (!list.getItems().contains(pessoa)) {
-					filtro.add(pessoa);
-				}
-			});
+			return cache.stream().filter(pessoa -> !list.getItems().contains(pessoa)).collect(Collectors.toList());
 		}
-
-		return filtro;
 
 	}
 
 	// Link para adicionar pesquisadores
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
-		try {
-			ListSelection<Pessoa> seletor = new ListSelection<>("Selecione os Pesquisadores",
-					filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR));
-
-			seletor.textFormat(pessoa -> pessoa.getNome());
-
-			Optional<List<Pessoa>> target = seletor.showAndWait();
-			target.ifPresent(result -> {
-				listViewPesquisador.getItems().addAll(result);
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		invokeListSelector("Selecione os pesquisadores", filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR),
+				listViewPesquisador, p -> p.getNome());
 	}
 
 	// Link para adicionar questionários
