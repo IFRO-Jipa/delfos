@@ -1,10 +1,10 @@
 package br.com.delfos.control.auditoria;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -104,8 +104,8 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 			try {
 				Optional<PerfilAcesso> resultado = this.salvar(montado, this);
 				resultado.ifPresent(valor -> {
-			        txtCodigo.setText(String.valueOf(valor.getId()));
-		        });
+					txtCodigo.setText(String.valueOf(valor.getId()));
+				});
 			} catch (FXValidatorException e) {
 				AlertAdapter.error(e);
 			}
@@ -128,44 +128,46 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 
 	@FXML
 	private void handleLinkAdicionaFuncionalidade(ActionEvent event) {
-		try {
-			ListSelection<Funcionalidade> seletor = new ListSelection<>("Selecione as funcionalidades",
-			        filtraFuncionalidadesInexistentes());
+		ListSelection<Funcionalidade> seletor = new ListSelection<>("Selecione as funcionalidades",
+				filtraFuncionalidadesInexistentes());
 
-			seletor.textFormat(p -> p.getNome());
+		seletor.textFormat(p -> p.getNome());
 
-			Optional<List<Funcionalidade>> target = seletor.showAndWait();
-			target.ifPresent(result -> {
+		Optional<List<Funcionalidade>> target = seletor.showAndWait();
+		target.ifPresent(result -> {
+			try {
 				listViewPermissoes.getItems().addAll(result);
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+				this.salvar(toValue(), this).ifPresent(persisted -> {
+					System.out.println("Atualizou as informações com sucesso.");
+				});
+			} catch (FXValidatorException e) {
+				AlertAdapter.error(e);
+			}
+		});
 
 	}
 
 	private List<Funcionalidade> filtraFuncionalidadesInexistentes() {
-		List<Funcionalidade> result = new ArrayList<>();
 
 		if (listViewPermissoes.getItems().isEmpty()) {
-			result.addAll(funcionalidades);
+			return funcionalidades;
 		} else {
-			funcionalidades.forEach(funcionalidade -> {
-				if (!listViewPermissoes.getItems().contains(funcionalidade)) {
-					result.add(funcionalidade);
-				}
-
-			});
+			// funcionalidades.forEach(funcionalidade -> {
+			// if (!listViewPermissoes.getItems().contains(funcionalidade)) {
+			// result.add(funcionalidade);
+			// }
+			//
+			// });
+			return funcionalidades.stream().filter(f -> !listViewPermissoes.getItems().contains(f))
+					.collect(Collectors.toList());
 		}
-
-		return result;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		funcionalidades = daoFuncionalidade.findAll();
 		listViewPermissoes.setCellFactory(
-		        new TableCellFactory<Funcionalidade>(listViewPermissoes).getCellFactory(p -> p.getNome()));
+				new TableCellFactory<Funcionalidade>(listViewPermissoes).getCellFactory(p -> p.getNome()));
 	}
 
 }
