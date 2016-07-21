@@ -63,9 +63,6 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	private CheckBox cbAutenticavel;
 
 	@FXML
-	private Button btnPesquisa;
-
-	@FXML
 	@NotNull
 	private TextField txtNome;
 
@@ -74,9 +71,6 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 	@FXML
 	private TextArea txtDesc;
-
-	@FXML
-	private Button btnExcluir;
 
 	@FXML
 	private Button btnNovo;
@@ -90,10 +84,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	@FXML
 	private Label lblDuracao;
 
-
 	private PerguntaController perguntaController;
-
-	private Questionario target;
 
 	// método que libera o campo data de vencimento e muda a cor dele
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
@@ -114,14 +105,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	// ações dos botões
 	@FXML
 	private void handleButtonNovo(ActionEvent event) {
-		ScreenUtils.limpaCampos(this.rootPane);
-		this.dtInicio.setValue(LocalDate.now());
-		this.perguntaController.clear();
-	}
-
-	@FXML
-	private void handleButtonExcluir(ActionEvent event) {
-		deleteIf(quest -> quest.getId() != null);
+		this.clear();
 	}
 
 	@FXML
@@ -165,7 +149,10 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	}
 
 	public void clear() {
-		this.handleButtonNovo(null);
+		ScreenUtils.limpaCampos(this.rootPane);
+		this.dtInicio.setValue(LocalDate.now());
+		this.perguntaController.clear();
+		this.cbAutenticavel.setSelected(true);
 	}
 
 	protected void posiciona(Optional<Questionario> value) {
@@ -179,7 +166,6 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 
 			this.perguntaController.setPerguntas(quest.getPerguntas());
 
-			this.target = quest;
 		});
 	}
 
@@ -205,14 +191,8 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		// ABRE TELA DE PERGUNTA DENTRO DA ABA CORRETA
 		this.configTabPergunta();
 
-		this.reset();
+		this.clear();
 
-	}
-
-	private void reset() {
-		ScreenUtils.limpaCampos(rootPane);
-		this.dtInicio.setValue(LocalDate.now());
-		perguntaController.clear();
 	}
 
 	private void configTabPergunta() {
@@ -237,7 +217,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 	}
 
 	public Questionario getTarget() {
-		return target;
+		return toValue();
 	}
 
 }

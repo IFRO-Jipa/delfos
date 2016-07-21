@@ -26,7 +26,7 @@ public class Autenticador {
 		usuario.ifPresent(autenticado -> {
 			if (autenticado.getPessoa().getCpf().equals(senha)) {
 				AlertAdapter.warning(
-						"CUIDADO! Sua senha não foi modificada desde a criação padrão.\nPara maior segurança, modifique-a (Barra de Menu > Conta > Mudar Senha)");
+						"CUIDADO! \nSua senha não foi modificada desde a criação padrão.\nPara maior segurança, modifique-a (Barra de Menu > Sessão > Redefinir senha)");
 			}
 		});
 

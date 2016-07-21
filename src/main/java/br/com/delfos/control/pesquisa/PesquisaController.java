@@ -156,7 +156,8 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			selector.setSelecionados(FXCollections.observableArrayList(selectedItems));
 			selector.textFormat(textFormat);
 
-			// TODO: Mostrar adequadamente os que estão selecionados e os que estão disponíveis.
+			// TODO: Mostrar adequadamente os que estão selecionados e os que
+			// estão disponíveis.
 			Optional<List<T>> optionalSelected = selector.showAndWait();
 			optionalSelected.ifPresent(selected -> {
 				try {
@@ -205,11 +206,14 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			Optional<Questionario> result = questionarioApp.showAndWait();
 
 			result.ifPresent(questionario -> {
+
 				try {
-					this.listViewQuestionario.getItems().add(questionario);
-					this.salvar(toValue(), this).ifPresent(persisted -> {
-						System.out.println("Questionário atualizado na pesquisa com sucesso.");
-					});
+					if (questionario.getId() != null || !questionario.getNome().isEmpty()) {
+						this.listViewQuestionario.getItems().add(questionario);
+						this.salvar(toValue(), this).ifPresent(persisted -> {
+							System.out.println("Questionário atualizado na pesquisa com sucesso.");
+						});
+					}
 				} catch (FXValidatorException e) {
 
 				}
