@@ -247,7 +247,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			p.setNome(txtNome.getText());
 			p.setDescricao(txtDescricao.getText());
-			p.setLimite(Integer.parseInt(txtLimite.getText()));
+			p.setLimite(txtLimite.getText().isEmpty() ? null : Integer.parseInt(txtLimite.getText()));
 
 			p.setDataInicio(datePesquisa.getValue());
 			p.setDataVencimento(dateVencimento.getValue());

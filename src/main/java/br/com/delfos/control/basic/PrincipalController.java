@@ -17,6 +17,7 @@ import br.com.delfos.model.auditoria.Funcionalidade;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ManipuladorDeMenus;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +59,14 @@ public class PrincipalController implements Initializable {
 			menus = new HashMap<>();
 			fechaJanelas();
 			configuraECriaOsMenus();
+
+			tabPane.getSelectionModel().selectedItemProperty()
+					.addListener((ChangeListener<Tab>) (observable, oldValue, newValue) -> {
+						if (tabPane.getTabs().size() == 0) {
+							System.out.println("Nenhuma aba aberta");
+						} else
+							System.out.println("A aba aberta tem o título: " + newValue.getText());
+					});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

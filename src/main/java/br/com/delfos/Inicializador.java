@@ -1,5 +1,8 @@
 package br.com.delfos;
 
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.GlyphFont;
+import org.controlsfx.glyphfont.GlyphFontRegistry;
 import org.springframework.context.ApplicationContext;
 
 import br.com.delfos.app.LoginApp;
@@ -15,6 +18,11 @@ public class Inicializador extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		// Fazendo a fonte de ícones do ControlsFX ser carregada, deixando de lado o repositório CDN
+		// padrão.
+		GlyphFont font = new FontAwesome(
+				Inicializador.class.getClassLoader().getResourceAsStream("fonts/fontawesome.ttf"));
+		GlyphFontRegistry.register(font);
 		initialize(primaryStage);
 	}
 

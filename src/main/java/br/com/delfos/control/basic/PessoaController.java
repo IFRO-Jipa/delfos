@@ -3,23 +3,27 @@ package br.com.delfos.control.basic;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.delfos.control.auditoria.UsuarioController;
 import br.com.delfos.control.generic.AbstractController;
 import br.com.delfos.control.search.SearchPessoa;
 import br.com.delfos.dao.basic.CidadeDAO;
+import br.com.delfos.dao.basic.EstadoDAO;
 import br.com.delfos.dao.basic.PessoaDAO;
 import br.com.delfos.dao.basic.TipoLogradouroDAO;
 import br.com.delfos.except.view.FXValidatorException;
 import br.com.delfos.model.basic.Cidade;
 import br.com.delfos.model.basic.Endereco;
+import br.com.delfos.model.basic.Estado;
 import br.com.delfos.model.basic.Pessoa;
 import br.com.delfos.model.basic.TipoLogradouro;
 import br.com.delfos.model.basic.TipoPessoa;
@@ -27,6 +31,9 @@ import br.com.delfos.util.ContextFactory;
 import br.com.delfos.util.LeitorDeFXML;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +47,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.util.StringConverter;
 
 @Controller
 public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
@@ -67,6 +75,9 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	@FXML
 	@NotNull
 	private TextField txtNumero;
+
+	@FXML
+	private ComboBox<Estado> comboBoxUf;
 
 	@FXML
 	private Button btnSalvar;
@@ -135,6 +146,9 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	@FXML
 	private Tab tbUsuario;
 
+	@Autowired
+	private CidadeDAO daoCidade;
+
 	private UsuarioController usuarioController;
 
 	@FXML
@@ -158,7 +172,9 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 			posicionaTipoDePessoa(pessoa);
 
 			comboBoxTipoLogradouro.getSelectionModel().select(pessoa.getEndereco().getTipoLogradouro());
+			comboBoxUf.getSelectionModel().select(pessoa.getEndereco().getCidade().getEstado());
 			comboBoxCidade.getSelectionModel().select(pessoa.getEndereco().getCidade());
+
 			txtLogradouro.setText(pessoa.getEndereco().getLogradouro());
 			txtNumero.setText(pessoa.getEndereco().getNumero());
 			txtBairro.setText(pessoa.getEndereco().getBairro());
@@ -274,14 +290,39 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		txtCodigo.setEditable(false);
+		configComboBox();
 		preencheComboBox();
-		this.cbAcessoSistema.setOnAction(event -> {
-			this.tbUsuario.setDisable(!this.cbAcessoSistema.isSelected());
-		});
 		configTabUsuario();
+		configAcessoSistema();
+	}
+
+	private void configAcessoSistema() {
+		this.cbAcessoSistema.selectedProperty()
+				.addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+					this.tbUsuario.setDisable(!newValue);
+					this.usuarioController.setGenerateCredentials(newValue);
+				});
 
 		this.cbAcessoSistema.setTooltip(
 				new Tooltip("Para essa pessoa acessar o sistema, basta informar o CPF para o usuário e senha."));
+	}
+
+	private void configComboBox() {
+		this.comboBoxCidade.setConverter(new StringConverter<Cidade>() {
+
+			@Override
+			public String toString(Cidade object) {
+				return object.getNome();
+			}
+
+			@Override
+			public Cidade fromString(String string) {
+				return comboBoxCidade.getItems().stream()
+						.filter(c -> c.getNome().equals(string) && c.getEstado().equals(comboBoxUf.getValue()))
+						.findFirst()
+						.orElseThrow(() -> new IllegalStateException("Não foi possível associar a cidade ao estado."));
+			}
+		});
 	}
 
 	private void configTabUsuario() {
@@ -299,7 +340,41 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 	private void preencheComboBox() {
 		comboBoxTipoLogradouro.getItems().addAll(ContextFactory.getBean(TipoLogradouroDAO.class).findAll());
-		comboBoxCidade.getItems().addAll(ContextFactory.getBean(CidadeDAO.class).findAll());
+		comboBoxUf.getItems().addAll(ContextFactory.getBean(EstadoDAO.class).findAll());
+
+		comboBoxUf.setConverter(new StringConverter<Estado>() {
+
+			@Override
+			public String toString(Estado object) {
+				return object.getUf();
+			}
+
+			@Override
+			public Estado fromString(String string) {
+				return comboBoxUf.getItems().stream().filter(e -> e.getUf().equals(string)).findFirst().orElseThrow(
+						() -> new IllegalStateException("Não foi possível converter a cidade. Nada encontrado."));
+			}
+		});
+
+		comboBoxUf.getSelectionModel().selectedItemProperty()
+				.addListener((ChangeListener<Estado>) (observable, oldValue, newValue) -> {
+					if (newValue != null) {
+						comboBoxCidade.setDisable(false);
+						comboBoxCidade.getSelectionModel().clearSelection();
+						SortedList<Cidade> items = new SortedList<>(
+								FXCollections.observableArrayList(daoCidade.findByEstado(newValue)));
+						items.setComparator(Comparator.comparing(c -> c.getNome()));
+						comboBoxCidade.setItems(items);
+
+						if (comboBoxCidade.getItems().size() == 1)
+							comboBoxCidade.getSelectionModel().select(0);
+					} else {
+						comboBoxCidade.setDisable(true);
+						comboBoxCidade.getSelectionModel().clearSelection();
+						comboBoxCidade.getItems().clear();
+					}
+
+				});
 	}
 
 }
