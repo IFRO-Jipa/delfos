@@ -33,6 +33,7 @@ import br.com.delfos.util.TableCellFactory;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ScreenUtils;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -144,15 +145,17 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
-		invokeListSelector("Selecione os especialistas", filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA),
+		invokeListSelector("Selecione os Especialistas", filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA),
 				listViewEspecialista.getItems(), listViewEspecialista, p -> p.getNome());
 	}
 
-	private <T> void invokeListSelector(String title, List<T> sourceItems, List<T> targetItems, ListView<T> target,
+	private <T> void invokeListSelector(String title, List<T> avaliableItems, List<T> selectedItems, ListView<T> target,
 			Function<T, String> textFormat) {
 		try {
-			ListSelection<T> selector = new ListSelection<>(title, sourceItems);
+			ListSelection<T> selector = new ListSelection<>(title, avaliableItems);
+			selector.setSelecionados(FXCollections.observableArrayList(selectedItems));
 			selector.textFormat(textFormat);
+
 			// TODO: Mostrar adequadamente os que estão selecionados e os que estão disponíveis.
 			Optional<List<T>> optionalSelected = selector.showAndWait();
 			optionalSelected.ifPresent(selected -> {
@@ -202,7 +205,14 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			Optional<Questionario> result = questionarioApp.showAndWait();
 
 			result.ifPresent(questionario -> {
-				this.listViewQuestionario.getItems().add(questionario);
+				try {
+					this.listViewQuestionario.getItems().add(questionario);
+					this.salvar(toValue(), this).ifPresent(persisted -> {
+						System.out.println("Questionário atualizado na pesquisa com sucesso.");
+					});
+				} catch (FXValidatorException e) {
+
+				}
 			});
 		} catch (IOException e) {
 			AlertAdapter.error(e);

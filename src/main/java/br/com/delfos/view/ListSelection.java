@@ -6,41 +6,48 @@ import java.util.function.Function;
 import org.controlsfx.control.ListSelectionView;
 
 import br.com.delfos.util.TableCellFactory;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 public class ListSelection<T> extends Dialog<List<T>> {
 
 	private ListSelectionView<T> view;
 
-	public ListSelection(List<T> options) {
-		this("Seletor de " + options.get(0).getClass().getSimpleName() + "s", options);
+	/**
+	 * 
+	 * @param data
+	 *            registros disponíveis para seleção
+	 */
+	public ListSelection(List<T> data) {
+		this("Seletor de " + data.get(0).getClass().getSimpleName() + "s", data);
 	}
 
-	public final void setSourceItems(ObservableList<T> value) {
+	public final void setDisponiveis(ObservableList<T> value) {
 		view.setSourceItems(value);
 	}
 
-	public final void setTargetItems(ObservableList<T> value) {
+	public final void setSelecionados(ObservableList<T> value) {
 		view.setTargetItems(value);
 	}
 
-	public ListSelection(String title, List<T> options) {
-		initConfig(title, options);
+	public ListSelection(String title, List<T> data) {
+		initConfig(title, data);
 	}
 
-	private void initConfig(String title, List<T> options) {
+	private void initConfig(String title, List<T> data) {
 		setTitle("Seletor de informações");
 		setHeaderText(title);
-		initLayout(options);
+		initLayout(data);
 	}
 
-	private void initLayout(List<T> options) {
+	private void initLayout(List<T> data) {
 		getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-		this.getDialogPane().setContent(getPane(options));
+		this.getDialogPane().setContent(getPane(data));
 
 		this.setResultConverter(button -> {
 			if (button == ButtonType.OK) {
@@ -51,18 +58,19 @@ public class ListSelection<T> extends Dialog<List<T>> {
 			return null;
 		});
 
+		this.setResizable(true);
 	}
 
 	public final void textFormat(Function<T, String> predicate) {
 		view.setCellFactory(new TableCellFactory<T>().getCellFactory(predicate));
 	}
 
-	private AnchorPane getPane(List<T> options) {
-		AnchorPane pane = new AnchorPane();
+	private Pane getPane(List<T> data) {
 		view = new ListSelectionView<>();
-		view.getTargetItems().addAll(options);
-		pane.getChildren().add(view);
-		return pane;
+		view.applyCss();
+		this.setDisponiveis(FXCollections.observableArrayList(data));
+
+		return new BorderPane(view);
 	}
 
 }
