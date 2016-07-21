@@ -104,7 +104,6 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	private Button btnNovo;
 
 	@FXML
-	@NotNull
 	private TextField txtRg;
 
 	@FXML
@@ -218,7 +217,7 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 					this.usuarioController.setResponsavel(pessoa);
 					this.usuarioController.salvar().ifPresent(usuario -> {
 						configPermissaoCriaUsuario(null);
-						AlertAdapter.information("Pessoa e usuário criados com sucesso.");
+						AlertAdapter.information("Salvo com sucesso.");
 					});
 
 				} else

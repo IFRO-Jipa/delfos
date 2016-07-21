@@ -1,0 +1,7 @@
+.img-load {
+	-fx-image: url("../imgs/load.GIF");
+}
+
+.img-logo {
+	-fx-image: url("../imgs/logo-full.png");
+}

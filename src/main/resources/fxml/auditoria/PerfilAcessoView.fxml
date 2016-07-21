@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="388.0" prefWidth="587.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.PerfilAcessoController">
+<AnchorPane fx:id="rootPane" prefHeight="388.0" prefWidth="587.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.PerfilAcessoController">
 	<children>
 		<Text layoutX="11.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" />
 		<TextField fx:id="txtCodigo" editable="false" layoutX="11.0" layoutY="51.0" prefHeight="25.0" prefWidth="50.0" />
-		<Button fx:id="btnPesquisar" layoutX="61.0" layoutY="51.0" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="33.0" text="..." />
+		<Button fx:id="btnPesquisar" layoutX="61.0" layoutY="51.0" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="33.0" styleClass="btnPesquisar" />
 		<Text layoutX="97.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="97.0" />
 		<TextField fx:id="txtNome" layoutX="97.0" layoutY="51.0" prefHeight="25.0" prefWidth="386.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="11.0" />
 		<Text layoutX="11.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="11.0" />
@@ -24,22 +24,34 @@
 			</font>
 		</Hyperlink>
 		<ListView fx:id="listViewPermissoes" layoutX="12.0" layoutY="191.0" prefHeight="147.0" prefWidth="565.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="191.0" />
-		<Group layoutX="-96.0" layoutY="-117.0" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="8.0">
+		<Group layoutX="-106.0" layoutY="-119.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="11.0">
 			<children>
-				<Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">
+				<Button fx:id="btnNovo" layoutX="479.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnNovo" />
+               </styleClass>
 				</Button>
 				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0" prefWidth="93.0" text="Excluir">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnExcluir" />
+               </styleClass>
 				</Button>
-				<Button fx:id="btnSalvar" layoutX="390.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
+				<Button fx:id="btnSalvar" layoutX="376.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnSalvar" />
+               </styleClass>
 				</Button>
 			</children>
 		</Group>

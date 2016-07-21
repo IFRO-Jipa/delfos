@@ -1,0 +1,23 @@
+.default-button {
+	-fx-pref-height: 40.0px;
+	-fx-pref-width: 100.0px;
+	-fx-content-display: left ;
+	-fx-border-width: 2.0px;
+}
+.btnSalvar {
+	-fx-graphic: url(http://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/32/Save-icon.png); 
+}
+.btnExcluir {
+	-fx-graphic: url(http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/32/Recycle-Bin-icon.png); 
+}
+.btnNovo {
+	-fx-graphic: url(http://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Files-New-File-icon.png); 
+}
+.btnPesquisar{
+	-fx-graphic: url(http://icons.iconarchive.com/icons/gakuseisean/aire/16/Search-icon.png); 
+	-fx-content-display: center;
+}
+.btnAdd{
+	-fx-graphic: url(http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/16/add-1-icon.png); 
+	-fx-content-display: center;
+}

@@ -42,10 +42,6 @@ public class QuestionarioApp extends Application {
 		primaryStage.setTitle("Criação de Questionários");
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	public static Stage getStage() {
 		if (primaryStage != null) {
 			return primaryStage;

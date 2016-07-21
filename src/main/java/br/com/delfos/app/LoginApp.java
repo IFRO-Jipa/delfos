@@ -17,10 +17,8 @@ public class LoginApp extends Application {
 	public void start(Stage stage) throws Exception {
 		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("fxml/auditoria/LoginOverview.fxml");
 
-		pane.getStylesheets().add(LoginApp.class.getClassLoader().getResource("css/Login.css").toString());
-
 		stage.setScene(new Scene(pane));
-		
+
 		stage.setTitle("Delfos - Autenticação de Usuário");
 		stage.setResizable(false);
 		stage.setFullScreen(false);
@@ -31,10 +29,6 @@ public class LoginApp extends Application {
 		stage.show();
 		stage.setOnCloseRequest(event -> System.exit(0));
 		LoginApp.stage = stage;
-	}
-
-	public static void main(String[] args) {
-		launch(args);
 	}
 
 	public static Stage getStage() {

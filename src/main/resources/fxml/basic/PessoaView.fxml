@@ -9,177 +9,114 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="630.0" prefWidth="677.0"
-	stylesheets="@../css/Template.css" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.basic.PessoaController">
+<AnchorPane fx:id="anchorPane" prefHeight="638.0" prefWidth="677.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.basic.PessoaController">
 	<children>
-		<Text layoutX="14.0" layoutY="48.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Código" />
-		<TextField fx:id="txtCodigo" disable="true" editable="false"
-			layoutX="14.0" layoutY="52.0" prefHeight="25.0" prefWidth="62.0" />
-		<Button fx:id="btnPesquisaCodigo" layoutX="76.0" layoutY="52.0"
-			mnemonicParsing="false" onAction="#handleButtonPesquisaCodigo"
-			prefHeight="25.0" prefWidth="24.0" text="Button" />
-		<Text layoutX="111.0" layoutY="48.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Nome" />
-		<TextField fx:id="txtNome" layoutX="111.0" layoutY="52.0"
-			prefHeight="25.0" prefWidth="555.0" AnchorPane.leftAnchor="111.0"
-			AnchorPane.rightAnchor="11.0" />
-		<Text layoutX="15.0" layoutY="90.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Apelido" AnchorPane.leftAnchor="15.0"
-			AnchorPane.rightAnchor="621.01953125" />
-		<TextField fx:id="txtApelido" layoutX="15.0" layoutY="94.0"
-			prefHeight="25.0" prefWidth="342.0" AnchorPane.leftAnchor="15.0"
-			AnchorPane.rightAnchor="320.0" />
-		<Text layoutX="362.0" layoutY="90.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="CPF" AnchorPane.rightAnchor="294.990234375" />
-		<TextField fx:id="txtCpf" layoutX="362.0" layoutY="94.0"
-			prefHeight="26.0" prefWidth="122.0" AnchorPane.rightAnchor="193.0" />
-		<Button fx:id="btnPesquisaCpf" layoutX="485.0" layoutY="94.0"
-			mnemonicParsing="false" onAction="#handleButtonPesquisaCpf"
-			prefHeight="25.0" prefWidth="24.0" text="Button"
-			AnchorPane.rightAnchor="168.0" />
-		<Text layoutX="515.0" layoutY="90.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="RG" AnchorPane.rightAnchor="146.58984375" />
-		<TextField fx:id="txtRg" layoutX="515.0" layoutY="94.0"
-			prefHeight="25.0" prefWidth="149.0" AnchorPane.rightAnchor="13.0" />
-		<Text layoutX="514.0" layoutY="138.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Data Nasc." AnchorPane.rightAnchor="106.703125" />
-		<TextField fx:id="txtEmail" layoutX="14.0" layoutY="142.0"
-			prefHeight="25.0" prefWidth="491.0" AnchorPane.leftAnchor="14.0"
-			AnchorPane.rightAnchor="172.0" />
-		<DatePicker fx:id="dtDataNascimento" layoutX="514.0"
-			layoutY="142.0" prefHeight="25.0" prefWidth="149.0"
-			AnchorPane.rightAnchor="14.0" />
-		<Pane fx:id="pnlClassificacao" layoutX="15.0" layoutY="186.0"
-			prefHeight="72.0" prefWidth="233.0" styleClass="group" stylesheets="@../css/Template.css"
-			AnchorPane.leftAnchor="15.0">
+		<Text layoutX="14.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" />
+		<TextField fx:id="txtCodigo" disable="true" editable="false" layoutX="14.0" layoutY="52.0" prefHeight="25.0" prefWidth="62.0" />
+		<Button fx:id="btnPesquisaCodigo" layoutX="76.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleButtonPesquisaCodigo" prefHeight="25.0" prefWidth="24.0" styleClass="btnPesquisar" />
+		<Text layoutX="111.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" />
+		<TextField fx:id="txtNome" layoutX="111.0" layoutY="52.0" prefHeight="25.0" prefWidth="555.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="11.0" />
+		<Text layoutX="15.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apelido" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="621.01953125" />
+		<TextField fx:id="txtApelido" layoutX="15.0" layoutY="94.0" prefHeight="25.0" prefWidth="342.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" />
+		<Text layoutX="362.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF" AnchorPane.rightAnchor="294.990234375" />
+		<TextField fx:id="txtCpf" layoutX="362.0" layoutY="94.0" prefHeight="26.0" prefWidth="115.0" AnchorPane.rightAnchor="200.0" />
+		<Button fx:id="btnPesquisaCpf" layoutX="485.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleButtonPesquisaCpf" prefHeight="25.0" prefWidth="24.0" styleClass="btnPesquisar" AnchorPane.rightAnchor="168.0" />
+		<Text layoutX="515.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RG" AnchorPane.rightAnchor="146.58984375" />
+		<TextField fx:id="txtRg" layoutX="515.0" layoutY="94.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.rightAnchor="13.0" />
+		<Text layoutX="514.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Nasc." AnchorPane.rightAnchor="106.703125" />
+		<TextField fx:id="txtEmail" layoutX="14.0" layoutY="142.0" prefHeight="25.0" prefWidth="491.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="172.0" />
+		<DatePicker fx:id="dtDataNascimento" layoutX="514.0" layoutY="142.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.rightAnchor="14.0" />
+		<Pane fx:id="pnlClassificacao" layoutX="15.0" layoutY="186.0" prefHeight="72.0" prefWidth="233.0" styleClass="group" stylesheets="@../css/Template.css" AnchorPane.leftAnchor="15.0">
 			<children>
 				<Group>
 					<children>
-						<CheckBox fx:id="cbPesquisador" layoutX="11.0" layoutY="24.0"
-							mnemonicParsing="false" text="Pesquisador" />
-						<CheckBox fx:id="cbEspecialista" layoutX="127.0" layoutY="24.0"
-							mnemonicParsing="false" text="Especialista" />
+						<CheckBox fx:id="cbPesquisador" layoutX="11.0" layoutY="24.0" mnemonicParsing="false" text="Pesquisador" />
+						<CheckBox fx:id="cbEspecialista" layoutX="127.0" layoutY="24.0" mnemonicParsing="false" text="Especialista" />
 					</children>
 				</Group>
 			</children>
 		</Pane>
-		<Text layoutX="14.0" layoutY="182.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Classificação" />
-		<TextArea fx:id="txtDescricao" layoutX="263.0" layoutY="186.0"
-			prefHeight="72.0" prefWidth="403.0" AnchorPane.leftAnchor="263.0"
-			AnchorPane.rightAnchor="11.0" />
-		<Text layoutX="263.0" layoutY="182.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Descrição" />
-		<TabPane layoutX="15.0" layoutY="294.0" prefHeight="288.0"
-			prefWidth="650.0" tabClosingPolicy="UNAVAILABLE"
-			AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="15.0"
-			AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="294.0">
+		<Text layoutX="14.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Classificação" />
+		<TextArea fx:id="txtDescricao" layoutX="263.0" layoutY="186.0" prefHeight="72.0" prefWidth="403.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="11.0" />
+		<Text layoutX="263.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" />
+		<TabPane layoutX="15.0" layoutY="294.0" prefHeight="290.0" prefWidth="650.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="294.0">
 			<tabs>
 				<Tab fx:id="tbEndereco" text="Endereço e localização">
 					<content>
-						<AnchorPane fx:id="anchorPaneEndereco" minHeight="0.0"
-							minWidth="0.0" prefHeight="204.0" prefWidth="650.0" styleClass="group">
+						<AnchorPane fx:id="anchorPaneEndereco" minHeight="0.0" minWidth="0.0" prefHeight="261.0" prefWidth="650.0" styleClass="group">
 							<children>
-								<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE"
-									strokeWidth="0.0" text="Logradouro" />
-								<Text layoutX="448.416015625" layoutY="26.0" strokeType="OUTSIDE"
-									strokeWidth="0.0" text="Número" AnchorPane.rightAnchor="158.001953125" />
-								<ComboBox fx:id="comboBoxTipoLogradouro" layoutX="14.0"
-									layoutY="31.0" prefHeight="26.0" prefWidth="115.0" />
-								<TextField fx:id="txtLogradouro" layoutX="131.0"
-									layoutY="31.0" prefHeight="26.0" prefWidth="319.0"
-									AnchorPane.leftAnchor="131.0" AnchorPane.rightAnchor="208.0" />
-								<TextField fx:id="txtNumero" layoutX="449.0" layoutY="31.0"
-									prefHeight="25.0" prefWidth="67.0" AnchorPane.rightAnchor="135.0" />
-								<TextField fx:id="txtCep" layoutX="521.0" layoutY="31.0"
-									prefHeight="25.0" prefWidth="115.0" AnchorPane.rightAnchor="14.0" />
-								<TextField fx:id="txtBairro" layoutX="15.0" layoutY="77.0"
-									prefHeight="25.0" prefWidth="378.0" AnchorPane.leftAnchor="15.0"
-									AnchorPane.rightAnchor="257.0" />
-								<ComboBox fx:id="comboBoxCidade" layoutX="424.0"
-									layoutY="77.0" prefHeight="25.0" prefWidth="239.0"
-									AnchorPane.rightAnchor="12.0" />
-								<TextArea fx:id="txtDescricaoEndereco" layoutX="15.0"
-									layoutY="127.0" prefHeight="54.0" prefWidth="624.0"
-									AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="14.0"
-									AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="126.0" />
-								<Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE"
-									strokeWidth="0.0" text="Bairro" AnchorPane.leftAnchor="14.0" />
-								<Text layoutX="399.1494140625" layoutY="73.0" strokeType="OUTSIDE"
-									strokeWidth="0.0" text="Cidade" AnchorPane.rightAnchor="214.0009765625" />
-								<Text layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE"
-									strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-								<Text layoutX="521.45458984375" layoutY="27.0" strokeType="OUTSIDE"
-									strokeWidth="0.0" text="CEP" AnchorPane.rightAnchor="108.32470703125" />
+								<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logradouro" />
+								<Text layoutX="448.416015625" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número" AnchorPane.rightAnchor="158.001953125" />
+								<ComboBox fx:id="comboBoxTipoLogradouro" layoutX="14.0" layoutY="31.0" prefHeight="26.0" prefWidth="115.0" />
+								<TextField fx:id="txtLogradouro" layoutX="131.0" layoutY="31.0" prefHeight="26.0" prefWidth="319.0" AnchorPane.leftAnchor="131.0" AnchorPane.rightAnchor="208.0" />
+								<TextField fx:id="txtNumero" layoutX="449.0" layoutY="31.0" prefHeight="25.0" prefWidth="67.0" AnchorPane.rightAnchor="135.0" />
+								<TextField fx:id="txtCep" layoutX="521.0" layoutY="31.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.rightAnchor="14.0" />
+								<TextField fx:id="txtBairro" layoutX="15.0" layoutY="77.0" prefHeight="25.0" prefWidth="378.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="257.0" />
+								<ComboBox fx:id="comboBoxCidade" layoutX="424.0" layoutY="77.0" prefHeight="25.0" prefWidth="239.0" AnchorPane.rightAnchor="12.0" />
+								<TextArea fx:id="txtDescricaoEndereco" layoutX="15.0" layoutY="127.0" prefHeight="54.0" prefWidth="624.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="126.0" />
+								<Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bairro" AnchorPane.leftAnchor="14.0" />
+								<Text layoutX="399.1494140625" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cidade" AnchorPane.rightAnchor="214.0009765625" />
+								<Text layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
+								<Text layoutX="521.45458984375" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CEP" AnchorPane.rightAnchor="108.32470703125" />
 								<Label layoutX="80.0" layoutY="13.0" text="*" textFill="RED" />
-								<Label layoutX="494.0" layoutY="13.0" text="*" textFill="RED"
-									AnchorPane.rightAnchor="150.0" />
-								<Label layoutX="544.0" layoutY="13.0" text="*" textFill="RED"
-									AnchorPane.rightAnchor="100.0" />
+								<Label layoutX="494.0" layoutY="13.0" text="*" textFill="RED" AnchorPane.rightAnchor="150.0" />
 								<Label layoutX="49.0" layoutY="60.0" text="*" textFill="RED" />
-								<Label layoutX="441.0" layoutY="60.0" text="*" textFill="RED"
-									AnchorPane.rightAnchor="203.0" />
+								<Label layoutX="441.0" layoutY="60.0" text="*" textFill="RED" AnchorPane.rightAnchor="203.0" />
 							</children>
 						</AnchorPane>
 					</content>
 				</Tab>
 				<Tab fx:id="tbUsuario" disable="true" text="Acesso ao sistema">
 					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0" />
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
 					</content>
 				</Tab>
 			</tabs>
 		</TabPane>
-		<Group layoutX="-10.0" layoutY="10.0" AnchorPane.bottomAnchor="9.0"
-			AnchorPane.rightAnchor="12.0">
+		<Group layoutX="-18.0" layoutY="129.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="13.0">
 			<children>
-				<Button fx:id="btnSalvar" layoutX="390.0" layoutY="462.0"
-					mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0"
-					prefWidth="93.0" text="Salvar">
+				<Button fx:id="btnSalvar" layoutX="378.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnSalvar" />
+               </styleClass>
 				</Button>
-				<Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0"
-					mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0"
-					prefWidth="97.0" text="Novo">
+				<Button fx:id="btnNovo" layoutX="480.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnNovo" />
+               </styleClass>
 				</Button>
-				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0"
-					mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0"
-					prefWidth="93.0" text="Excluir">
+				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0" prefWidth="93.0" text="Excluir">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnExcluir" />
+               </styleClass>
 				</Button>
 			</children>
 		</Group>
-		<Text layoutX="14.0" layoutY="138.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="E-mail" />
-		<CheckBox fx:id="cbAcessoSistema" layoutX="15.0" layoutY="265.0"
-			mnemonicParsing="false"
-			text="Criar usuário para acesso ao sistema (para mais informações, entre na aba &quot;Acesso ao sistema&quot; abaixo)." />
+		<Text layoutX="14.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail" />
+		<CheckBox fx:id="cbAcessoSistema" layoutX="15.0" layoutY="265.0" mnemonicParsing="false" text="Criar usuário para acesso ao sistema (para mais informações, entre na aba &quot;Acesso ao sistema&quot; abaixo)." />
 		<Label layoutX="147.0" layoutY="33.0" text="*" textFill="RED" />
-		<Label layoutX="533.0" layoutY="77.0" text="*" textFill="RED"
-			AnchorPane.rightAnchor="138.0" />
 		<Group layoutX="4.0">
 			<children>
-				<Label layoutX="97.0" layoutY="14.0" prefHeight="17.0"
-					prefWidth="186.0" text="são de preenchimento obrigatório" />
+				<Label layoutX="97.0" layoutY="14.0" prefHeight="17.0" prefWidth="186.0" text="são de preenchimento obrigatório" />
 				<Label layoutX="87.0" layoutY="14.0" text="*" textFill="RED" />
 				<Label layoutX="11.0" layoutY="14.0" text="Campos com " />
 			</children>
 		</Group>
-		<Label layoutX="386.0" layoutY="77.0" text="*" textFill="RED"
-			AnchorPane.rightAnchor="285.0" />
+		<Label layoutX="386.0" layoutY="77.0" text="*" textFill="RED" AnchorPane.rightAnchor="285.0" />
 		<Label layoutX="51.0" layoutY="125.0" text="*" textFill="RED" />
-		<Label layoutX="574.0" layoutY="125.0" text="*" textFill="RED"
-			AnchorPane.rightAnchor="97.0" />
+		<Label layoutX="574.0" layoutY="125.0" text="*" textFill="RED" AnchorPane.rightAnchor="97.0" />
 		<Label layoutX="81.0" layoutY="169.0" text="*" textFill="RED" />
 	</children>
 </AnchorPane>

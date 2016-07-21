@@ -45,10 +45,6 @@ public class SplashScreenApp extends Preloader {
 		this.start(new Stage());
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	public static void close() {
 		SplashScreenApp.stage.close();
 	}

@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="515.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.FuncionalidadeController">
+<AnchorPane fx:id="rootPane" prefHeight="515.0" prefWidth="664.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.FuncionalidadeController">
 	<children>
 		<Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
 		<TextField fx:id="txtCodigo" editable="false" layoutX="14.0" layoutY="61.0" prefHeight="25.0" prefWidth="48.0" AnchorPane.leftAnchor="14.0" />
-		<Button fx:id="btnPesquisar" layoutX="62.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="19.0" text="..." />
-		<Text layoutX="93.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="93.0" />
-		<TextField fx:id="txtNome" layoutX="93.0" layoutY="61.0" prefHeight="25.0" prefWidth="278.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="293.0" />
+		<Button fx:id="btnPesquisar" layoutX="62.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="19.0" styleClass="btnPesquisar" />
+		<Text layoutX="100.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="100.0" />
+		<TextField fx:id="txtNome" layoutX="99.0" layoutY="61.0" prefHeight="25.0" prefWidth="272.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="293.0" />
 		<Text layoutX="378.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chave" AnchorPane.rightAnchor="253.650390625" />
 		<TextField fx:id="txtChave" layoutX="377.0" layoutY="61.0" prefHeight="25.0" prefWidth="112.0" AnchorPane.rightAnchor="175.0" />
 		<Text layoutX="14.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
@@ -25,25 +25,37 @@
 		<Text layoutX="14.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registros" AnchorPane.leftAnchor="14.0" />
 		<Group layoutX="-20.0" layoutY="-8.0" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="9.0">
 			<children>
-				<Button fx:id="btnSalvar" layoutX="390.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
+				<Button fx:id="btnSalvar" layoutX="384.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="35.0" prefWidth="93.0" text="Salvar">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnSalvar" />
+               </styleClass>
 				</Button>
 				<Button fx:id="btnNovo" layoutX="484.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnNovo" />
+               </styleClass>
 				</Button>
 				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="35.0" prefWidth="93.0" text="Excluir">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnExcluir" />
+               </styleClass>
 				</Button>
 			</children>
 		</Group>
 		<Text layoutX="500.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pré-requisito" AnchorPane.rightAnchor="95.7265625" />
-      <Label layoutX="130.0" layoutY="43.0" text="*" textFill="RED" AnchorPane.leftAnchor="130.0" />
+      <Label layoutX="137.0" layoutY="43.0" text="*" textFill="RED" AnchorPane.leftAnchor="137.0" />
       <Label layoutX="414.0" layoutY="44.0" text="*" textFill="RED" AnchorPane.rightAnchor="244.0" />
       <Label layoutX="574.0" layoutY="43.0" text="*" textFill="RED" AnchorPane.rightAnchor="84.0" />
       <Label layoutX="66.0" layoutY="204.0" text="*" textFill="RED" AnchorPane.leftAnchor="66.0" />

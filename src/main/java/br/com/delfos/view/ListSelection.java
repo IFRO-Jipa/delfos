@@ -6,6 +6,7 @@ import java.util.function.Function;
 import org.controlsfx.control.ListSelectionView;
 
 import br.com.delfos.util.TableCellFactory;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +17,14 @@ public class ListSelection<T> extends Dialog<List<T>> {
 
 	public ListSelection(List<T> options) {
 		this("Seletor de " + options.get(0).getClass().getSimpleName() + "s", options);
+	}
+
+	public final void setSourceItems(ObservableList<T> value) {
+		view.setSourceItems(value);
+	}
+
+	public final void setTargetItems(ObservableList<T> value) {
+		view.setTargetItems(value);
 	}
 
 	public ListSelection(String title, List<T> options) {
@@ -51,7 +60,7 @@ public class ListSelection<T> extends Dialog<List<T>> {
 	private AnchorPane getPane(List<T> options) {
 		AnchorPane pane = new AnchorPane();
 		view = new ListSelectionView<>();
-		view.getSourceItems().addAll(options);
+		view.getTargetItems().addAll(options);
 		pane.getChildren().add(view);
 		return pane;
 	}

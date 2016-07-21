@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="435.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.UsuarioController">
+<AnchorPane fx:id="rootPane" prefHeight="435.0" prefWidth="387.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.auditoria.UsuarioController">
 	<children>
 		<Text layoutX="12.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="12.0" />
 		<TextField fx:id="txtCodigo" editable="false" layoutX="12.0" layoutY="59.0" prefHeight="25.0" prefWidth="56.0" AnchorPane.leftAnchor="12.0" />
-		<Button fx:id="btnPesquisaCodigo" layoutX="68.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonPesquisaCodigo" text="..." AnchorPane.leftAnchor="68.0" />
+		<Button fx:id="btnPesquisaCodigo" layoutX="68.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonPesquisaCodigo" styleClass="btnPesquisar" AnchorPane.leftAnchor="68.0" />
 		<Text layoutX="102.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dono da conta" />
-		<TextField fx:id="txtNomeResponsavel" editable="false" layoutX="102.0" layoutY="59.0" prefHeight="25.0" prefWidth="248.0" promptText="Clique no botão ao lado para pesquisar" AnchorPane.leftAnchor="102.0" AnchorPane.rightAnchor="37.0" />
-		<Button fx:id="btnPesquisaResponsavel" layoutX="350.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonPesquisaResponsavel" text="..." AnchorPane.rightAnchor="13.0" />
+		<TextField fx:id="txtNomeResponsavel" editable="false" layoutX="102.0" layoutY="59.0" prefHeight="25.0" prefWidth="236.0" promptText="Clique no botão ao lado para pesquisar" AnchorPane.leftAnchor="102.0" AnchorPane.rightAnchor="49.0" />
+		<Button fx:id="btnPesquisaResponsavel" layoutX="339.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonPesquisaResponsavel" styleClass="btnPesquisar" AnchorPane.rightAnchor="16.0" />
 		<Text layoutX="14.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" AnchorPane.leftAnchor="14.0" />
 		<CheckBox fx:id="cbStatus" layoutX="14.0" layoutY="114.0" mnemonicParsing="false" text="Ativo" AnchorPane.leftAnchor="14.0" />
 		<Text layoutX="103.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Perfil de Acesso" AnchorPane.leftAnchor="103.0" />
@@ -50,22 +50,34 @@
 		</GridPane>
 		<Text layoutX="15.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" />
 		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="287.0" prefHeight="95.0" prefWidth="359.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="287.0" />
-		<Group layoutX="-289.0" layoutY="-216.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="14.0">
+		<Group layoutX="-310.0" layoutY="-74.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="15.0">
 			<children>
-				<Button fx:id="btnSalvar" layoutX="418.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="30.0" prefWidth="80.0" text="Salvar">
+				<Button fx:id="btnSalvar" layoutX="378.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="30.0" prefWidth="80.0" text="Salvar">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnSalvar" />
+               </styleClass>
 				</Button>
-				<Button fx:id="btnNovo" layoutX="500.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="30.0" prefWidth="80.0" text="Novo">
+				<Button fx:id="btnNovo" layoutX="480.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="30.0" prefWidth="80.0" text="Novo">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnNovo" />
+               </styleClass>
 				</Button>
 				<Button fx:id="btnExcluir" layoutX="582.0" layoutY="462.0" mnemonicParsing="false" onAction="#handleButtonExcluir" prefHeight="30.0" prefWidth="80.0" text="Excluir">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>
+               <styleClass>
+                  <String fx:value="default-button" />
+                  <String fx:value="btnExcluir" />
+               </styleClass>
 				</Button>
 			</children>
 		</Group>

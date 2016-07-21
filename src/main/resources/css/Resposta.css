@@ -1,0 +1,6 @@
+.btnLimpar {
+	-fx-graphic: url("../imgs/clear.png");
+}
+.btnEnviar {
+	-fx-graphic: url("../imgs/submit.png");
+}

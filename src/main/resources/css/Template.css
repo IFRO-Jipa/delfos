@@ -1,3 +1,42 @@
 .group { 
 	-fx-border-color: #D3D3D3;
 }
+
+/*CSS para botões padrões, com seus respectivos ícones. */
+
+.default-button {
+	-fx-pref-height: 40.0px;
+	-fx-pref-width: 100.0px;
+	-fx-content-display: left ;
+	-fx-border-width: 2.0px;
+}
+.btnSalvar {
+	-fx-graphic: url(../imgs/save.png); 
+}
+.btnExcluir {
+	-fx-graphic: url(../imgs/move-to-trash.png); 
+}
+.btnNovo {
+	-fx-graphic: url(../imgs/new.png); 
+}
+.btnPesquisar{
+	-fx-graphic: url(../imgs/search-minimal.png); 
+	-fx-content-display: center;
+}
+.btnAdd{
+	-fx-graphic: url(../imgs/add-minimal.png); 
+	-fx-content-display: center;
+}
+
+.btnApply {
+	-fx-graphic: url(../imgs/apply.png);
+}
+
+.btnConfig {
+	-fx-graphic: url(../imgs/config-minimal.png);
+	
+}
+
+.btnFinaliza {
+	-fx-graphic: url(../imgs/finish.png);
+}

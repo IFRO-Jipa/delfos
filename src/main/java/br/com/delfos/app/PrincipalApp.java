@@ -38,14 +38,10 @@ public class PrincipalApp extends Application {
 		controller = Optional.ofNullable(loader.getController());
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	public static Stage getStage() {
 		return stage;
 	}
-	
+
 	public static void logout() throws Exception {
 		stage.hide();
 		Autenticador.logout();

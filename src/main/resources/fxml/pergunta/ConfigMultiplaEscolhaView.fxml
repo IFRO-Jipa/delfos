@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="389.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.ConfigMultiplaEscolhaController">
+<AnchorPane fx:id="rootPane" prefHeight="402.0" prefWidth="452.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.ConfigMultiplaEscolhaController">
 	<children>
 		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
 		<TextField fx:id="txtNome" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="317.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="121.0" AnchorPane.topAnchor="31.0" />
 		<Text layoutX="348.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Pergunta" AnchorPane.rightAnchor="12.81640625" />
-		<Text fx:id="lblTipo" layoutX="347.91796875" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Multipla Escolha" wrappingWidth="91.18359375" AnchorPane.rightAnchor="12.8984375" />
+		<Text fx:id="lblTipo" layoutX="347.91796875" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Multipla Escolha" textAlignment="CENTER" underline="true" wrappingWidth="91.18359375" AnchorPane.rightAnchor="12.8984375" />
 		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
 		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="57.0" prefWidth="425.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
-		<TabPane layoutX="14.0" layoutY="144.0" prefHeight="164.0" prefWidth="425.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="144.0">
+		<TabPane layoutX="14.0" layoutY="144.0" prefHeight="205.0" prefWidth="425.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="144.0">
 			<tabs>
 				<Tab text="Alternativas">
 					<content>
@@ -33,7 +33,7 @@
 												<Insets bottom="2.0" left="3.0" right="2.0" top="5.0" />
 											</HBox.margin>
 										</TextField>
-										<Button fx:id="txtAddAlternativa" mnemonicParsing="false" onAction="#handleButtonAddAlternativa" prefHeight="25.0" prefWidth="64.0" text="OK">
+										<Button fx:id="txtAddAlternativa" mnemonicParsing="false" onAction="#handleButtonAddAlternativa" prefHeight="25.0" prefWidth="64.0" styleClass="btnAdd">
 											<HBox.margin>
 												<Insets bottom="2.0" left="3.0" right="2.0" top="5.0" />
 											</HBox.margin>
@@ -57,7 +57,11 @@
 				</Tab>
 			</tabs>
 		</TabPane>
-		<Button fx:id="btnSalvar" layoutX="357.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="25.0" prefWidth="82.0" text="Salvar" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="13.0" />
+		<Button fx:id="btnSalvar" layoutX="338.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="40.0" prefWidth="100.0" text="Salvar" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
+         <styleClass>
+            <String fx:value="btnApply" />
+            <String fx:value="default-button" />
+         </styleClass></Button>
       <Label layoutX="53.0" layoutY="14.0" text="*" textFill="RED" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="14.0" />
 	</children>
 </AnchorPane>

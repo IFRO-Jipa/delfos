@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -31,8 +32,8 @@
 				</Accordion>
 			</content>
 		</ScrollPane>
-		<Button fx:id="btnRegistrar" layoutX="547.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleBtnRegistrar" prefHeight="34.0" prefWidth="92.0" text="Registrar" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="22.0" />
-		<Button fx:id="btnLimpar" layoutX="14.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleButtonLimpar" prefHeight="34.0" prefWidth="92.0" text="Limpar" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="14.0" />
+		<Button fx:id="btnRegistrar" layoutX="515.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleBtnRegistrar" prefHeight="34.0" prefWidth="92.0" styleClass="btnEnviar" text="Enviar" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="22.0" />
+		<Button fx:id="btnLimpar" layoutX="15.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleButtonLimpar" prefHeight="34.0" prefWidth="92.0" styleClass="btnLimpar" text="Limpar" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" />
       <Label fx:id="txtDescricao" layoutX="14.0" layoutY="54.0" prefHeight="47.0" prefWidth="593.0" text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="54.0" />
       <Label fx:id="txtNomeQuestionario" layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="593.0" text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="14.0">
          <font>
@@ -40,4 +41,8 @@
          </font>
       </Label>
 	</children>
+   <stylesheets>
+      <URL value="@../../css/Resposta.css" />
+      <URL value="@../../css/Template.css" />
+   </stylesheets>
 </AnchorPane>

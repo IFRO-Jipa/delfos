@@ -6,21 +6,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="264.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.ConfigIntervaloController">
+<AnchorPane fx:id="rootPane" prefHeight="266.0" prefWidth="486.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.ConfigIntervaloController">
 	<children>
 		<Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
 		<TextField fx:id="txtNome" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="317.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="121.0" AnchorPane.topAnchor="31.0" />
 		<Text layoutX="348.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Pergunta" AnchorPane.rightAnchor="12.81640625" />
-		<Text fx:id="lblTipo" layoutX="381.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="..." wrappingWidth="91.18359375" AnchorPane.leftAnchor="381.0" AnchorPane.rightAnchor="14.0" />
+		<Text fx:id="lblTipo" layoutX="381.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Intervalo" textAlignment="CENTER" underline="true" wrappingWidth="91.18359375" AnchorPane.leftAnchor="381.0" AnchorPane.rightAnchor="14.0" />
 		<Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
-		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="79.0" prefWidth="425.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="82.0" />
+		<TextArea fx:id="txtDescricao" layoutX="14.0" layoutY="82.0" prefHeight="79.0" prefWidth="458.0" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="82.0" />
 		<Text layoutX="15.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor Inicial" AnchorPane.leftAnchor="15.0" />
 		<TextField fx:id="txtValorInicial" layoutX="14.0" layoutY="188.0" prefHeight="25.0" prefWidth="130.0" AnchorPane.leftAnchor="14.0" />
 		<Text layoutX="160.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor Final" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="236.4765625" />
 		<TextField fx:id="txtValorFinal" layoutX="160.0" layoutY="188.0" prefHeight="25.0" prefWidth="130.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="162.0" />
 		<Text layoutX="307.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Intervalo" AnchorPane.rightAnchor="98.7109375" />
 		<TextField fx:id="txtIntervalo" layoutX="308.0" layoutY="188.0" prefHeight="25.0" prefWidth="130.0" AnchorPane.rightAnchor="14.0" />
-		<Button fx:id="btnSalvar" layoutX="375.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="25.0" prefWidth="61.0" text="Salvar" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="16.0" />
+		<Button fx:id="btnSalvar" layoutX="371.18359375" layoutY="220.0" mnemonicParsing="false" onAction="#handleButtonSalvar" prefHeight="25.0" prefWidth="61.0" text="Salvar" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="15.0">
+         <styleClass>
+            <String fx:value="btnApply" />
+            <String fx:value="default-button" />
+         </styleClass></Button>
       <Label layoutX="51.0" layoutY="14.0" text="*" textFill="RED" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="14.0" />
       <Label layoutX="82.0" layoutY="171.0" text="*" textFill="RED" AnchorPane.leftAnchor="82.0" />
       <Label layoutX="222.0" layoutY="171.0" text="*" textFill="RED" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="258.18359375" />

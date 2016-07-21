@@ -32,7 +32,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Accordion;
@@ -109,8 +108,7 @@ public class RelatorioPesquisaController implements Initializable {
 			openContextKa(value);
 			openContextKc(value);
 			openContextTexto(value);
-			
-			
+
 		});
 	}
 

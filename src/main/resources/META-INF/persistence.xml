@@ -20,13 +20,6 @@
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" />
 
 
-			<!-- CONEXÃO PARA O LABORATÓRIO I -->
-			<!-- <property name="hibernate.connection.username" value="delfos" /> 
-				<property name="hibernate.connection.username" value="delfos" /> <property 
-				name="hibernate.connection.password" value="catchau" /> <property name="hibernate.connection.url" 
-				value="jdbc:mysql://10.49.1.59:3306/delfos" /> -->
-
-
 			<!-- CONEXÃO PARA O LABORATÓRIO IV -->
 			<!-- <property name="hibernate.connection.username" value="delfos" /> 
 				<property name="hibernate.connection.password" value="catchau" /> <property 
@@ -42,9 +35,10 @@
 			<!-- POOL -->
 			<property name="hibernate.c3p0.min_size" value="3" />
 			<property name="hibernate.c3p0.max_size" value="3" />
-			<property name="hibernate.c3p0.timeout" value="10" />
+			<property name="hibernate.c3p0.timeout" value="5000" />
 			<property name="hibernate.c3p0.max_statements" value="20" />
-			<property name="hibernate.c3p0.idle_test_period" value="3000" />
+			<property name="hibernate.c3p0.max_idle" value="180" />
+			<property name="hibernate.c3p0.idle_test_period" value="60" />
 			<property name="hibernate.c3p0.acquire_increment" value="5" />
 		</properties>
 	</persistence-unit>

@@ -7,11 +7,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="365.0" prefWidth="476.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.basic.SplashScreenController">
+<AnchorPane id="AnchorPane" prefHeight="365.0" prefWidth="476.0" stylesheets="@../../css/Splash.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.basic.SplashScreenController">
 	<children>
 		<AnchorPane prefHeight="413.0" prefWidth="592.0" style="-fx-background-color: #2b579a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<ImageView fx:id="imgLoading" fitHeight="15.0" fitWidth="206.0" layoutX="139.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fx:id="imgLoading" fitHeight="15.0" fitWidth="206.0" layoutX="139.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" styleClass="img-load">
 					<image>
 
 					</image>
@@ -40,7 +40,7 @@
 						</Text>
 					</children>
 				</VBox>
-				<ImageView fx:id="imgLogo" fitHeight="169.0" fitWidth="193.0" layoutX="144.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fx:id="imgLogo" fitHeight="217.0" fitWidth="253.0" layoutX="117.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" styleClass="img-logo">
 					<image>
 					</image>
 				</ImageView>
