@@ -11,7 +11,7 @@
 <AnchorPane fx:id="rootPane" prefHeight="532.0" prefWidth="745.0" stylesheets="@../../css/Template.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pesquisa.QuestionarioController">
 	<children>
 		<Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código" AnchorPane.leftAnchor="14.0" />
-		<TextField fx:id="txtCod" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="73.0" AnchorPane.leftAnchor="14.0" />
+		<TextField fx:id="txtCod" disable="true" editable="false" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="73.0" AnchorPane.leftAnchor="14.0" />
 		<Text layoutX="94.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="94.0" />
 		<TextField fx:id="txtNome" layoutX="93.0" layoutY="44.0" prefHeight="25.0" prefWidth="639.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="13.0" />
 		<Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" AnchorPane.leftAnchor="14.0" />
@@ -56,7 +56,7 @@
       <Label layoutX="135.0" layoutY="27.0" text="*" textFill="RED" />
       <Label layoutX="292.0" layoutY="161.0" text="*" textFill="RED" />
       <Label layoutX="16.0" layoutY="210.0" text="*" textFill="RED" />
-				<Button fx:id="btnNovo" layoutX="15.0" layoutY="489.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novo" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="15.0">
+				<Button fx:id="btnNovo" layoutX="15.0" layoutY="489.0" mnemonicParsing="false" onAction="#handleButtonNovo" prefHeight="35.0" prefWidth="97.0" text="Novos" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="15.0">
 					<padding>
 						<Insets left="2.0" right="2.0" />
 					</padding>

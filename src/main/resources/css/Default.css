@@ -1,0 +1,17 @@
+
+.logo-delfos {
+	-fx-image: url("../imgs/logo-full.png");
+}
+
+.logo-unir {
+	-fx-image: url("../imgs/logo-unir.png");
+}
+
+.logo-ifro {
+	-fx-image: url("../imgs/logo-ifro.png");
+}
+
+.logo-mec {
+	-fx-image: url("../imgs/logo-mec.png");
+	
+}

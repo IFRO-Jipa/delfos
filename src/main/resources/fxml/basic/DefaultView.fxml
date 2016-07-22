@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="771.0" stylesheets="@../../css/Default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="456.0" fitWidth="525.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-delfos" />
+         </children>
+      </StackPane>
+   </center>
+   <bottom>
+      <AnchorPane prefHeight="158.0" prefWidth="771.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="13.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apoio:" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="-0.58203125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <HBox layoutX="14.0" layoutY="31.0" prefHeight="80.0" prefWidth="441.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0">
+               <children>
+                  <ImageView fitHeight="97.0" fitWidth="288.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-ifro" />
+                  <ImageView fitHeight="104.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-unir" />
+                  <ImageView fitHeight="117.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-mec" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>

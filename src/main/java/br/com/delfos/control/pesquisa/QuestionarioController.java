@@ -167,6 +167,7 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 			this.perguntaController.setPerguntas(quest.getPerguntas());
 
 		});
+
 	}
 
 	@FXML

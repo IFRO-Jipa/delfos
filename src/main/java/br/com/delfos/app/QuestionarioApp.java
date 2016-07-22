@@ -7,12 +7,14 @@ import br.com.delfos.control.pesquisa.QuestionarioController;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.LeitorDeFXML;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class QuestionarioApp extends Application {
 
@@ -33,6 +35,12 @@ public class QuestionarioApp extends Application {
 
 		controller.init(initValue);
 
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			
+			@Override
+			public void handle(WindowEvent event) {
+			}
+		});
 		primaryStage.showAndWait();
 
 	}
