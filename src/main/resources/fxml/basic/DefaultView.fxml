@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="771.0" stylesheets="@../../css/Default.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       	<center>
-      		<StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      		<StackPane prefHeight="150.0" prefWidth="200.0" styleClass="painel" BorderPane.alignment="CENTER">
       			<children>
       				<ImageView fitHeight="456.0" fitWidth="525.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-delfos" />
       			</children>
       		</StackPane>
       	</center>
       	<bottom>
-      		<AnchorPane prefHeight="167.0" prefWidth="771.0" BorderPane.alignment="CENTER">
+      		<AnchorPane prefHeight="167.0" prefWidth="771.0" styleClass="painel" BorderPane.alignment="CENTER">
       			<children>
       				<Text layoutX="13.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apoio:" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="-0.58203125">
       					<font>

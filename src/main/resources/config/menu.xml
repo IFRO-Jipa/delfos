@@ -7,11 +7,13 @@
 			<menuItem id="menuCadastroPessoa">
 				<name>Cadastro de Pessoa</name>
 				<view>basic/PessoaView.fxml</view>
+				<icon>cadastro-pessoa-icon.png</icon>
 
 			</menuItem>
 			<menuItem id="menuCadastroPesquisa">
 				<name>Cadastro de Pesquisa</name>
 				<view>pergunta/PesquisaView.fxml</view>
+				<icon>cadastro-pesquisa-icon.png</icon>
 			</menuItem>
 
 
@@ -21,11 +23,13 @@
 					<menuItem id="menuCadastroCidade">
 						<name>Cadastro de Cidades</name>
 						<view>CidadeView.fxml</view>
+						<icon>cadastro-cidade-estado-icon.png</icon>
 					</menuItem>
 
 					<menuItem id="menuCadastroEstado">
 						<name>Cadastro de Estados</name>
 						<view>EstadoView.fxml</view>
+						<icon>cadastro-cidade-estado-icon.png</icon>
 					</menuItem>
 
 				</itens>
@@ -37,14 +41,19 @@
 					<menuItem id="menuCadastroUsuario">
 						<name>Cadastro de Usuários</name>
 						<view>auditoria/UsuarioView.fxml</view>
+						<icon>cadastro-usuario-icon.png</icon>
+
 					</menuItem>
 					<menuItem id="menuCadastroPerfilAcesso">
 						<name>Cadastro de Perfis de Acesso</name>
 						<view>auditoria/PerfilAcessoView.fxml</view>
+						<icon>cadastro-perfil-acesso-icon.png</icon>
+
 					</menuItem>
 					<menuItem id="menuCadastroFuncionalidade">
 						<name>Cadastro de Funcionalidade</name>
 						<view>auditoria/FuncionalidadeView.fxml</view>
+						<icon></icon>
 					</menuItem>
 				</itens>
 			</menu>
@@ -59,16 +68,18 @@
 			<menuItem id="menuMeusQuestionarios">
 				<name>Meus Questionários</name>
 				<view>conta/MeusQuestionariosView.fxml</view>
+				<icon></icon>
 			</menuItem>
 		</itens>
 	</menu>
-	
+
 	<menu id="menuRelatorio">
 		<name>Relatórios</name>
 		<itens>
 			<menuItem id="menuRelatorioMinhasPesquisas">
 				<name>Análise de pesquisas</name>
 				<view>relatorio/MinhasPesquisasView.fxml</view>
+				<icon></icon>
 			</menuItem>
 		</itens>
 	</menu>
