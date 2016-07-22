@@ -6,30 +6,47 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="771.0" stylesheets="@../../css/Default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="456.0" fitWidth="525.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-delfos" />
-         </children>
-      </StackPane>
-   </center>
-   <bottom>
-      <AnchorPane prefHeight="158.0" prefWidth="771.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text layoutX="13.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apoio:" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="-0.58203125">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <HBox layoutX="14.0" layoutY="31.0" prefHeight="80.0" prefWidth="441.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0">
-               <children>
-                  <ImageView fitHeight="97.0" fitWidth="288.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-ifro" />
-                  <ImageView fitHeight="104.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-unir" />
-                  <ImageView fitHeight="117.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-mec" />
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-   </bottom>
-</BorderPane>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="771.0" stylesheets="@../../css/Default.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      	<center>
+      		<StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      			<children>
+      				<ImageView fitHeight="456.0" fitWidth="525.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-delfos" />
+      			</children>
+      		</StackPane>
+      	</center>
+      	<bottom>
+      		<AnchorPane prefHeight="167.0" prefWidth="771.0" BorderPane.alignment="CENTER">
+      			<children>
+      				<Text layoutX="13.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apoio:" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="-0.58203125">
+      					<font>
+      						<Font name="System Bold" size="20.0" />
+      					</font>
+      				</Text>
+      				<HBox layoutX="14.0" layoutY="42.0" prefHeight="80.0" prefWidth="441.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="14.0">
+      					<children>
+      						<ImageView fitHeight="97.0" fitWidth="288.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-ifro" />
+      						<ImageView fitHeight="104.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-unir" />
+      						<ImageView fitHeight="117.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-mec" />
+      					</children>
+      				</HBox>
+      				<Text layoutX="569.658203125" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Desenvolvedores:" AnchorPane.rightAnchor="46.68359375">
+      					<font>
+      						<Font name="System Bold" size="20.0" />
+      					</font>
+      				</Text>
+      				<Text layoutX="597.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jéssica Giori Silva" AnchorPane.rightAnchor="82.83984375" />
+      				<Text layoutX="574.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Leonardo Henrique de Braz" AnchorPane.rightAnchor="52.296875" />
+      				<Text layoutX="559.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marco Antônio dos Santos Souza" AnchorPane.rightAnchor="36.48828125" />
+      				<Text layoutX="561.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Victor Luca de Mello Rodrigues" AnchorPane.rightAnchor="44.77734375" />
+      				<Text layoutX="546.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adriana Aparecida Rigolon Guimarães" AnchorPane.rightAnchor="24.357421875" />
+      				<Text layoutX="556.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jackson Henrique da Silva Bezerra" AnchorPane.rightAnchor="35.7265625" />
+      				<Text layoutX="13.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2016 Delfos" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="13.0" />
+      			</children>
+      		</AnchorPane>
+      	</bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -21,6 +21,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -53,22 +54,35 @@ public class PrincipalController implements Initializable {
 
 	private Map<String, MenuItem> menus;
 
+	private AnchorPane paneDefault;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			menus = new HashMap<>();
+			initDefaultPane();
+
 			fechaJanelas();
 			configuraECriaOsMenus();
 
 			tabPane.getSelectionModel().selectedItemProperty()
 					.addListener((ChangeListener<Tab>) (observable, oldValue, newValue) -> {
-						if (tabPane.getTabs().size() == 0) {
-							System.out.println("Nenhuma aba aberta");
-						} else
-							System.out.println("A aba aberta tem o título: " + newValue.getText());
+						if (tabPane.getTabs().size() == 0)
+							this.subRootPane.setCenter(paneDefault);
+						else
+							this.subRootPane.setCenter(tabPane);
 					});
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void initDefaultPane() {
+		try {
+			this.paneDefault = LeitorDeFXML.load("fxml/basic/DefaultView.fxml");
+			this.subRootPane.setCenter(paneDefault);
+		} catch (IOException e) {
+			AlertAdapter.error("Não foi possível carregar o layout principal.\nDetalhes: " + e.getMessage());
 		}
 	}
 
