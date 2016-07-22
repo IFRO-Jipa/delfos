@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -145,47 +146,26 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 	@FXML
 	private void handleLinkAdicionaEspecialista(ActionEvent event) {
-		invokeListSelector("Selecione os Especialistas", filtraPessoasParaSelecao(TipoPessoa.ESPECIALISTA),
-				listViewEspecialista.getItems(), listViewEspecialista, p -> p.getNome());
-	}
+		Set<Pessoa> especialistas = daoPessoa.findByTipo(TipoPessoa.ESPECIALISTA);
+		listViewEspecialista.getItems().forEach(especialista -> {
+			especialistas.removeIf(value -> value.getId().equals(especialista.getId()));
+		});
 
-	private <T> void invokeListSelector(String title, List<T> avaliableItems, List<T> selectedItems, ListView<T> target,
-			Function<T, String> textFormat) {
+		ListSelection<Pessoa> selector = new ListSelection<>("Selecione as pessoas",
+				FXCollections.observableArrayList(especialistas));
+		selector.setSelecionados(listViewEspecialista.getItems());
+		selector.textFormat(p -> p.getNome());
+
+		selector.showAndWait();
+
 		try {
-			ListSelection<T> selector = new ListSelection<>(title, avaliableItems);
-			selector.setSelecionados(FXCollections.observableArrayList(selectedItems));
-			selector.textFormat(textFormat);
+			this.salvar(toValue(), this).ifPresent(x -> {
 
-			// TODO: Mostrar adequadamente os que estão selecionados e os que
-			// estão disponíveis.
-			Optional<List<T>> optionalSelected = selector.showAndWait();
-			optionalSelected.ifPresent(selected -> {
-				try {
-					target.getItems().addAll(selected);
-					this.salvar(toValue(), this).ifPresent(persisted -> {
-						System.out.printf("Atualizações para a lista %s foram salvas.\n", title);
-						posiciona(persisted);
-					});
-				} catch (FXValidatorException e) {
-					AlertAdapter.error(e);
-				}
 			});
-		} catch (RuntimeException e) {
-			AlertAdapter.error(e.getMessage());
-		}
-
-	}
-
-	private List<Pessoa> filtraPessoasParaSelecao(TipoPessoa tipo) {
-
-		// cria referência na memória para os objetos criados
-		List<Pessoa> cache = tipo.equals(TipoPessoa.ESPECIALISTA) ? especialistas : pesquisadores;
-		ListView<Pessoa> list = tipo.equals(TipoPessoa.ESPECIALISTA) ? listViewEspecialista : listViewPesquisador;
-
-		if (list.getItems().isEmpty()) {
-			return cache;
-		} else {
-			return cache.stream().filter(p -> !list.getItems().contains(p)).collect(Collectors.toList());
+		} catch (FXValidatorException e) {
+			AlertAdapter
+					.error("Não foi possível atualizar os pesquisadores automaticamente... Algo estranho aconteceu.\nDetalhes: "
+							+ e.getMessage());
 		}
 
 	}
@@ -193,8 +173,27 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	// Link para adicionar pesquisadores
 	@FXML
 	private void handleLinkAdicionaPesquisador(ActionEvent event) {
-		invokeListSelector("Selecione os pesquisadores", filtraPessoasParaSelecao(TipoPessoa.PESQUISADOR),
-				listViewPesquisador.getItems(), listViewPesquisador, p -> p.getNome());
+		Set<Pessoa> pesquisadores = daoPessoa.findByTipo(TipoPessoa.PESQUISADOR);
+		listViewPesquisador.getItems().forEach(pesquisador -> {
+			pesquisadores.removeIf(value -> value.getId().equals(pesquisador.getId()));
+		});
+
+		ListSelection<Pessoa> selector = new ListSelection<>("Selecione as pessoas",
+				FXCollections.observableArrayList(pesquisadores));
+		selector.setSelecionados(listViewPesquisador.getItems());
+		selector.textFormat(p -> p.getNome());
+
+		selector.showAndWait();
+
+		try {
+			this.salvar(toValue(), this).ifPresent(x -> {
+
+			});
+		} catch (FXValidatorException e) {
+			AlertAdapter
+					.error("Não foi possível atualizar os pesquisadores automaticamente... Algo estranho aconteceu.\nDetalhes: "
+							+ e.getMessage());
+		}
 	}
 
 	// Link para adicionar questionários

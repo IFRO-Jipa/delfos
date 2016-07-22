@@ -58,12 +58,12 @@ public class PrincipalApp extends Application {
 		return controller;
 	}
 
-	public static void openWindow(Pane pane, String title) {
+	public static void openWindow(Pane pane, String title, String icon) {
 		try {
 			PrincipalController controller = PrincipalApp.getController().orElseThrow(
 					() -> new IllegalArgumentException("PrincipalController não foi instanciado adequadamente."));
 
-			controller.openWindow(pane, title);
+			controller.openWindow(pane, title, icon);
 		} catch (IllegalArgumentException e) {
 			AlertAdapter.error(e);
 		} catch (IOException e) {

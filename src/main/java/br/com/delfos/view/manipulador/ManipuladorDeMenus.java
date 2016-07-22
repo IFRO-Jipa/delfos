@@ -86,7 +86,8 @@ public class ManipuladorDeMenus {
 
 	private MenuItem createMenuItem(Element element) {
 		MenuItem item = new MenuItem(element.getChildText("name"));
-		item.setId(String.format("%s:%s", element.getAttributeValue("id"), element.getChildText("view")));
+		item.setId(String.format("%s:%s%s", element.getAttributeValue("id"), element.getChildText("view"),
+				element.getChildText("icon")));
 		item.setVisible(configuraVisibilidade(item.getId()));
 		return item;
 	}

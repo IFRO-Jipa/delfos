@@ -189,10 +189,13 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public boolean addPesquisadores(Set<Pessoa> pesquisadores) {
-		if (verificaTipo(pesquisadores, TipoPessoa.PESQUISADOR)) {
-			return this.pesquisadores.addAll(pesquisadores);
-		} else
-			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
+		if (pesquisadores != null)
+			if (verificaTipo(pesquisadores, TipoPessoa.PESQUISADOR)) {
+				return this.pesquisadores.addAll(pesquisadores);
+			} else
+				throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
+		else
+			return false;
 	}
 
 	private boolean verificaTipo(Collection<Pessoa> especialistas, TipoPessoa tipo) {

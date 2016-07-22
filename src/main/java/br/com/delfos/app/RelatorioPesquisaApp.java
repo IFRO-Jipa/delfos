@@ -21,7 +21,7 @@ public class RelatorioPesquisaApp {
 		RelatorioPesquisaController controller = loader.getController();
 		controller.set(pesquisa);
 
-		PrincipalApp.openWindow(load, "Análise de Pesquisa: " + getNomePesquisa(p) + "...");
+		PrincipalApp.openWindow(load, "Análise de Pesquisa: " + getNomePesquisa(p) + "...", "analise-pesquisa.png");
 	}
 
 	private String getNomePesquisa(Pesquisa p) {

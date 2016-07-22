@@ -38,7 +38,8 @@ public class TabTest extends Application {
 	}
 
 	public static void main(String[] args) {
-		launch(args);
+		String x = "aaaaaaaaaaaa.fxml";
+		System.out.println(x.substring(x.indexOf(".fxml")));
 	}
 
 }

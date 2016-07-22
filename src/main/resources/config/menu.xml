@@ -53,7 +53,7 @@
 					<menuItem id="menuCadastroFuncionalidade">
 						<name>Cadastro de Funcionalidade</name>
 						<view>auditoria/FuncionalidadeView.fxml</view>
-						<icon></icon>
+						<icon>cadastro-funcionalidade-icon.png</icon>
 					</menuItem>
 				</itens>
 			</menu>
@@ -68,7 +68,7 @@
 			<menuItem id="menuMeusQuestionarios">
 				<name>Meus Questionários</name>
 				<view>conta/MeusQuestionariosView.fxml</view>
-				<icon></icon>
+				<icon>meus-questionarios-icon.png</icon>
 			</menuItem>
 		</itens>
 	</menu>
@@ -79,7 +79,7 @@
 			<menuItem id="menuRelatorioMinhasPesquisas">
 				<name>Análise de pesquisas</name>
 				<view>relatorio/MinhasPesquisasView.fxml</view>
-				<icon></icon>
+				<icon>analise-pesquisa-icon.png</icon>
 			</menuItem>
 		</itens>
 	</menu>

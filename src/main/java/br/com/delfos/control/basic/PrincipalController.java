@@ -21,13 +21,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -154,19 +155,18 @@ public class PrincipalController implements Initializable {
 	private void setOnActionMenu(MenuItem value) {
 		if (value.getId().contains(":")) {
 			String[] props = value.getId().split(":");
-			menus.put(props[1], value);
+			String location = props[1].substring(0, props[1].indexOf(".fxml")) + ".fxml";
+			String icon = props[1].substring(props[1].indexOf(".fxml") + 5);
+			location = location.replace("$", "");
+			menus.put(location, value);
+
 			value.setOnAction(e -> {
 				try {
-
-					abreJanela(props[1], value.getText());
+					abreJanela(props[1].substring(0, props[1].indexOf(".fxml")) + ".fxml", value.getText(), icon);
 				} catch (IOException e1) {
 					AlertAdapter.error(e1);
 				}
 			});
-		}
-		if (value.getText().equals("Logout")) {
-			System.out.println("vai configurar a ação para o menu de logout");
-			value.setOnAction(action -> acaoParaLogout(action));
 		}
 	}
 
@@ -174,19 +174,20 @@ public class PrincipalController implements Initializable {
 		tabPane.getTabs().clear();
 	}
 
-	private void abreJanela(String view, String title) throws IOException {
+	private void abreJanela(String view, String title, String icon) throws IOException {
 		Pane load = LeitorDeFXML.load(String.format("fxml/%s", view));
 
-		configTabPane(title, load);
+		configTabPane(title, load, icon);
 	}
 
-	private void abreJanela(Pane pane, String title) {
-		configTabPane(title, pane);
+	private void abreJanela(Pane pane, String title, String icon) {
+		configTabPane(title, pane, icon);
 	}
 
-	private void configTabPane(String title, Pane load) {
+	private void configTabPane(String title, Pane load, String icon) {
 		Tab tab = new Tab(title);
 		tab.setContent(load);
+		tab.setGraphic(buildImage(PrincipalController.class.getClassLoader().getResource("imgs/" + icon).toExternalForm()));
 
 		tabPane.getTabs().add(tab);
 
@@ -207,27 +208,18 @@ public class PrincipalController implements Initializable {
 		}
 	}
 
-	/**
-	 * Open pane in TabPane, located in frame Principal
-	 * 
-	 * @param view
-	 *            - The FXML Document referenced by View (exclude .fxml from
-	 *            String)
-	 * @throws IOException
-	 */
-	public void openWindow(String view) throws IOException {
-		configPane(view);
+	public void openWindow(Pane pane, String title, String icon) {
+		this.abreJanela(pane, title, icon);
 	}
 
-	private void configPane(String view) throws IOException {
-		view = view.concat(".fxml");
-		MenuItem item = this.menus.get(view);
-		String[] properties = item.getId().split(":");
-		this.abreJanela(properties[1], item.getText());
-	}
-
-	public void openWindow(Pane pane, String title) {
-		this.abreJanela(pane, title);
+	private ImageView buildImage(String imgPatch) {
+		Image i = new Image(imgPatch);
+		ImageView imageView = new ImageView();
+		// You can set width and height
+		imageView.setFitHeight(16);
+		imageView.setFitWidth(16);
+		imageView.setImage(i);
+		return imageView;
 	}
 
 }

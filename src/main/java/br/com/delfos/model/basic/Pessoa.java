@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -49,6 +50,7 @@ public class Pessoa extends AbstractModel<Pessoa> {
 
 	@NotNull
 	@CPF
+	@Column(unique = true)
 	private String cpf;
 
 	private String rg;
@@ -56,8 +58,8 @@ public class Pessoa extends AbstractModel<Pessoa> {
 	@Embedded
 	private Endereco endereco;
 
-	@OneToOne(	cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, orphanRemoval = true, optional = true,
-				mappedBy = "pessoa")
+	@OneToOne(cascade = { CascadeType.REFRESH,
+			CascadeType.REMOVE }, orphanRemoval = true, optional = true, mappedBy = "pessoa")
 	private Usuario usuario;
 
 	public Pessoa() {

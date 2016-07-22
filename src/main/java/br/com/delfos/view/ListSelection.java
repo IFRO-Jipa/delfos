@@ -26,6 +26,10 @@ public class ListSelection<T> extends Dialog<List<T>> {
 		this("Seletor de " + data.get(0).getClass().getSimpleName() + "s", data);
 	}
 
+	public ListSelection(String title) {
+		this.initConfig(title, null);
+	}
+
 	public final void setDisponiveis(ObservableList<T> value) {
 		view.setSourceItems(value);
 	}
