@@ -3,9 +3,13 @@ package br.com.delfos.app;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.controlsfx.control.MaskerPane;
+
 import br.com.delfos.control.relatorio.RelatorioPesquisaController;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.util.LeitorDeFXML;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -13,15 +17,47 @@ public class RelatorioPesquisaApp {
 
 	private Optional<Pesquisa> pesquisa;
 
+	private static MaskerPane paneLoad = new MaskerPane();
+
 	public void show() throws IOException {
 		Pesquisa p = this.pesquisa
 				.orElseThrow(() -> new IllegalStateException("Nenhuma pesquisa foi informada para análise."));
 		FXMLLoader loader = LeitorDeFXML.getLoader("fxml/relatorio/RelatorioPesquisaView.fxml");
 		AnchorPane load = loader.load();
-		RelatorioPesquisaController controller = loader.getController();
-		controller.set(pesquisa);
 
+		AnchorPane.setTopAnchor(paneLoad, 0.0);
+		AnchorPane.setLeftAnchor(paneLoad, 0.0);
+		AnchorPane.setRightAnchor(paneLoad, 0.0);
+		AnchorPane.setBottomAnchor(paneLoad, 0.0);
+		load.getChildren().add(paneLoad);
 		PrincipalApp.openWindow(load, "Análise de Pesquisa: " + getNomePesquisa(p) + "...", "analise-pesquisa.png");
+
+		Task<Void> task = new Task<Void>() {
+
+			@Override
+			protected void running() {
+				paneLoad.setText("Analisando...");
+				paneLoad.setVisible(true);
+				super.running();
+			}
+
+			@Override
+			protected Void call() throws Exception {
+
+				Platform.runLater(() -> {
+					RelatorioPesquisaController controller = loader.getController();
+					controller.set(pesquisa);
+				});
+
+				return null;
+			}
+
+			protected void succeeded() {
+				paneLoad.setVisible(false);
+			};
+		};
+		new Thread(task).start();
+
 	}
 
 	private String getNomePesquisa(Pesquisa p) {
@@ -31,6 +67,14 @@ public class RelatorioPesquisaApp {
 	public RelatorioPesquisaApp setValue(Pesquisa p) {
 		this.pesquisa = Optional.ofNullable(p);
 		return this;
+	}
+
+	public static void closeLoading() {
+		paneLoad.setVisible(false);
+	}
+
+	public static void showLoading() {
+		paneLoad.setVisible(true);
 	}
 
 }

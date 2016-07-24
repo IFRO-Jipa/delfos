@@ -28,7 +28,7 @@ public class Autenticador {
 		usuario = dao.autentica(login, senha);
 
 		usuario.ifPresent(autenticado -> {
-			if (autenticado.getPessoa().getCpf().equals(senha)) {
+			if (autenticado.getPessoa().getCpf().replace(".", "").replace("-", "").equals(senha)) {
 				AlertAdapter.information("Primeiro acesso ao sistema",
 						"Por ser a primeira vez que você acessa ao sistema, é necessário que crie uma nova senha.\nModifique-a após fechar essa mensagem (a tela aparecerá automaticamente).");
 				try {

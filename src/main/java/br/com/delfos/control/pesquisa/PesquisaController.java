@@ -308,11 +308,12 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			} else {
 				if (pesquisa.isVencida()) {
 					long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataVencimento());
-					textAtivo.setText(String.format("Vencido há %d dia(s)", dias));
+					textAtivo.setText(String.format("Vencido há %d dia(s)", dias < 0 ? dias * -1 : dias));
 				} else if (pesquisa.isFinalizada()) {
 					long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataFinalizada());
 					textAtivo.setText(String.format("Finalizado em %s [%d dia(s)]",
-							pesquisa.getDataFinalizada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), dias));
+							pesquisa.getDataFinalizada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+							dias < 0 ? dias * -1 : dias));
 				}
 			}
 		} else {

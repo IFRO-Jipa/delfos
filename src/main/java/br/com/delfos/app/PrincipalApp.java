@@ -61,7 +61,7 @@ public class PrincipalApp extends Application {
 		} catch (IllegalArgumentException e) {
 			AlertAdapter.unknownError(e);
 		} catch (IOException e) {
-			AlertAdapter.erroLoadFXML(e);;
+			AlertAdapter.erroLoadFXML(e);
 		}
 	}
 
