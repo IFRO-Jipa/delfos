@@ -113,11 +113,12 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		try {
 			this.salvar(toValue(), this).ifPresent(x -> {
 				this.posiciona(Optional.ofNullable(x));
-				AlertAdapter.information("Todas as alterações foram salvas.");
+				AlertAdapter.information("Todas as alterações foram salvas.",
+						"As informações modificadas foram atualizadas automaticamente.");
 				QuestionarioApp.close();
 			});
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.requiredDataNotInformed(e);
 		}
 	}
 

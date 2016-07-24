@@ -107,7 +107,6 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			txtCodigo.setText(usuario.getId() == null ? null : String.valueOf(usuario.getId()));
 			txtDescricao.setText(usuario.getDescricao() == null ? null : usuario.getDescricao());
 			txtLogin.setText(usuario.getLogin());
-			// txtNomeResponsavel.setText(usuario.getPessoa().getNome());
 			comboPerfilAcesso.setValue(usuario.getPerfilAcesso());
 			cbStatus.setSelected(usuario.isAtivo());
 
@@ -148,11 +147,14 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 
 			optional.ifPresent(usuario -> {
 				txtCodigo.setText(String.valueOf(usuario.getId()));
-				AlertAdapter.information("Salvo com sucesso");
+				AlertAdapter.information("Salvo com sucesso",
+						"O usuário foi criado para o/a " + usuario.getPerfilAcesso().getNome() + " com o login "
+								+ usuario.getLogin() + " e ingressado ao perfil "
+								+ usuario.getPerfilAcesso().getNome());
 			});
 
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.error("Dados obrigatórios não preenchidos" , e);
 		}
 	}
 
@@ -160,7 +162,7 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 		try {
 			return this.salvar(toValue(), this);
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.error("Dados obrigatórios não preenchidos" , e);
 			return Optional.empty();
 		}
 	}
@@ -194,7 +196,7 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			u.setStatus(cbStatus.isSelected());
 			return u;
 		} catch (RuntimeException runtime) {
-			AlertAdapter.error(runtime);
+			AlertAdapter.error("Problema desconhecido." , runtime);
 			return null;
 		}
 

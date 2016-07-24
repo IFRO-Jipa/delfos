@@ -178,14 +178,17 @@ public class Pesquisa extends AbstractModel<Pesquisa> {
 	}
 
 	public boolean addEspecialistas(Set<Pessoa> especialistas) throws LimiteDeEspecialistasAtingidoException {
-		if (verificaTipo(especialistas, TipoPessoa.ESPECIALISTA)) {
-			if ((limite == 0) || verificaSeVaiAtingirLimite(especialistas.size()))
-				return this.especialistas.addAll(especialistas);
-			else
-				throw new LimiteDeEspecialistasAtingidoException(
-						"A pesquisa estourou o limite de especialistas definido.");
-		} else
-			throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
+		if (especialistas != null)
+			if (verificaTipo(especialistas, TipoPessoa.ESPECIALISTA)) {
+				if ((limite == 0) || verificaSeVaiAtingirLimite(especialistas.size()))
+					return this.especialistas.addAll(especialistas);
+				else
+					throw new LimiteDeEspecialistasAtingidoException(
+							"A pesquisa estourou o limite de especialistas definido.");
+			} else
+				throw new PessoaInvalidaException("As pessoas informadas não são especialistas válidos.");
+		else
+			return false;
 	}
 
 	public boolean addPesquisadores(Set<Pessoa> pesquisadores) {

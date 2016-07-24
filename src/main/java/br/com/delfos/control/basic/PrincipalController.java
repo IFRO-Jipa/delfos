@@ -83,7 +83,7 @@ public class PrincipalController implements Initializable {
 			this.paneDefault = LeitorDeFXML.load("fxml/basic/DefaultView.fxml");
 			this.subRootPane.setCenter(paneDefault);
 		} catch (IOException e) {
-			AlertAdapter.error("Não foi possível carregar o layout principal.\nDetalhes: " + e.getMessage());
+			AlertAdapter.erroLoadFXML(e);
 		}
 	}
 
@@ -119,8 +119,8 @@ public class PrincipalController implements Initializable {
 		item.setOnAction(evento -> {
 			try {
 				new MudarSenhaApp().start(new Stage(StageStyle.UTILITY));
-			} catch (Exception e) {
-				AlertAdapter.error(e);
+			} catch (IOException e) {
+				AlertAdapter.erroLoadFXML(e);
 			}
 		});
 
@@ -128,11 +128,12 @@ public class PrincipalController implements Initializable {
 	}
 
 	private void acaoParaLogout(ActionEvent event) {
-		if (AlertAdapter.confirmation("Deseja encerrar a sessão?")) {
+		if (AlertAdapter.confirmation("Deseja encerrar a sessão?",
+				"Caso confirmado, você será desconectado do sistema e terá que entrar novamente para utilizá-lo.")) {
 			try {
 				PrincipalApp.logout();
-			} catch (Exception e) {
-				AlertAdapter.error(e);
+			} catch (IOException e) {
+				AlertAdapter.erroLoadFXML(e);
 			}
 		}
 	}
@@ -164,7 +165,7 @@ public class PrincipalController implements Initializable {
 				try {
 					abreJanela(props[1].substring(0, props[1].indexOf(".fxml")) + ".fxml", value.getText(), icon);
 				} catch (IOException e1) {
-					AlertAdapter.error(e1);
+					AlertAdapter.erroLoadFXML(e1);
 				}
 			});
 		}
@@ -187,7 +188,8 @@ public class PrincipalController implements Initializable {
 	private void configTabPane(String title, Pane load, String icon) {
 		Tab tab = new Tab(title);
 		tab.setContent(load);
-		tab.setGraphic(buildImage(PrincipalController.class.getClassLoader().getResource("imgs/" + icon).toExternalForm()));
+		tab.setGraphic(
+				buildImage(PrincipalController.class.getClassLoader().getResource("imgs/" + icon).toExternalForm()));
 
 		tabPane.getTabs().add(tab);
 

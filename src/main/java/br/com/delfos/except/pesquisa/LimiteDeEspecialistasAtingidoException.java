@@ -1,6 +1,6 @@
 package br.com.delfos.except.pesquisa;
 
-public class LimiteDeEspecialistasAtingidoException extends Exception {
+public class LimiteDeEspecialistasAtingidoException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -9,7 +9,7 @@ public class LimiteDeEspecialistasAtingidoException extends Exception {
 	}
 
 	public LimiteDeEspecialistasAtingidoException(String message, Throwable cause, boolean enableSuppression,
-	        boolean writableStackTrace) {
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

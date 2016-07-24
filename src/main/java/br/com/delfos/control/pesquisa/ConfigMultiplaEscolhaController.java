@@ -88,7 +88,7 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 			this.itens.put(item, valor);
 			this.initTableView();
 		} else {
-			AlertAdapter.error("Preencha os campos corretamente para prosseguir.");
+			AlertAdapter.requiredDataNotInformed("Preencha os campos corretamente para prosseguir.");
 		}
 	}
 
@@ -175,15 +175,15 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 				if (this.itens.remove(tbAlternativas.getSelectionModel().getSelectedItem().getKey()) != null) {
 					tbAlternativas.getItems().remove(tbAlternativas.getSelectionModel().getSelectedIndex());
 				} else {
-					AlertAdapter.error(
-							"Falha ao remover o item: Parece que ele não estava presente na lista [Unknown value for this item].");
+					AlertAdapter.unknownError("Falha ao remover esse item. Parece que ele não está presente na lista.");
 				}
 			}
 		});
 
 		MenuItem menuRemoverTodos = new MenuItem("Remover Todos");
 		menuRemoverTodos.setOnAction(event -> {
-			if (AlertAdapter.confirmation("Deseja realmente excluir todas as perguntas?")) {
+			if (AlertAdapter.confirmation("Deseja realmente excluir todas as alternativas?",
+					"Isso fará com que todas as alternativas sejam retiradas da pergunta. Deseja continuar?")) {
 				tbAlternativas.getItems().clear();
 				this.itens.clear();
 			}

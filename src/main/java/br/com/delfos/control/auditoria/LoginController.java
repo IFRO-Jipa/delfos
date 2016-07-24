@@ -51,19 +51,23 @@ public class LoginController implements Initializable {
 	private void handleButtonLogar(ActionEvent event) {
 		try {
 			autenticaUsuario();
-		} catch (UserNotAuthenticatedException | IOException | FXValidatorException e) {
-			AlertAdapter.error(e);
-		} catch (RuntimeException e) {
-			AlertAdapter.error(e);
+		} catch (FXValidatorException e) {
+			AlertAdapter.requiredDataNotInformed(e);
+		} catch (UserNotAuthenticatedException e) {
+			AlertAdapter.warning("Falha de autenticação", "O usuário e/ou senha informados não estão corretos.");
 		}
 	}
 
-	private void autenticaUsuario() throws UserNotAuthenticatedException, IOException, FXValidatorException {
+	private void autenticaUsuario() throws UserNotAuthenticatedException, FXValidatorException {
 		if (FXValidator.validate(this)) {
 			boolean autentica = autenticador.autentica(txtLogin.getText(), txtSenha.getText());
 
 			if (autentica) {
-				new PrincipalApp().start(new Stage());
+				try {
+					new PrincipalApp().start(new Stage());
+				} catch (IOException e) {
+					AlertAdapter.erroLoadFXML(e);
+				}
 				LoginApp.getStage().close();
 			} else {
 				throw new UserNotAuthenticatedException();

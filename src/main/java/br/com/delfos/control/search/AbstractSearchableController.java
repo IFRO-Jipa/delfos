@@ -195,7 +195,7 @@ class AbstractSearchableController<T extends AbstractModel<T>> implements Search
 				} else {
 					this.txtFiltro.clear();
 					cbFiltro.requestFocus();
-					AlertAdapter.warning("Informe o filtro antes.");
+					AlertAdapter.requiredDataNotInformed("Informe o filtro antes de pesquisar");
 					return true;
 				}
 				return false;

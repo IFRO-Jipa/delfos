@@ -123,13 +123,13 @@ public class FXValidator {
 			}
 
 		} catch (SecurityException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.unknownError(e);
 			return false;
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.unknownError(e);
 			return false;
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e.getMessage());
+			AlertAdapter.requiredDataNotInformed(e);
 			return false;
 		}
 		return valid;

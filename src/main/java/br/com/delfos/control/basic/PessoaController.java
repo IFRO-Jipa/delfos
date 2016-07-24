@@ -29,6 +29,7 @@ import br.com.delfos.model.basic.TipoLogradouro;
 import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.util.ContextFactory;
 import br.com.delfos.util.LeitorDeFXML;
+import br.com.delfos.util.view.MaskFieldUtil;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.manipulador.ScreenUtils;
 import javafx.beans.value.ChangeListener;
@@ -233,15 +234,17 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 					this.usuarioController.setResponsavel(pessoa);
 					this.usuarioController.salvar().ifPresent(usuario -> {
 						configPermissaoCriaUsuario(null);
-						AlertAdapter.information("Salvo com sucesso.");
+						AlertAdapter.information("Salvo com sucesso.", "Foi criado um registro para o/a "
+								+ pessoa.getNome()
+								+ " com acesso ao sistema para sua interação.\nCaso as credenciais tenham sido geradas automaticamente, o acesso ao sistema será feito a partir do CPF para o usuário e senha.");
 					});
 
 				} else
-					AlertAdapter.information("Salvo com sucesso.");
+					AlertAdapter.information("Salvo com sucesso", "Foi criado um registro para o/a" + pessoa.getNome());
 			});
 
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.requiredDataNotInformed(e);
 		}
 
 	}
@@ -290,10 +293,18 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		txtCodigo.setEditable(false);
+		configMaskFields();
 		configComboBox();
 		preencheComboBox();
 		configTabUsuario();
 		configAcessoSistema();
+	}
+
+	private void configMaskFields() {
+		MaskFieldUtil.numericFields(txtCodigo, txtCep, txtRg, txtNumero);
+		MaskFieldUtil.cpfField(txtCpf);
+		MaskFieldUtil.datePickerField(dtDataNascimento);
+		MaskFieldUtil.cepField(txtCep);
 	}
 
 	private void configAcessoSistema() {
@@ -334,7 +345,7 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 			this.usuarioController.setVisibleButtons(false);
 			this.usuarioController.setVisibleTxtDescricao(false);
 		} catch (IOException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.erroLoadFXML(e);
 		}
 	}
 

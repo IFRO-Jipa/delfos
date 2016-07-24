@@ -1,14 +1,20 @@
-package fxml;
+package br.com.delfos.util.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.delfos.converter.date.DatePickerConverter;
+import br.com.delfos.view.AlertAdapter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -24,16 +30,35 @@ public abstract class MaskFieldUtil {
 	}
 
 	public static void ignoreKeys(final TextField textField) {
-		textField.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent keyEvent) {
-				if (ignoreKeyCodes.contains(keyEvent.getCode())) {
-					keyEvent.consume();
-				}
+		textField.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+			if (ignoreKeyCodes.contains(keyEvent.getCode())) {
+				keyEvent.consume();
 			}
 		});
 	}
-	
+
+	public static void datePickerField(final DatePicker date) {
+		final String pattern = "dd/MM/yyyy";
+
+		date.setConverter(new DatePickerConverter());
+		MaskFieldUtil.dateField(date.getEditor());
+
+		date.getEditor().focusedProperty()
+				.addListener((ObservableValue<? extends Boolean> obs, Boolean oldV, Boolean newV) -> {
+					if (!newV) {
+						try {
+							if (date.getEditor().getText().length() == pattern.length()) {
+								date.setValue(LocalDate.parse(date.getEditor().getText(),
+										DateTimeFormatter.ofPattern(pattern)));
+							}
+						} catch (DateTimeParseException e) {
+							AlertAdapter.error("Data inválida",
+									"A data informada não é válida ou não está em um padrão válido.");
+						}
+					}
+				});
+
+	}
 
 	/**
 	 * Monta a mascara para Data (dd/MM/yyyy).
@@ -44,17 +69,47 @@ public abstract class MaskFieldUtil {
 	public static void dateField(final TextField textField) {
 		maxField(textField, 10);
 
-		textField.lengthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if (newValue.intValue() < 11) {
-					String value = textField.getText();
-					value = value.replaceAll("[^0-9]", "");
-					value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
-					value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
-					textField.setText(value);
-					positionCaret(textField);
-				}
+		textField.lengthProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+			if (newValue.intValue() < 11) {
+				String value = textField.getText();
+				value = value.replaceAll("[^0-9]", "");
+				value = value.replaceFirst("(\\d{2})(\\d)", "$1/$2");
+				value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
+				textField.setText(value);
+				positionCaret(textField);
+			}
+		});
+	}
+
+	public static void cpfField(final TextField textField) {
+
+		maxField(textField, 14);
+
+		textField.lengthProperty().addListener((ChangeListener<Number>) (obs, oldValue, newValue) -> {
+			if (newValue.intValue() < 15) {
+				String value = textField.getText();
+				value = value.replaceAll("[^0-9]", "");
+				value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
+				value = value.replaceFirst("(\\d{3}).(\\d{3})(\\d)", "$1.$2.$3");
+				value = value.replaceFirst("(\\d{3}).(\\d{3}).(\\d{3})(\\d)", "$1.$2.$3-$4");
+				textField.setText(value);
+				positionCaret(textField);
+			}
+		});
+	}
+
+	public static void cepField(final TextField textField) {
+		maxField(textField, 10);
+
+		textField.lengthProperty().addListener((ChangeListener<Number>) (obs, oldValue, newValue) -> {
+			if (newValue.intValue() < 11) {
+				String value = textField.getText();
+				value = value.replaceAll("[^0-9]", "");
+				value = value.replaceFirst("(\\d{2})(\\d)", "$1.$2");
+				value = value.replaceFirst("(\\d{2}).(\\d{3})(\\d)", "$1.$2-$3");
+				value = value.replaceFirst("(\\d{2}).(\\d{3})-(\\d)", "$1.$2-$3");
+				textField.setText(value);
+				positionCaret(textField);
 			}
 		});
 	}
@@ -66,17 +121,22 @@ public abstract class MaskFieldUtil {
 	 *            TextField
 	 */
 	public static void numericField(final TextField textField) {
-		textField.lengthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if (newValue.intValue() > oldValue.intValue()) {
-					char ch = textField.getText().charAt(oldValue.intValue());
-					if (!(ch >= '0' && ch <= '9')) {
-						textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
-					}
+		textField.lengthProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+			if (newValue.intValue() > oldValue.intValue()) {
+				char ch = textField.getText().charAt(oldValue.intValue());
+				if (!(ch >= '0' && ch <= '9')) {
+					textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
 				}
 			}
 		});
+	}
+
+	public static void numericFields(final List<TextField> fields) {
+		fields.forEach(MaskFieldUtil::numericField);
+	}
+
+	public static void numericFields(final TextField... fields) {
+		numericFields(Arrays.asList(fields));
 	}
 
 	/**
@@ -87,39 +147,32 @@ public abstract class MaskFieldUtil {
 	 */
 	public static void monetaryField(final TextField textField) {
 		textField.setAlignment(Pos.CENTER_RIGHT);
-		textField.lengthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				String value = textField.getText();
-				value = value.replaceAll("[^0-9]", "");
-				value = value.replaceAll("([0-9]{1})([0-9]{14})$", "$1.$2");
-				value = value.replaceAll("([0-9]{1})([0-9]{11})$", "$1.$2");
-				value = value.replaceAll("([0-9]{1})([0-9]{8})$", "$1.$2");
-				value = value.replaceAll("([0-9]{1})([0-9]{5})$", "$1.$2");
-				value = value.replaceAll("([0-9]{1})([0-9]{2})$", "$1,$2");
-				textField.setText(value);
-				positionCaret(textField);
+		textField.lengthProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+			String value = textField.getText();
+			value = value.replaceAll("[^0-9]", "");
+			value = value.replaceAll("([0-9]{1})([0-9]{14})$", "$1.$2");
+			value = value.replaceAll("([0-9]{1})([0-9]{11})$", "$1.$2");
+			value = value.replaceAll("([0-9]{1})([0-9]{8})$", "$1.$2");
+			value = value.replaceAll("([0-9]{1})([0-9]{5})$", "$1.$2");
+			value = value.replaceAll("([0-9]{1})([0-9]{2})$", "$1,$2");
+			textField.setText(value);
+			positionCaret(textField);
 
-				textField.textProperty().addListener(new ChangeListener<String>() {
-					@Override
-					public void changed(ObservableValue<? extends String> observableValue, String oldValue,
-							String newValue) {
-						if (newValue.length() > 17)
-							textField.setText(oldValue);
-					}
-				});
-			}
+			textField.textProperty().addListener(new ChangeListener<String>() {
+				@Override
+				public void changed(ObservableValue<? extends String> observableValue, String oldValue,
+						String newValue) {
+					if (newValue.length() > 17)
+						textField.setText(oldValue);
+				}
+			});
 		});
 
-		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean,
-					Boolean fieldChange) {
-				if (!fieldChange) {
-					final int length = textField.getText().length();
-					if (length > 0 && length < 3) {
-						textField.setText(textField.getText() + "00");
-					}
+		textField.focusedProperty().addListener((ChangeListener<Boolean>) (observableValue, aBoolean, fieldChange) -> {
+			if (!fieldChange) {
+				final int length = textField.getText().length();
+				if (length > 0 && length < 3) {
+					textField.setText(textField.getText() + "00");
 				}
 			}
 		});
@@ -134,30 +187,24 @@ public abstract class MaskFieldUtil {
 	 */
 	public static void cpfCnpjField(final TextField textField) {
 
-		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean,
-					Boolean fieldChange) {
-				String value = textField.getText();
-				if (!fieldChange) {
-					if (textField.getText().length() == 11) {
-						value = value.replaceAll("[^0-9]", "");
-						value = value.replaceFirst("([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})$", "$1.$2.$3-$4");
-					}
-					if (textField.getText().length() == 14) {
-						value = value.replaceAll("[^0-9]", "");
-						value = value.replaceFirst("([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})$",
-								"$1.$2.$3/$4-$5");
-					}
+		textField.focusedProperty().addListener((ChangeListener<Boolean>) (observableValue, aBoolean, fieldChange) -> {
+			String value = textField.getText();
+			if (!fieldChange) {
+				if (textField.getText().length() == 11) {
+					value = value.replaceAll("[^0-9]", "");
+					value = value.replaceFirst("([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})$", "$1.$2.$3-$4");
 				}
-				textField.setText(value);
-				if (textField.getText() != value) {
-					textField.setText("");
-					textField.insertText(0, value);
+				if (textField.getText().length() == 14) {
+					value = value.replaceAll("[^0-9]", "");
+					value = value.replaceFirst("([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})$", "$1.$2.$3/$4-$5");
 				}
-
 			}
+			textField.setText(value);
+			if (textField.getText() != value) {
+				textField.setText("");
+				textField.insertText(0, value);
+			}
+
 		});
 
 		maxField(textField, 18);
@@ -172,18 +219,15 @@ public abstract class MaskFieldUtil {
 	public static void cnpjField(final TextField textField) {
 		maxField(textField, 18);
 
-		textField.lengthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				String value = textField.getText();
-				value = value.replaceAll("[^0-9]", "");
-				value = value.replaceFirst("(\\d{2})(\\d)", "$1.$2");
-				value = value.replaceFirst("(\\d{2})\\.(\\d{3})(\\d)", "$1.$2.$3");
-				value = value.replaceFirst("\\.(\\d{3})(\\d)", ".$1/$2");
-				value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
-				textField.setText(value);
-				positionCaret(textField);
-			}
+		textField.lengthProperty().addListener((ChangeListener<Number>) (observableValue, number, number2) -> {
+			String value = textField.getText();
+			value = value.replaceAll("[^0-9]", "");
+			value = value.replaceFirst("(\\d{2})(\\d)", "$1.$2");
+			value = value.replaceFirst("(\\d{2})\\.(\\d{3})(\\d)", "$1.$2.$3");
+			value = value.replaceFirst("\\.(\\d{3})(\\d)", ".$1/$2");
+			value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
+			textField.setText(value);
+			positionCaret(textField);
 		});
 
 	}
@@ -196,13 +240,7 @@ public abstract class MaskFieldUtil {
 	 *            TextField
 	 */
 	private static void positionCaret(final TextField textField) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				// Posiciona o cursor sempre a direita.
-				textField.positionCaret(textField.getText().length());
-			}
-		});
+		Platform.runLater(() -> textField.positionCaret(textField.getText().length()));
 	}
 
 	/**
@@ -212,12 +250,9 @@ public abstract class MaskFieldUtil {
 	 *            Tamanho do campo.
 	 */
 	private static void maxField(final TextField textField, final Integer length) {
-		textField.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-				if (newValue.length() > length)
-					textField.setText(oldValue);
-			}
+		textField.textProperty().addListener((ChangeListener<String>) (observableValue, oldValue, newValue) -> {
+			if (newValue.length() > length)
+				textField.setText(oldValue);
 		});
 	}
 

@@ -5,14 +5,10 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -119,10 +115,6 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	@Autowired
 	private PessoaDAO daoPessoa;
 
-	private List<Pessoa> especialistas;
-
-	private List<Pessoa> pesquisadores;
-
 	private QuestionarioApp questionarioApp;
 
 	private Callback<DatePicker, DateCell> factoryDeVencimento = param -> new DateCell() {
@@ -163,9 +155,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			});
 		} catch (FXValidatorException e) {
-			AlertAdapter
-					.error("Não foi possível atualizar os pesquisadores automaticamente... Algo estranho aconteceu.\nDetalhes: "
-							+ e.getMessage());
+			AlertAdapter.requiredDataNotInformed(e);
 		}
 
 	}
@@ -190,9 +180,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			});
 		} catch (FXValidatorException e) {
-			AlertAdapter
-					.error("Não foi possível atualizar os pesquisadores automaticamente... Algo estranho aconteceu.\nDetalhes: "
-							+ e.getMessage());
+			AlertAdapter.requiredDataNotInformed(e);
 		}
 	}
 
@@ -218,7 +206,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 				}
 			});
 		} catch (IOException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.erroLoadFXML(e);
 		}
 	}
 
@@ -232,12 +220,13 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			result.ifPresent(pesquisa -> {
 				txtCodigo.setText(String.valueOf(pesquisa.getId()));
-				AlertAdapter.information("Salvo com sucesso.");
+				AlertAdapter.information("Salvo com sucesso.",
+						"A pesquisa foi criada com sucesso e estará disponível para iteração com os pesquisadores e especialistas selecionados..");
 				setStatus(pesquisa);
 			});
 
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.requiredDataNotInformed(e);
 		}
 	}
 
@@ -250,7 +239,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			p.setNome(txtNome.getText());
 			p.setDescricao(txtDescricao.getText());
-			p.setLimite(txtLimite.getText().isEmpty() ? null : Integer.parseInt(txtLimite.getText()));
+			p.setLimite(txtLimite.getText().isEmpty() ? 0 : Integer.parseInt(txtLimite.getText()));
 
 			p.setDataInicio(datePesquisa.getValue());
 			p.setDataVencimento(dateVencimento.getValue());
@@ -263,7 +252,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 			return p;
 		} catch (LimiteDeEspecialistasAtingidoException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.unknownError(e);
 			return null;
 		}
 	}
@@ -288,19 +277,20 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	// Botão Finalizar Pesquisa
 	@FXML
 	private void handleButtonFinalizar(ActionEvent event) {
-		String mensagem = "Se você finalizar essa pesquisa, ela não poderá ser utilizada novamente e \nnão "
+		String mensagem = "Se você encerrar essa pesquisa, ela não poderá ser utilizada novamente e \nnão "
 				+ "estará disponível para interação entre os especialistas, \nsendo necessária a criação de uma nova. "
 				+ "\n\nDeseja realmente finalizar?";
-		if (AlertAdapter.confirmation(mensagem)) {
+		if (AlertAdapter.confirmation("Encerrar a pesquisa?", mensagem)) {
 			try {
 				Pesquisa pesquisa = toValue();
 				pesquisa.finaliza();
 				this.salvar(pesquisa, this).ifPresent(optional -> {
 					verificaSituacao(pesquisa);
-					AlertAdapter.information("Finalizada com sucesso");
+					AlertAdapter.information("Encerrada com sucesso",
+							"A partir de agora, essa pesquisa não poderá ser modificada e nem respondida pelos especialistas por motivos de análises.");
 				});
 			} catch (FXValidatorException e) {
-				AlertAdapter.error(e);
+				AlertAdapter.requiredDataNotInformed(e);
 			}
 		}
 	}
@@ -332,13 +322,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		configFields();
 		configListViews();
-		configCache();
 		setStatus(null);
-	}
-
-	private void configCache() {
-		this.especialistas = new ArrayList<>(daoPessoa.findByTipo(TipoPessoa.ESPECIALISTA));
-		this.pesquisadores = new ArrayList<>(daoPessoa.findByTipo(TipoPessoa.PESQUISADOR));
 	}
 
 	private void configFields() {
@@ -432,12 +416,11 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 
 				btnSalvar.setDisable(true);
 				try {
-					this.salvar(toValue(), this)
-							.ifPresent(optional -> AlertAdapter.warning(
-									"Por conta da pesquisa estar vencida, ela será finalizada automaticamente. "
-											+ "As alterações realizadas nela não serão refletidas."));
+					this.salvar(toValue(), this).ifPresent(optional -> AlertAdapter.information(
+							"Encerramento automático de pesquisa vencida",
+							"Por conta da pesquisa estar vencida, ela será encerrada e as alterações realizadas nela não serão refletidas."));
 				} catch (FXValidatorException e) {
-					AlertAdapter.error(e);
+					AlertAdapter.requiredDataNotInformed(e);
 				}
 			}
 

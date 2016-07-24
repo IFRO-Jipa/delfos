@@ -15,7 +15,7 @@ public class Endereco {
 	@NotNull
 	private String numero;
 
-	@Pattern(regexp = "^\\d{2}.\\d{3}-\\d{3}")
+	@Pattern(regexp = "^\\d{8}")
 	private String cep;
 	@NotNull
 	private String bairro;

@@ -30,7 +30,7 @@ class Messages {
 			notFoundMessage = props.getProperty("notFoundMessage");
 
 		} catch (IOException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.error("Arquivo de mensagens não encontrado.", e);
 		}
 	}
 

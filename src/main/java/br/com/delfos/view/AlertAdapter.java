@@ -1,10 +1,12 @@
 package br.com.delfos.view;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 
+import br.com.delfos.except.view.FXValidatorException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -30,7 +32,9 @@ public class AlertAdapter {
 	public static final String ALERT_ERRO_PESQUISAR = "";
 	public static final String ALERT_CONFIRM_EXCLUSAO = "Deseja realmente excluir o registro?";
 	public static final String ALERT_CONFIRM_EXIT = "Deseja realmente sair?";
+	public static final String ALERT_DADOS_OBRIGATORIOS = "Dados obrigatórios não preenchidos.";
 
+	@Deprecated
 	public static void warning(String mensagem) {
 		alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Aviso do sistema");
@@ -41,18 +45,79 @@ public class AlertAdapter {
 		alert.showAndWait();
 	}
 
-	public static void beep() {
+	public static void information(String resumo, String mensagem) {
+
+	}
+
+	public static void warning(String resumo, String mensagem) {
+		alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Aviso do sistema");
+		alert.setContentText(mensagem);
+		alert.setHeaderText(resumo);
+		beep();
+
+		alert.showAndWait();
+	}
+
+	private static void beep() {
 		Toolkit.getDefaultToolkit().beep();
 	}
 
+	@Deprecated
 	public static void error(String msg) {
 		error(msg, null, false);
 	}
 
+	public static void error(String resumo, String mensagem) {
+		error(resumo, mensagem, null, false);
+	}
+
+	@Deprecated
 	public static void error(Exception ex) {
 		error(ex.getMessage(), ex, true);
 	}
 
+	public static void error(String resumo, Exception ex) {
+		error(resumo, ex.getMessage(), ex, true);
+	}
+
+	private static void error(String resumo, String msg, Exception ex, boolean expandable) {
+		alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Erro encontrado");
+		alert.setContentText(msg == null ? ex.getMessage() : msg);
+		alert.setHeaderText(resumo);
+
+		if (expandable) {
+			// Create expandable Exception.
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			String exceptionText = sw.toString();
+
+			Label label = new Label("Detalhes técnicos: ");
+
+			TextArea textArea = new TextArea(exceptionText);
+			textArea.setEditable(false);
+			textArea.setWrapText(true);
+
+			textArea.setMaxWidth(Double.MAX_VALUE);
+			textArea.setMaxHeight(Double.MAX_VALUE);
+			GridPane.setVgrow(textArea, Priority.ALWAYS);
+			GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+			GridPane expContent = new GridPane();
+			expContent.setMaxWidth(Double.MAX_VALUE);
+			expContent.setMaxHeight(Double.MAX_VALUE);
+			expContent.add(label, 0, 0);
+			expContent.add(textArea, 0, 1);
+
+			alert.getDialogPane().setExpandableContent(expContent);
+		}
+		beep();
+		alert.showAndWait();
+	}
+
+	@Deprecated
 	private static void error(String msg, Exception ex, boolean expandable) {
 		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Erro encontrado");
@@ -89,20 +154,17 @@ public class AlertAdapter {
 		alert.showAndWait();
 	}
 
-	public static void information(String mensagem) {
-		alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Mensagem de Informação");
-		alert.setHeaderText(mensagem);
-		alert.setContentText("Notificação do sistema");
-		alert.showAndWait();
+	public static boolean confirmation(String resumo, String mensagem) {
+		return false;
 	}
 
+	@Deprecated
 	public static boolean confirmation(String mensagem) {
 		alert = new Alert(AlertType.CONFIRMATION);
 		// alert.setAlertType(AlertType.CONFIRMATION);
 		alert.setTitle("Mensagem de Confirmação");
 		alert.setHeaderText(mensagem);
-		alert.setContentText("Escolha a opção desejada para a solicitação");
+		alert.setContentText("Confirme ou cancele a solicitação desejada");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
@@ -110,6 +172,34 @@ public class AlertAdapter {
 		} else {
 			return false;
 		}
+	}
+
+	public static void requiredDataNotInformed(FXValidatorException e) {
+		error("Dados obrigatórios não foram informados", e);
+	}
+
+	public static void requiredDataNotInformed(String msg) {
+		error("Dados obrigatórios não foram informados", msg);
+	}
+
+	public static void erroLoadFXML(IOException e) {
+		error("Falha ao carregar o arquivo(.fxml) da tela.", e);
+	}
+
+	public static void unknownError(String msg) {
+		error("Erro não identificado", msg);
+	}
+
+	public static void unknownError(Exception e) {
+		error("Erro não identificado", e.getMessage(), e, true);
+	}
+
+	public static void invalidParameters(String msg) {
+		error("Parâmetros inválidos", msg);
+	}
+
+	public static void dataIntegrityViolation(String mensagem) {
+		error("Violação de regra para associações entre dados", mensagem);
 	}
 
 }

@@ -52,7 +52,7 @@ public class RespostaApp extends Application {
 
 			return controller.getRespostas();
 		} catch (IllegalStateException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.unknownError(e);
 			return null;
 		}
 	}

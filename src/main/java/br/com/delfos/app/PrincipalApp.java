@@ -42,16 +42,10 @@ public class PrincipalApp extends Application {
 		return stage;
 	}
 
-	public static void logout() throws Exception {
+	public static void logout() throws IOException {
 		stage.hide();
 		Autenticador.logout();
 		new LoginApp().start(stage);
-	}
-
-	public static void destroy() {
-		if (AlertAdapter.confirmation(AlertAdapter.ALERT_CONFIRM_EXIT)) {
-			System.exit(0);
-		}
 	}
 
 	public static Optional<PrincipalController> getController() throws IOException {
@@ -65,9 +59,9 @@ public class PrincipalApp extends Application {
 
 			controller.openWindow(pane, title, icon);
 		} catch (IllegalArgumentException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.unknownError(e);
 		} catch (IOException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.erroLoadFXML(e);;
 		}
 	}
 

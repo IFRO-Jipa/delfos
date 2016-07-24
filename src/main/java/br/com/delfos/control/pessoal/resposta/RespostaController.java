@@ -71,7 +71,7 @@ public class RespostaController implements Initializable {
 	private void handleBtnRegistrar(ActionEvent event) {
 		try {
 			if (isRespostasPreenchidas()) {
-				if (AlertAdapter.confirmation(
+				if (AlertAdapter.confirmation("Enviar questionário?",
 						"Você só poderá responder esse questionário uma única vez. Deseja enviar agora?")) {
 
 					List<Resposta<?>> respostas = montaRespostas();
@@ -79,7 +79,8 @@ public class RespostaController implements Initializable {
 						List<Resposta<?>> itensSalvos = daoResposta.save(respostas);
 						if (itensSalvos != null && !itensSalvos.isEmpty()) {
 							this.respostas = itensSalvos;
-							AlertAdapter.information("Registrado com sucesso.");
+							AlertAdapter.information("Registrado com sucesso.",
+									"Suas respostas foram enviadas e não poderão ser modificadas.");
 							RespostaApp.close();
 						}
 					}
@@ -89,8 +90,9 @@ public class RespostaController implements Initializable {
 				}
 			}
 		} catch (QuestionarioRespondidoException ex) {
-			AlertAdapter.error("Não foi possível submeter o questionário pois já consta nos registros um envio com "
-					+ "suas credenciais para esse questionário.\nSe o erro persistir, entre em contato com o Administrador.");
+			AlertAdapter.error("Falha ao enviar",
+					"Não foi possível submeter o questionário pois o sistema avalia duplicidade nos dados "
+							+ "(parece que você já respondeu esse questionário)\nSe o erro persistir, entre em contato com o Administrador.");
 		}
 	}
 
@@ -110,7 +112,7 @@ public class RespostaController implements Initializable {
 	private boolean isRespostasPreenchidas() {
 		for (RespostaControllerImpl<?, ?> controller : this.controllers) {
 			if (!controller.isSelected()) {
-				AlertAdapter.warning("Responda todas as perguntas antes de prosseguir.");
+				AlertAdapter.requiredDataNotInformed("Responda todas as perguntas para enviar o questionário.");
 				return false;
 			}
 		}
@@ -120,7 +122,8 @@ public class RespostaController implements Initializable {
 
 	@FXML
 	private void handleButtonLimpar(ActionEvent event) {
-		if (AlertAdapter.confirmation("Todo o trabalho será perdido. Deseja continuar?")) {
+		if (AlertAdapter.confirmation("Limpar todas as perguntas?",
+				"Todo o trabalho será perdido. Deseja continuar?")) {
 			controllers.forEach(RespostaControllerImpl::clearSelected);
 		}
 	}

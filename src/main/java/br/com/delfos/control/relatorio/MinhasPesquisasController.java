@@ -31,7 +31,7 @@ public class MinhasPesquisasController implements Initializable {
 		try {
 			this.configPanel();
 		} catch (RuntimeException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.unknownError(e);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class MinhasPesquisasController implements Initializable {
 					System.out.println("Pesquisa selecionada: " + pesquisa.getNome());
 					new RelatorioPesquisaApp().setValue(pesquisa).show();
 				} catch (IOException e) {
-					AlertAdapter.error(e);
+					AlertAdapter.erroLoadFXML(e);
 				}
 			}).getPanel().ifPresent(panel -> {
 				AnchorPane.setLeftAnchor(panel, 0.0);

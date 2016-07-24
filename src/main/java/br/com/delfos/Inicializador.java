@@ -1,5 +1,7 @@
 package br.com.delfos;
 
+import java.io.IOException;
+
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.GlyphFont;
 import org.controlsfx.glyphfont.GlyphFontRegistry;
@@ -54,15 +56,15 @@ public class Inicializador extends Application {
 			try {
 				new SplashScreenApp().start();
 
-			} catch (Exception e) {
-				AlertAdapter.error(e);
+			} catch (IOException e) {
+				AlertAdapter.erroLoadFXML(e);
 			}
 		});
 		service.setOnSucceeded(evt -> {
 			try {
 				new LoginApp().start(primaryStage);
-			} catch (Exception e) {
-				AlertAdapter.error(e);
+			} catch (IOException e) {
+				AlertAdapter.erroLoadFXML(e);
 			}
 		});
 

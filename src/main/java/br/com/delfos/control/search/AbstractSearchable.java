@@ -126,7 +126,7 @@ public class AbstractSearchable<T extends AbstractModel<T>> {
 		}
 
 		@Override
-		public void start(Stage primaryStage) throws Exception {
+		public void start(Stage primaryStage) throws IOException {
 			AbstractSearchable.stage = primaryStage;
 			BorderPane pane = getPanel();
 
@@ -145,8 +145,8 @@ public class AbstractSearchable<T extends AbstractModel<T>> {
 			app.start(getStage());
 
 			return this.getSelected();
-		} catch (Exception e) {
-			AlertAdapter.error(e);
+		} catch (IOException e) {
+			AlertAdapter.erroLoadFXML(e);
 			return Optional.empty();
 		}
 	}
@@ -176,7 +176,7 @@ public class AbstractSearchable<T extends AbstractModel<T>> {
 			app.controller = this.controller;
 			return Optional.ofNullable(app.getPanel());
 		} catch (IOException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.erroLoadFXML(e);
 			return Optional.empty();
 		}
 	}

@@ -1,5 +1,7 @@
 package br.com.delfos.app;
 
+import java.io.IOException;
+
 import br.com.delfos.view.AlertAdapter;
 import javafx.application.Preloader;
 import javafx.event.EventHandler;
@@ -16,7 +18,7 @@ public class SplashScreenApp extends Preloader {
 	private static Stage stage;
 
 	@Override
-	public synchronized void start(Stage primaryStage) throws Exception {
+	public synchronized void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(SplashScreenApp.class.getClassLoader().getResource(LOCATION));
 		AnchorPane pane = (AnchorPane) loader.load();
@@ -35,13 +37,13 @@ public class SplashScreenApp extends Preloader {
 		return event -> {
 			try {
 				new LoginApp().start(stage);
-			} catch (Exception e) {
-				AlertAdapter.error(e);
+			} catch (IOException e) {
+				AlertAdapter.erroLoadFXML(e);
 			}
 		};
 	}
 
-	public void start() throws Exception {
+	public void start() throws IOException {
 		this.start(new Stage());
 	}
 

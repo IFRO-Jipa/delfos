@@ -157,7 +157,8 @@ public class TemplateMeusQuestionariosController implements Initializable {
 	}
 
 	private void showPopup() {
-		AlertAdapter.information("Você já respondeu esse questionário e não é possível editá-lo!");
+		AlertAdapter.information("Você não pode fazer isso, desculpe.",
+				"Você já respondeu esse questionário e não é possível editar ou responder novamente.");
 	}
 
 	private boolean questionarioRespondido(Questionario q) {
@@ -246,7 +247,7 @@ public class TemplateMeusQuestionariosController implements Initializable {
 				}
 
 			} catch (IOException e) {
-				AlertAdapter.error(e);
+				AlertAdapter.erroLoadFXML(e);
 			}
 		} else {
 			showPopup();

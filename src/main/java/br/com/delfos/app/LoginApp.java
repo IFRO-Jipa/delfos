@@ -1,5 +1,7 @@
 package br.com.delfos.app;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 
 import br.com.delfos.util.LeitorDeFXML;
@@ -14,7 +16,7 @@ public class LoginApp extends Application {
 	private static Stage stage;
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws IOException {
 		AnchorPane pane = (AnchorPane) LeitorDeFXML.load("fxml/auditoria/LoginOverview.fxml");
 
 		stage.setScene(new Scene(pane));

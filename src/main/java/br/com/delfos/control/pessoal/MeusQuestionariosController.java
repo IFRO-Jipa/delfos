@@ -51,7 +51,7 @@ public class MeusQuestionariosController implements Initializable {
 			configScroll();
 			mostraPesquisas();
 		} catch (RuntimeException runtime) {
-			AlertAdapter.error(runtime);
+			AlertAdapter.unknownError(runtime);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class MeusQuestionariosController implements Initializable {
 				panes.add(panel);
 			}
 		} catch (IOException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.erroLoadFXML(e);
 		}
 
 		return panes;

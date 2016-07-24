@@ -108,7 +108,7 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 			});
 
 		} catch (FXValidatorException e) {
-			AlertAdapter.error(e);
+			AlertAdapter.requiredDataNotInformed(e);
 		}
 	}
 

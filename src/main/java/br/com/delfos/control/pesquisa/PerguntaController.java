@@ -110,7 +110,8 @@ public class PerguntaController implements Initializable {
 
 		MenuItem menuRemoverTodos = new MenuItem("Remover Todos");
 		menuRemoverTodos.setOnAction(event -> {
-			if (AlertAdapter.confirmation("Deseja realmente excluir todas as perguntas?")) {
+			if (AlertAdapter.confirmation("Deseja realmente excluir todas as perguntas?",
+					"Isso fará com que todas as perguntas criadas e presentes na lista sejam apagadas. Deseja continuar?")) {
 				tbPerguntas.getItems().clear();
 			}
 		});
@@ -230,7 +231,8 @@ public class PerguntaController implements Initializable {
 	 * 
 	 * @return célula com combobox
 	 */
-	private Callback<TableColumn<PerguntaProperty<?>, TipoPergunta>, TableCell<PerguntaProperty<?>, TipoPergunta>> getComboBoxFactory() {
+	private Callback<TableColumn<PerguntaProperty<?>, TipoPergunta>, TableCell<PerguntaProperty<?>, TipoPergunta>>
+			getComboBoxFactory() {
 
 		return param -> new ComboBoxCellFactory<PerguntaProperty<?>, TipoPergunta>(tiposDePergunta,
 				new ConverterComboBoxToCell<TipoPergunta>().setToString(obj -> obj.name()).convert());
@@ -241,7 +243,8 @@ public class PerguntaController implements Initializable {
 	 * 
 	 * @return célula com textfield
 	 */
-	private Callback<TableColumn<PerguntaProperty<?>, String>, TableCell<PerguntaProperty<?>, String>> getTextFieldFactory() {
+	private Callback<TableColumn<PerguntaProperty<?>, String>, TableCell<PerguntaProperty<?>, String>>
+			getTextFieldFactory() {
 		return param -> new TextFieldCellFactory<PerguntaProperty<?>>();
 	}
 

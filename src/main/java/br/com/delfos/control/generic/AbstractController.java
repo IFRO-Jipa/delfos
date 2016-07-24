@@ -50,17 +50,20 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 		try {
 			getValue().ifPresent(value -> {
 				if (predicate.test(value)) {
-					if (AlertAdapter.confirmation(AlertAdapter.ALERT_CONFIRM_EXCLUSAO)) {
+					if (AlertAdapter.confirmation(AlertAdapter.ALERT_CONFIRM_EXCLUSAO,
+							"Isso fará com que a informação seja apagada e sem a possibilidade de restauração.\nDeseja continuar?")) {
 						dao.delete(value.getId());
-						AlertAdapter.information("Excluído com sucesso");
+						AlertAdapter.information("Exclusão realizada",
+								"A informação foi apagada sem nenhuma complicação.");
 					}
 				} else {
-					AlertAdapter.warning("Selecione um registro para excluir.");
+					AlertAdapter.warning("Nada em aberto",
+							"Nenhuma informação está pronta para ser apagada. Selecione algum registro e refaça a operação.");
 				}
 			});
 		} catch (DataIntegrityViolationException e) {
-			AlertAdapter
-					.error("Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
+			AlertAdapter.dataIntegrityViolation(
+					"Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
 		}
 	}
 
@@ -83,7 +86,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 				this.posiciona(value);
 				return value;
 			} else {
-				AlertAdapter.warning("Nenhum registro foi encontrado.");
+				AlertAdapter.warning("Nada encontrado", "Não foram encontradas informações na consulta.");
 			}
 
 		}

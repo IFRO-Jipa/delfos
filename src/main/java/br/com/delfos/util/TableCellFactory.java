@@ -66,7 +66,7 @@ public class TableCellFactory<T> {
 		MenuItem menuRemoveOnly = new MenuItem();
 		menuRemoveOnly.setText("Remover");
 		menuRemoveOnly.setOnAction(action -> {
-			if (AlertAdapter.confirmation("Esta ação não pode ser desfeita. Você tem certeza?")) {
+			if (AlertAdapter.confirmation("Remover item?", "Esta ação não poderá ser desfeita. Você tem certeza?")) {
 				listView.getItems().remove(cell.getItem());
 			}
 		});
@@ -74,7 +74,7 @@ public class TableCellFactory<T> {
 		MenuItem menuRemoveAll = new MenuItem();
 		menuRemoveAll.setText("Remover todos");
 		menuRemoveAll.setOnAction(action -> {
-			if (AlertAdapter.confirmation("Remover todas as informações contidas na lista?")) {
+			if (AlertAdapter.confirmation("Remover todos os itens? ", "Esta ação não poderá ser desfeita. Deseja continuar?")) {
 				listView.getItems().clear();
 			}
 		});

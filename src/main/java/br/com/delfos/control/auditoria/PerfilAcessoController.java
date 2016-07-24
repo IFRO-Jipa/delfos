@@ -107,7 +107,7 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 					txtCodigo.setText(String.valueOf(valor.getId()));
 				});
 			} catch (FXValidatorException e) {
-				AlertAdapter.error(e);
+				AlertAdapter.requiredDataNotInformed(e);
 			}
 		});
 	}
@@ -141,7 +141,7 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 					System.out.println("Atualizou as informações com sucesso.");
 				});
 			} catch (FXValidatorException e) {
-				AlertAdapter.error(e);
+				AlertAdapter.requiredDataNotInformed(e);
 			}
 		});
 
