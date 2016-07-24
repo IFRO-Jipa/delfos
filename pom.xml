@@ -33,6 +33,11 @@
 					<vendor>IFRO</vendor>
 					<mainClass>br.com.delfos.Inicializador</mainClass>
 					<appName>Delfos</appName>
+					<jvmProperties>
+						<database.url>jdbc:mysql://localhost:3306/delfos</database.url>
+						<database.user>root</database.user>
+						<database.password>root</database.password>
+					</jvmProperties>
 				</configuration>
 			</plugin>
 		</plugins>

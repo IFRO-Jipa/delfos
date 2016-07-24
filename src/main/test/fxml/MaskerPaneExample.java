@@ -1,3 +1,4 @@
+package fxml;
 import org.controlsfx.control.MaskerPane;
 import org.controlsfx.control.ToggleSwitch;
 
