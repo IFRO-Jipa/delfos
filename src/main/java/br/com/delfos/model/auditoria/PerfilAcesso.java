@@ -50,25 +50,37 @@ public class PerfilAcesso extends AbstractModel<PerfilAcesso> {
 	}
 
 	public boolean remove(Funcionalidade permissao) {
-		return this.permissoes.remove(permissao);
+		if (permissao != null)
+			return this.permissoes.remove(permissao);
+		else
+			return false;
 	}
 
 	public boolean removeAll(List<Funcionalidade> permissoes) {
-		return this.permissoes.removeAll(permissoes);
+		if (permissoes != null)
+			return this.permissoes.removeAll(permissoes);
+		else
+			return false;
 	}
 
-	public void addPermissao(Funcionalidade funcionalidade) {
+	public boolean addPermissao(Funcionalidade funcionalidade) {
 		if (this.permissoes == null) {
 			permissoes = new HashSet<>();
 		}
-		this.permissoes.add(funcionalidade);
+		if (funcionalidade != null)
+			return this.permissoes.add(funcionalidade);
+		else
+			return false;
 	}
 
-	public void addPermissoes(List<Funcionalidade> funcionalidades) {
+	public boolean addPermissoes(List<Funcionalidade> funcionalidades) {
 		if (this.permissoes == null) {
 			permissoes = new HashSet<>();
 		}
-		this.permissoes.addAll(funcionalidades);
+		if (funcionalidades != null)
+			return this.permissoes.addAll(funcionalidades);
+		else
+			return false;
 	}
 
 	@Override

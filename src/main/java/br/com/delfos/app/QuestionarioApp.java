@@ -1,6 +1,7 @@
 package br.com.delfos.app;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import br.com.delfos.control.pesquisa.QuestionarioController;
@@ -22,6 +23,11 @@ public class QuestionarioApp extends Application {
 	private static QuestionarioController controller;
 	private static Stage primaryStage;
 	private Optional<Questionario> initValue = Optional.empty();
+	private LocalDate vencimentoPesquisa;
+
+	public QuestionarioApp(LocalDate vencimentoPesquisa) {
+		this.vencimentoPesquisa = vencimentoPesquisa;
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -33,10 +39,10 @@ public class QuestionarioApp extends Application {
 		QuestionarioApp.primaryStage = primaryStage;
 		QuestionarioApp.controller = loader.getController();
 
-		controller.init(initValue);
+		controller.init(initValue, Optional.ofNullable(this.vencimentoPesquisa));
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			
+
 			@Override
 			public void handle(WindowEvent event) {
 			}

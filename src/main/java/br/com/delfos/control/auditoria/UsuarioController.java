@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,7 +156,13 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			});
 
 		} catch (FXValidatorException e) {
-			AlertAdapter.error("Dados obrigatórios não preenchidos" , e);
+			AlertAdapter.requiredDataNotInformed(e);
+		} catch (ConstraintViolationException e) {
+			String mensagem = "";
+			for (ConstraintViolation<?> ex : e.getConstraintViolations()) {
+				mensagem += ex.getMessageTemplate();
+			}
+			AlertAdapter.requiredDataNotInformed(mensagem);
 		}
 	}
 
@@ -162,7 +170,7 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 		try {
 			return this.salvar(toValue(), this);
 		} catch (FXValidatorException e) {
-			AlertAdapter.error("Dados obrigatórios não preenchidos" , e);
+			AlertAdapter.requiredDataNotInformed(e);
 			return Optional.empty();
 		}
 	}
@@ -172,7 +180,11 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 		try {
 			Usuario u = new Usuario();
 			u.setId(txtCodigo.getText().isEmpty() ? null : Long.parseLong(txtCodigo.getText()));
-			u.setPessoa(this.getResponsavel());
+			try {
+				u.setPessoa(this.getResponsavel());
+			} catch (NullPointerException e) {
+
+			}
 			u.setPerfilAcesso(comboPerfilAcesso.getValue());
 			if (cbGeraCredenciais.isSelected()) {
 				String cpf = u.getPessoa().getCpf().replace(".", "").replace("-", "");
@@ -196,7 +208,7 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 			u.setStatus(cbStatus.isSelected());
 			return u;
 		} catch (RuntimeException runtime) {
-			AlertAdapter.error("Problema desconhecido." , runtime);
+			AlertAdapter.error("Problema desconhecido.", runtime);
 			return null;
 		}
 

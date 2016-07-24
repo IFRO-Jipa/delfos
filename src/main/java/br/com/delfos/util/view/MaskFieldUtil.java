@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.delfos.converter.date.DatePickerConverter;
+import br.com.delfos.util.Regex;
 import br.com.delfos.view.AlertAdapter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -18,6 +19,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.converter.DoubleStringConverter;
 
 public abstract class MaskFieldUtil {
 
@@ -129,6 +131,10 @@ public abstract class MaskFieldUtil {
 				}
 			}
 		});
+	}
+
+	public static void decimalField(final TextField textField) {
+		textField.setTextFormatter(TextFieldFormatter.getFormatter(new DoubleStringConverter(), 0.0, Regex.DECIMAL));
 	}
 
 	public static void numericFields(final List<TextField> fields) {

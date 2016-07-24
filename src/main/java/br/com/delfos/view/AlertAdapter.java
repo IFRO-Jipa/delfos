@@ -34,19 +34,14 @@ public class AlertAdapter {
 	public static final String ALERT_CONFIRM_EXIT = "Deseja realmente sair?";
 	public static final String ALERT_DADOS_OBRIGATORIOS = "Dados obrigatórios não preenchidos.";
 
-	@Deprecated
-	public static void warning(String mensagem) {
-		alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Aviso do sistema");
-		alert.setContentText("Aviso importante");
-		alert.setHeaderText(mensagem);
+	public static void information(String resumo, String mensagem) {
+		alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Informações do sistema");
+		alert.setHeaderText(resumo);
+		alert.setContentText(mensagem);
 		beep();
 
 		alert.showAndWait();
-	}
-
-	public static void information(String resumo, String mensagem) {
-
 	}
 
 	public static void warning(String resumo, String mensagem) {
@@ -63,18 +58,8 @@ public class AlertAdapter {
 		Toolkit.getDefaultToolkit().beep();
 	}
 
-	@Deprecated
-	public static void error(String msg) {
-		error(msg, null, false);
-	}
-
 	public static void error(String resumo, String mensagem) {
 		error(resumo, mensagem, null, false);
-	}
-
-	@Deprecated
-	public static void error(Exception ex) {
-		error(ex.getMessage(), ex, true);
 	}
 
 	public static void error(String resumo, Exception ex) {
@@ -117,61 +102,20 @@ public class AlertAdapter {
 		alert.showAndWait();
 	}
 
-	@Deprecated
-	private static void error(String msg, Exception ex, boolean expandable) {
-		alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Erro encontrado");
-		alert.setContentText(msg == null ? ex.getMessage() : msg);
-		alert.setHeaderText("Ocorreu uma falha inesperada.");
-
-		if (expandable) {
-			// Create expandable Exception.
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			ex.printStackTrace(pw);
-			String exceptionText = sw.toString();
-
-			Label label = new Label("Detalhes técnicos: ");
-
-			TextArea textArea = new TextArea(exceptionText);
-			textArea.setEditable(false);
-			textArea.setWrapText(true);
-
-			textArea.setMaxWidth(Double.MAX_VALUE);
-			textArea.setMaxHeight(Double.MAX_VALUE);
-			GridPane.setVgrow(textArea, Priority.ALWAYS);
-			GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-			GridPane expContent = new GridPane();
-			expContent.setMaxWidth(Double.MAX_VALUE);
-			expContent.setMaxHeight(Double.MAX_VALUE);
-			expContent.add(label, 0, 0);
-			expContent.add(textArea, 0, 1);
-
-			alert.getDialogPane().setExpandableContent(expContent);
-		}
-		beep();
-		alert.showAndWait();
-	}
-
 	public static boolean confirmation(String resumo, String mensagem) {
-		return false;
-	}
-
-	@Deprecated
-	public static boolean confirmation(String mensagem) {
 		alert = new Alert(AlertType.CONFIRMATION);
-		// alert.setAlertType(AlertType.CONFIRMATION);
-		alert.setTitle("Mensagem de Confirmação");
-		alert.setHeaderText(mensagem);
-		alert.setContentText("Confirme ou cancele a solicitação desejada");
+		alert.setTitle("Confirmação requerida");
+		alert.setHeaderText(resumo);
+		alert.setContentText(mensagem);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
-			return true;
-		} else {
+		if (result.isPresent()) {
+			if (result.get() == ButtonType.OK) {
+				return true;
+			}
 			return false;
 		}
+		return false;
 	}
 
 	public static void requiredDataNotInformed(FXValidatorException e) {

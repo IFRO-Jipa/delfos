@@ -151,6 +151,8 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		initTableView();
 
 		configTableView();
+
+		// MaskFieldUtil.decimalField(txtValor);
 	}
 
 	private void configTableView() {
@@ -221,7 +223,6 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		}));
 
 		this.columnValor.setOnEditCommit(event -> {
-			System.out.printf("[antigo=%.2f, novo=%.2f]\n", event.getOldValue(), event.getNewValue());
 			event.getTableView().getItems().get(event.getTablePosition().getRow()).setValue(event.getNewValue());
 		});
 	}
@@ -231,13 +232,13 @@ public class ConfigMultiplaEscolhaController implements EditDialog<Pergunta<Mult
 		this.columnItem.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
 		this.columnItem.setCellFactory(TextFieldTableCell.forTableColumn());
 		this.columnItem.setOnEditCommit(event -> {
-			System.out.printf("[antigo=%s, novo=%s]\n", event.getOldValue(), event.getNewValue());
 			if (!this.itens.containsKey(event.getNewValue())) {
 				this.itens.put(event.getNewValue(), this.itens.get(event.getOldValue()));
 				this.itens.remove(event.getOldValue());
 				populaTableView();
 			}
 		});
+
 	}
 
 }

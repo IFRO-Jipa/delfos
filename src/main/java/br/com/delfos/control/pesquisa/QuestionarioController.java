@@ -97,10 +97,19 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 				this.setStyle("-fx-background-color: #ffc0cb;");
 			}
 
+			QuestionarioController.this.vencimentoPesquisa.ifPresent(vencimento -> {
+				if (item.isAfter(vencimento)) {
+					this.setDisable(true);
+					this.setStyle("-fx-background-color: #ffc0cb;");
+				}
+			});
+
 			long p = QuestionarioController.this.getTotalDeDias(item);
 			this.setTooltip(new Tooltip(String.format("Seu questionário durará %s dia(s).", p)));
 		};
 	};
+
+	private Optional<LocalDate> vencimentoPesquisa = Optional.empty();
 
 	// ações dos botões
 	@FXML
@@ -145,8 +154,13 @@ public class QuestionarioController extends AbstractController<Questionario, Que
 		pesquisaPorCodigo();
 	}
 
-	public void init(Optional<Questionario> questionario) {
+	public void init(Optional<Questionario> questionario, Optional<LocalDate> vencimentoPesquisa) {
 		this.posiciona(questionario);
+		this.setVencimentoPesquisa(vencimentoPesquisa);
+	}
+
+	private void setVencimentoPesquisa(Optional<LocalDate> vencimentoPesquisa) {
+		this.vencimentoPesquisa = vencimentoPesquisa;
 	}
 
 	public void clear() {

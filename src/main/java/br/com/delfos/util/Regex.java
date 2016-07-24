@@ -3,8 +3,7 @@ package br.com.delfos.util;
 import java.util.regex.Pattern;
 
 public enum Regex {
-	APENAS_NUMEROS("^[0-9]*$"), 
-	MOEDA_DUAS_CASAS("-?((\\\\d*)|(\\\\d+\\\\.\\\\d*))");
+	APENAS_NUMEROS("^[0-9]*$"), MOEDA_DUAS_CASAS("-?((\\\\d*)|(\\\\d+\\\\.\\\\d*))"), DECIMAL("\\d*\\.\\d*");
 
 	private String regex;
 

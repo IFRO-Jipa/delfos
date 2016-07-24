@@ -1,5 +1,8 @@
 package br.com.delfos.control.pesquisa;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Controller;
@@ -8,8 +11,10 @@ import br.com.delfos.control.dialog.EditDialog;
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.util.view.FXValidator;
+import br.com.delfos.util.view.MaskFieldUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -18,7 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 @Controller
-public class ConfigIntervaloController implements EditDialog<Pergunta<Intervalo>> {
+public class ConfigIntervaloController implements EditDialog<Pergunta<Intervalo>>, Initializable {
 
 	@FXML
 	private Button btnSalvar;
@@ -97,6 +102,11 @@ public class ConfigIntervaloController implements EditDialog<Pergunta<Intervalo>
 	@Override
 	public Pergunta<Intervalo> getValue() {
 		return this.value;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		MaskFieldUtil.numericFields(txtIntervalo, txtValorInicial, txtValorFinal);
 	}
 
 }

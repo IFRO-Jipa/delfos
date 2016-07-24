@@ -76,14 +76,15 @@ public class MudarSenhaController implements Initializable {
 	}
 
 	private boolean preenchimentoValido() {
-		if (txtNovaSenha.getText().isEmpty()) {
-			AlertAdapter.requiredDataNotInformed("Digite a sua nova senha.");
-			txtNovaSenha.requestFocus();
-			return false;
-		}
 		if (txtSenhaAntiga.getText().isEmpty()) {
 			AlertAdapter.requiredDataNotInformed("Digite a sua senha antiga.");
 			txtSenhaAntiga.requestFocus();
+			return false;
+		}
+
+		if (txtNovaSenha.getText().isEmpty()) {
+			AlertAdapter.requiredDataNotInformed("Digite a sua nova senha.");
+			txtNovaSenha.requestFocus();
 			return false;
 		}
 

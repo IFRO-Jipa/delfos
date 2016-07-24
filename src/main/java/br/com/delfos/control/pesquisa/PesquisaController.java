@@ -27,6 +27,7 @@ import br.com.delfos.model.basic.TipoPessoa;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.util.TableCellFactory;
+import br.com.delfos.util.view.MaskFieldUtil;
 import br.com.delfos.view.AlertAdapter;
 import br.com.delfos.view.ListSelection;
 import br.com.delfos.view.manipulador.ScreenUtils;
@@ -133,7 +134,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	};
 
 	private long getTotalDeDias(LocalDate item) {
-		return ChronoUnit.DAYS.between(PesquisaController.this.datePesquisa.getValue(), item);
+		return ChronoUnit.DAYS.between(PesquisaController.this.datePesquisa.getValue(), item) * -1;
 	}
 
 	@FXML
@@ -189,7 +190,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	private void handleLinkAdicionaQuestionario(ActionEvent event) {
 		// ABRIR A TELA DE QUESTIONÁRIO E ESPERAR POR UM REGISTRO NOVO
 		try {
-			questionarioApp = new QuestionarioApp();
+			questionarioApp = new QuestionarioApp(dateVencimento.getValue());
 			Optional<Questionario> result = questionarioApp.showAndWait();
 
 			result.ifPresent(questionario -> {
@@ -219,9 +220,11 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			Optional<Pesquisa> result = this.salvar(toValue(), this);
 
 			result.ifPresent(pesquisa -> {
-				txtCodigo.setText(String.valueOf(pesquisa.getId()));
 				AlertAdapter.information("Salvo com sucesso.",
-						"A pesquisa foi criada com sucesso e estará disponível para iteração com os pesquisadores e especialistas selecionados..");
+						"A pesquisa foi salva com sucesso e "
+								+ (txtCodigo.getText().isEmpty() ? "estará" : "continuará")
+								+ "  disponível para iteração com os pesquisadores e especialistas selecionados.");
+				txtCodigo.setText(String.valueOf(pesquisa.getId()));
 				setStatus(pesquisa);
 			});
 
@@ -263,6 +266,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		ScreenUtils.limpaCampos(rootPane);
 		setStatus(null);
 		verificaSituacao(null);
+		txtNome.requestFocus();
 	}
 
 	// Botão Excluir
@@ -300,8 +304,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		if (pesquisa != null) {
 			if (pesquisa.isValida()) {
 				textAtivo.setText("Em andamento");
-				btFinalizar.setDisable(false);
-				btnSalvar.setDisable(false);
+				disableFields(false);
 			} else {
 				if (pesquisa.isVencida()) {
 					long dias = ChronoUnit.DAYS.between(LocalDate.now(), pesquisa.getDataVencimento());
@@ -314,6 +317,8 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			}
 		} else {
 			textAtivo.setText("Não informada.");
+			disableFields(false);
+			this.btFinalizar.setDisable(true);
 		}
 	}
 
@@ -330,6 +335,26 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 		this.datePesquisa.disarm();
 		this.datePesquisa.setValue(LocalDate.now());
 		this.dateVencimento.setDayCellFactory(factoryDeVencimento);
+		dateVencimento.valueProperty().addListener((obs, old, newV) -> {
+			if (datePesquisa.getValue().isAfter(newV)) {
+				AlertAdapter.error("Vencimento inválido",
+						"A data de vencimento não pode ser anterior a data de início.");
+				dateVencimento.setValue(null);
+			}
+		});
+
+		datePesquisa.valueProperty().addListener((obs, oldV, newV) -> {
+			if (dateVencimento.getValue() != null)
+				if (dateVencimento.getValue().isBefore(newV)) {
+					AlertAdapter.error("Vencimento inválido",
+							"A data de vencimento não pode ser anterior a data de início.");
+					dateVencimento.setValue(null);
+				}
+		});
+
+		MaskFieldUtil.numericField(txtLimite);
+		MaskFieldUtil.datePickerField(datePesquisa);
+		MaskFieldUtil.datePickerField(dateVencimento);
 	}
 
 	private void configListViews() {
@@ -353,7 +378,7 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 					Optional<Questionario> selected = Optional
 							.ofNullable(listViewQuestionario.getSelectionModel().getSelectedItem());
 
-					QuestionarioApp frame = new QuestionarioApp();
+					QuestionarioApp frame = new QuestionarioApp(dateVencimento.getValue());
 					frame.init(selected);
 
 					Optional<Questionario> result = frame.showAndWait();
@@ -415,23 +440,33 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 			if (pesquisa.isVencida() && !pesquisa.isFinalizada()) {
 
 				btnSalvar.setDisable(true);
-				try {
-					this.salvar(toValue(), this).ifPresent(optional -> AlertAdapter.information(
-							"Encerramento automático de pesquisa vencida",
-							"Por conta da pesquisa estar vencida, ela será encerrada e as alterações realizadas nela não serão refletidas."));
-				} catch (FXValidatorException e) {
-					AlertAdapter.requiredDataNotInformed(e);
-				}
+				if (pesquisa.getDataFinalizada() == null)
+					try {
+						Pesquisa value = toValue();
+						value.finaliza();
+						this.salvar(value, this).ifPresent(optional -> AlertAdapter.information(
+								"Encerramento automático de pesquisa vencida",
+								"Por conta da pesquisa estar vencida, ela será encerrada e as alterações realizadas nela não serão refletidas."));
+					} catch (FXValidatorException e) {
+						AlertAdapter.requiredDataNotInformed(e);
+					}
 			}
 
 			if (pesquisa.isFinalizada()) {
-				btnSalvar.setDisable(true);
-				btFinalizar.setDisable(true);
+				disableFields(true);
 			}
 
 		} else {
 			btnSalvar.setDisable(false);
 		}
+	}
+
+	private void disableFields(boolean flag) {
+		btnSalvar.setDisable(flag);
+		btFinalizar.setDisable(flag);
+		linkAdicionaEspecialista.setDisable(flag);
+		linkAdicionaPesquisador.setDisable(flag);
+		linkAdicionaQuestionario.setDisable(flag);
 	}
 
 }
