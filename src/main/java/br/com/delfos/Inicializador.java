@@ -2,8 +2,6 @@ package br.com.delfos;
 
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.GlyphFont;
 import org.controlsfx.glyphfont.GlyphFontRegistry;
@@ -28,6 +26,16 @@ public class Inicializador extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// Fazendo a fonte de ícones do ControlsFX ser carregada, deixando de lado o repositório CDN
 		// padrão.
+		try {
+			loadProperties(args);
+		} catch (JDOMException e1) {
+			AlertAdapter.error("Manipulação incorreta",
+					"A manipulação das configurações de inicialização não funcionaram adequadamente.");
+		} catch (IOException e1) {
+			AlertAdapter.error("File not found (META-INF/persistence.xml)", e1);
+		} catch (Exception e1) {
+			AlertAdapter.unknownError(e1);
+		}
 		loadFontAwesome();
 		initialize(primaryStage);
 	}
@@ -45,16 +53,10 @@ public class Inicializador extends Application {
 			protected Task<ApplicationContext> createTask() {
 				return new Task<ApplicationContext>() {
 
+					// apenas para carregar o cache do hibernate
 					@Override
 					protected ApplicationContext call() throws Exception {
-						ApplicationContext context = ContextFactory.getContext();
-						int max = context.getBeanDefinitionCount();
-						updateProgress(0, max);
-
-						for (int k = 0; k < max; k++) {
-							Thread.sleep(50);
-							updateProgress(k + 1, max);
-						}
+						ContextFactory.getContext();
 						return null;
 					}
 				};
@@ -81,28 +83,35 @@ public class Inicializador extends Application {
 	}
 
 	public static void main(String[] args) throws Exception {
-
-		loadProperties(args);
+		Inicializador.args = args;
 		launch(args);
 	}
 
 	private static void loadProperties(String[] args) throws JDOMException, IOException, Exception {
-		if (args != null) {
+		if (args.length > 0) {
 			PersistenceModifyLoader persistence = new PersistenceModifyLoader();
+			System.out.println("têm parâmetro");
 			String user = "", pass = "", url = "";
 			for (String arg : args) {
 				final String[] arguments = arg.split("=");
-				if (arguments[0].contains("url"))
+				if (arguments[0].contains("url")) {
+					System.out.println("Url : " + arguments[1]);
 					url = arguments[1];
+				}
 				if (arguments[0].contains("password")) {
+					System.out.println("Password : " + arguments[1]);
 					pass = arguments[1];
 				}
 				if (arguments[0].contains("user")) {
+					System.out.println("User : " + arguments[1]);
 					user = arguments[1];
 				}
 			}
 			persistence.setProperties(url, user, pass);
-		} else
-			throw new Exception("Propriedades de configuração não informada.");
+		} else {
+			System.out.println("Default configs.");
+			PersistenceModifyLoader persistence = new PersistenceModifyLoader();
+			persistence.setProperties("jdbc:mysql://localhost:3306/delfos", "root", "root");
+		}
 	}
 }
