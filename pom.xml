@@ -33,11 +33,9 @@
 					<vendor>IFRO</vendor>
 					<mainClass>br.com.delfos.Inicializador</mainClass>
 					<appName>Delfos</appName>
-					<!-- <jvmProperties>
-						<database.url>jdbc:mysql://localhost:3306/delfos</database.url>
-						<database.user>root</database.user>
-						<database.password>root</database.password>
-					</jvmProperties> -->
+					<!-- <jvmProperties> <database.url>jdbc:mysql://localhost:3306/delfos</database.url> 
+						<database.user>root</database.user> <database.password>root</database.password> 
+						</jvmProperties> -->
 					<jvmArgs>
 						<jvmArg>-Ddatabase.url=jdbc:mysql://localhost:3306/delfos</jvmArg>
 						<jvmArg>-Ddatabase.user=root</jvmArg>
@@ -55,6 +53,12 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
+		</dependency>
 		<!-- slf4j - gerador de logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

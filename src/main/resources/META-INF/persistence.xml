@@ -15,15 +15,14 @@
 
 
 			<!-- CONEXÃO PARA LOCALHOST -->
-			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="root" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/delfos" />
+			<!-- <property name="hibernate.connection.username" value="${db.user}" 
+				/> <property name="hibernate.connection.password" value="${db.password}" 
+				/> <property name="hibernate.connection.url" value="${db.url}" /> -->
 
 			<!-- CONEXÃO PARA O LABORATÓRIO IV -->
-			<!-- <property name="hibernate.connection.username" value="delfos" /> 
-				<property name="hibernate.connection.password" value="catchau" /> <property 
-				name="hibernate.connection.url" value="jdbc:mysql://10.49.9.42:3306/delfos" 
-				/> -->
+	<!-- <property name="hibernate.connection.username" value="delfos" /> <property 
+		name="hibernate.connection.password" value="catchau" /> <property name="hibernate.connection.url" 
+		value="jdbc:mysql://10.49.9.42:3306/delfos" /> -->
 
 			<!-- CONFIGURACAO -->
 			<property name="hibernate.default_schema" value="delfos" />

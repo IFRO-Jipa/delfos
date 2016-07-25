@@ -119,31 +119,31 @@ public class AlertAdapter {
 	}
 
 	public static void requiredDataNotInformed(FXValidatorException e) {
-		error("Dados obrigatórios não foram informados", e);
+		error("#4 - Dados obrigatórios não foram informados", e.getMessage());
 	}
 
 	public static void requiredDataNotInformed(String msg) {
-		error("Dados obrigatórios não foram informados", msg);
+		error("#4 - Dados obrigatórios não foram informados", msg);
 	}
 
 	public static void erroLoadFXML(IOException e) {
-		error("Falha ao carregar o arquivo(.fxml) da tela.", e);
+		error("#4 - Falha ao carregar o arquivo(.fxml) da tela.", e);
 	}
 
 	public static void unknownError(String msg) {
-		error("Erro não identificado", msg);
+		error("#1 - Erro não identificado", msg);
 	}
 
 	public static void unknownError(Exception e) {
-		error("Erro não identificado", e.getMessage(), e, true);
+		error("#1 - Erro não identificado", e.getMessage(), e, true);
 	}
 
 	public static void invalidParameters(String msg) {
-		error("Parâmetros inválidos", msg);
+		error("#2 - Parâmetros inválidos", msg);
 	}
 
 	public static void dataIntegrityViolation(String mensagem) {
-		error("Violação de regra para associações entre dados", mensagem);
+		error("#3 - Registros de base (utilizados para compor outras informações) não podem ser excluídos.", mensagem);
 	}
 
 }

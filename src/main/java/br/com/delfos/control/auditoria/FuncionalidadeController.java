@@ -89,11 +89,12 @@ public class FuncionalidadeController extends AbstractController<Funcionalidade,
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		this.deleteIf(func -> func.getId() != null);
+		if (this.deleteIf(func -> func.getId() != null)) {
 
-		this.tbRegistros.getItems().removeIf(f -> f.getId().equals(Long.parseLong(txtCodigo.getText())));
+			this.tbRegistros.getItems().removeIf(f -> f.getId().equals(Long.parseLong(txtCodigo.getText())));
 
-		limpa();
+			limpa();
+		}
 	}
 
 	@FXML

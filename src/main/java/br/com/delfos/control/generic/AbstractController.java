@@ -18,7 +18,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.util.converter.IntegerStringConverter;
 
 public abstract class AbstractController<Type extends AbstractModel<Type>, DataAcessObject extends AbstractDAO<Type, Long, ?>>
-										implements Initializable {
+		implements Initializable {
 
 	@Autowired
 	private DataAcessObject dao;
@@ -46,7 +46,7 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 			return Optional.empty();
 	}
 
-	protected void deleteIf(Predicate<Type> predicate) {
+	protected boolean deleteIf(Predicate<Type> predicate) {
 		try {
 			getValue().ifPresent(value -> {
 				if (predicate.test(value)) {
@@ -61,9 +61,11 @@ public abstract class AbstractController<Type extends AbstractModel<Type>, DataA
 							"Nenhuma informação está pronta para ser apagada. Selecione algum registro e refaça a operação.");
 				}
 			});
+			return true;
 		} catch (DataIntegrityViolationException e) {
 			AlertAdapter.dataIntegrityViolation(
-					"Não foi possível excluir esse registro.\nEle está sendo associado com outras informações.");
+					"Não foi possível excluir esse registro.\nEle está sendo utilizado para compor informações de outros dados no sistema.\n");
+			return false;
 		}
 	}
 

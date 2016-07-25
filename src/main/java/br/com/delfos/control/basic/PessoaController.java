@@ -7,7 +7,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +162,10 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 		this.posiciona(search.showAndWait());
 	}
 
+	private boolean selecionouAlgumaClassificacao() {
+		return this.cbPesquisador.isSelected() || this.cbEspecialista.isSelected();
+	}
+
 	@Override
 	protected void posiciona(Optional<Pessoa> value) {
 		value.ifPresent(pessoa -> {
@@ -187,7 +194,8 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	}
 
 	private void configPermissaoCriaUsuario(Pessoa pessoa) {
-		// this.cbAcessoSistema.setSelected(pessoa != null && pessoa.getUsuario() == null);
+		// this.cbAcessoSistema.setSelected(pessoa != null &&
+		// pessoa.getUsuario() == null);
 		this.cbAcessoSistema.setDisable(pessoa == null || pessoa.getUsuario() != null);
 	}
 
@@ -197,7 +205,8 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 				cbEspecialista.setSelected(true);
 			if (tipo.equals(TipoPessoa.PESQUISADOR))
 				cbPesquisador.setSelected(true);
-		});;
+		});
+		;
 	}
 
 	@FXML
@@ -215,36 +224,55 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		this.deleteIf(pessoa -> pessoa.getId() != null);
+		if (this.deleteIf(pessoa -> pessoa.getId() != null)) {
 
-		ScreenUtils.limpaCampos(anchorPane);
+			ScreenUtils.limpaCampos(anchorPane);
 
-		configPermissaoCriaUsuario(null);
+			configPermissaoCriaUsuario(null);
+		}
 	}
 
 	@FXML
 	private void handleButtonSalvar(ActionEvent event) {
 
-		try {
-			Optional<Pessoa> retorno = this.salvar(toValue(), this);
+		if (this.selecionouAlgumaClassificacao())
+			try {
+				Optional<Pessoa> retorno = this.salvar(toValue(), this);
 
-			retorno.ifPresent(pessoa -> {
-				txtCodigo.setText(String.valueOf(pessoa.getId()));
-				if (cbAcessoSistema.isSelected()) {
-					this.usuarioController.setResponsavel(pessoa);
-					this.usuarioController.salvar().ifPresent(usuario -> {
-						configPermissaoCriaUsuario(null);
-						AlertAdapter.information("Salvo com sucesso.", "Foi criado um registro para o/a "
-								+ pessoa.getNome()
-								+ " com acesso ao sistema para sua interação.\nCaso as credenciais tenham sido geradas automaticamente, o acesso ao sistema será feito a partir do CPF para o usuário e senha.");
-					});
+				retorno.ifPresent(pessoa -> {
+					txtCodigo.setText(String.valueOf(pessoa.getId()));
+					if (cbAcessoSistema.isSelected()) {
+						this.usuarioController.setResponsavel(pessoa);
+						this.usuarioController.salvar().ifPresent(usuario -> {
+							configPermissaoCriaUsuario(null);
+							AlertAdapter.information("Salvo com sucesso.", "Foi criado um registro para: "
+									+ pessoa.getNome()
+									+ " com acesso ao sistema.\nCaso as credenciais tenham sido geradas automaticamente, o acesso ao sistema será feito a partir do CPF para o usuário e senha.");
+						});
 
-				} else
-					AlertAdapter.information("Salvo com sucesso", "Foi criado um registro para o/a" + pessoa.getNome());
-			});
+					} else
+						AlertAdapter.information("Salvo com sucesso",
+								"Foi criado um registro para: " + pessoa.getNome());
+				});
 
-		} catch (FXValidatorException e) {
-			AlertAdapter.requiredDataNotInformed(e);
+			} catch (FXValidatorException e) {
+				AlertAdapter.requiredDataNotInformed(e);
+			} catch (ConstraintViolationException e) {
+				Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+				String mensagem = "Itens não preenchidos: ";
+				for (ConstraintViolation<?> violation : violations) {
+					mensagem += "\t-" + violation.getMessage() + "\n";
+				}
+				AlertAdapter.dataIntegrityViolation(mensagem);
+				if (mensagem.toLowerCase().contains("cpf")) {
+					txtCpf.requestFocus();
+				}
+			} catch (RuntimeException e) {
+				AlertAdapter.unknownError(e);
+			}
+		else {
+			this.cbPesquisador.requestFocus();
+			AlertAdapter.requiredDataNotInformed("É necessário informar a classificação antes de prosseguir.");
 		}
 
 	}

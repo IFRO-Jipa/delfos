@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.delfos.app.RelatorioPesquisaApp;
 import br.com.delfos.dao.pesquisa.RespostaDAO;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.model.pesquisa.Questionario;

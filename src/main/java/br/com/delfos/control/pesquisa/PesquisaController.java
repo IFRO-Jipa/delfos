@@ -272,10 +272,11 @@ public class PesquisaController extends AbstractController<Pesquisa, PesquisaDAO
 	// Botão Excluir
 	@FXML
 	private void handleButtonExcluir(ActionEvent event) {
-		deleteIf(pesquisa -> pesquisa.getId() != null);
-		setStatus(null);
-		verificaSituacao(null);
-		ScreenUtils.limpaCampos(rootPane);
+		if (deleteIf(pesquisa -> pesquisa.getId() != null)) {
+			setStatus(null);
+			verificaSituacao(null);
+			ScreenUtils.limpaCampos(rootPane);
+		}
 	}
 
 	// Botão Finalizar Pesquisa

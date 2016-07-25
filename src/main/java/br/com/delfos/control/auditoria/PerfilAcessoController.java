@@ -94,8 +94,8 @@ public class PerfilAcessoController extends AbstractController<PerfilAcesso, Per
 
 	@FXML
 	void handleButtonExcluir(ActionEvent event) {
-		this.deleteIf(perfil -> perfil.getId() != null);
-		ScreenUtils.limpaCampos(rootPane);
+		if (this.deleteIf(perfil -> perfil.getId() != null))
+			ScreenUtils.limpaCampos(rootPane);
 	}
 
 	@FXML
