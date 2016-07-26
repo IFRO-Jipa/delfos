@@ -35,7 +35,12 @@ public class AlertAdapter {
 	public static final String ALERT_ERRO_PESQUISAR = "";
 	public static final String ALERT_CONFIRM_EXCLUSAO = "Deseja realmente excluir o registro?";
 	public static final String ALERT_CONFIRM_EXIT = "Deseja realmente sair?";
-	public static final String ALERT_DADOS_OBRIGATORIOS = "Dados obrigatórios não preenchidos.";
+
+	public static final String ALERT_ERRO_DADOS_OBRIGATORIOS = "#4 - Dados obrigatórios não foram informados ou inválidos";
+	public static final String ALERT_ERRO_FXML_NOT_FOUND = "#5 - Falha ao carregar o arquivo(.fxml) da tela.";
+	private static final String ALERT_ERRO_REGISTRO_BASE = "#3 - Registros de base (utilizados para compor outras informações) não podem ser excluídos.";
+	private static final String ALERT_ERRO_PARAMETRO_INVALIDO = "#2 - Parâmetros inválidos";
+	private static final String ALERT_ERRO_UNKNOWN = "#1 - Erro não identificado";
 
 	public static void information(String resumo, String mensagem) {
 		alert = new Alert(AlertType.INFORMATION);
@@ -122,26 +127,26 @@ public class AlertAdapter {
 	}
 
 	public static void requiredDataNotInformed(FXValidatorException e) {
-		error("#4 - Dados obrigatórios não foram informados", e.getMessage());
+		error(ALERT_ERRO_DADOS_OBRIGATORIOS, e.getMessage());
 	}
 
 	public static void requiredDataNotInformed(String msg) {
-		error("#4 - Dados obrigatórios não foram informados", msg);
+		error(ALERT_ERRO_DADOS_OBRIGATORIOS, msg);
 	}
 
 	public static void requiredDataNotInformed(ConstraintViolationException e) {
 		StringBuilder mensagem = new StringBuilder();
-		mensagem.append("Alguns dados não foram preenchidos: ");
 
 		for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
-			mensagem.append("\t-" + violation.getMessageTemplate());
+			mensagem.append("-" + violation.getMessage());
+			mensagem.append("\n");
 		}
 
-		error("#4 - Dados obrigatórios não foram informados", mensagem.toString());
+		error(ALERT_ERRO_DADOS_OBRIGATORIOS, mensagem.toString());
 	}
 
 	public static void erroLoadFXML(IOException e) {
-		error("#4 - Falha ao carregar o arquivo(.fxml) da tela.", e);
+		error(ALERT_ERRO_FXML_NOT_FOUND, e);
 	}
 
 	public static void unknownError(String msg) {
@@ -149,15 +154,15 @@ public class AlertAdapter {
 	}
 
 	public static void unknownError(Exception e) {
-		error("#1 - Erro não identificado", e.getMessage(), e, true);
+		error(ALERT_ERRO_UNKNOWN, e.getMessage(), e, true);
 	}
 
 	public static void invalidParameters(String msg) {
-		error("#2 - Parâmetros inválidos", msg);
+		error(ALERT_ERRO_PARAMETRO_INVALIDO, msg);
 	}
 
 	public static void dataIntegrityViolation(String mensagem) {
-		error("#3 - Registros de base (utilizados para compor outras informações) não podem ser excluídos.", mensagem);
+		error(ALERT_ERRO_REGISTRO_BASE, mensagem);
 	}
 
 }

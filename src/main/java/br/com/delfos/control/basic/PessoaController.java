@@ -258,9 +258,10 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 				AlertAdapter.requiredDataNotInformed(e);
 			} catch (ConstraintViolationException e) {
 				AlertAdapter.requiredDataNotInformed(e);
-			} catch (RuntimeException e) {
-				AlertAdapter.unknownError(e);
+			} catch (org.springframework.transaction.TransactionSystemException e) {
+				AlertAdapter.requiredDataNotInformed((ConstraintViolationException) e.getCause().getCause());
 			}
+
 		else {
 			this.cbPesquisador.requestFocus();
 			AlertAdapter.requiredDataNotInformed("É necessário informar a classificação antes de prosseguir.");

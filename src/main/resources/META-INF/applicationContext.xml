@@ -43,8 +43,8 @@
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl" value="jdbc:mysql://10.49.9.42:3306/delfos" />
-		<property name="user" value="root" />
-		<property name="password" value="root" />
+		<property name="user" value="delfos" />
+		<property name="password" value="catchau" />
 		<property name="initialPoolSize" value="5" />
 		<property name="minPoolSize" value="5" />
 	</bean>
