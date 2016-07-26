@@ -38,19 +38,19 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-
+	<!-- Nova propriedade de conexão, para connection pools. -->
 	<bean id="domainDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="${datasource.url}" />
-		<property name="user" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/delfos" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
 		<property name="initialPoolSize" value="5" />
 		<property name="minPoolSize" value="5" />
 	</bean>
 
 
-	<!-- Informar ao spring onde esta as classes de repositorio, para o spring-data 
+	<!-- Informar ao spring onde esta as classes de repositório, para o spring-data 
 		fazer a mágica -->
 	<jpa:repositories base-package="br.com.delfos.repository" />
 </beans>
