@@ -8,8 +8,6 @@ import org.controlsfx.control.MaskerPane;
 import br.com.delfos.control.relatorio.RelatorioPesquisaController;
 import br.com.delfos.model.pesquisa.Pesquisa;
 import br.com.delfos.util.LeitorDeFXML;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -25,38 +23,26 @@ public class RelatorioPesquisaApp {
 		FXMLLoader loader = LeitorDeFXML.getLoader("fxml/relatorio/RelatorioPesquisaView.fxml");
 		AnchorPane load = loader.load();
 
-		AnchorPane.setTopAnchor(paneLoad, 0.0);
-		AnchorPane.setLeftAnchor(paneLoad, 0.0);
-		AnchorPane.setRightAnchor(paneLoad, 0.0);
-		AnchorPane.setBottomAnchor(paneLoad, 0.0);
-		load.getChildren().add(paneLoad);
 		PrincipalApp.openWindow(load, "Análise de Pesquisa: " + getNomePesquisa(p) + "...", "analise-pesquisa.png");
+		RelatorioPesquisaController controller = loader.getController();
+		controller.set(pesquisa);
 
-		Task<Void> task = new Task<Void>() {
-
-			@Override
-			protected void running() {
-				paneLoad.setText("Analisando...");
-				paneLoad.setVisible(true);
-				super.running();
-			}
-
-			@Override
-			protected Void call() throws Exception {
-
-				Platform.runLater(() -> {
-					RelatorioPesquisaController controller = loader.getController();
-					controller.set(pesquisa);
-				});
-
-				return null;
-			}
-
-			protected void succeeded() {
-				paneLoad.setVisible(false);
-			};
-		};
-		new Thread(task).start();
+		/*
+		 * Task<Void> task = new Task<Void>() {
+		 * 
+		 * @Override protected void running() {
+		 * paneLoad.setText("Analisando..."); paneLoad.setVisible(true);
+		 * super.running(); }
+		 * 
+		 * @Override protected Void call() throws Exception {
+		 * 
+		 * Platform.runLater(() -> { });
+		 * 
+		 * return null; }
+		 * 
+		 * protected void succeeded() { paneLoad.setVisible(false); }; }; new
+		 * Thread(task).start();
+		 */
 
 	}
 

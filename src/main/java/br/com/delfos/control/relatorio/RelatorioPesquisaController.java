@@ -41,6 +41,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 @Controller
 public class RelatorioPesquisaController implements Initializable {
@@ -136,13 +138,15 @@ public class RelatorioPesquisaController implements Initializable {
 								} else {
 									controller.setParagrafo((Pergunta<Paragrafo>) pergunta);
 								}
-								// controller.set((Pergunta<Intervalo>) pergunta);
+								// controller.set((Pergunta<Intervalo>)
+								// pergunta);
 								tab.setContent(pane);
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
 							tabPerguntas.getTabs().add(tab);
-						});;
+						});
+				;
 			});
 
 			if (tabPerguntas.getTabs().size() > 0) {
@@ -151,6 +155,8 @@ public class RelatorioPesquisaController implements Initializable {
 				panel.setContent(tabPerguntas);
 				panel.setAlignment(Pos.TOP_LEFT);
 				this.accordionTexto.getPanes().add(panel);
+			} else {
+				this.tabKc.setContent(new StackPane(new Text("Nenhum resultado foi retornado.")));
 			}
 
 		});
@@ -182,7 +188,8 @@ public class RelatorioPesquisaController implements Initializable {
 								e.printStackTrace();
 							}
 							tabPerguntas.getTabs().add(tab);
-						});;
+						});
+				;
 			});
 
 			if (tabPerguntas.getTabs().size() > 0) {
@@ -191,6 +198,8 @@ public class RelatorioPesquisaController implements Initializable {
 				panel.setContent(tabPerguntas);
 				panel.setAlignment(Pos.TOP_LEFT);
 				this.accordionKc.getPanes().add(panel);
+			} else {
+				this.tabKc.setContent(new StackPane(new Text("Nenhum resultado foi retornado.")));
 			}
 
 		});
@@ -223,7 +232,8 @@ public class RelatorioPesquisaController implements Initializable {
 								e.printStackTrace();
 							}
 							tabPerguntas.getTabs().add(tab);
-						});;
+						});
+				;
 			});
 
 			TitledPane panel = new TitledPane();
