@@ -7,9 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 
@@ -87,6 +85,7 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 	private Button btnSalvar;
 
 	@FXML
+	@NotNull
 	private DatePicker dtDataNascimento;
 
 	@FXML
@@ -258,15 +257,7 @@ public class PessoaController extends AbstractController<Pessoa, PessoaDAO> {
 			} catch (FXValidatorException e) {
 				AlertAdapter.requiredDataNotInformed(e);
 			} catch (ConstraintViolationException e) {
-				Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-				String mensagem = "Itens não preenchidos: ";
-				for (ConstraintViolation<?> violation : violations) {
-					mensagem += "\t-" + violation.getMessage() + "\n";
-				}
-				AlertAdapter.dataIntegrityViolation(mensagem);
-				if (mensagem.toLowerCase().contains("cpf")) {
-					txtCpf.requestFocus();
-				}
+				AlertAdapter.requiredDataNotInformed(e);
 			} catch (RuntimeException e) {
 				AlertAdapter.unknownError(e);
 			}

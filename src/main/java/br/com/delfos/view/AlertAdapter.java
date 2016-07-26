@@ -6,6 +6,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import br.com.delfos.except.view.FXValidatorException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -124,6 +127,17 @@ public class AlertAdapter {
 
 	public static void requiredDataNotInformed(String msg) {
 		error("#4 - Dados obrigatórios não foram informados", msg);
+	}
+
+	public static void requiredDataNotInformed(ConstraintViolationException e) {
+		StringBuilder mensagem = new StringBuilder();
+		mensagem.append("Alguns dados não foram preenchidos: ");
+
+		for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+			mensagem.append("\t-" + violation.getMessageTemplate());
+		}
+
+		error("#4 - Dados obrigatórios não foram informados", mensagem.toString());
 	}
 
 	public static void erroLoadFXML(IOException e) {
