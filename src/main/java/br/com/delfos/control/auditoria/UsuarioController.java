@@ -186,32 +186,51 @@ public class UsuarioController extends AbstractController<Usuario, UsuarioDAO> {
 
 			}
 			u.setPerfilAcesso(comboPerfilAcesso.getValue());
-			if (cbGeraCredenciais.isSelected()) {
-				String cpf = u.getPessoa().getCpf().replace(".", "").replace("-", "");
-				u.setLogin(cpf);
-				u.setSenha(cpf);
-			} else {
-				if (!txtLogin.getText().isEmpty() || !txtConfirmaSenha.getText().isEmpty()
-						|| !txtSenha.getText().isEmpty()) {
-					throw new IllegalStateException("É necessário informar o login e senha do usuário.");
-				}
-				u.setLogin(txtLogin.getText());
-				if (txtSenha.getText().equals(txtConfirmaSenha.getText())) {
-					u.setSenha(txtSenha.getText());
+			if (txtCodigo.getText().isEmpty()) {
+				if (cbGeraCredenciais.isSelected()) {
+					String cpf = u.getPessoa().getCpf().replace(".", "").replace("-", "");
+					u.setLogin(cpf);
+					u.setSenha(cpf);
 				} else {
-					txtSenha.clear();
-					txtConfirmaSenha.clear();
-					txtSenha.requestFocus();
-					throw new IllegalArgumentException("As senhas informadas não coincidem.");
+					if (campoSenhasNaoPreenchidos()) {
+						throw new IllegalStateException("É necessário informar o login e senha do usuário.");
+					}
+					u.setLogin(txtLogin.getText());
+					if (isConfirmacaoCorreta()) {
+						u.setSenha(txtSenha.getText());
+					}
+				}
+			} else {
+				u.setLogin(txtLogin.getText());
+				if (!campoSenhasNaoPreenchidos()) {
+					if (isConfirmacaoCorreta()) {
+						u.setSenha(txtSenha.getText());
+					}
 				}
 			}
+
 			u.setStatus(cbStatus.isSelected());
 			return u;
 		} catch (RuntimeException runtime) {
-			AlertAdapter.error("Problema desconhecido.", runtime);
+			AlertAdapter.unknownError(runtime);
 			return null;
 		}
 
+	}
+
+	private boolean isConfirmacaoCorreta() {
+		if (txtSenha.getText().equals(txtConfirmaSenha.getText())) {
+			return true;
+		} else {
+			txtSenha.clear();
+			txtConfirmaSenha.clear();
+			txtSenha.requestFocus();
+			throw new IllegalArgumentException("As senhas informadas não coincidem.");
+		}
+	}
+
+	private boolean campoSenhasNaoPreenchidos() {
+		return !txtLogin.getText().isEmpty() || !txtConfirmaSenha.getText().isEmpty() || !txtSenha.getText().isEmpty();
 	}
 
 	private Pessoa getResponsavel() {

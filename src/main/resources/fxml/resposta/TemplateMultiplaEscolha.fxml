@@ -16,5 +16,6 @@
 		</Text>
 		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
 		<VBox fx:id="boxItems" layoutX="14.0" layoutY="53.0" prefHeight="85.0" prefWidth="430.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="53.0" />
+      <CheckBox fx:id="cbNaoResponder" layoutX="308.0" layoutY="10.0" mnemonicParsing="false" text="Não quero responder" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
 	</children>
 </AnchorPane>

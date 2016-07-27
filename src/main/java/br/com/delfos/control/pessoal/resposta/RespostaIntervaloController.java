@@ -1,6 +1,8 @@
 package br.com.delfos.control.pessoal.resposta;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Intervalo;
@@ -8,10 +10,12 @@ import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.model.pesquisa.resposta.RespostaIntervalo;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 
-public class RespostaIntervaloController implements RespostaControllerImpl<Intervalo, Integer> {
+public class RespostaIntervaloController implements RespostaControllerImpl<Intervalo, Integer>, Initializable {
 	@FXML
 	private Text txtNome;
 
@@ -22,6 +26,9 @@ public class RespostaIntervaloController implements RespostaControllerImpl<Inter
 	private Text txtDescricao;
 
 	private Optional<Pergunta<Intervalo>> option;
+
+	@FXML
+	private CheckBox cbNaoResponder;
 
 	@Override
 	public void setOption(Optional<Pergunta<Intervalo>> optionalAlternativa) {
@@ -65,11 +72,19 @@ public class RespostaIntervaloController implements RespostaControllerImpl<Inter
 			RespostaIntervalo resposta = new RespostaIntervalo();
 			resposta.setQuestionario(questionario);
 			resposta.setPergunta(this.getOption().get());
-			resposta.setEscolha(getSelected());
+			if (!this.cbNaoResponder.isSelected())
+				resposta.setEscolha(getSelected());
 			return resposta;
 		} else {
 			throw new RuntimeException("Não foi informado uma pergunta válida ou pertencente ao questionario.");
 		}
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		this.cbNaoResponder.selectedProperty().addListener((obs, oldValue, newValue) -> {
+			this.slideValor.setDisable(newValue);
+		});
 	}
 
 }

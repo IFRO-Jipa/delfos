@@ -7,23 +7,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="117.0" prefWidth="435.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
-	fx:controller="br.com.delfos.control.pessoal.resposta.RespostaIntervaloController">
+<AnchorPane prefHeight="117.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.delfos.control.pessoal.resposta.RespostaIntervaloController">
 
 	<children>
-		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Nome da Pergunta">
+		<Text fx:id="txtNome" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome da Pergunta">
 			<font>
 				<Font name="System Bold" size="17.0" />
 			</font>
 		</Text>
-		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0"
-			strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
-		<Slider fx:id="slideValor" layoutX="14.0" layoutY="68.0"
-			majorTickUnit="2.0" max="10.0" minorTickCount="2" prefHeight="16.0"
-			prefWidth="408.0" showTickLabels="true" showTickMarks="true" value="5.0"
-			AnchorPane.leftAnchor="14.0" />
+		<Text fx:id="txtDescricao" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="descricao" />
+		<Slider fx:id="slideValor" layoutX="14.0" layoutY="68.0" majorTickUnit="2.0" max="10.0" minorTickCount="2" prefHeight="16.0" prefWidth="408.0" showTickLabels="true" showTickMarks="true" value="5.0" AnchorPane.leftAnchor="14.0" />
+      <CheckBox fx:id="cbNaoResponder" layoutX="286.0" layoutY="10.0" mnemonicParsing="false" text="Não quero responder" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
 	</children>
 
 </AnchorPane>

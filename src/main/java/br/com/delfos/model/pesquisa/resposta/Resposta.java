@@ -47,6 +47,8 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 	@OneToOne
 	private Questionario questionario;
 
+	private boolean respondido = false;
+
 	@Convert(converter = LocalDateTimePersistenceConverter.class)
 	private LocalDateTime horaResposta;
 
@@ -54,8 +56,9 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 		optionalExpert.ifPresent(expert -> {
 			if (expert.isEspecialista()) {
 				this.expert = expert;
-			} else
+			} else {
 				throw new IllegalArgumentException("Essa pessoa não é um especialista válido.");
+			}
 		});
 	}
 
@@ -64,8 +67,10 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 				"é necessário que seja informado o questionario para ter acesso à pergunta."));
 
 		if (perguntas.contains(pergunta)) {
+			this.respostaMarcada();
 			this.pergunta = pergunta;
 		} else {
+			this.naoRespondeu();
 			throw new IllegalArgumentException(
 					String.format("A pergunta %s não pertence ao questionário %s[código: %d]", pergunta.getNome(),
 							this.questionario.getNome(), this.questionario.getId()));
@@ -90,6 +95,18 @@ public class Resposta<S extends Alternativa> extends AbstractModel<Resposta<?>> 
 
 	public Questionario getQuestionario() {
 		return questionario;
+	}
+
+	public boolean isRespondido() {
+		return !respondido;
+	}
+
+	private void respostaMarcada() {
+		this.respondido = true;
+	}
+
+	private void naoRespondeu() {
+		this.respondido = false;
 	}
 
 	@Override

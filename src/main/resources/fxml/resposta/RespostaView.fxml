@@ -40,6 +40,9 @@
             <Font size="32.0" />
          </font>
       </Label>
+      <ProgressBar fx:id="progressBar" layoutX="158.0" layoutY="465.0" prefHeight="18.0" prefWidth="306.0" progress="0.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="165.0" />
+      <Text layoutX="158.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progresso:" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="158.0" />
+      <Text fx:id="txtPercentual" layoutX="223.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="txtPercentual" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="223.0" />
 	</children>
    <stylesheets>
       <URL value="@../../css/Resposta.css" />

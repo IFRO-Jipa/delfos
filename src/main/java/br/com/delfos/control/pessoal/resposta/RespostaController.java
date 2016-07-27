@@ -22,6 +22,8 @@ import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.view.AlertAdapter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,9 +31,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 @Controller
 public class RespostaController implements Initializable {
@@ -57,9 +61,15 @@ public class RespostaController implements Initializable {
 	@FXML
 	private Accordion panelPerguntas;
 
+	@FXML
+	private Text txtPercentual;
+
+	@FXML
+	private ProgressBar progressBar;
+
 	private Questionario questionario;
 
-	private List<RespostaControllerImpl<?, ?>> controllers;
+	private ObservableList<RespostaControllerImpl<?, ?>> controllers;
 
 	private List<Resposta<?>> respostas;
 
@@ -131,7 +141,8 @@ public class RespostaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		configScrollPane();
-		this.controllers = new ArrayList<>();
+		this.controllers = FXCollections.observableArrayList();
+		// TODO implementar a barra de progresso para as pesquisas criadas.
 	}
 
 	private void configScrollPane() {
@@ -159,8 +170,6 @@ public class RespostaController implements Initializable {
 		optionalPerguntas.ifPresent(
 				perguntas -> perguntas.stream().sorted(Comparator.comparing(Pergunta::getId)).forEach(pergunta -> {
 
-					System.out.printf("Pergunta: %4d - %10s [Alternativa: %20s]\n", pergunta.getId().intValue(),
-							pergunta.getNome(), pergunta.getAlternativa());
 					TitledPane titledPane = createTitledPane(pergunta);
 					panelPerguntas.getPanes().add(titledPane);
 				}));
@@ -175,7 +184,8 @@ public class RespostaController implements Initializable {
 
 	private AnchorPane createPane(Pergunta<?> pergunta) {
 		try {
-			// FXMLLoader loader = LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
+			// FXMLLoader loader =
+			// LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(
 					RespostaController.class.getClassLoader().getResource(pergunta.getTipo().getLocationResposta()));

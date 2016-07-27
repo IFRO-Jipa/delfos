@@ -1,6 +1,8 @@
 package br.com.delfos.control.pessoal.resposta;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import br.com.delfos.model.pesquisa.Questionario;
 import br.com.delfos.model.pesquisa.pergunta.Paragrafo;
@@ -8,10 +10,12 @@ import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.model.pesquisa.resposta.RespostaParagrafo;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
-public class RespostaParagrafoController implements RespostaControllerImpl<Paragrafo, String> {
+public class RespostaParagrafoController implements RespostaControllerImpl<Paragrafo, String>, Initializable {
 
 	@FXML
 	private Text txtNome;
@@ -21,6 +25,9 @@ public class RespostaParagrafoController implements RespostaControllerImpl<Parag
 
 	@FXML
 	private TextArea txtMensagem;
+
+	@FXML
+	private CheckBox cbNaoResponder;
 
 	private Optional<Pergunta<Paragrafo>> option;
 
@@ -60,11 +67,19 @@ public class RespostaParagrafoController implements RespostaControllerImpl<Parag
 			RespostaParagrafo resposta = new RespostaParagrafo();
 			resposta.setQuestionario(questionario);
 			resposta.setPergunta(this.getOption().get());
-			resposta.setEscolha(getSelected());
+			if (!cbNaoResponder.isSelected())
+				resposta.setEscolha(getSelected());
 			return resposta;
 		} else {
 			throw new IllegalStateException("Não foi informado uma pergunta válida ou pertencente ao questionario.");
 		}
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		this.cbNaoResponder.selectedProperty().addListener((obs, oldValue, newValue) -> {
+			this.txtMensagem.setDisable(newValue);
+		});
 	}
 
 }
