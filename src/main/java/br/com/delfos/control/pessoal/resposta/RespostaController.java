@@ -184,8 +184,7 @@ public class RespostaController implements Initializable {
 
 	private AnchorPane createPane(Pergunta<?> pergunta) {
 		try {
-			// FXMLLoader loader =
-			// LeitorDeFXML.getLoader(pergunta.getTipo().getLocationResposta());
+
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(
 					RespostaController.class.getClassLoader().getResource(pergunta.getTipo().getLocationResposta()));
