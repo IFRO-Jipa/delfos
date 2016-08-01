@@ -90,8 +90,8 @@ public class LoginController implements Initializable {
 	private void configuraComponentes() {
 		txtLogin.setOnAction(event -> txtSenha.requestFocus());
 		txtSenha.setOnAction(event -> handleButtonLogar(event));
-		txtLogin.setText("root");
-		txtSenha.setText("root");
+		// txtLogin.setText("root");
+		// txtSenha.setText("root");
 	}
 
 }
