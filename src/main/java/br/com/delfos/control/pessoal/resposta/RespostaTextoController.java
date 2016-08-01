@@ -82,5 +82,11 @@ public class RespostaTextoController implements RespostaControllerImpl<Texto, St
 			this.txtMensagem.setDisable(newValue);
 		});
 	}
+	
+	@Override
+	public boolean isIgnored() {
+		return cbNaoResponder.isSelected();
+		
+	}
 
 }

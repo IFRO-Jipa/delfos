@@ -37,17 +37,21 @@ public class Inicializador extends Application {
 
 			@Override
 			protected Task<ApplicationContext> createTask() {
-				return new Task<ApplicationContext>() {
 
-					// apenas para carregar o cache do hibernate
+				return new Task<ApplicationContext>() {
 					@Override
 					protected ApplicationContext call() throws Exception {
+						// TODO Auto-generated method stub
 						System.out.println("Antes do context");
-						ApplicationContext context = ContextFactory.getContext();
+						try {
+							ContextFactory.getContext();
+						} catch (Throwable e) {
+							AlertAdapter.error("Falha na inicialização.\nConsulte os detalhes técnicos.",
+									e.getMessage());
+						}
 						System.out.println("Depois do context");
 						return null;
 					}
-
 				};
 			}
 		};

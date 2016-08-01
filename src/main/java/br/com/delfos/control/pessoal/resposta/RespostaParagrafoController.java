@@ -82,4 +82,9 @@ public class RespostaParagrafoController implements RespostaControllerImpl<Parag
 		});
 	}
 
+	@Override
+	public boolean isIgnored() {
+		return cbNaoResponder.isSelected();
+
+	}
 }

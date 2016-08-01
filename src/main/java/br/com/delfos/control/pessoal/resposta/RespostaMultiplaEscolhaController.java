@@ -118,5 +118,11 @@ public class RespostaMultiplaEscolhaController
 			});
 		});
 	}
+	
+	@Override
+	public boolean isIgnored() {
+		return cbNaoResponder.isSelected();
+		
+	}
 
 }

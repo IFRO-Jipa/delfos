@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,10 @@ import br.com.delfos.model.pesquisa.pergunta.Alternativa;
 import br.com.delfos.model.pesquisa.pergunta.Pergunta;
 import br.com.delfos.model.pesquisa.resposta.Resposta;
 import br.com.delfos.view.AlertAdapter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -139,9 +143,28 @@ public class RespostaController implements Initializable {
 	}
 
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialize(URL location, ResourceBundle resources) {
 		configScrollPane();
 		this.controllers = FXCollections.observableArrayList();
+
+		controllers.addListener(new ListChangeListener<RespostaControllerImpl>() {
+
+			@Override
+			public void onChanged(
+					javafx.collections.ListChangeListener.Change<? extends RespostaControllerImpl> change) {
+				if (change.next()) {
+					ObservableList<RespostaControllerImpl<?, ?>> lista = (ObservableList<RespostaControllerImpl<?, ?>>) change.getList();
+				
+					int marcados = lista.stream().filter(controller -> controller.isSelected() || controller.isIgnored()).collect(Collectors.toList()).size();
+					
+					// TODO fazer ouvinte capturar as telas.
+					
+				}
+			}
+
+		});
+
 		// TODO implementar a barra de progresso para as pesquisas criadas.
 	}
 
@@ -166,7 +189,6 @@ public class RespostaController implements Initializable {
 
 	private void createPanels(Optional<Set<Pergunta<?>>> optionalPerguntas) {
 		panelPerguntas.getPanes().clear();
-		System.out.println("RespostaController.createPanels()");
 		optionalPerguntas.ifPresent(
 				perguntas -> perguntas.stream().sorted(Comparator.comparing(Pergunta::getId)).forEach(pergunta -> {
 

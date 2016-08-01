@@ -65,6 +65,12 @@ public class RespostaIntervaloController implements RespostaControllerImpl<Inter
 	public boolean isSelected() {
 		return slideValor.getValue() != -1.0;
 	}
+	
+	@Override
+	public boolean isIgnored() {
+		return cbNaoResponder.isSelected();
+		
+	}
 
 	@Override
 	public Resposta<?> getResposta(Questionario questionario) {

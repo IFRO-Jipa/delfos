@@ -26,6 +26,8 @@ public interface RespostaControllerImpl<T extends Alternativa, S> {
 	void clearSelected();
 
 	boolean isSelected();
+	
+	boolean isIgnored();
 
 	Resposta<?> getResposta(Questionario questionario);
 }
